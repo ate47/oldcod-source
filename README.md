@@ -5,4 +5,4 @@ Old call of duty dump using [Atian Call of Duty Tools](https://github.com/ate47/
 Dumps:
 
 - `bo4_1.0.0_vm34` PS4 dump of the 1.0.0 version of Black Ops 4
-- `bo4_pre2017_vm1` PS4 dump of a pre version of Black Ops 4
+- `bo4_pre2017_vm31` PS4 dump of a pre version of Black Ops 4
