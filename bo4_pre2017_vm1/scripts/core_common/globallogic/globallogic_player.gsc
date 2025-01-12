@@ -39,9 +39,7 @@ function trackattackerdamage(eattacker, idamage, smeansofdeath, weapon) {
     if (!isplayer(eattacker)) {
         return;
     }
-    /#
-        assert(isarray(self.attackerdata));
-    #/
+    assert(isarray(self.attackerdata));
     if (self.attackerdata.size == 0) {
         self.firsttimedamaged = gettime();
     }

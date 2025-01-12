@@ -22,9 +22,7 @@
 // Checksum 0x9ad0735b, Offset: 0x570
 // Size: 0x4c
 function set_pacifist(val) {
-    /#
-        assert(issentient(self), "<dev string:x28>");
-    #/
+    assert(issentient(self), "<dev string:x28>");
     self.pacifist = val;
 }
 
@@ -33,9 +31,7 @@ function set_pacifist(val) {
 // Checksum 0xf8574e73, Offset: 0x5c8
 // Size: 0x40
 function disable_pain() {
-    /#
-        assert(isalive(self), "<dev string:x45>");
-    #/
+    assert(isalive(self), "<dev string:x45>");
     self.allowpain = 0;
 }
 
@@ -44,9 +40,7 @@ function disable_pain() {
 // Checksum 0x14dd8daa, Offset: 0x610
 // Size: 0x44
 function enable_pain() {
-    /#
-        assert(isalive(self), "<dev string:x67>");
-    #/
+    assert(isalive(self), "<dev string:x67>");
     self.allowpain = 1;
 }
 
@@ -130,9 +124,7 @@ function waittill_dead(guys, num, timeoutlength) {
         allalive = 0;
         break;
     }
-    /#
-        assert(allalive, "<dev string:x88>");
-    #/
+    assert(allalive, "<dev string:x88>");
     if (!allalive) {
         newarray = [];
         for (i = 0; i < guys.size; i++) {
@@ -191,7 +183,7 @@ function waittill_dead_or_dying(guys, num, timeoutlength) {
 function private waittill_dead_thread(ent) {
     self waittill("death");
     ent.count--;
-    ent notify(#"hash_27bc4415");
+    ent notify(#"waittill_dead guy died");
 }
 
 // Namespace ai/ai_shared
@@ -234,20 +226,12 @@ function private wait_for_shoot() {
 function shoot_at_target(mode, target, tag, duration, sethealth, ignorefirstshotwait) {
     self endon(#"death");
     self endon(#"stop_shoot_at_target");
-    /#
-        assert(isdefined(target), "<dev string:xe3>");
-    #/
-    /#
-        assert(isdefined(mode), "<dev string:x112>");
-    #/
+    assert(isdefined(target), "<dev string:xe3>");
+    assert(isdefined(mode), "<dev string:x112>");
     mode_flag = mode === "normal" || mode === "shoot_until_target_dead" || mode === "kill_within_time";
-    /#
-        assert(mode_flag, "<dev string:x14b>");
-    #/
+    assert(mode_flag, "<dev string:x14b>");
     if (isdefined(duration)) {
-        /#
-            assert(duration >= 0, "<dev string:x1a4>");
-        #/
+        assert(duration >= 0, "<dev string:x1a4>");
     } else {
         duration = 0;
     }
@@ -397,9 +381,7 @@ function _force_goal(s_tracker, goto, n_radius, b_shoot, str_end_on, b_keep_colo
     flagsys::set("force_goal");
     goalradius = self.goalradius;
     if (isdefined(n_radius)) {
-        /#
-            assert(isfloat(n_radius) || isint(n_radius), "<dev string:x1d3>");
-        #/
+        assert(isfloat(n_radius) || isint(n_radius), "<dev string:x1d3>");
         self.goalradius = n_radius;
     }
     color_enabled = 0;
@@ -429,9 +411,7 @@ function _force_goal(s_tracker, goto, n_radius, b_shoot, str_end_on, b_keep_colo
     }
     if (isdefined(goto)) {
         if (isdefined(n_radius)) {
-            /#
-                assert(isfloat(n_radius) || isint(n_radius), "<dev string:x1d3>");
-            #/
+            assert(isfloat(n_radius) || isint(n_radius), "<dev string:x1d3>");
             self setgoal(goto);
         } else {
             self setgoal(goto, 1);
@@ -506,9 +486,7 @@ function painwaitinterval(msec) {
 function patrol(start_path_node) {
     self endon(#"death");
     self endon(#"stop_patrolling");
-    /#
-        assert(isdefined(start_path_node), self.targetname + "<dev string:x213>");
-    #/
+    assert(isdefined(start_path_node), self.targetname + "<dev string:x213>");
     if (start_path_node.type == "BAD NODE") {
         /#
             errormsg = "<dev string:x26d>" + start_path_node.targetname + "<dev string:x282>" + int(start_path_node.origin[0]) + "<dev string:x286>" + int(start_path_node.origin[1]) + "<dev string:x286>" + int(start_path_node.origin[2]) + "<dev string:x288>";
@@ -517,9 +495,7 @@ function patrol(start_path_node) {
         #/
         return;
     }
-    /#
-        assert(start_path_node.type == "<dev string:x298>" || isdefined(start_path_node.scriptbundlename), "<dev string:x29d>" + start_path_node.targetname + "<dev string:x2b2>");
-    #/
+    assert(start_path_node.type == "<dev string:x298>" || isdefined(start_path_node.scriptbundlename), "<dev string:x29d>" + start_path_node.targetname + "<dev string:x2b2>");
     self notify(#"go_to_spawner_target");
     self.target = undefined;
     self.old_goal_radius = self.goalradius;
@@ -550,9 +526,7 @@ function patrol(start_path_node) {
             if (!isdefined(self.currentgoal.script_wait_max)) {
                 self.currentgoal.script_wait_max = 0;
             }
-            /#
-                assert(self.currentgoal.script_wait_min <= self.currentgoal.script_wait_max, "<dev string:x2f0>" + self.currentgoal.targetname);
-            #/
+            assert(self.currentgoal.script_wait_min <= self.currentgoal.script_wait_max, "<dev string:x2f0>" + self.currentgoal.targetname);
             if (!isdefined(self.currentgoal.scriptbundlename)) {
                 wait_variability = self.currentgoal.script_wait_max - self.currentgoal.script_wait_min;
                 wait_time = self.currentgoal.script_wait_min + randomfloat(wait_variability);
@@ -633,12 +607,8 @@ function bloody_death(n_delay, hit_loc) {
     if (!isdefined(self)) {
         return;
     }
-    /#
-        assert(isactor(self));
-    #/
-    /#
-        assert(isalive(self));
-    #/
+    assert(isactor(self));
+    assert(isalive(self));
     if (isdefined(self.__bloody_death) && self.__bloody_death) {
         return;
     }
@@ -650,9 +620,7 @@ function bloody_death(n_delay, hit_loc) {
         return;
     }
     if (isdefined(hit_loc)) {
-        /#
-            assert(isinarray(array("<dev string:x31e>", "<dev string:x325>", "<dev string:x32a>", "<dev string:x32f>", "<dev string:x33b>", "<dev string:x345>", "<dev string:x351>", "<dev string:x361>", "<dev string:x370>", "<dev string:x380>", "<dev string:x38f>", "<dev string:x39a>", "<dev string:x3a4>", "<dev string:x3b4>", "<dev string:x3c3>", "<dev string:x3d3>", "<dev string:x3e2>", "<dev string:x3ed>", "<dev string:x3f7>", "<dev string:x3fb>"), hit_loc), "<dev string:x406>");
-        #/
+        assert(isinarray(array("<dev string:x31e>", "<dev string:x325>", "<dev string:x32a>", "<dev string:x32f>", "<dev string:x33b>", "<dev string:x345>", "<dev string:x351>", "<dev string:x361>", "<dev string:x370>", "<dev string:x380>", "<dev string:x38f>", "<dev string:x39a>", "<dev string:x3a4>", "<dev string:x3b4>", "<dev string:x3c3>", "<dev string:x3d3>", "<dev string:x3e2>", "<dev string:x3ed>", "<dev string:x3f7>", "<dev string:x3fb>"), hit_loc), "<dev string:x406>");
     } else {
         hit_loc = array::random(array("helmet", "head", "neck", "torso_upper", "torso_mid", "torso_lower", "right_arm_upper", "left_arm_upper", "right_arm_lower", "left_arm_lower", "right_hand", "left_hand", "right_leg_upper", "left_leg_upper", "right_leg_lower", "left_leg_lower", "right_foot", "left_foot", "gun", "riotshield"));
     }

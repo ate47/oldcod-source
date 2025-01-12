@@ -76,15 +76,9 @@ function private _debugsquad(squad) {
 // Checksum 0x60c8e9d0, Offset: 0x660
 // Size: 0x304
 function private _executeplan(squad) {
-    /#
-        assert(isdefined(squad));
-    #/
-    /#
-        assert(isdefined(squad.plan), "<dev string:x33>");
-    #/
-    /#
-        assert(isdefined(squad.plan.size), "<dev string:x62>");
-    #/
+    assert(isdefined(squad));
+    assert(isdefined(squad.plan), "<dev string:x33>");
+    assert(isdefined(squad.plan.size), "<dev string:x62>");
     if (!isdefined(squad.currentplanindex)) {
         squad.currentplanindex = 0;
     }
@@ -135,12 +129,8 @@ function private _plan(squad) {
 // Checksum 0x69c84fd6, Offset: 0xa08
 // Size: 0x96
 function private _strategize(squad) {
-    /#
-        assert(isdefined(squad));
-    #/
-    /#
-        assert(isdefined(squad.planner));
-    #/
+    assert(isdefined(squad));
+    assert(isdefined(squad.planner));
     squad.lastupdatetime = gettime();
     _plan(squad);
     squad.actionstatus = undefined;
@@ -152,9 +142,7 @@ function private _strategize(squad) {
 // Checksum 0x249d4955, Offset: 0xaa8
 // Size: 0xce
 function private _updateplanner(squad) {
-    /#
-        assert(isdefined(squad));
-    #/
+    assert(isdefined(squad));
     while (isdefined(squad) && !squad.shutdown) {
         time = gettime();
         if (squad.plan.size == 0 || time - squad.lastupdatetime > squad.updaterate) {
@@ -178,12 +166,8 @@ function createsquad(blackboard, planner, updaterate, maxplannerframetime) {
     if (!isdefined(maxplannerframetime)) {
         maxplannerframetime = 2;
     }
-    /#
-        assert(isstruct(blackboard));
-    #/
-    /#
-        assert(isstruct(planner));
-    #/
+    assert(isstruct(blackboard));
+    assert(isstruct(planner));
     squad = spawnstruct();
     squad.actionstatus = undefined;
     squad.blackboard = blackboard;
@@ -217,9 +201,7 @@ function getblackboardattribute(squad, attribute) {
 // Checksum 0x362b9649, Offset: 0xda8
 // Size: 0x54
 function forcereplan(squad) {
-    /#
-        assert(isstruct(squad));
-    #/
+    assert(isstruct(squad));
     plannersquad::_strategize(squad);
 }
 

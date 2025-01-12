@@ -10,6 +10,17 @@ class throttle {
     var updaterate_;
 
     // Namespace throttle/throttle_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x963dabb9, Offset: 0xc8
+    // Size: 0x3c
+    function constructor() {
+        queue_ = [];
+        processed_ = 0;
+        processlimit_ = 1;
+        updaterate_ = 0.05;
+    }
+
+    // Namespace throttle/throttle_shared
     // Params 1, eflags: 0x0
     // Checksum 0xc78fbdf4, Offset: 0x270
     // Size: 0x13c
@@ -63,25 +74,6 @@ class throttle {
                 queue_[queue_.size] = item;
             }
         }
-    }
-
-    // Namespace throttle/throttle_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x110
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace throttle/throttle_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x963dabb9, Offset: 0xc8
-    // Size: 0x3c
-    function __constructor() {
-        queue_ = [];
-        processed_ = 0;
-        processlimit_ = 1;
-        updaterate_ = 0.05;
     }
 
     // Namespace throttle/throttle_shared

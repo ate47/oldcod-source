@@ -109,9 +109,7 @@ function fire_for_time(totalfiretime, turretidx, target, intervalscale) {
     self endon("fire_stop" + turretidx);
     weapon = self seatgetweapon(turretidx);
     if (!isdefined(weapon) || weapon.name == "none" || weapon.firetime <= 0) {
-        /#
-            println("<dev string:x28>" + turretidx + "<dev string:x4d>" + self getentnum() + "<dev string:x5a>" + self.model);
-        #/
+        println("<dev string:x28>" + turretidx + "<dev string:x4d>" + self getentnum() + "<dev string:x5a>" + self.model);
         return;
     }
     firetime = weapon.firetime * intervalscale;
@@ -132,9 +130,7 @@ function fire_for_rounds(firecount, turretidx, target) {
     }
     weapon = self seatgetweapon(turretidx);
     if (!isdefined(weapon) || weapon.name == "none" || weapon.firetime <= 0) {
-        /#
-            println("<dev string:x28>" + turretidx + "<dev string:x4d>" + self getentnum() + "<dev string:x5a>" + self.model);
-        #/
+        println("<dev string:x28>" + turretidx + "<dev string:x4d>" + self getentnum() + "<dev string:x5a>" + self.model);
         return;
     }
     __fire_for_rounds_internal(firecount, weapon.firetime, turretidx, target);
@@ -151,9 +147,7 @@ function __fire_for_rounds_internal(firecount, fireinterval, turretidx, target) 
     if (isdefined(target) && issentient(target)) {
         target endon(#"death");
     }
-    /#
-        assert(isdefined(turretidx));
-    #/
+    assert(isdefined(turretidx));
     aifirechance = 1;
     if (isdefined(target) && !isplayer(target) && isai(target) || isdefined(self.fire_half_blanks)) {
         aifirechance = 2;
@@ -219,9 +213,7 @@ function fireturret(turretidx, isfake) {
 // Checksum 0x5ca97e55, Offset: 0x1000
 // Size: 0x13a
 function airfollow(target) {
-    /#
-        assert(isairborne(self));
-    #/
+    assert(isairborne(self));
     if (!isdefined(target)) {
         return;
     }
@@ -245,9 +237,7 @@ function airfollow(target) {
 // Checksum 0x47c7d57e, Offset: 0x1148
 // Size: 0xa0
 function getairfollowindex() {
-    /#
-        assert(isairborne(self));
-    #/
+    assert(isairborne(self));
     if (!isdefined(self.host)) {
         return undefined;
     }
@@ -264,9 +254,7 @@ function getairfollowindex() {
 // Checksum 0xd25ce0fc, Offset: 0x11f0
 // Size: 0x202
 function getairfollowingposition(userelativeangletohost) {
-    /#
-        assert(isairborne(self));
-    #/
+    assert(isairborne(self));
     index = self getairfollowindex();
     if (!isdefined(index)) {
         return undefined;
@@ -297,9 +285,7 @@ function getairfollowingposition(userelativeangletohost) {
 // Checksum 0xd2cad2f7, Offset: 0x1400
 // Size: 0xec
 function getairfollowingorigin() {
-    /#
-        assert(isairborne(self));
-    #/
+    assert(isairborne(self));
     origin = self.host.origin + self.host.mins + self.host.maxs;
     if (isdefined(self.host.airfollowconfig) && self.host.airfollowconfig.tag !== "") {
         origin = self.host gettagorigin(self.host.airfollowconfig.tag);
@@ -653,9 +639,7 @@ function iff_override(owner, time) {
         return;
     }
     timeout = isdefined(self.settings) ? self.settings.ifftimetillrevert : time;
-    /#
-        assert(timeout > 10);
-    #/
+    assert(timeout > 10);
     self thread iff_notifymeinnsec(timeout - 10, "iff_override_revert_warn");
     msg = self waittilltimeout(timeout, "iff_override_reverted");
     if (msg == "timeout") {
@@ -1403,9 +1387,7 @@ function defaultstate_emped_update(params) {
     self endon(#"death");
     self endon(#"change_state");
     time = params.notify_param[0];
-    /#
-        assert(isdefined(time));
-    #/
+    assert(isdefined(time));
     cooldown("emped_timer", time);
     while (!iscooldownready("emped_timer")) {
         timeleft = max(getcooldownleft("emped_timer"), 0.5);
@@ -1502,9 +1484,7 @@ function defaultstate_off_exit(params) {
 // Size: 0x16c
 function defaultstate_driving_enter(params) {
     params.driver = self getseatoccupant(0);
-    /#
-        assert(isdefined(params.driver));
-    #/
+    assert(isdefined(params.driver));
     self disableaimassist();
     self.turretrotscale = 1;
     self.team = params.driver.team;

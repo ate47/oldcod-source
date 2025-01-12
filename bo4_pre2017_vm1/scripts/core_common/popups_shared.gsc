@@ -576,7 +576,7 @@ function displayteammessagetoall(message, player) {
         cur_player.teammessagequeue[size] = spawnstruct();
         cur_player.teammessagequeue[size].message = message;
         cur_player.teammessagequeue[size].player = player;
-        cur_player notify(#"hash_f0fa2450");
+        cur_player notify(#"received teammessage");
     }
 }
 
@@ -603,7 +603,7 @@ function displayteammessagetoteam(message, player, team) {
         cur_player.teammessagequeue[size] = spawnstruct();
         cur_player.teammessagequeue[size].message = message;
         cur_player.teammessagequeue[size].player = player;
-        cur_player notify(#"hash_f0fa2450");
+        cur_player notify(#"received teammessage");
     }
 }
 
@@ -703,6 +703,6 @@ function function_e370e13e(index, itemindex, type, tier) {
     self.pers["challengeNotifyQueue"][size]["index"] = index;
     self.pers["challengeNotifyQueue"][size]["itemIndex"] = itemindex;
     self.pers["challengeNotifyQueue"][size]["type"] = type;
-    self notify(#"hash_2528173");
+    self notify(#"received award");
 }
 

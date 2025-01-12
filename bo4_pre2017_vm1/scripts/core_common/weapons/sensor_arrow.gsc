@@ -8,9 +8,9 @@
 #using scripts/core_common/util_shared;
 #using scripts/core_common/weapons/weaponobjects;
 
-#namespace namespace_36694555;
+#namespace sensor_arrow;
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x2
 // Checksum 0x912f820a, Offset: 0x338
 // Size: 0x34
@@ -18,7 +18,7 @@ function autoexec __init__sytem__() {
     system::register("sensor_arrow", &init_shared, undefined, undefined);
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x0
 // Checksum 0x32771313, Offset: 0x378
 // Size: 0x5c
@@ -28,7 +28,7 @@ function init_shared() {
     callback::on_start_gametype(&start_gametype);
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x0
 // Checksum 0xdbf9be0, Offset: 0x3e0
 // Size: 0x34
@@ -36,7 +36,7 @@ function register() {
     clientfield::register("missile", "sensor_arrow_state", 1, 1, "int");
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x0
 // Checksum 0x4341b8ec, Offset: 0x420
 // Size: 0x44
@@ -45,7 +45,7 @@ function start_gametype() {
     weaponobjects::function_25e68262("sig_bow_sensor", %SENSORARROW_HOLD_TO_DESTROY);
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x0
 // Checksum 0xa059572a, Offset: 0x470
 // Size: 0x1c
@@ -53,7 +53,7 @@ function on_player_spawned() {
     self function_3cdfa315();
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x0
 // Checksum 0xce772909, Offset: 0x498
 // Size: 0x212
@@ -78,7 +78,7 @@ function function_3cdfa315() {
     watcher.var_1ededbfb["sig_bow_sensor4"] = getweapon("sig_bow_sensor4");
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 2, eflags: 0x0
 // Checksum 0xc70bed3a, Offset: 0x6b8
 // Size: 0x194
@@ -100,7 +100,7 @@ function function_57f8d0ec(watcher, player) {
     playfxontag("weapon/fx8_hero_sig_bow_sensor_pulse", self, "tag_fx");
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x4
 // Checksum 0x5a38b2c, Offset: 0x858
 // Size: 0x74
@@ -114,7 +114,7 @@ function private function_146a8038() {
     }
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 1, eflags: 0x4
 // Checksum 0x481d234f, Offset: 0x8d8
 // Size: 0x54
@@ -127,7 +127,7 @@ function private function_753f0863(fuse_time) {
     self function_95e3375a();
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x0
 // Checksum 0x9251076e, Offset: 0x938
 // Size: 0x1e
@@ -136,7 +136,7 @@ function function_8fecd8e7() {
     self waittill("hacked");
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 1, eflags: 0x0
 // Checksum 0x657e6406, Offset: 0x960
 // Size: 0xdc
@@ -152,7 +152,7 @@ function function_e2fc3dc8(attacker) {
     self delete();
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 1, eflags: 0x0
 // Checksum 0xbe29c79a, Offset: 0xa48
 // Size: 0x80
@@ -172,7 +172,7 @@ function function_1d8070f6(owner) {
     }
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 0, eflags: 0x0
 // Checksum 0xd701ec0a, Offset: 0xad0
 // Size: 0x1c
@@ -180,7 +180,7 @@ function function_95e3375a() {
     self thread function_e2fc3dc8(undefined);
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 3, eflags: 0x0
 // Checksum 0xb4deac34, Offset: 0xaf8
 // Size: 0xe4
@@ -195,7 +195,7 @@ function function_9fc405e7(attacker, weapon, target) {
     self delete();
 }
 
-// Namespace namespace_36694555/namespace_36694555
+// Namespace sensor_arrow/sensor_arrow
 // Params 1, eflags: 0x0
 // Checksum 0xccb03ca1, Offset: 0xbe8
 // Size: 0x3a2

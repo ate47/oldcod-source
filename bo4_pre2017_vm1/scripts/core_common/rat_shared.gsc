@@ -37,15 +37,9 @@
     // Size: 0x10a
     function event_handler[rat_scriptcommand] codecallback_ratscriptcommand(params) {
         init();
-        /#
-            assert(isdefined(params._cmd));
-        #/
-        /#
-            assert(isdefined(params._id));
-        #/
-        /#
-            assert(isdefined(level.rat.script_command_list[params._cmd]), "<dev string:x62>" + params._cmd);
-        #/
+        assert(isdefined(params._cmd));
+        assert(isdefined(params._id));
+        assert(isdefined(level.rat.script_command_list[params._cmd]), "<dev string:x62>" + params._cmd);
         callback = level.rat.script_command_list[params._cmd];
         level thread [[ callback ]](params);
     }
@@ -93,9 +87,7 @@
     // Size: 0x8c
     function rscsimulatescripterror(params) {
         if (params.errorlevel == "<dev string:x7e>") {
-            /#
-                assertmsg("<dev string:x84>");
-            #/
+            assertmsg("<dev string:x84>");
         } else {
             thisdoesntexist.orthis = 0;
         }

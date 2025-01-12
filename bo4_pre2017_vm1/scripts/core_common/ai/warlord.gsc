@@ -53,66 +53,34 @@ function __init__() {
 // Checksum 0x355ff2fe, Offset: 0x968
 // Size: 0x5c4
 function autoexec registerbehaviorscriptfunctions() {
-    /#
-        assert(isscriptfunctionptr(&function_80e7735));
-    #/
+    assert(isscriptfunctionptr(&function_80e7735));
     behaviortreenetworkutility::registerbehaviortreescriptapi("warlordCanJukeCondition", &function_80e7735);
-    /#
-        assert(isscriptfunctionptr(&function_f663699c));
-    #/
+    assert(isscriptfunctionptr(&function_f663699c));
     behaviortreenetworkutility::registerbehaviortreescriptapi("warlordCanTacticalJukeCondition", &function_f663699c);
-    /#
-        assert(isscriptfunctionptr(&function_c532c1b0));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordShouldNormalMelee", &function_c532c1b0);
-    /#
-        assert(isscriptfunctionptr(&function_47cb87ef));
-    #/
+    assert(isscriptfunctionptr(&warlordShouldNormalMelee));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordShouldNormalMelee", &warlordShouldNormalMelee);
+    assert(isscriptfunctionptr(&function_47cb87ef));
     behaviortreenetworkutility::registerbehaviortreescriptapi("warlordCanTakePainCondition", &function_47cb87ef);
-    /#
-        assert(isscriptfunctionptr(&function_e8604852));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordShouldTransitionWoundedLastStand", &function_e8604852);
-    /#
-        assert(iscodefunctionptr(&btapi_warlordexposedpainactionstart));
-    #/
+    assert(isscriptfunctionptr(&warlordShouldTransitionWoundedLastStand));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordShouldTransitionWoundedLastStand", &warlordShouldTransitionWoundedLastStand);
+    assert(iscodefunctionptr(&btapi_warlordexposedpainactionstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("warlordExposedPainActionStart", &btapi_warlordexposedpainactionstart);
-    /#
-        assert(isscriptfunctionptr(&function_45ac0722));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordWoundedTransitionComplete", &function_45ac0722);
-    /#
-        assert(!isdefined(&function_5e6a5213) || isscriptfunctionptr(&function_5e6a5213));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
+    assert(isscriptfunctionptr(&warlordWoundedTransitionComplete));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordWoundedTransitionComplete", &warlordWoundedTransitionComplete);
+    assert(!isdefined(&function_5e6a5213) || isscriptfunctionptr(&function_5e6a5213));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
     behaviortreenetworkutility::registerbehaviortreeaction("warlordDeathAction", &function_5e6a5213, undefined, undefined);
-    /#
-        assert(!isdefined(&function_296ed07c) || isscriptfunctionptr(&function_296ed07c));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
-    /#
-        assert(!isdefined(&function_4daf9b71) || isscriptfunctionptr(&function_4daf9b71));
-    #/
+    assert(!isdefined(&function_296ed07c) || isscriptfunctionptr(&function_296ed07c));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
+    assert(!isdefined(&function_4daf9b71) || isscriptfunctionptr(&function_4daf9b71));
     behaviortreenetworkutility::registerbehaviortreeaction("warlordJukeAction", &function_296ed07c, undefined, &function_4daf9b71);
-    /#
-        assert(isscriptfunctionptr(&function_655ad686));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("chooseBetterPositionService", &function_655ad686);
-    /#
-        assert(isscriptfunctionptr(&function_c262c546));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordIsWounded", &function_c262c546);
-    /#
-        assert(isscriptfunctionptr(&function_63028c03));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordSetupWounded", &function_63028c03);
+    assert(isscriptfunctionptr(&chooseBetterPositionService));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("chooseBetterPositionService", &chooseBetterPositionService);
+    assert(isscriptfunctionptr(&warlordIsWounded));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordIsWounded", &warlordIsWounded);
+    assert(isscriptfunctionptr(&warlordSetupWounded));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("warlordSetupWounded", &warlordSetupWounded);
 }
 
 // Namespace namespace_c7ab8fce/warlord
@@ -138,7 +106,7 @@ function private function_327511a(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x911a0ad8, Offset: 0xfd0
 // Size: 0x50
-function private function_c262c546(entity) {
+function private warlordIsWounded(entity) {
     var_bd0703c = entity getblackboardattribute("_wounded_type");
     if (var_bd0703c == "wounded_yes") {
         return true;
@@ -150,7 +118,7 @@ function private function_c262c546(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0xe3c84317, Offset: 0x1028
 // Size: 0x3a
-function private function_e8604852(entity) {
+function private warlordShouldTransitionWoundedLastStand(entity) {
     if (isdefined(entity.var_96ac8ed) && entity.var_96ac8ed) {
         return true;
     }
@@ -161,7 +129,7 @@ function private function_e8604852(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0xda91edb9, Offset: 0x1070
 // Size: 0x2c
-function private function_63028c03(entity) {
+function private warlordSetupWounded(entity) {
     entity damagemode("next_shot_kills");
 }
 
@@ -229,7 +197,7 @@ function private function_9b66e9bc(entity) {
 // Params 1, eflags: 0x0
 // Checksum 0xadabfbe, Offset: 0x1488
 // Size: 0xf24
-function function_655ad686(entity) {
+function chooseBetterPositionService(entity) {
     if (entity asmistransitionrunning() || entity getbehaviortreestatus() != 5 || entity asmissubstatepending() || entity asmistransdecrunning()) {
         return 0;
     }
@@ -449,7 +417,7 @@ function function_655ad686(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x1f377ab8, Offset: 0x23b8
 // Size: 0x1c
-function private function_45ac0722(entity) {
+function private warlordWoundedTransitionComplete(entity) {
     entity.var_96ac8ed = 0;
 }
 
@@ -479,7 +447,7 @@ function function_f663699c(behaviortreeentity) {
 // Params 1, eflags: 0x0
 // Checksum 0x76d95c21, Offset: 0x2490
 // Size: 0x2c8
-function function_c532c1b0(behaviortreeentity) {
+function warlordShouldNormalMelee(behaviortreeentity) {
     if (isdefined(behaviortreeentity.enemy) && !(isdefined(behaviortreeentity.enemy.allowdeath) && behaviortreeentity.enemy.allowdeath)) {
         return false;
     }

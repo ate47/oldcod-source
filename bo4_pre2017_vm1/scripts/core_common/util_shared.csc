@@ -204,12 +204,8 @@ function _waitlogic(s_tracker, notifies) {
 // Checksum 0x1e7c6f47, Offset: 0xb98
 // Size: 0x182
 function waittill_any_ents(ent1, string1, ent2, string2, ent3, string3, ent4, string4, ent5, string5, ent6, string6, ent7, string7) {
-    /#
-        assert(isdefined(ent1));
-    #/
-    /#
-        assert(isdefined(string1));
-    #/
+    assert(isdefined(ent1));
+    assert(isdefined(string1));
     if (isdefined(ent2) && isdefined(string2)) {
         ent2 endon(string2);
     }
@@ -236,12 +232,8 @@ function waittill_any_ents(ent1, string1, ent2, string2, ent3, string3, ent4, st
 // Checksum 0x7cd8aef6, Offset: 0xd28
 // Size: 0x92
 function waittill_any_ents_two(ent1, string1, ent2, string2) {
-    /#
-        assert(isdefined(ent1));
-    #/
-    /#
-        assert(isdefined(string1));
-    #/
+    assert(isdefined(ent1));
+    assert(isdefined(string1));
     if (isdefined(ent2) && isdefined(string2)) {
         ent2 endon(string2);
     }
@@ -306,12 +298,8 @@ function call_func(s_func) {
 // Checksum 0x7d7a878d, Offset: 0x10b0
 // Size: 0x16c
 function array_ent_thread(entities, func, arg1, arg2, arg3, arg4, arg5) {
-    /#
-        assert(isdefined(entities), "<dev string:x28>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:x60>");
-    #/
+    assert(isdefined(entities), "<dev string:x28>");
+    assert(isdefined(func), "<dev string:x60>");
     if (isarray(entities)) {
         if (entities.size) {
             keys = getarraykeys(entities);
@@ -329,9 +317,7 @@ function array_ent_thread(entities, func, arg1, arg2, arg3, arg4, arg5) {
 // Checksum 0x82a7bd21, Offset: 0x1228
 // Size: 0x184
 function single_thread(entity, func, arg1, arg2, arg3, arg4, arg5, arg6) {
-    /#
-        assert(isdefined(entity), "<dev string:x94>");
-    #/
+    assert(isdefined(entity), "<dev string:x94>");
     if (isdefined(arg6)) {
         entity thread [[ func ]](arg1, arg2, arg3, arg4, arg5, arg6);
         return;
@@ -634,12 +620,8 @@ function is_valid_type_for_callback(type) {
 // Checksum 0xde67f048, Offset: 0x1ec8
 // Size: 0xa8
 function wait_till_not_touching(e_to_check, e_to_touch) {
-    /#
-        assert(isdefined(e_to_check), "<dev string:xc5>");
-    #/
-    /#
-        assert(isdefined(e_to_touch), "<dev string:x103>");
-    #/
+    assert(isdefined(e_to_check), "<dev string:xc5>");
+    assert(isdefined(e_to_touch), "<dev string:x103>");
     e_to_check endon(#"death");
     e_to_touch endon(#"death");
     while (e_to_check istouching(e_to_touch)) {
@@ -792,9 +774,7 @@ function get_other_team(str_team) {
     } else {
         return "allies";
     }
-    /#
-        assertmsg("<dev string:x198>" + str_team);
-    #/
+    assertmsg("<dev string:x198>" + str_team);
 }
 
 // Namespace util/util_shared
@@ -802,9 +782,7 @@ function get_other_team(str_team) {
 // Checksum 0x11fbbbb5, Offset: 0x25a8
 // Size: 0x9c
 function isenemyplayer(player) {
-    /#
-        assert(isdefined(player));
-    #/
+    assert(isdefined(player));
     if (!player isplayer()) {
         return false;
     }
@@ -1202,9 +1180,7 @@ function getnextobjid(localclientnum) {
         if (nextid > 31) {
             println("<dev string:x249>");
         }
-        /#
-            assert(nextid < 32);
-        #/
+        assert(nextid < 32);
     #/
     if (nextid > 31) {
         nextid = 31;
@@ -1217,9 +1193,7 @@ function getnextobjid(localclientnum) {
 // Checksum 0x6e47ad88, Offset: 0x3728
 // Size: 0xc8
 function releaseobjid(localclientnum, objid) {
-    /#
-        assert(objid < level.numgametypereservedobjectives[localclientnum]);
-    #/
+    assert(objid < level.numgametypereservedobjectives[localclientnum]);
     for (i = 0; i < level.releasedobjectives[localclientnum].size; i++) {
         if (objid == level.releasedobjectives[localclientnum][i]) {
             return;
@@ -1256,9 +1230,9 @@ function is_safehouse(str_next_map) {
         str_next_map = tolower(getdvarstring("mapname"));
     }
     switch (str_next_map) {
-    case #"hash_c0022b6f":
+    case #"cp_sh_cairo":
     case #"cp_sh_mobile":
-    case #"hash_709124d9":
+    case #"cp_sh_singapore":
         return true;
     default:
         return false;
@@ -1442,9 +1416,7 @@ function _single_func(entity, func, a_vars) {
         }
         break;
     default:
-        /#
-            assertmsg("<dev string:x298>");
-        #/
+        assertmsg("<dev string:x298>");
         break;
     }
 }
@@ -1518,9 +1490,7 @@ function set_team_mapping(str_team_for_sidea, str_team_for_sideb) {
     } else if (tolower(str_team_for_sideb) == "wun") {
         str_team_for_sideb = "allies";
     }
-    /#
-        assert(str_team_for_sidea != str_team_for_sideb, "<dev string:x2a7>");
-    #/
+    assert(str_team_for_sidea != str_team_for_sideb, "<dev string:x2a7>");
     level.team_mapping["sidea"] = str_team_for_sidea;
     level.team_mapping["sideb"] = str_team_for_sideb;
     level.team_mapping["wun"] = "allies";

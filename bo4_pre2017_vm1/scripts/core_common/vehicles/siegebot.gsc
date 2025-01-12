@@ -49,9 +49,7 @@ function siegebot_initialize() {
     self.fovcosine = 0.5;
     self.fovcosinebusy = 0.5;
     self.maxsightdistsqrd = 10000 * 10000;
-    /#
-        assert(isdefined(self.scriptbundlesettings));
-    #/
+    assert(isdefined(self.scriptbundlesettings));
     self.settings = struct::get_script_bundle("vehiclecustomsettings", self.scriptbundlesettings);
     self.goalradius = 9999999;
     self.goalheight = 5000;

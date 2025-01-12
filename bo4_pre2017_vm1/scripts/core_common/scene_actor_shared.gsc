@@ -18,22 +18,6 @@ class csceneactor : csceneobject {
 
     // Namespace csceneactor/scene_actor_shared
     // Params 0, eflags: 0x0
-    // Checksum 0x61c1296, Offset: 0x6f8
-    // Size: 0x14
-    function __destructor() {
-        csceneobject::__destructor();
-    }
-
-    // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x1b1850ed, Offset: 0x6d8
-    // Size: 0x14
-    function __constructor() {
-        csceneobject::__constructor();
-    }
-
-    // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
     // Checksum 0xe42413d4, Offset: 0x600
     // Size: 0xcc
     function do_death_anims() {
@@ -140,22 +124,6 @@ class csceneactor : csceneobject {
 // Namespace scene
 // Method(s) 2 Total 73
 class cscenefakeactor : csceneactor, csceneobject {
-
-    // Namespace cscenefakeactor/scene_actor_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xac37cb5d, Offset: 0x1608
-    // Size: 0x14
-    function __destructor() {
-        csceneactor::__destructor();
-    }
-
-    // Namespace cscenefakeactor/scene_actor_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xbdf18c73, Offset: 0x15e8
-    // Size: 0x14
-    function __constructor() {
-        csceneactor::__constructor();
-    }
 
 }
 

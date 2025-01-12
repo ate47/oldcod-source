@@ -184,15 +184,11 @@ function insertclone(clone) {
         if (!isdefined(level._clone[i])) {
             level._clone[i] = clone;
             insertedclone = 1;
-            /#
-                println("<dev string:x28>" + i + "<dev string:x3c>" + level._clone.size);
-            #/
+            println("<dev string:x28>" + i + "<dev string:x3c>" + level._clone.size);
             break;
         }
     }
-    /#
-        assert(insertedclone);
-    #/
+    assert(insertedclone);
 }
 
 // Namespace gadget_clone/gadget_clone
@@ -204,9 +200,7 @@ function removeclone(clone) {
         if (isdefined(level._clone[i]) && level._clone[i] == clone) {
             level._clone[i] = undefined;
             array::remove_undefined(level._clone);
-            /#
-                println("<dev string:x4e>" + i + "<dev string:x3c>" + level._clone.size);
-            #/
+            println("<dev string:x4e>" + i + "<dev string:x3c>" + level._clone.size);
             break;
         }
     }
@@ -217,9 +211,7 @@ function removeclone(clone) {
 // Checksum 0x2d15d9ab, Offset: 0xf78
 // Size: 0x1a4
 function removeoldestclone() {
-    /#
-        assert(level._clone.size == 20);
-    #/
+    assert(level._clone.size == 20);
     oldestclone = undefined;
     for (i = 0; i < 20; i++) {
         if (!isdefined(oldestclone) && isdefined(level._clone[i])) {
@@ -232,9 +224,7 @@ function removeoldestclone() {
             oldestindex = i;
         }
     }
-    /#
-        println("<dev string:x67>" + i + "<dev string:x3c>" + level._clone.size);
-    #/
+    println("<dev string:x67>" + i + "<dev string:x3c>" + level._clone.size);
     level._clone[oldestindex] notify(#"clone_shutdown");
     level._clone[oldestindex] = undefined;
     array::remove_undefined(level._clone);

@@ -468,7 +468,7 @@ function function_8ddec31d() {
 // Size: 0x2c
 function healthoverlay() {
     self endon(#"disconnect");
-    self endon(#"hash_a5d08426");
+    self endon(#"noHealthOverlay");
     function_8ddec31d();
 }
 
@@ -649,9 +649,7 @@ function function_bbe24e91(overlay, var_17dfcbe, severity, mult, var_7170800d) {
     var_ac705df5 = 0.8 * (0.1 + severity * 0.1);
     var_97b1675d = 0.8 * 0.3;
     remainingtime = 0.8 - fadeintime - var_a93d5122 - var_ac705df5 - var_97b1675d;
-    /#
-        assert(remainingtime >= -0.001);
-    #/
+    assert(remainingtime >= -0.001);
     if (remainingtime < 0) {
         remainingtime = 0;
     }
@@ -785,9 +783,7 @@ function function_2fb240f(var_4f8d5b23) {
                 level.currentdifficulty = "realistic";
                 break;
             }
-            /#
-                println("<dev string:x3b>" + level.gameskill);
-            #/
+            println("<dev string:x3b>" + level.gameskill);
             var_1fc6cd58 = level.gameskill;
             if (level.gameskill < level.var_57830ddc) {
                 level.var_57830ddc = level.gameskill;

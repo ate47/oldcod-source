@@ -21,6 +21,18 @@ class phalanx {
 
     // Namespace phalanx/phalanx
     // Params 0, eflags: 0x0
+    // Checksum 0xa864b817, Offset: 0x1988
+    // Size: 0x40
+    function constructor() {
+        sentienttiers_ = [];
+        startsentientcount_ = 0;
+        currentsentientcount_ = 0;
+        breakingpoint_ = 0;
+        scattered_ = 0;
+    }
+
+    // Namespace phalanx/phalanx
+    // Params 0, eflags: 0x0
     // Checksum 0xc1a6db98, Offset: 0x2260
     // Size: 0x15a
     function scatterphalanx() {
@@ -82,18 +94,10 @@ class phalanx {
         if (!isdefined(tierthreespawner)) {
             tierthreespawner = undefined;
         }
-        /#
-            assert(isstring(phalanxtype));
-        #/
-        /#
-            assert(isint(breakingpoint));
-        #/
-        /#
-            assert(isvec(origin));
-        #/
-        /#
-            assert(isvec(destination));
-        #/
+        assert(isstring(phalanxtype));
+        assert(isint(breakingpoint));
+        assert(isvec(origin));
+        assert(isvec(destination));
         tierspawners = [];
         tierspawners["phalanx_tier1"] = tieronespawner;
         tierspawners["phalanx_tier2"] = tiertwospawner;
@@ -158,26 +162,6 @@ class phalanx {
     }
 
     // Namespace phalanx/phalanx
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x19d0
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace phalanx/phalanx
-    // Params 0, eflags: 0x0
-    // Checksum 0xa864b817, Offset: 0x1988
-    // Size: 0x40
-    function __constructor() {
-        sentienttiers_ = [];
-        startsentientcount_ = 0;
-        currentsentientcount_ = 0;
-        breakingpoint_ = 0;
-        scattered_ = 0;
-    }
-
-    // Namespace phalanx/phalanx
     // Params 1, eflags: 0x4
     // Checksum 0x2fb5e609, Offset: 0x1958
     // Size: 0x28
@@ -200,9 +184,7 @@ class phalanx {
     // Checksum 0xfc46ee33, Offset: 0x17e0
     // Size: 0xc2
     function private _resumefiresentients(sentients) {
-        /#
-            assert(isarray(sentients));
-        #/
+        assert(isarray(sentients));
         foreach (sentient in sentients) {
             _resumefire(sentient);
         }
@@ -273,14 +255,10 @@ class phalanx {
     function private _movephalanxtier(sentients, phalanxtype, tier, destination, forward) {
         positions = _getphalanxpositions(phalanxtype, tier);
         angles = vectortoangles(forward);
-        /#
-            assert(sentients.size <= positions.size, "<dev string:x1ac>");
-        #/
+        assert(sentients.size <= positions.size, "<dev string:x1ac>");
         foreach (index, sentient in sentients) {
             if (isdefined(sentient) && isalive(sentient)) {
-                /#
-                    assert(isvec(positions[index]), "<dev string:x1ec>" + index + "<dev string:x219>" + tier + "<dev string:x224>" + phalanxtype);
-                #/
+                assert(isvec(positions[index]), "<dev string:x1ec>" + index + "<dev string:x219>" + tier + "<dev string:x224>" + phalanxtype);
                 orientedpos = _rotatevec(positions[index], angles[1] - 90);
                 navmeshposition = getclosestpointonnavmesh(destination + orientedpos, 200);
                 sentient useposition(navmeshposition);
@@ -293,9 +271,7 @@ class phalanx {
     // Checksum 0xe1954240, Offset: 0x10d8
     // Size: 0x144
     function _initializesentient(sentient) {
-        /#
-            assert(isactor(sentient));
-        #/
+        assert(isactor(sentient));
         sentient ai::set_behavior_attribute("phalanx", 1);
         if (sentient.archetype === "human") {
             sentient.allowpain = 0;
@@ -313,9 +289,7 @@ class phalanx {
     // Checksum 0xcea67608, Offset: 0xfd8
     // Size: 0xf2
     function private _haltfire(sentients) {
-        /#
-            assert(isarray(sentients));
-        #/
+        assert(isarray(sentients));
         foreach (sentient in sentients) {
             if (isdefined(sentient) && isalive(sentient)) {
                 sentient val::set("halt_fire", "ignoreall", 1);
@@ -328,9 +302,7 @@ class phalanx {
     // Checksum 0x22fc16fb, Offset: 0xe80
     // Size: 0x14a
     function private _haltadvance(sentients) {
-        /#
-            assert(isarray(sentients));
-        #/
+        assert(isarray(sentients));
         foreach (sentient in sentients) {
             if (isdefined(sentient) && isalive(sentient) && sentient haspath()) {
                 navmeshposition = getclosestpointonnavmesh(sentient.origin, 200);
@@ -346,12 +318,8 @@ class phalanx {
     // Size: 0xbc
     function private _getphalanxspawner(tier) {
         spawner = getspawnerarray(tier, "targetname");
-        /#
-            assert(spawner.size >= 0, "<dev string:x59>" + "<dev string:x9f>" + "<dev string:xe7>");
-        #/
-        /#
-            assert(spawner.size == 1, "<dev string:xfe>" + "<dev string:x142>" + "<dev string:x168>");
-        #/
+        assert(spawner.size >= 0, "<dev string:x59>" + "<dev string:x9f>" + "<dev string:xe7>");
+        assert(spawner.size == 1, "<dev string:xfe>" + "<dev string:x142>" + "<dev string:x168>");
         return spawner[0];
     }
 
@@ -438,14 +406,10 @@ class phalanx {
         LOC_00000508:
             break;
         default:
-            /#
-                assert("<dev string:x28>" + phalanxtype + "<dev string:x3f>");
-            #/
+            assert("<dev string:x28>" + phalanxtype + "<dev string:x3f>");
             break;
         }
-        /#
-            assert("<dev string:x42>" + tier + "<dev string:x3f>");
-        #/
+        assert("<dev string:x42>" + tier + "<dev string:x3f>");
     }
 
     // Namespace phalanx/phalanx
@@ -503,9 +467,7 @@ class phalanx {
     // Checksum 0x8c0d15da, Offset: 0x2e0
     // Size: 0xf2
     function private _assignphalanxstance(sentients, stance) {
-        /#
-            assert(isarray(sentients));
-        #/
+        assert(isarray(sentients));
         foreach (sentient in sentients) {
             if (isdefined(sentient) && isalive(sentient)) {
                 sentient ai::set_behavior_attribute("phalanx_force_stance", stance);

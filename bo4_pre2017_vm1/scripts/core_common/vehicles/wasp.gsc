@@ -48,9 +48,7 @@ function wasp_initialize() {
     self.fovcosine = 0;
     self.fovcosinebusy = 0;
     self.vehaircraftcollisionenabled = 1;
-    /#
-        assert(isdefined(self.scriptbundlesettings));
-    #/
+    assert(isdefined(self.scriptbundlesettings));
     self.settings = struct::get_script_bundle("vehiclecustomsettings", self.scriptbundlesettings);
     self.goalradius = 999999;
     self.goalheight = 999999;
@@ -161,9 +159,7 @@ function state_emped_update(params) {
     gravity = 400;
     self notify(#"end_nudge_collision");
     empdowntime = params.notify_param[0];
-    /#
-        assert(isdefined(empdowntime));
-    #/
+    assert(isdefined(empdowntime));
     vehicle_ai::cooldown("emped_timer", empdowntime);
     wait randomfloat(0.2);
     ang_vel = self getangularvelocity();
@@ -361,9 +357,7 @@ function init_guard_points() {
 // Checksum 0xd95600fc, Offset: 0x1dd0
 // Size: 0x38e
 function get_guard_points(owner) {
-    /#
-        assert(self._guard_points.size > 0, "<dev string:x38>");
-    #/
+    assert(self._guard_points.size > 0, "<dev string:x38>");
     points_array = [];
     foreach (point in self._guard_points) {
         offset = rotatepoint(point, owner.angles);
@@ -531,9 +525,7 @@ function state_guard_update(params) {
                     stucklocation = self.origin;
                 } else if (stuckcount > 10) {
                     /#
-                        /#
-                            assert(0, "<dev string:x51>" + self.origin);
-                        #/
+                        assert(0, "<dev string:x51>" + self.origin);
                         v_box_min = (self.radius * -1, self.radius * -1, self.radius * -1);
                         v_box_max = (self.radius, self.radius, self.radius);
                         box(self.origin, v_box_min, v_box_max, self.angles[1], (1, 0, 0), 1, 0, 1000000);
@@ -1313,9 +1305,7 @@ function private _wasp_tower_init(wasp_tower, n_spawn_count, b_use_fake_models) 
         s_wasp_scene4 scene::init(s_wasp_scene4.scriptbundlename, s_wasp_scene4.a_wasps_to_launch);
         break;
     default:
-        /#
-            assertmsg("<dev string:xfa>" + wasp_tower.targetname + "<dev string:x109>");
-        #/
+        assertmsg("<dev string:xfa>" + wasp_tower.targetname + "<dev string:x109>");
         break;
     }
     wasp_tower.b_wasp_tower_init = 1;

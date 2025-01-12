@@ -9,12 +9,8 @@ function registerbsmscriptapiinternal(functionname, scriptfunction) {
         level._bsmscriptfunctions = [];
     }
     functionname = tolower(functionname);
-    /#
-        assert(isdefined(scriptfunction) && isdefined(scriptfunction), "<dev string:x28>");
-    #/
-    /#
-        assert(!isdefined(level._bsmscriptfunctions[functionname]), "<dev string:x85>");
-    #/
+    assert(isdefined(scriptfunction) && isdefined(scriptfunction), "<dev string:x28>");
+    assert(!isdefined(level._bsmscriptfunctions[functionname]), "<dev string:x85>");
     level._bsmscriptfunctions[functionname] = scriptfunction;
 }
 

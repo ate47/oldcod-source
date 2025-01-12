@@ -51,9 +51,7 @@ function flame_death_fx() {
         }
         self.weapon_specific_fire_death_torso_fx = undefined;
     } else {
-        /#
-            println("<dev string:x28>");
-        #/
+        println("<dev string:x28>");
     }
     if (isdefined(level._effect) && isdefined(level._effect["character_fire_death_sm"])) {
         if (self.archetype !== "parasite" && self.archetype !== "raps" && self.archetype !== "spider") {
@@ -86,9 +84,7 @@ function flame_death_fx() {
         }
         return;
     }
-    /#
-        println("<dev string:xc7>");
-    #/
+    println("<dev string:xc7>");
 }
 
 // Namespace zombie_death/zombie_death
@@ -217,9 +213,7 @@ function do_gib() {
     case #"guts":
         break;
     default:
-        /#
-            assertmsg("<dev string:x160>" + self.a.gib_ref + "<dev string:x172>");
-        #/
+        assertmsg("<dev string:x160>" + self.a.gib_ref + "<dev string:x172>");
         break;
     }
 }

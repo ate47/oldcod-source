@@ -71,9 +71,7 @@ function entity_callback(event, localclientnum, params) {
 // Checksum 0x3c5f4ec5, Offset: 0x4e0
 // Size: 0x19c
 function add_callback(event, func, obj) {
-    /#
-        assert(isdefined(event), "<dev string:x28>");
-    #/
+    assert(isdefined(event), "<dev string:x28>");
     if (!isdefined(level._callbacks) || !isdefined(level._callbacks[event])) {
         level._callbacks[event] = [];
     }
@@ -95,9 +93,7 @@ function add_callback(event, func, obj) {
 // Checksum 0x8daf433, Offset: 0x688
 // Size: 0x16c
 function add_entity_callback(event, func, obj) {
-    /#
-        assert(isdefined(event), "<dev string:x28>");
-    #/
+    assert(isdefined(event), "<dev string:x28>");
     if (!isdefined(self._callbacks) || !isdefined(self._callbacks[event])) {
         self._callbacks[event] = [];
     }
@@ -125,12 +121,8 @@ function remove_callback_on_death(event, func) {
 // Checksum 0xb2b41711, Offset: 0x848
 // Size: 0x142
 function remove_callback(event, func, obj) {
-    /#
-        assert(isdefined(event), "<dev string:x58>");
-    #/
-    /#
-        assert(isdefined(level._callbacks[event]), "<dev string:x8b>");
-    #/
+    assert(isdefined(event), "<dev string:x58>");
+    assert(isdefined(level._callbacks[event]), "<dev string:x8b>");
     foreach (index, func_group in level._callbacks[event]) {
         if (func_group[0] == func) {
             if (func_group[1] === obj) {
@@ -278,9 +270,7 @@ function event_handler[systemstatechange] codecallback_statechange(eventstruct) 
         [[ level._systemstates[eventstruct.system].callback ]](eventstruct.localclientnum, eventstruct.state);
         return;
     }
-    /#
-        println("<dev string:xb8>" + eventstruct.system + "<dev string:xe4>");
-    #/
+    println("<dev string:xb8>" + eventstruct.system + "<dev string:xe4>");
 }
 
 // Namespace callback/maprestart
@@ -288,9 +278,7 @@ function event_handler[systemstatechange] codecallback_statechange(eventstruct) 
 // Checksum 0xc0c27e75, Offset: 0xec0
 // Size: 0x5c
 function event_handler[maprestart] codecallback_maprestart(eventstruct) {
-    /#
-        println("<dev string:x10c>");
-    #/
+    println("<dev string:x10c>");
     util::waitforclient(0);
     level thread util::init_utility();
 }
@@ -300,9 +288,7 @@ function event_handler[maprestart] codecallback_maprestart(eventstruct) {
 // Checksum 0xcd8c780f, Offset: 0xf28
 // Size: 0x5c
 function event_handler[localclient_connect] codecallback_localclientconnect(eventstruct) {
-    /#
-        println("<dev string:x12e>" + eventstruct.localclientnum);
-    #/
+    println("<dev string:x12e>" + eventstruct.localclientnum);
     [[ level.callbacklocalclientconnect ]](eventstruct.localclientnum);
 }
 
@@ -343,9 +329,7 @@ function event_handler[sound_playuidecodeloop] codecallback_soundplayuidecodeloo
 // Checksum 0x20b9e44e, Offset: 0x10b0
 // Size: 0x4c
 function event_handler[player_spawned] codecallback_playerspawned(eventstruct) {
-    /#
-        println("<dev string:x15b>");
-    #/
+    println("<dev string:x15b>");
     [[ level.callbackplayerspawned ]](eventstruct.localclientnum);
 }
 
@@ -562,9 +546,7 @@ function event_handler[sound_chargeshotweaponnotify] codecallback_chargeshotweap
 // Checksum 0xc33a1f06, Offset: 0x19a8
 // Size: 0x5c
 function event_handler[hostmigration] codecallback_hostmigration(eventstruct) {
-    /#
-        println("<dev string:x17e>");
-    #/
+    println("<dev string:x17e>");
     if (isdefined(level.callbackhostmigration)) {
         [[ level.callbackhostmigration ]](eventstruct.localclientnum);
     }

@@ -214,9 +214,7 @@ function private _play_movie_for_player(str_movie, str_type, show_black_screen, 
         str_menu = "PiPMenu";
         break;
     default:
-        /#
-            assertmsg("<dev string:x28>" + str_type + "<dev string:x3d>");
-        #/
+        assertmsg("<dev string:x28>" + str_type + "<dev string:x3d>");
         break;
     }
     if (str_type == "pip") {
@@ -264,9 +262,7 @@ function function_be38d8cd(str_movie, str_type, timeout, show_black_screen, b_lo
     if (str_type === "fullscreen" || str_type === "fullscreen_additive") {
         b_hide_hud = 1;
     }
-    /#
-        assert(self == level);
-    #/
+    assert(self == level);
     foreach (player in level.players) {
         if (isdefined(b_hide_hud)) {
             player flagsys::set("playing_movie_hide_hud");
@@ -300,9 +296,7 @@ function private function_adc333e0(str_movie, str_type, timeout, show_black_scre
         str_menu = "PiPMenu";
         break;
     default:
-        /#
-            assertmsg("<dev string:x28>" + str_type + "<dev string:x3d>");
-        #/
+        assertmsg("<dev string:x28>" + str_type + "<dev string:x3d>");
         break;
     }
     if (str_type == "pip") {

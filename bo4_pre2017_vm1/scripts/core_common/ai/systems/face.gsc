@@ -30,9 +30,7 @@ function saygenericdialogue(typestring) {
         importance = 0.4;
         break;
     default:
-        /#
-            println("<dev string:x28>" + typestring);
-        #/
+        println("<dev string:x28>" + typestring);
         importance = 0.3;
         break;
     }
@@ -48,9 +46,7 @@ function saygenericdialoguewithimportance(typestring, importance) {
     if (isdefined(self.dds_characterid)) {
         soundalias += self.dds_characterid;
     } else {
-        /#
-            println("<dev string:x4b>");
-        #/
+        println("<dev string:x4b>");
         return;
     }
     soundalias += "_" + typestring;
@@ -135,39 +131,25 @@ function playfacethread(facialanim, str_script_alias, importance, notifystring, 
                 if (self.a.facialsoundalias == str_script_alias) {
                     return;
                 }
-                /#
-                    println("<dev string:x73>" + self.a.facialsoundalias + "<dev string:x8c>" + str_script_alias);
-                #/
+                println("<dev string:x73>" + self.a.facialsoundalias + "<dev string:x8c>" + str_script_alias);
                 while (self.istalking) {
                     self waittill("done speaking");
                 }
             }
         } else {
-            /#
-                println("<dev string:x96>" + self.a.facialsoundalias + "<dev string:x8c>" + str_script_alias);
-            #/
+            println("<dev string:x96>" + self.a.facialsoundalias + "<dev string:x8c>" + str_script_alias);
             self stopsound(self.a.facialsoundalias);
-            self notify(#"hash_ad4a3c97");
+            self notify(#"cancel speaking");
             while (self.istalking) {
                 self waittill("done speaking");
             }
         }
     }
-    /#
-        assert(self.a.facialsounddone);
-    #/
-    /#
-        assert(self.a.facialsoundalias == undefined);
-    #/
-    /#
-        assert(self.a.facialsoundnotify == undefined);
-    #/
-    /#
-        assert(self.a.currentdialogimportance == undefined);
-    #/
-    /#
-        assert(!self.istalking);
-    #/
+    assert(self.a.facialsounddone);
+    assert(self.a.facialsoundalias == undefined);
+    assert(self.a.facialsoundnotify == undefined);
+    assert(self.a.currentdialogimportance == undefined);
+    assert(!self.istalking);
     self notify(#"bc_interrupt");
     self.istalking = 1;
     self.a.facialsounddone = 0;
@@ -221,7 +203,7 @@ function playfacethread(facialanim, str_script_alias, importance, notifystring, 
         self.a.currentdialogimportance = undefined;
         self.lastsaytime = gettime();
     }
-    self notify(#"hash_90f83311", {#vo_line:str_notify_alias});
+    self notify(#"done speaking", {#vo_line:str_notify_alias});
     self notify(notifystring);
 }
 

@@ -29,6 +29,15 @@ class csceneobject : cscriptbundleobjectbase {
 
     // Namespace csceneobject/scene_shared
     // Params 0, eflags: 0x0
+    // Checksum 0x4edc402c, Offset: 0x870
+    // Size: 0x30
+    function constructor() {
+        _b_spawnonce_used = 0;
+        _is_valid = 1;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
     // Checksum 0xb55560f1, Offset: 0x2248
     // Size: 0xf4
     function in_a_different_scene() {
@@ -444,24 +453,6 @@ class csceneobject : cscriptbundleobjectbase {
         return self;
     }
 
-    // Namespace csceneobject/scene_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x854ad481, Offset: 0x8a8
-    // Size: 0x14
-    function __destructor() {
-        cscriptbundleobjectbase::__destructor();
-    }
-
-    // Namespace csceneobject/scene_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x4edc402c, Offset: 0x870
-    // Size: 0x30
-    function __constructor() {
-        cscriptbundleobjectbase::__constructor();
-        _b_spawnonce_used = 0;
-        _is_valid = 1;
-    }
-
 }
 
 // Namespace scene
@@ -477,6 +468,15 @@ class cscene : cscriptbundlebase {
     var _str_state;
     var _testing;
     var scene_stopped;
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x5176775e, Offset: 0x28e8
+    // Size: 0x30
+    function constructor() {
+        _n_object_id = 0;
+        _str_state = "";
+    }
 
     // Namespace cscene/scene_shared
     // Params 0, eflags: 0x0
@@ -637,9 +637,7 @@ class cscene : cscriptbundlebase {
                         _e_root thread [[ func ]](a_ents);
                         break;
                     default:
-                        /#
-                            assertmsg("<dev string:x8a>");
-                        #/
+                        assertmsg("<dev string:x8a>");
                         break;
                     }
                 }
@@ -861,8 +859,7 @@ class cscene : cscriptbundlebase {
             foreach (str_name, e_ent in arraycopy(a_ents)) {
                 foreach (i, s_obj in arraycopy(a_objs)) {
                     if (s_obj.name === (isdefined(str_name) ? "" + str_name : "")) {
-                        [[ new csceneobject ]]->__constructor();
-                        cscriptbundlebase::add_object([[ s_obj ]]->first_init(self, e_ent, _e_root.localclientnum, <emptypos_prescriptcall>));
+                        cscriptbundlebase::add_object([[ new csceneobject() ]]->first_init(s_obj, self, e_ent, _e_root.localclientnum));
                         arrayremoveindex(a_ents, str_name);
                         arrayremoveindex(a_objs, i);
                         break;
@@ -870,29 +867,10 @@ class cscene : cscriptbundlebase {
                 }
             }
             foreach (s_obj in a_objs) {
-                [[ new csceneobject ]]->__constructor();
-                cscriptbundlebase::add_object([[ s_obj ]]->first_init(self, array::pop(a_ents), _e_root.localclientnum, <emptypos_prescriptcall>));
+                cscriptbundlebase::add_object([[ new csceneobject() ]]->first_init(s_obj, self, array::pop(a_ents), _e_root.localclientnum));
             }
             self thread initialize();
         }
-    }
-
-    // Namespace cscene/scene_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xfc87c7e8, Offset: 0x2920
-    // Size: 0x14
-    function __destructor() {
-        cscriptbundlebase::__destructor();
-    }
-
-    // Namespace cscene/scene_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x5176775e, Offset: 0x28e8
-    // Size: 0x30
-    function __constructor() {
-        cscriptbundlebase::__constructor();
-        _n_object_id = 0;
-        _str_state = "";
     }
 
 }
@@ -1310,9 +1288,7 @@ function __main__() {
     }
     foreach (s_instance in a_instances) {
         s_scenedef = struct::get_script_bundle("scene", s_instance.scriptbundlename);
-        /#
-            assert(isdefined(s_scenedef), "<dev string:xae>" + s_instance.origin + "<dev string:xbe>" + s_instance.scriptbundlename + "<dev string:xd3>");
-        #/
+        assert(isdefined(s_scenedef), "<dev string:xae>" + s_instance.origin + "<dev string:xbe>" + s_instance.scriptbundlename + "<dev string:xd3>");
         if (s_scenedef.vmtype === "client") {
             if (isdefined(s_instance.spawnflags) && (s_instance.spawnflags & 2) == 2) {
                 s_instance thread play();
@@ -1365,11 +1341,7 @@ function add_scene_func(str_scenedef, func, str_state, ...) {
     if (!isdefined(str_state)) {
         str_state = "play";
     }
-    /#
-        /#
-            assert(isdefined(get_scenedef(str_scenedef)), "<dev string:xe9>" + str_scenedef + "<dev string:xd3>");
-        #/
-    #/
+    assert(isdefined(get_scenedef(str_scenedef)), "<dev string:xe9>" + str_scenedef + "<dev string:xd3>");
     if (!isdefined(level.scene_funcs)) {
         level.scene_funcs = [];
     }
@@ -1392,11 +1364,7 @@ function remove_scene_func(str_scenedef, func, str_state) {
     if (!isdefined(str_state)) {
         str_state = "play";
     }
-    /#
-        /#
-            assert(isdefined(get_scenedef(str_scenedef)), "<dev string:x114>" + str_scenedef + "<dev string:xd3>");
-        #/
-    #/
+    assert(isdefined(get_scenedef(str_scenedef)), "<dev string:x114>" + str_scenedef + "<dev string:xd3>");
     if (!isdefined(level.scene_funcs)) {
         level.scene_funcs = [];
     }
@@ -1415,9 +1383,7 @@ function remove_scene_func(str_scenedef, func, str_state) {
 // Size: 0x1a8
 function spawn(arg1, arg2, arg3, arg4, b_test_run) {
     str_scenedef = arg1;
-    /#
-        assert(isdefined(str_scenedef), "<dev string:x142>");
-    #/
+    assert(isdefined(str_scenedef), "<dev string:x142>");
     if (isvec(arg2)) {
         v_origin = arg2;
         v_angles = arg3;
@@ -1454,11 +1420,7 @@ function init(arg1, arg2, arg3, b_test_run) {
             }
             if (isdefined(str_key)) {
                 a_instances = struct::get_array(str_value, str_key);
-                /#
-                    /#
-                        assert(a_instances.size, "<dev string:x16d>" + str_key + "<dev string:x18b>" + str_value + "<dev string:x18f>");
-                    #/
-                #/
+                assert(a_instances.size, "<dev string:x16d>" + str_key + "<dev string:x18b>" + str_value + "<dev string:x18f>");
             } else {
                 a_instances = struct::get_array(str_value, "targetname");
                 if (!a_instances.size) {
@@ -1528,12 +1490,8 @@ function _init_instance(str_scenedef, a_ents, b_test_run) {
     }
     s_bundle = get_scenedef(str_scenedef);
     /#
-        /#
-            assert(isdefined(str_scenedef), "<dev string:x192>" + (isdefined(self.origin) ? self.origin : "<dev string:x19d>") + "<dev string:x1a3>");
-        #/
-        /#
-            assert(isdefined(s_bundle), "<dev string:x192>" + (isdefined(self.origin) ? self.origin : "<dev string:x19d>") + "<dev string:x1bf>" + str_scenedef + "<dev string:xd3>");
-        #/
+        assert(isdefined(str_scenedef), "<dev string:x192>" + (isdefined(self.origin) ? self.origin : "<dev string:x19d>") + "<dev string:x1a3>");
+        assert(isdefined(s_bundle), "<dev string:x192>" + (isdefined(self.origin) ? self.origin : "<dev string:x19d>") + "<dev string:x1bf>" + str_scenedef + "<dev string:xd3>");
     #/
     o_scene = get_active_scene(str_scenedef);
     if (isdefined(o_scene)) {
@@ -1542,8 +1500,7 @@ function _init_instance(str_scenedef, a_ents, b_test_run) {
         }
         thread [[ o_scene ]]->initialize(1);
     } else {
-        [[ new cscene ]]->__constructor();
-        o_scene = <error pop>;
+        o_scene = new cscene();
         [[ o_scene ]]->init(str_scenedef, s_bundle, self, a_ents, b_test_run);
     }
     return o_scene;
@@ -1576,11 +1533,7 @@ function play(arg1, arg2, arg3, b_test_run, str_mode) {
             if (isdefined(str_key)) {
                 a_instances = struct::get_array(str_value, str_key);
                 str_scenedef = undefined;
-                /#
-                    /#
-                        assert(a_instances.size, "<dev string:x16d>" + str_key + "<dev string:x18b>" + str_value + "<dev string:x18f>");
-                    #/
-                #/
+                assert(a_instances.size, "<dev string:x16d>" + str_key + "<dev string:x18b>" + str_value + "<dev string:x18f>");
             } else {
                 a_instances = struct::get_array(str_value, "targetname");
                 if (!a_instances.size) {
@@ -1677,11 +1630,7 @@ function stop(arg1, arg2, arg3, b_cancel, b_no_assert) {
             }
             if (isdefined(str_key)) {
                 a_instances = struct::get_array(str_value, str_key);
-                /#
-                    /#
-                        assert(b_no_assert || a_instances.size, "<dev string:x16d>" + str_key + "<dev string:x18b>" + str_value + "<dev string:x18f>");
-                    #/
-                #/
+                assert(b_no_assert || a_instances.size, "<dev string:x16d>" + str_key + "<dev string:x18b>" + str_value + "<dev string:x18f>");
                 str_value = undefined;
             } else {
                 a_instances = struct::get_array(str_value, "targetname");

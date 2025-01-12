@@ -178,9 +178,7 @@ function parasite_initialize() {
     self.fovcosine = 0;
     self.fovcosinebusy = 0;
     self.vehaircraftcollisionenabled = 1;
-    /#
-        assert(isdefined(self.scriptbundlesettings));
-    #/
+    assert(isdefined(self.scriptbundlesettings));
     self.settings = struct::get_script_bundle("vehiclecustomsettings", self.scriptbundlesettings);
     self.goalradius = 999999;
     self.goalheight = 4000;

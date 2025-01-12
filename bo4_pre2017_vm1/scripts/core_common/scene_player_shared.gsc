@@ -20,18 +20,9 @@ class cscenecompanion : csceneplayer, csceneobject {
 
     // Namespace cscenecompanion/scene_player_shared
     // Params 0, eflags: 0x0
-    // Checksum 0x2d5db734, Offset: 0x5c48
-    // Size: 0x14
-    function __destructor() {
-        csceneplayer::__destructor();
-    }
-
-    // Namespace cscenecompanion/scene_player_shared
-    // Params 0, eflags: 0x0
     // Checksum 0xf16c062b, Offset: 0x5bf8
     // Size: 0x44
-    function __constructor() {
-        csceneplayer::__constructor();
+    function constructor() {
         _func_get = &util::function_bb1c6fbf;
         _func_get_active = &util::function_12a66d92;
     }
@@ -53,10 +44,12 @@ class csceneplayer : csceneobject {
 
     // Namespace csceneplayer/scene_player_shared
     // Params 0, eflags: 0x0
-    // Checksum 0x4f590f6f, Offset: 0x1c78
-    // Size: 0x14
-    function __destructor() {
-        csceneobject::__destructor();
+    // Checksum 0x71c9beba, Offset: 0x448
+    // Size: 0x54
+    function constructor() {
+        _func_get = &util::get_players;
+        _func_get_active = &util::get_active_players;
+        _n_streamer_req = -1;
     }
 
     // Namespace csceneplayer/scene_player_shared
@@ -173,7 +166,7 @@ class csceneplayer : csceneobject {
     // Checksum 0x582218bc, Offset: 0x1440
     // Size: 0x5a
     function function_54ff37f7(player) {
-        player endon(#"hash_d4777ee8");
+        player endon(#"new_scene");
         waitframe(5);
         player playerstreamerrequest("clear", player.var_1375be5);
         player.streamer_hint_playing = undefined;
@@ -294,7 +287,7 @@ class csceneplayer : csceneobject {
         if (player.var_dd686719 === _o_scene._str_name) {
             return 0;
         }
-        player notify(#"hash_d4777ee8");
+        player notify(#"new_scene");
         if (player == level.host && scene::check_team(player.team, _str_team)) {
             display_dev_info();
         }
@@ -407,17 +400,6 @@ class csceneplayer : csceneobject {
         return csceneobject::first_init(s_objdef, o_scene);
     }
 
-    // Namespace csceneplayer/scene_player_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x71c9beba, Offset: 0x448
-    // Size: 0x54
-    function __constructor() {
-        csceneobject::__constructor();
-        _func_get = &util::get_players;
-        _func_get_active = &util::get_active_players;
-        _n_streamer_req = -1;
-    }
-
 }
 
 // Namespace scene
@@ -442,22 +424,6 @@ class cscenesharedplayer : csceneplayer, csceneobject {
     var player_start_time;
     var player_tag;
     var player_time_frac;
-
-    // Namespace cscenesharedplayer/scene_player_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x5c046643, Offset: 0x3c78
-    // Size: 0x14
-    function __destructor() {
-        csceneplayer::__destructor();
-    }
-
-    // Namespace cscenesharedplayer/scene_player_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x103a54bb, Offset: 0x3c58
-    // Size: 0x14
-    function __constructor() {
-        csceneplayer::__constructor();
-    }
 
     // Namespace cscenesharedplayer/scene_player_shared
     // Params 0, eflags: 0x0
@@ -664,22 +630,6 @@ class cscenesharedplayer : csceneplayer, csceneobject {
 // Method(s) 2 Total 69
 class cscenefakeplayer : csceneobject {
 
-    // Namespace cscenefakeplayer/scene_player_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x4d3e6497, Offset: 0x4e58
-    // Size: 0x14
-    function __destructor() {
-        csceneobject::__destructor();
-    }
-
-    // Namespace cscenefakeplayer/scene_player_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xfa9a1168, Offset: 0x4e38
-    // Size: 0x14
-    function __constructor() {
-        csceneobject::__constructor();
-    }
-
 }
 
 // Namespace scene
@@ -691,18 +641,9 @@ class cscenesharedcompanion : csceneplayer, cscenesharedplayer, csceneobject {
 
     // Namespace cscenesharedcompanion/scene_player_shared
     // Params 0, eflags: 0x0
-    // Checksum 0x359cdd5e, Offset: 0x6d38
-    // Size: 0x14
-    function __destructor() {
-        cscenesharedplayer::__destructor();
-    }
-
-    // Namespace cscenesharedcompanion/scene_player_shared
-    // Params 0, eflags: 0x0
     // Checksum 0x72e33ff1, Offset: 0x6ce8
     // Size: 0x44
-    function __constructor() {
-        cscenesharedplayer::__constructor();
+    function constructor() {
         _func_get = &util::function_bb1c6fbf;
         _func_get_active = &util::function_12a66d92;
     }

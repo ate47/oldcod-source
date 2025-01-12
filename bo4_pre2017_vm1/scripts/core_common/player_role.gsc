@@ -6,13 +6,9 @@
 // Size: 0xce
 function get_category_for_index(characterindex) {
     categoryname = getplayerrolecategory(characterindex, currentsessionmode());
-    /#
-        assert(isdefined(categoryname));
-    #/
+    assert(isdefined(categoryname));
     categoryinfo = getplayerrolecategoryinfo(categoryname);
-    /#
-        assert(isdefined(categoryinfo));
-    #/
+    assert(isdefined(categoryinfo));
     if (isdefined(categoryinfo.enabled) && categoryinfo.enabled) {
         return categoryname;
     }
@@ -25,13 +21,9 @@ function get_category_for_index(characterindex) {
 // Size: 0xaa
 function get_category() {
     player = self;
-    /#
-        assert(isplayer(player));
-    #/
+    assert(isplayer(player));
     characterindex = player get();
-    /#
-        assert(is_valid(characterindex));
-    #/
+    assert(is_valid(characterindex));
     return get_category_for_index(characterindex);
 }
 
@@ -60,9 +52,7 @@ function is_valid(index) {
 // Size: 0x5a
 function get() {
     player = self;
-    /#
-        assert(isplayer(player));
-    #/
+    assert(isplayer(player));
     return player getspecialistindex();
 }
 
@@ -80,12 +70,8 @@ function update_fields() {
 // Size: 0x112
 function set(index) {
     player = self;
-    /#
-        assert(isplayer(player));
-    #/
-    /#
-        assert(is_valid(index));
-    #/
+    assert(isplayer(player));
+    assert(is_valid(index));
     player.pers["characterIndex"] = index;
     player setspecialistindex(index);
     player update_fields();
@@ -99,9 +85,7 @@ function set(index) {
 // Size: 0x7e
 function clear() {
     player = self;
-    /#
-        assert(isplayer(player));
-    #/
+    assert(isplayer(player));
     player setspecialistindex(0);
     player.pers["characterIndex"] = undefined;
     player.playerrole = undefined;

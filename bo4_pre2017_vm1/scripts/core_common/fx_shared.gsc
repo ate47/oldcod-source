@@ -35,9 +35,7 @@ function set_forward_and_up_vectors() {
 // Checksum 0x5a8bb7d5, Offset: 0x240
 // Size: 0x5c
 function get(fx) {
-    /#
-        assert(isdefined(level._effect[fx]), "<dev string:x28>" + fx + "<dev string:x2c>");
-    #/
+    assert(isdefined(level._effect[fx]), "<dev string:x28>" + fx + "<dev string:x2c>");
     return level._effect[fx];
 }
 

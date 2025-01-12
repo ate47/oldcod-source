@@ -17,9 +17,7 @@
 // Checksum 0xb34ad0de, Offset: 0xd0
 // Size: 0x4c
 function clearundostack(blackboard) {
-    /#
-        assert(isstruct(blackboard));
-    #/
+    assert(isstruct(blackboard));
     blackboard.undostack = [];
 }
 
@@ -28,9 +26,7 @@ function clearundostack(blackboard) {
 // Checksum 0x55c21d54, Offset: 0x128
 // Size: 0x98
 function create(&blackboardvalues) {
-    /#
-        assert(isarray(blackboardvalues));
-    #/
+    assert(isarray(blackboardvalues));
     blackboard = spawnstruct();
     blackboard.undostack = [];
     blackboard.values = blackboardvalues;
@@ -43,15 +39,9 @@ function create(&blackboardvalues) {
 // Checksum 0x60554b10, Offset: 0x1c8
 // Size: 0xc0
 function getattribute(blackboard, attribute) {
-    /#
-        assert(isstruct(blackboard));
-    #/
-    /#
-        assert(isstring(attribute));
-    #/
-    /#
-        assert(isarray(blackboard.values));
-    #/
+    assert(isstruct(blackboard));
+    assert(isstring(attribute));
+    assert(isarray(blackboard.values));
     return blackboard.values[attribute];
 }
 
@@ -60,12 +50,8 @@ function getattribute(blackboard, attribute) {
 // Checksum 0x16639aa1, Offset: 0x290
 // Size: 0x84
 function getundostacksize(blackboard) {
-    /#
-        assert(isstruct(blackboard));
-    #/
-    /#
-        assert(isarray(blackboard.undostack));
-    #/
+    assert(isstruct(blackboard));
+    assert(isarray(blackboard.undostack));
     return blackboard.undostack.size;
 }
 
@@ -77,31 +63,17 @@ function setattribute(blackboard, attribute, value, readonly) {
     if (!isdefined(readonly)) {
         readonly = 0;
     }
-    /#
-        assert(isstruct(blackboard));
-    #/
-    /#
-        assert(isstring(attribute));
-    #/
-    /#
-        assert(isarray(blackboard.values));
-    #/
-    /#
-        assert(isarray(blackboard.undostack));
-    #/
-    /#
-        assert(blackboard.mode === "<dev string:x42>");
-    #/
+    assert(isstruct(blackboard));
+    assert(isstring(attribute));
+    assert(isarray(blackboard.values));
+    assert(isarray(blackboard.undostack));
+    assert(blackboard.mode === "<dev string:x42>");
     /#
         if (isdefined(level.__ai_debugplannerblackboard) && level.__ai_debugplannerblackboard > 0 && !readonly) {
-            /#
-                assert(!isstruct(value), "<dev string:x45>");
-            #/
+            assert(!isstruct(value), "<dev string:x45>");
             if (isarray(value)) {
                 foreach (entryvalue in value) {
-                    /#
-                        assert(!isstruct(entryvalue), "<dev string:x8d>");
-                    #/
+                    assert(!isstruct(entryvalue), "<dev string:x8d>");
                 }
             }
         }
@@ -134,18 +106,10 @@ function setreadwritemode(blackboard) {
 // Checksum 0x124bb41, Offset: 0x668
 // Size: 0x172
 function undo(blackboard, stackindex) {
-    /#
-        assert(isstruct(blackboard));
-    #/
-    /#
-        assert(isarray(blackboard.values));
-    #/
-    /#
-        assert(isarray(blackboard.undostack));
-    #/
-    /#
-        assert(stackindex < blackboard.undostack.size);
-    #/
+    assert(isstruct(blackboard));
+    assert(isarray(blackboard.values));
+    assert(isarray(blackboard.undostack));
+    assert(stackindex < blackboard.undostack.size);
     for (index = blackboard.undostack.size - 1; index > stackindex; index--) {
         stackvalue = blackboard.undostack[index];
         blackboard.values[stackvalue.attribute] = stackvalue.value;

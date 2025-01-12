@@ -44,9 +44,7 @@ function private call_func(func, arg_count, args) {
     case 0:
         return self [[ func ]]();
     default:
-        /#
-            assertmsg("<dev string:x28>");
-        #/
+        assertmsg("<dev string:x28>");
         break;
     }
 }
@@ -56,9 +54,7 @@ function private call_func(func, arg_count, args) {
 // Checksum 0x24122706, Offset: 0x8e0
 // Size: 0x366
 function private evaluate_constant(input_def) {
-    /#
-        assert(isdefined(input_def.constvalue));
-    #/
+    assert(isdefined(input_def.constvalue));
     val = input_def.constvalue;
     switch (input_def.type) {
     case #"array":
@@ -66,9 +62,7 @@ function private evaluate_constant(input_def) {
     case #"exec":
     case #"struct":
     case #"variant":
-        /#
-            assertmsg("<dev string:x4d>");
-        #/
+        assertmsg("<dev string:x4d>");
         return undefined;
     case #"bool":
     case #"float":
@@ -83,36 +77,22 @@ function private evaluate_constant(input_def) {
     case #"xmodel":
         return val;
     case #"entityarray":
-        /#
-            assert(isstruct(val));
-        #/
-        /#
-            assert(isdefined(val.value));
-        #/
-        /#
-            assert(isdefined(val.key));
-        #/
+        assert(isstruct(val));
+        assert(isdefined(val.value));
+        assert(isdefined(val.key));
         return getentarray(val.value, val.key);
     case #"ai":
     case #"entity":
     case #"pathnode":
     case #"spawner":
     case #"vehicle":
-        /#
-            assert(isstruct(val) || isstring(val));
-        #/
+        assert(isstruct(val) || isstring(val));
         if (isstruct(val)) {
-            /#
-                assert(isdefined(val.value));
-            #/
-            /#
-                assert(isdefined(val.key));
-            #/
+            assert(isdefined(val.value));
+            assert(isdefined(val.key));
             return getent(val.value, val.key);
         } else {
-            /#
-                assert(val == "<dev string:x63>" || val == "<dev string:x68>");
-            #/
+            assert(val == "<dev string:x63>" || val == "<dev string:x68>");
             if (val == "self") {
                 return self.target;
             } else {
@@ -121,9 +101,7 @@ function private evaluate_constant(input_def) {
         }
         break;
     }
-    /#
-        assertmsg("<dev string:x74>" + input_def.type + "<dev string:x83>");
-    #/
+    assertmsg("<dev string:x74>" + input_def.type + "<dev string:x83>");
     return undefined;
 }
 
@@ -137,9 +115,7 @@ function private get_node_output_param_index(node_def, param_name) {
             return i;
         }
     }
-    /#
-        assertmsg("<dev string:x85>");
-    #/
+    assertmsg("<dev string:x85>");
     return -1;
 }
 
@@ -153,9 +129,7 @@ function private get_node_input_param_index(node_def, param_name) {
             return i;
         }
     }
-    /#
-        assertmsg("<dev string:x85>");
-    #/
+    assertmsg("<dev string:x85>");
     return -1;
 }
 
@@ -203,13 +177,9 @@ function private get_graph_def(graph_name, force_refresh) {
     graph_def.nodes = indexed_nodes;
     foreach (wire_def in graph_def.wires) {
         output_node = graph_def.nodes[wire_def.outputnodeuuid];
-        /#
-            assert(isdefined(output_node), "<dev string:x9c>" + graph_name + "<dev string:x83>");
-        #/
+        assert(isdefined(output_node), "<dev string:x9c>" + graph_name + "<dev string:x83>");
         input_node = graph_def.nodes[wire_def.inputnodeuuid];
-        /#
-            assert(isdefined(input_node), "<dev string:x9c>" + graph_name + "<dev string:x83>");
-        #/
+        assert(isdefined(input_node), "<dev string:x9c>" + graph_name + "<dev string:x83>");
         output_param_index = get_node_output_param_index(output_node, wire_def.outputparamname);
         input_param_index = get_node_input_param_index(input_node, wire_def.inputparamname);
         output_param = output_node.outputs[output_param_index];
@@ -300,12 +270,8 @@ function kick(outputs, block) {
     if (!isarray(outputs)) {
         outputs = array(outputs);
     }
-    /#
-        assert(isarray(outputs), "<dev string:xc9>" + self.def.uuid + "<dev string:xd0>");
-    #/
-    /#
-        assert(outputs.size == self.def.outputs.size, "<dev string:xc9>" + self.def.uuid + "<dev string:xee>" + self.def.outputs.size + "<dev string:x121>");
-    #/
+    assert(isarray(outputs), "<dev string:xc9>" + self.def.uuid + "<dev string:xd0>");
+    assert(outputs.size == self.def.outputs.size, "<dev string:xc9>" + self.def.uuid + "<dev string:xee>" + self.def.outputs.size + "<dev string:x121>");
     self.outputs = outputs;
     for (i = 0; i < self.def.outputs.size; i++) {
         output_def = self.def.outputs[i];
@@ -343,9 +309,7 @@ function collect_inputs() {
                 }
                 inputs[input_index] = result;
             } else {
-                /#
-                    assert(input_def.connections.size == 1, "<dev string:x123>" + input_def.name + "<dev string:x134>");
-                #/
+                assert(input_def.connections.size == 1, "<dev string:x123>" + input_def.name + "<dev string:x134>");
                 connection_def = input_def.connections[0];
                 node_inst = self.owner.nodes[connection_def.node.uuid];
                 outputs = node_inst collect_outputs();
@@ -368,9 +332,7 @@ function collect_inputs() {
 // Size: 0x2d4
 function event_handler[flowgraph_run] run(eventstruct) {
     graph_def = get_graph_def(eventstruct.flowgraph_asset);
-    /#
-        assert(isdefined(graph_def), "<dev string:x153>" + eventstruct.flowgraph_asset + "<dev string:x83>");
-    #/
+    assert(isdefined(graph_def), "<dev string:x153>" + eventstruct.flowgraph_asset + "<dev string:x83>");
     graph_inst = spawnstruct();
     graph_inst.def = graph_def;
     graph_inst.nodes = [];

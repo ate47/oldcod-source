@@ -49,9 +49,7 @@ function flame_death_fx(localclientnum) {
             playfxontag(localclientnum, level._effect["character_fire_death_torso"], self, fire_tag);
         }
     } else {
-        /#
-            println("<dev string:x28>");
-        #/
+        println("<dev string:x28>");
     }
     if (isdefined(level._effect) && isdefined(level._effect["character_fire_death_sm"])) {
         if (self.archetype !== "parasite" && self.archetype !== "raps") {
@@ -76,9 +74,7 @@ function flame_death_fx(localclientnum) {
         }
         return;
     }
-    /#
-        println("<dev string:xc7>");
-    #/
+    println("<dev string:xc7>");
 }
 
 // Namespace zombie_death/zombie_death

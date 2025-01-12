@@ -287,9 +287,7 @@ function kill_exploder(exploder_id) {
         }
         return;
     }
-    /#
-        assertmsg("<dev string:x28>" + exploder_id);
-    #/
+    assertmsg("<dev string:x28>" + exploder_id);
 }
 
 // Namespace exploder/exploder_shared
@@ -440,9 +438,7 @@ function cannon_effect() {
         self.loopfx = [];
     }
     if (!isdefined(level._effect[self.v["fxid"]])) {
-        /#
-            assertmsg("<dev string:x66>" + self.v["<dev string:x7b>"] + "<dev string:x80>");
-        #/
+        assertmsg("<dev string:x66>" + self.v["<dev string:x7b>"] + "<dev string:x80>");
         return;
     }
     for (i = 0; i < players.size; i++) {

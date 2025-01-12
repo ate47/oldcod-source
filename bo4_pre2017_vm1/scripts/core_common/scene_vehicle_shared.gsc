@@ -12,22 +12,6 @@ class cscenevehicle : csceneobject {
 
     // Namespace cscenevehicle/scene_vehicle_shared
     // Params 0, eflags: 0x0
-    // Checksum 0xfe435830, Offset: 0x1f8
-    // Size: 0x14
-    function __destructor() {
-        csceneobject::__destructor();
-    }
-
-    // Namespace cscenevehicle/scene_vehicle_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xa52c7e1, Offset: 0x1d8
-    // Size: 0x14
-    function __constructor() {
-        csceneobject::__constructor();
-    }
-
-    // Namespace cscenevehicle/scene_vehicle_shared
-    // Params 0, eflags: 0x0
     // Checksum 0xb0d3db0d, Offset: 0xf0
     // Size: 0xdc
     function _spawn_ent() {

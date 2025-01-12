@@ -32,13 +32,13 @@ function __init__() {
     trigger_funcs["trigger_unlock"] = &trigger_unlock;
     trigger_funcs["flag_set"] = &flag_set_trigger;
     trigger_funcs["flag_clear"] = &flag_clear_trigger;
-    trigger_funcs["flag_set_touching"] = &function_c6742dfe;
+    trigger_funcs["flag_set_touching"] = &flag_set_touching;
     trigger_funcs["friendly_respawn_trigger"] = &friendly_respawn_trigger;
     trigger_funcs["friendly_respawn_clear"] = &friendly_respawn_clear;
     trigger_funcs["trigger_delete"] = &trigger_turns_off;
     trigger_funcs["trigger_delete_on_touch"] = &trigger_delete_on_touch;
     trigger_funcs["trigger_off"] = &trigger_turns_off;
-    trigger_funcs["delete_link_chain"] = &function_62964ea9;
+    trigger_funcs["delete_link_chain"] = &delete_link_chain;
     trigger_funcs["no_crouch_or_prone"] = &function_5c8525c5;
     trigger_funcs["no_prone"] = &function_555e49a2;
     trigger_funcs["flood_spawner"] = &spawner::flood_trigger_think;
@@ -159,7 +159,7 @@ function wait_for_an_unlocked_trigger(triggers, noteworthy) {
 // Checksum 0x32c64cda, Offset: 0xed8
 // Size: 0x50
 function report_trigger(ent, noteworthy) {
-    self endon(#"hash_323a0103");
+    self endon(#"relock");
     level endon("unlocked_trigger_hit" + noteworthy);
     self waittill("trigger");
     ent notify(#"trigger");
@@ -186,9 +186,7 @@ function get_trigger_look_target() {
         a_potential_target_structs = struct::get_array(self.target);
         a_targets = arraycombine(a_targets, a_potential_target_structs, 1, 0);
         if (a_targets.size > 0) {
-            /#
-                assert(a_targets.size == 1, "<dev string:x28>" + self.origin + "<dev string:x38>");
-            #/
+            assert(a_targets.size == 1, "<dev string:x28>" + self.origin + "<dev string:x38>");
             e_target = a_targets[0];
         }
     }
@@ -233,9 +231,7 @@ function trigger_look(trigger) {
             }
             continue;
         }
-        /#
-            assertmsg("<dev string:x5b>");
-        #/
+        assertmsg("<dev string:x5b>");
     }
 }
 
@@ -390,13 +386,9 @@ function function_565ad0f2(trigger) {
 function friendly_respawn_trigger(trigger) {
     trigger endon(#"death");
     spawners = getentarray(trigger.target, "targetname");
-    /#
-        assert(spawners.size == 1, "<dev string:x7f>" + trigger.target + "<dev string:xc2>");
-    #/
+    assert(spawners.size == 1, "<dev string:x7f>" + trigger.target + "<dev string:xc2>");
     spawner = spawners[0];
-    /#
-        assert(!isdefined(spawner.script_forcecolor), "<dev string:xe2>" + spawner.origin + "<dev string:xf7>");
-    #/
+    assert(!isdefined(spawner.script_forcecolor), "<dev string:xe2>" + spawner.origin + "<dev string:xf7>");
     spawners = undefined;
     spawner endon(#"death");
     while (true) {
@@ -509,7 +501,7 @@ function trigger_delete_on_touch(trigger) {
 // Params 1, eflags: 0x0
 // Checksum 0xc8faed84, Offset: 0x21a8
 // Size: 0x120
-function function_c6742dfe(trigger) {
+function flag_set_touching(trigger) {
     str_flag = trigger.script_flag;
     if (!isdefined(level.flag[str_flag])) {
         level flag::init(str_flag, undefined, 1);
@@ -553,22 +545,16 @@ function trigger_once(trig) {
 // Checksum 0x3621448e, Offset: 0x23d8
 // Size: 0x1ac
 function trigger_hint(trigger) {
-    /#
-        assert(isdefined(trigger.script_hint), "<dev string:x15d>" + trigger.origin + "<dev string:x16e>");
-    #/
+    assert(isdefined(trigger.script_hint), "<dev string:x15d>" + trigger.origin + "<dev string:x16e>");
     trigger endon(#"death");
     if (!isdefined(level.displayed_hints)) {
         level.displayed_hints = [];
     }
     waittillframeend();
-    /#
-        assert(isdefined(level.trigger_hint_string[trigger.script_hint]), "<dev string:x183>" + trigger.script_hint + "<dev string:x19b>");
-    #/
+    assert(isdefined(level.trigger_hint_string[trigger.script_hint]), "<dev string:x183>" + trigger.script_hint + "<dev string:x19b>");
     waitresult = trigger waittill("trigger");
     other = waitresult.activator;
-    /#
-        assert(isplayer(other), "<dev string:x1f0>");
-    #/
+    assert(isplayer(other), "<dev string:x1f0>");
     if (isdefined(level.displayed_hints[trigger.script_hint])) {
         return;
     }
@@ -694,62 +680,42 @@ function get_all(type1, var_70753f2d, var_4a72c4c4, var_24704a5b, var_fe6dcff2, 
         var_c68b8cde = "trigger_multiple";
         var_d4a0cdb2 = "trigger_out_of_bounds";
     }
-    /#
-        assert(function_73e50955(type1));
-    #/
+    assert(function_73e50955(type1));
     trigs = getentarray(type1, "classname");
     if (isdefined(var_70753f2d)) {
-        /#
-            assert(function_73e50955(var_70753f2d));
-        #/
+        assert(function_73e50955(var_70753f2d));
         trigs = arraycombine(trigs, getentarray(var_70753f2d, "classname"), 1, 0);
     }
     if (isdefined(var_4a72c4c4)) {
-        /#
-            assert(function_73e50955(var_4a72c4c4));
-        #/
+        assert(function_73e50955(var_4a72c4c4));
         trigs = arraycombine(trigs, getentarray(var_4a72c4c4, "classname"), 1, 0);
     }
     if (isdefined(var_24704a5b)) {
-        /#
-            assert(function_73e50955(var_24704a5b));
-        #/
+        assert(function_73e50955(var_24704a5b));
         trigs = arraycombine(trigs, getentarray(var_24704a5b, "classname"), 1, 0);
     }
     if (isdefined(var_fe6dcff2)) {
-        /#
-            assert(function_73e50955(var_fe6dcff2));
-        #/
+        assert(function_73e50955(var_fe6dcff2));
         trigs = arraycombine(trigs, getentarray(var_fe6dcff2, "classname"), 1, 0);
     }
     if (isdefined(var_d86b5589)) {
-        /#
-            assert(function_73e50955(var_d86b5589));
-        #/
+        assert(function_73e50955(var_d86b5589));
         trigs = arraycombine(trigs, getentarray(var_d86b5589, "classname"), 1, 0);
     }
     if (isdefined(var_b268db20)) {
-        /#
-            assert(function_73e50955(var_b268db20));
-        #/
+        assert(function_73e50955(var_b268db20));
         trigs = arraycombine(trigs, getentarray(var_b268db20, "classname"), 1, 0);
     }
     if (isdefined(var_ec8e0747)) {
-        /#
-            assert(function_73e50955(var_ec8e0747));
-        #/
+        assert(function_73e50955(var_ec8e0747));
         trigs = arraycombine(trigs, getentarray(var_ec8e0747, "classname"), 1, 0);
     }
     if (isdefined(var_c68b8cde)) {
-        /#
-            assert(function_73e50955(var_c68b8cde));
-        #/
+        assert(function_73e50955(var_c68b8cde));
         trigs = arraycombine(trigs, getentarray(var_c68b8cde, "classname"), 1, 0);
     }
     if (isdefined(var_d4a0cdb2)) {
-        /#
-            assert(function_73e50955(var_d4a0cdb2));
-        #/
+        assert(function_73e50955(var_d4a0cdb2));
         trigs = arraycombine(trigs, getentarray(var_d4a0cdb2, "classname"), 1, 0);
     }
     return trigs;
@@ -802,9 +768,7 @@ function wait_till(str_name, str_key, e_entity, b_assert) {
     }
     if (isdefined(str_name)) {
         triggers = getentarray(str_name, str_key);
-        /#
-            assert(!b_assert || triggers.size > 0, "<dev string:x222>" + str_name + "<dev string:x236>" + str_key);
-        #/
+        assert(!b_assert || triggers.size > 0, "<dev string:x222>" + str_name + "<dev string:x236>" + str_key);
         if (triggers.size > 0) {
             if (triggers.size == 1) {
                 trigger_hit = triggers[0];
@@ -835,13 +799,9 @@ function _trigger_wait(e_entity) {
     }
     /#
         if (is_look_trigger(self)) {
-            /#
-                assert(!isarray(e_entity), "<dev string:x23d>");
-            #/
+            assert(!isarray(e_entity), "<dev string:x23d>");
         } else if (self.classname === "<dev string:x268>") {
-            /#
-                assert(!isarray(e_entity), "<dev string:x277>");
-            #/
+            assert(!isarray(e_entity), "<dev string:x277>");
         }
     #/
     while (true) {
@@ -909,9 +869,7 @@ function use(str_name, str_key, ent, b_assert) {
         e_trig = getent(str_name, str_key);
         if (!isdefined(e_trig)) {
             if (b_assert) {
-                /#
-                    assertmsg("<dev string:x222>" + str_name + "<dev string:x236>" + str_key);
-                #/
+                assertmsg("<dev string:x222>" + str_name + "<dev string:x236>" + str_key);
             }
             return;
         }
@@ -1182,7 +1140,7 @@ function get_script_linkto_targets() {
 // Params 1, eflags: 0x0
 // Checksum 0x83762c3b, Offset: 0x44e8
 // Size: 0x64
-function function_62964ea9(trigger) {
+function delete_link_chain(trigger) {
     trigger waittill("trigger");
     targets = trigger get_script_linkto_targets();
     array::thread_all(targets, &delete_links_then_self);

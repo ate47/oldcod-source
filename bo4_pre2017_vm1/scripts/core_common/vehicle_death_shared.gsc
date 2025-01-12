@@ -392,9 +392,7 @@ function helicopter_crash_zone_accel(dir) {
         torque *= 0.3;
     }
     while (isdefined(self)) {
-        /#
-            assert(isdefined(self.crash_zone));
-        #/
+        assert(isdefined(self.crash_zone));
         dist = distance2d(self.origin, self.crash_zone.origin);
         if (dist < self.crash_zone.radius) {
             self setphysacceleration((0, 0, -400));
@@ -846,15 +844,9 @@ function deathrolloff() {
 // Checksum 0xf40e58ee, Offset: 0x3860
 // Size: 0xc6
 function loop_fx_on_vehicle_tag(effect, looptime, tag) {
-    /#
-        assert(isdefined(effect));
-    #/
-    /#
-        assert(isdefined(tag));
-    #/
-    /#
-        assert(isdefined(looptime));
-    #/
+    assert(isdefined(effect));
+    assert(isdefined(tag));
+    assert(isdefined(looptime));
     self endon(#"stop_looping_death_fx");
     while (isdefined(self)) {
         playfxontag(effect, deathfx_ent(), tag);

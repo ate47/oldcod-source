@@ -34,9 +34,7 @@ function __init__() {
 // Checksum 0x55718cb0, Offset: 0x2b0
 // Size: 0x1b0
 function register_info(type, name, version, priority, lerp_step_count, should_activate_per_player, lerp_thread, ref_count_lerp_thread) {
-    /#
-        assert(level.vsmgr_initializing, "<dev string:x28>");
-    #/
+    assert(level.vsmgr_initializing, "<dev string:x28>");
     lower_name = tolower(name);
     validate_info(type, lower_name, priority);
     add_sorted_name_key(type, lower_name);
@@ -365,9 +363,7 @@ function finalize_clientfields() {
 // Checksum 0x1602d109, Offset: 0x15b0
 // Size: 0x2a4
 function finalize_type_clientfields() {
-    /#
-        println("<dev string:x9d>" + self.type + "<dev string:xad>");
-    #/
+    println("<dev string:x9d>" + self.type + "<dev string:xad>");
     if (1 >= self.info.size) {
         return;
     }
@@ -379,9 +375,7 @@ function finalize_type_clientfields() {
         if (self.info[self.sorted_name_keys[i]].lerp_bit_count > self.cf_lerp_bit_count) {
             self.cf_lerp_bit_count = self.info[self.sorted_name_keys[i]].lerp_bit_count;
         }
-        /#
-            println("<dev string:xc5>" + self.info[self.sorted_name_keys[i]].name + "<dev string:xd0>" + self.info[self.sorted_name_keys[i]].version + "<dev string:xdc>" + self.info[self.sorted_name_keys[i]].lerp_step_count + "<dev string:xf0>");
-        #/
+        println("<dev string:xc5>" + self.info[self.sorted_name_keys[i]].name + "<dev string:xd0>" + self.info[self.sorted_name_keys[i]].version + "<dev string:xdc>" + self.info[self.sorted_name_keys[i]].lerp_step_count + "<dev string:xf0>");
     }
     clientfield::register("toplayer", self.cf_slot_name, self.highest_version, self.cf_slot_bit_count, "int");
     if (1 < self.cf_lerp_bit_count) {
@@ -400,17 +394,11 @@ function validate_info(type, name, priority) {
             break;
         }
     }
-    /#
-        assert(i < keys.size, "<dev string:xf1>" + type + "<dev string:x10a>");
-    #/
+    assert(i < keys.size, "<dev string:xf1>" + type + "<dev string:x10a>");
     keys = getarraykeys(level.vsmgr[type].info);
     for (i = 0; i < keys.size; i++) {
-        /#
-            assert(level.vsmgr[type].info[keys[i]].name != name, "<dev string:x116>" + type + "<dev string:x131>" + name + "<dev string:x13b>");
-        #/
-        /#
-            assert(level.vsmgr[type].info[keys[i]].priority != priority, "<dev string:x116>" + type + "<dev string:x15c>" + priority + "<dev string:x16a>" + name + "<dev string:x181>" + level.vsmgr[type].info[keys[i]].name + "<dev string:x1af>");
-        #/
+        assert(level.vsmgr[type].info[keys[i]].name != name, "<dev string:x116>" + type + "<dev string:x131>" + name + "<dev string:x13b>");
+        assert(level.vsmgr[type].info[keys[i]].priority != priority, "<dev string:x116>" + type + "<dev string:x15c>" + priority + "<dev string:x16a>" + name + "<dev string:x181>" + level.vsmgr[type].info[keys[i]].name + "<dev string:x1af>");
     }
 }
 

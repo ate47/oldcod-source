@@ -23,12 +23,8 @@ function init() {
     }
     uppers = getentarray("mp_stronghold_security_door_upper", "targetname");
     killtriggers = getentarray("mp_stronghold_killbrush", "targetname");
-    /#
-        assert(uppers.size == doors.size);
-    #/
-    /#
-        assert(killtriggers.size == killtriggers.size);
-    #/
+    assert(uppers.size == doors.size);
+    assert(killtriggers.size == killtriggers.size);
     foreach (door in doors) {
         upper = get_closest(door.origin, uppers);
         killtrigger = get_closest(door.origin, killtriggers);
@@ -44,9 +40,7 @@ function init() {
 function setup_doors(door, upper, trigger) {
     door.upper = upper;
     door.kill_trigger = trigger;
-    /#
-        assert(isdefined(door.kill_trigger));
-    #/
+    assert(isdefined(door.kill_trigger));
     door.kill_trigger enablelinkto();
     door.kill_trigger linkto(door);
     door.opened = 1;

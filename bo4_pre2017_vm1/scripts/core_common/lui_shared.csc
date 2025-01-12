@@ -49,9 +49,7 @@ function function_ba479141() {
 // Checksum 0xbc06b39c, Offset: 0x468
 // Size: 0x5e
 function initmenudata(localclientnum) {
-    /#
-        assert(!isdefined(level.client_menus[localclientnum]));
-    #/
+    assert(!isdefined(level.client_menus[localclientnum]));
     level.client_menus[localclientnum] = associativearray();
 }
 
@@ -60,9 +58,7 @@ function initmenudata(localclientnum) {
 // Checksum 0xfab508f0, Offset: 0x4d0
 // Size: 0x1ae
 function createextracamxcamdata(menu_name, localclientnum, extracam_index, target_name, xcam, sub_xcam, xcam_frame) {
-    /#
-        assert(isdefined(level.client_menus[localclientnum][menu_name]));
-    #/
+    assert(isdefined(level.client_menus[localclientnum][menu_name]));
     menu_data = level.client_menus[localclientnum][menu_name];
     extracam_data = spawnstruct();
     extracam_data.extracam_index = extracam_index;
@@ -83,9 +79,7 @@ function createextracamxcamdata(menu_name, localclientnum, extracam_index, targe
 // Checksum 0xab00a44b, Offset: 0x688
 // Size: 0x156
 function createcustomextracamxcamdata(menu_name, localclientnum, extracam_index, camera_function) {
-    /#
-        assert(isdefined(level.client_menus[localclientnum][menu_name]));
-    #/
+    assert(isdefined(level.client_menus[localclientnum][menu_name]));
     menu_data = level.client_menus[localclientnum][menu_name];
     extracam_data = spawnstruct();
     extracam_data.extracam_index = extracam_index;
@@ -103,9 +97,7 @@ function createcustomextracamxcamdata(menu_name, localclientnum, extracam_index,
 // Checksum 0xdd1943b8, Offset: 0x7e8
 // Size: 0x226
 function addmenuexploders(menu_name, localclientnum, exploder) {
-    /#
-        assert(isdefined(level.client_menus[localclientnum][menu_name]));
-    #/
+    assert(isdefined(level.client_menus[localclientnum][menu_name]));
     menu_data = level.client_menus[localclientnum][menu_name];
     if (isarray(exploder)) {
         foreach (expl in exploder) {
@@ -131,13 +123,9 @@ function addmenuexploders(menu_name, localclientnum, exploder) {
 // Checksum 0xbfec72a5, Offset: 0xa18
 // Size: 0x154
 function linktocustomcharacter(menu_name, localclientnum, target_name) {
-    /#
-        assert(isdefined(level.client_menus[localclientnum][menu_name]));
-    #/
+    assert(isdefined(level.client_menus[localclientnum][menu_name]));
     menu_data = level.client_menus[localclientnum][menu_name];
-    /#
-        assert(!isdefined(menu_data.custom_character));
-    #/
+    assert(!isdefined(menu_data.custom_character));
     model = getent(localclientnum, target_name, "targetname");
     if (!isdefined(model)) {
         model = util::spawn_model(localclientnum, "tag_origin");
@@ -176,9 +164,7 @@ function createcameramenu(menu_name, localclientnum, target_name, xcam, sub_xcam
     if (!isdefined(lerp_time)) {
         lerp_time = 0;
     }
-    /#
-        assert(!isdefined(level.client_menus[localclientnum][menu_name]));
-    #/
+    assert(!isdefined(level.client_menus[localclientnum][menu_name]));
     level.client_menus[localclientnum][menu_name] = spawnstruct();
     menu_data = level.client_menus[localclientnum][menu_name];
     menu_data.target_name = target_name;
@@ -202,9 +188,7 @@ function createcustomcameramenu(menu_name, localclientnum, camera_function, has_
     if (!isdefined(var_dd603074)) {
         var_dd603074 = undefined;
     }
-    /#
-        assert(!isdefined(level.client_menus[localclientnum][menu_name]));
-    #/
+    assert(!isdefined(level.client_menus[localclientnum][menu_name]));
     level.client_menus[localclientnum][menu_name] = spawnstruct();
     menu_data = level.client_menus[localclientnum][menu_name];
     menu_data.camera_function = camera_function;
@@ -350,9 +334,7 @@ function client_menus(localclientnum) {
                     menu_index--;
                 }
             } else {
-                /#
-                    assert(menu_index == 0);
-                #/
+                assert(menu_index == 0);
                 popped = array::pop_front(clientmenustack, 0);
             }
             setup_menu(localclientnum, clientmenustack[0], popped);
@@ -474,9 +456,7 @@ function private _screen_fade(n_time, n_target_alpha, n_start_alpha, v_color, b_
             v_color = (1, 1, 1);
             break;
         default:
-            /#
-                assertmsg("<dev string:x28>");
-            #/
+            assertmsg("<dev string:x28>");
             break;
         }
     }

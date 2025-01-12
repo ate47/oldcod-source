@@ -233,9 +233,7 @@ function finalize_clientfields() {
 // Checksum 0x8b1d2004, Offset: 0x1388
 // Size: 0x2c4
 function finalize_type_clientfields() {
-    /#
-        println("<dev string:x28>" + self.type + "<dev string:x38>");
-    #/
+    println("<dev string:x28>" + self.type + "<dev string:x38>");
     if (1 >= self.info.size) {
         return;
     }
@@ -247,9 +245,7 @@ function finalize_type_clientfields() {
         if (self.info[self.sorted_name_keys[i]].lerp_bit_count > self.cf_lerp_bit_count) {
             self.cf_lerp_bit_count = self.info[self.sorted_name_keys[i]].lerp_bit_count;
         }
-        /#
-            println("<dev string:x50>" + self.info[self.sorted_name_keys[i]].name + "<dev string:x5b>" + self.info[self.sorted_name_keys[i]].version + "<dev string:x67>" + self.info[self.sorted_name_keys[i]].lerp_step_count + "<dev string:x7b>");
-        #/
+        println("<dev string:x50>" + self.info[self.sorted_name_keys[i]].name + "<dev string:x5b>" + self.info[self.sorted_name_keys[i]].version + "<dev string:x67>" + self.info[self.sorted_name_keys[i]].lerp_step_count + "<dev string:x7b>");
     }
     clientfield::register("toplayer", self.cf_slot_name, self.highest_version, self.cf_slot_bit_count, "int", self.cf_slot_cb, 0, 1);
     if (1 < self.cf_lerp_bit_count) {
@@ -268,9 +264,7 @@ function validate_info(type, name, version) {
             break;
         }
     }
-    /#
-        assert(i < keys.size, "<dev string:x7c>" + type + "<dev string:x95>");
-    #/
+    assert(i < keys.size, "<dev string:x7c>" + type + "<dev string:x95>");
     if (version > level.vsmgr[type].server_version) {
         return false;
     }
@@ -313,9 +307,7 @@ function add_info(type, name, version, lerp_step_count) {
 // Checksum 0x168b72a2, Offset: 0x1960
 // Size: 0x16c
 function register_info(type, name, version, lerp_step_count) {
-    /#
-        assert(level.vsmgr_initializing, "<dev string:xa1>");
-    #/
+    assert(level.vsmgr_initializing, "<dev string:xa1>");
     lower_name = tolower(name);
     if (!validate_info(type, lower_name, version)) {
         return false;
@@ -820,7 +812,7 @@ function function_8dbebd32(localclientnum) {
 // Checksum 0xbcef0d8c, Offset: 0x3a98
 // Size: 0xb4
 function function_73b98351() {
-    level endon(#"hash_3b2c7a6f");
+    level endon(#"hmo");
     level thread function_3db57c32();
     while (true) {
         level waittill("demo_jump", "demo_player_switch");
@@ -852,7 +844,7 @@ function function_3db57c32() {
 // Checksum 0x4fe43156, Offset: 0x3bc8
 // Size: 0x25a
 function function_f5fdcb4d() {
-    level endon(#"hash_3b2c7a6f");
+    level endon(#"hmo");
     level thread function_73b98351();
     var_9f36107d = [];
     var_9f36107d[0] = 0;
@@ -896,7 +888,7 @@ function function_f5fdcb4d() {
 // Checksum 0x4267ac84, Offset: 0x3e30
 // Size: 0x94
 function function_e724831f() {
-    level endon(#"hash_3b2c7a6f");
+    level endon(#"hmo");
     while (true) {
         level waittill("respawn");
         players = getlocalplayers();

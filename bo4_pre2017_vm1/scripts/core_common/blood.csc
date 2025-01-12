@@ -125,9 +125,7 @@ function private function_704ec8bf(localclientnum, playerhealth) {
         if (isdefined(level.var_3fd73fb2) && level.var_3fd73fb2) {
             var_f3107012 = 0.96;
         }
-        /#
-            assert(level.var_f04f05c8 > var_f3107012);
-        #/
+        assert(level.var_f04f05c8 > var_f3107012);
         var_44739e87 = playerhealth - var_f3107012;
         if (var_44739e87 < 0) {
             var_44739e87 = 0;
@@ -331,9 +329,7 @@ function private function_db927f4(localclientnum) {
     self endon(#"disconnect");
     self endon(#"death");
     self endon(#"killbloodoverlay");
-    /#
-        assert(level.new_health_model == 1);
-    #/
+    assert(level.new_health_model == 1);
     basehealth = 100;
     playerhealth = renderhealthoverlayhealth(localclientnum, basehealth);
     while (true) {

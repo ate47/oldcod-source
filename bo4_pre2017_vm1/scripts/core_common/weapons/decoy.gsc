@@ -346,9 +346,7 @@ function function_b3d79ba3() {
         type = "semiauto";
     }
     randomval = randomintrange(0, level.var_69dcf9aa[type].size);
-    /#
-        println("<dev string:x28>" + type + "<dev string:x35>" + level.var_69dcf9aa[type][randomval].name);
-    #/
+    println("<dev string:x28>" + type + "<dev string:x35>" + level.var_69dcf9aa[type][randomval].name);
     return level.var_69dcf9aa[type][randomval];
 }
 

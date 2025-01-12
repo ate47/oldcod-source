@@ -64,25 +64,15 @@ function skeletonspawnsetup() {
 // Checksum 0xd05ff092, Offset: 0x668
 // Size: 0x20c
 function private function_9aa7ac57() {
-    /#
-        assert(isscriptfunctionptr(&function_d89f6c60));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("skeletonTargetService", &function_d89f6c60);
-    /#
-        assert(isscriptfunctionptr(&function_4db74dea));
-    #/
+    assert(isscriptfunctionptr(&skeletonTargetService));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("skeletonTargetService", &skeletonTargetService);
+    assert(isscriptfunctionptr(&function_4db74dea));
     behaviortreenetworkutility::registerbehaviortreescriptapi("skeletonShouldMelee", &function_4db74dea);
-    /#
-        assert(isscriptfunctionptr(&function_72df9548));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("skeletonGibLegsCondition", &function_72df9548);
-    /#
-        assert(isscriptfunctionptr(&function_46ef8559));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("isSkeletonWalking", &function_46ef8559);
-    /#
-        assert(isscriptfunctionptr(&skeletondeathaction));
-    #/
+    assert(isscriptfunctionptr(&skeletonGibLegsCondition));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("skeletonGibLegsCondition", &skeletonGibLegsCondition);
+    assert(isscriptfunctionptr(&isSkeletonWalking));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("isSkeletonWalking", &isSkeletonWalking);
+    assert(isscriptfunctionptr(&skeletondeathaction));
     behaviortreenetworkutility::registerbehaviortreescriptapi("skeletonDeathAction", &skeletondeathaction);
     animationstatenetwork::registernotetrackhandlerfunction("contact", &function_53729d53);
 }
@@ -109,7 +99,7 @@ function private archetypeskeletononanimscriptedcallback(entity) {
 // Params 1, eflags: 0x0
 // Checksum 0x26d55bbb, Offset: 0x900
 // Size: 0x80
-function function_46ef8559(behaviortreeentity) {
+function isSkeletonWalking(behaviortreeentity) {
     if (!isdefined(behaviortreeentity.zombie_move_speed)) {
         return true;
     }
@@ -120,7 +110,7 @@ function function_46ef8559(behaviortreeentity) {
 // Params 1, eflags: 0x0
 // Checksum 0x932f594, Offset: 0x988
 // Size: 0x42
-function function_72df9548(behaviortreeentity) {
+function skeletonGibLegsCondition(behaviortreeentity) {
     return gibserverutils::isgibbed(behaviortreeentity, 256) || gibserverutils::isgibbed(behaviortreeentity, 128);
 }
 
@@ -287,7 +277,7 @@ function function_989e1981(goal) {
 // Params 1, eflags: 0x0
 // Checksum 0x8102ef9f, Offset: 0x1170
 // Size: 0x3c0
-function function_d89f6c60(behaviortreeentity) {
+function skeletonTargetService(behaviortreeentity) {
     self endon(#"death");
     if (isdefined(behaviortreeentity.ignoreall) && behaviortreeentity.ignoreall) {
         return 0;

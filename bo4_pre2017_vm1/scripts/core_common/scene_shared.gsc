@@ -418,21 +418,15 @@ function function_bf34d1f2() {
         }
         if (isdefined(trig.scriptgroup_initscenes)) {
             a_instances = struct::get_array(trig.scriptgroup_initscenes, "scriptgroup_initscenes");
-            /#
-                assert(a_instances.size, "<dev string:x28>" + str_trig_name + "<dev string:x31>");
-            #/
+            assert(a_instances.size, "<dev string:x28>" + str_trig_name + "<dev string:x31>");
         }
         if (isdefined(trig.scriptgroup_playscenes)) {
             a_instances = struct::get_array(trig.scriptgroup_playscenes, "scriptgroup_playscenes");
-            /#
-                assert(a_instances.size, "<dev string:x28>" + str_trig_name + "<dev string:x7d>");
-            #/
+            assert(a_instances.size, "<dev string:x28>" + str_trig_name + "<dev string:x7d>");
         }
         if (isdefined(trig.scriptgroup_stopscenes)) {
             a_instances = struct::get_array(trig.scriptgroup_stopscenes, "scriptgroup_stopscenes");
-            /#
-                assert(a_instances.size, "<dev string:x28>" + str_trig_name + "<dev string:xc9>");
-            #/
+            assert(a_instances.size, "<dev string:x28>" + str_trig_name + "<dev string:xc9>");
         }
     }
 }
@@ -562,11 +556,7 @@ function add_scene_func(str_scenedef, func, str_state, ...) {
     if (!isdefined(str_state)) {
         str_state = "play";
     }
-    /#
-        /#
-            assert(isdefined(getscriptbundle(str_scenedef)), "<dev string:x115>" + str_scenedef + "<dev string:x140>");
-        #/
-    #/
+    assert(isdefined(getscriptbundle(str_scenedef)), "<dev string:x115>" + str_scenedef + "<dev string:x140>");
     if (!isdefined(level.scene_funcs)) {
         level.scene_funcs = [];
     }
@@ -587,11 +577,7 @@ function remove_scene_func(str_scenedef, func, str_state) {
     if (!isdefined(str_state)) {
         str_state = "play";
     }
-    /#
-        /#
-            assert(isdefined(getscriptbundle(str_scenedef)), "<dev string:x156>" + str_scenedef + "<dev string:x140>");
-        #/
-    #/
+    assert(isdefined(getscriptbundle(str_scenedef)), "<dev string:x156>" + str_scenedef + "<dev string:x140>");
     if (!isdefined(level.scene_funcs)) {
         level.scene_funcs = [];
     }
@@ -610,9 +596,7 @@ function remove_scene_func(str_scenedef, func, str_state) {
 // Size: 0x8a
 function get_scenedef(str_scenedef) {
     s_scriptbundle = getscriptbundle(str_scenedef);
-    /#
-        assert(isdefined(s_scriptbundle) && s_scriptbundle.name !== "<dev string:x184>", str_scenedef + "<dev string:x198>");
-    #/
+    assert(isdefined(s_scriptbundle) && s_scriptbundle.name !== "<dev string:x184>", str_scenedef + "<dev string:x198>");
     return fixup_scenedef(s_scriptbundle);
 }
 
@@ -645,9 +629,7 @@ function get_scenedefs(str_type) {
 // Size: 0x1a8
 function spawn(arg1, arg2, arg3, arg4, b_test_run) {
     str_scenedef = arg1;
-    /#
-        assert(isdefined(str_scenedef), "<dev string:x1b6>");
-    #/
+    assert(isdefined(str_scenedef), "<dev string:x1b6>");
     if (isvec(arg2)) {
         v_origin = arg2;
         v_angles = arg3;
@@ -694,17 +676,12 @@ function _init_instance(str_scenedef, a_ents, b_test_run) {
     #/
     s_bundle = get_scenedef(str_scenedef);
     /#
-        /#
-            assert(isdefined(str_scenedef), "<dev string:x1e1>" + (isdefined(self.origin) ? self.origin : "<dev string:x1ec>") + "<dev string:x1f2>");
-        #/
-        /#
-            assert(isdefined(s_bundle), "<dev string:x1e1>" + (isdefined(self.origin) ? self.origin : "<dev string:x1ec>") + "<dev string:x20e>" + str_scenedef + "<dev string:x140>");
-        #/
+        assert(isdefined(str_scenedef), "<dev string:x1e1>" + (isdefined(self.origin) ? self.origin : "<dev string:x1ec>") + "<dev string:x1f2>");
+        assert(isdefined(s_bundle), "<dev string:x1e1>" + (isdefined(self.origin) ? self.origin : "<dev string:x1ec>") + "<dev string:x20e>" + str_scenedef + "<dev string:x140>");
     #/
     o_scene = get_active_scene(str_scenedef);
     if (!isdefined(o_scene)) {
-        [[ new cscene ]]->__constructor();
-        o_scene = <error pop>;
+        o_scene = new cscene();
         [[ o_scene ]]->init(s_bundle.name, s_bundle, self, a_ents, b_test_run);
     }
     return o_scene;
@@ -1028,11 +1005,7 @@ function _get_scene_instances(str_value, str_key, str_scenedef, b_include_inacti
     a_instances = [];
     if (isdefined(str_value)) {
         a_instances = struct::get_array(str_value, str_key);
-        /#
-            /#
-                assert(a_instances.size, "<dev string:x257>" + str_key + "<dev string:x275>" + str_value + "<dev string:x279>");
-            #/
-        #/
+        assert(a_instances.size, "<dev string:x257>" + str_key + "<dev string:x275>" + str_value + "<dev string:x279>");
     }
     if (isdefined(str_scenedef)) {
         a_instances_by_scenedef = struct::get_array(str_scenedef, "scriptbundlename");
@@ -1094,11 +1067,7 @@ function stop(arg1, arg2, arg3) {
             }
             if (isdefined(str_key)) {
                 a_instances = struct::get_array(str_value, str_key);
-                /#
-                    /#
-                        assert(a_instances.size, "<dev string:x257>" + str_key + "<dev string:x275>" + str_value + "<dev string:x279>");
-                    #/
-                #/
+                assert(a_instances.size, "<dev string:x257>" + str_key + "<dev string:x275>" + str_value + "<dev string:x279>");
                 str_value = undefined;
             } else {
                 a_instances = struct::get_array(str_value, "targetname");
@@ -1457,9 +1426,7 @@ function get_scene_shot(str_scene) {
             return o_scene._str_shot;
         }
     }
-    /#
-        assert("<dev string:x2bf>" + str_scene + "<dev string:x2c7>");
-    #/
+    assert("<dev string:x2bf>" + str_scene + "<dev string:x2c7>");
 }
 
 // Namespace scene/scene_shared
@@ -1688,7 +1655,7 @@ function function_557b98ac() {
 // Checksum 0x9101a8c9, Offset: 0x6c80
 // Size: 0xf8
 function clear_scene_skipping_ui() {
-    level endon(#"hash_1c353a4f");
+    level endon(#"scene_sequence_started");
     if (isdefined(self.scene_skip_timer)) {
         self.scene_skip_timer = undefined;
     }
@@ -1720,7 +1687,7 @@ function function_b76e09b() {
 // Size: 0x4c
 function function_e79b5797() {
     self endon(#"disconnect");
-    level endon(#"hash_14c06c0c");
+    level endon(#"scene_sequence_ended");
     self waittill("scene_being_skipped");
     level.sceneskippedcount++;
     clear_scene_skipping_ui();
@@ -1732,7 +1699,7 @@ function function_e79b5797() {
 // Size: 0x5d4
 function function_b5cb230() {
     self endon(#"disconnect");
-    level endon(#"hash_14c06c0c");
+    level endon(#"scene_sequence_ended");
     b_skip_scene = 0;
     clear_scene_skipping_ui();
     waitframe(1);
@@ -1797,7 +1764,7 @@ function function_b5cb230() {
     if (b_skip_scene) {
         self playsound("uin_igc_skip");
         self notify(#"scene_being_skipped");
-        level notify(#"hash_cdfdddaf");
+        level notify(#"scene_skip_sequence_started");
         skip_scene(level.var_e0ec1056, 0, 1);
     }
 }
@@ -1949,9 +1916,7 @@ function get_existing_ent(str_name, b_spawner_only, b_nodes_and_structs) {
         if (e_array.size == 0) {
             e_array = getspawnerarray(str_name, "targetname");
         }
-        /#
-            assert(e_array.size <= 1, "<dev string:x34d>");
-        #/
+        assert(e_array.size <= 1, "<dev string:x34d>");
         foreach (ent in e_array) {
             if (!isdefined(ent.isdying)) {
                 e = ent;
@@ -2021,9 +1986,7 @@ function _get_existing_ent(val, key, b_ignore_spawners) {
     }
     /#
         a_ents = getentarray(val, key, b_ignore_spawners);
-        /#
-            assert(a_ents.size <= 1, "<dev string:x366>");
-        #/
+        assert(a_ents.size <= 1, "<dev string:x366>");
     #/
     e = getent(val, key, b_ignore_spawners);
     return e;

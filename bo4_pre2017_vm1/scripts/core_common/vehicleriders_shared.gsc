@@ -206,9 +206,7 @@ function function_6cc185fe(vh, str_archetype) {
     } else if (str_archetype == "warlord") {
         bundle = vh get_warlord_bundle();
     } else {
-        /#
-            assert(str_archetype == "<dev string:x28>");
-        #/
+        assert(str_archetype == "<dev string:x28>");
         bundle = vh get_human_bundle();
     }
     if (isdefined(bundle) && isdefined(bundle.objects)) {
@@ -229,9 +227,7 @@ function get_in(vh, str_pos, var_b98c3119) {
     vh endon(#"death");
     if (!isdefined(str_pos)) {
         str_pos = vh function_5a2fe36b(self);
-        /#
-            assert(isdefined(str_pos), "<dev string:x2e>");
-        #/
+        assert(isdefined(str_pos), "<dev string:x2e>");
     }
     function_cd99e01f(vh, str_pos);
     if (!var_b98c3119 && self flagsys::get("in_vehicle")) {
@@ -253,9 +249,7 @@ function get_in(vh, str_pos, var_b98c3119) {
     if (isdefined(self.var_1b425382) && isdefined(self.var_1b425382.rideanim)) {
         self thread animation::play(self.var_1b425382.rideanim, self.vehicle, self.var_1b425382.aligntag, 1, 0.2, 0.2, 0, 0, 0, 0);
     } else if (!isdefined(level.var_14c128[str_pos])) {
-        /#
-            assert("<dev string:x55>" + str_pos);
-        #/
+        assert("<dev string:x55>" + str_pos);
     } else if (isdefined(self.var_1b425382)) {
         v_tag_pos = vh gettagorigin(self.var_1b425382.aligntag);
         v_tag_ang = vh gettagangles(self.var_1b425382.aligntag);
@@ -263,9 +257,7 @@ function get_in(vh, str_pos, var_b98c3119) {
             self forceteleport(v_tag_pos, v_tag_ang);
         }
     } else {
-        /#
-            errormsg("<dev string:x80>");
-        #/
+        errormsg("<dev string:x80>");
     }
     if (isactor(self)) {
         self pathmode("dont move");
@@ -378,12 +370,8 @@ function get_out(str_mode) {
     ai = self;
     self endon(#"death");
     self notify(#"exiting_vehicle");
-    /#
-        assert(isalive(self), "<dev string:x93>");
-    #/
-    /#
-        assert(isdefined(self.vehicle), "<dev string:xb4>");
-    #/
+    assert(isalive(self), "<dev string:x93>");
+    assert(isdefined(self.vehicle), "<dev string:xb4>");
     if (self.vehicle.vehicleclass === "helicopter" || self.vehicle.vehicleclass === "plane") {
         if (!isdefined(str_mode)) {
             str_mode = "variable";
@@ -408,9 +396,7 @@ function get_out(str_mode) {
         exit_variable();
         break;
     default:
-        /#
-            assertmsg("<dev string:xca>");
-        #/
+        assertmsg("<dev string:xca>");
         break;
     }
     if (isactor(self)) {
@@ -464,9 +450,7 @@ function unload(str_group, str_mode, var_86f1d254, var_bfe5d67f, var_2df0ea6c) {
         var_2df0ea6c = 1;
     }
     self notify(#"unload", str_group);
-    /#
-        assert(isdefined(level.var_ca190c08[str_group]), str_group + "<dev string:xeb>");
-    #/
+    assert(isdefined(level.var_ca190c08[str_group]), str_group + "<dev string:xeb>");
     str_group = level.var_ca190c08[str_group];
     var_3346855c = [];
     foreach (ai_rider in self.riders) {
@@ -544,9 +528,7 @@ function exit_ground() {
     if (!isdefined(self.var_1b425382.exitgrounddeathanim)) {
         self thread ragdoll_dead_exit_rider();
     }
-    /#
-        assert(isstring(self.var_1b425382.exitgroundanim), "<dev string:x109>" + self.var_1b425382.position + "<dev string:x121>");
-    #/
+    assert(isstring(self.var_1b425382.exitgroundanim), "<dev string:x109>" + self.var_1b425382.position + "<dev string:x121>");
     if (isstring(self.var_1b425382.exitgroundanim)) {
         animation::play(self.var_1b425382.exitgroundanim, self.vehicle, self.var_1b425382.aligntag);
     }
@@ -558,9 +540,7 @@ function exit_ground() {
 // Size: 0xb4
 function function_63b86466() {
     self animation::set_death_anim(self.var_1b425382.var_24c6bf4e);
-    /#
-        assert(isdefined(self.var_1b425382.var_60cf8622), "<dev string:x109>" + self.var_1b425382.position + "<dev string:x121>");
-    #/
+    assert(isdefined(self.var_1b425382.var_60cf8622), "<dev string:x109>" + self.var_1b425382.position + "<dev string:x121>");
     animation::play(self.var_1b425382.var_60cf8622, self.vehicle, self.var_1b425382.aligntag);
 }
 
@@ -616,9 +596,7 @@ function exit_variable() {
     self notify(#"exiting_vehicle");
     self thread handle_falling_death();
     self animation::set_death_anim(self.var_1b425382.exithighdeathanim);
-    /#
-        assert(isdefined(self.var_1b425382.exithighanim), "<dev string:x109>" + self.var_1b425382.position + "<dev string:x121>");
-    #/
+    assert(isdefined(self.var_1b425382.exithighanim), "<dev string:x109>" + self.var_1b425382.position + "<dev string:x121>");
     animation::play(self.var_1b425382.exithighanim, self.vehicle, self.var_1b425382.aligntag, 1, 0, 0);
     self animation::set_death_anim(self.var_1b425382.exithighloopdeathanim);
     n_cur_height = get_height(self.vehicle);
@@ -691,9 +669,7 @@ function get_human_bundle(assertifneeded) {
         assertifneeded = 1;
     }
     if (assertifneeded) {
-        /#
-            assert(isdefined(self.vehicleridersbundle), "<dev string:x156>");
-        #/
+        assert(isdefined(self.vehicleridersbundle), "<dev string:x156>");
     }
     return struct::get_script_bundle("vehicleriders", self.vehicleridersbundle);
 }
@@ -707,9 +683,7 @@ function get_robot_bundle(assertifneeded) {
         assertifneeded = 1;
     }
     if (assertifneeded) {
-        /#
-            assert(isdefined(self.vehicleridersrobotbundle), "<dev string:x1a7>");
-        #/
+        assert(isdefined(self.vehicleridersrobotbundle), "<dev string:x1a7>");
     }
     return struct::get_script_bundle("vehicleriders", self.vehicleridersrobotbundle);
 }
@@ -723,9 +697,7 @@ function get_warlord_bundle(assertifneeded) {
         assertifneeded = 1;
     }
     if (assertifneeded) {
-        /#
-            assert(isdefined(self.vehicleriderswarlordbundle), "<dev string:x1fe>");
-        #/
+        assert(isdefined(self.vehicleriderswarlordbundle), "<dev string:x1fe>");
     }
     return struct::get_script_bundle("vehicleriders", self.vehicleriderswarlordbundle);
 }
@@ -795,12 +767,8 @@ function private enable_turrets() {
 // Checksum 0x2ba377f7, Offset: 0x3468
 // Size: 0x204
 function private function_ce794bff(vh, str_pos) {
-    /#
-        assert(isdefined(self.vehicle) || isdefined(vh), "<dev string:x257>");
-    #/
-    /#
-        assert(isdefined(self.var_1b425382) || isdefined(str_pos), "<dev string:x277>");
-    #/
+    assert(isdefined(self.vehicle) || isdefined(vh), "<dev string:x257>");
+    assert(isdefined(self.var_1b425382) || isdefined(str_pos), "<dev string:x277>");
     if (isdefined(vh)) {
         self.vehicle = vh;
     }
@@ -809,14 +777,10 @@ function private function_ce794bff(vh, str_pos) {
     }
     self.var_1b425382 = self function_eedc9d25(self.vehicle, str_pos);
     if (isdefined(self.var_1b425382.rideanim) && !isanimlooping(self.var_1b425382.rideanim)) {
-        /#
-            assertmsg("<dev string:x298>" + str_pos + "<dev string:x2bb>" + self.vehicle.vehicletype + "<dev string:x2c9>");
-        #/
+        assertmsg("<dev string:x298>" + str_pos + "<dev string:x2bb>" + self.vehicle.vehicletype + "<dev string:x2c9>");
     }
     if (isdefined(self.var_1b425382.aligntag) && !isdefined(self.vehicle gettagorigin(self.var_1b425382.aligntag))) {
-        /#
-            assertmsg("<dev string:x298>" + str_pos + "<dev string:x2bb>" + self.vehicle.vehicletype + "<dev string:x2e2>" + self.var_1b425382.aligntag + "<dev string:x2f5>");
-        #/
+        assertmsg("<dev string:x298>" + str_pos + "<dev string:x2bb>" + self.vehicle.vehicletype + "<dev string:x2e2>" + self.var_1b425382.aligntag + "<dev string:x2f5>");
     }
 }
 

@@ -246,9 +246,7 @@ function stingerirtloop(weapon) {
             if (timepassed < locklength) {
                 continue;
             }
-            /#
-                assert(isdefined(self.stingertarget));
-            #/
+            assert(isdefined(self.stingertarget));
             self notify(#"stop_lockon_sound");
             self.stingerlockfinalized = 1;
             self weaponlockfinalize(self.stingertarget, 0, self.stingersubtarget);
@@ -676,13 +674,11 @@ function initlockfield(target) {
 // Checksum 0x5fe36986, Offset: 0x27a8
 // Size: 0x118
 function lockingon(target, lock) {
-    /#
-        assert(isdefined(target.locking_on));
-    #/
+    assert(isdefined(target.locking_on));
     clientnum = self getentitynumber();
     if (lock) {
         if ((target.locking_on & 1 << clientnum) == 0) {
-            target notify(#"hash_b081980b");
+            target notify(#"locking on");
             target.locking_on |= 1 << clientnum;
             self thread watchclearlockingon(target, clientnum);
         }
@@ -708,9 +704,7 @@ function watchclearlockingon(target, clientnum) {
 // Checksum 0x8d65de0d, Offset: 0x2940
 // Size: 0x108
 function lockedon(target, lock) {
-    /#
-        assert(isdefined(target.locked_on));
-    #/
+    assert(isdefined(target.locked_on));
     clientnum = self getentitynumber();
     if (lock) {
         if ((target.locked_on & 1 << clientnum) == 0) {
@@ -728,9 +722,7 @@ function lockedon(target, lock) {
 // Checksum 0x8be8fc35, Offset: 0x2a50
 // Size: 0xf8
 function targetinghacking(target, lock) {
-    /#
-        assert(isdefined(target.locking_on_hacking));
-    #/
+    assert(isdefined(target.locking_on_hacking));
     clientnum = self getentitynumber();
     if (lock) {
         target notify(#"hash_e1494b46");
@@ -978,9 +970,7 @@ function _incomingmissiletracker(missile, attacker) {
     if (isdefined(attacker)) {
         attacker lockedon(self, 0);
     }
-    /#
-        assert(self.incoming_missile >= 0);
-    #/
+    assert(self.incoming_missile >= 0);
 }
 
 // Namespace heatseekingmissile/heatseekingmissile

@@ -61,9 +61,7 @@ function private on_entity_shutdown(localclientnum) {
 // Checksum 0xa796d4dd, Offset: 0x5e8
 // Size: 0x5ca
 function buildandvalidatefacialanimationlist(localclientnum) {
-    /#
-        assert(!isdefined(level.__facialanimationslist));
-    #/
+    assert(!isdefined(level.__facialanimationslist));
     level.__facialanimationslist = [];
     level.__facialanimationslist["human"] = [];
     level.__facialanimationslist["human"]["combat"] = array("ai_face_male_generic_idle_1", "ai_face_male_generic_idle_2", "ai_face_male_generic_idle_3");
@@ -89,9 +87,7 @@ function buildandvalidatefacialanimationlist(localclientnum) {
         array::add(deathanims, animation);
     }
     foreach (deathanim in deathanims) {
-        /#
-            assert(!isanimlooping(localclientnum, deathanim), "<dev string:x28>" + deathanim + "<dev string:x4e>");
-        #/
+        assert(!isanimlooping(localclientnum, deathanim), "<dev string:x28>" + deathanim + "<dev string:x4e>");
     }
 }
 
@@ -126,9 +122,7 @@ function private getfacialanimoverride(localclientnum) {
 // Checksum 0xcf15bdea, Offset: 0xd58
 // Size: 0x62c
 function private secondaryfacialanimationthink(localclientnum) {
-    /#
-        assert(self.archetype == "<dev string:x89>" || isdefined(self.archetype) && self.archetype == "<dev string:x8f>");
-    #/
+    assert(self.archetype == "<dev string:x89>" || isdefined(self.archetype) && self.archetype == "<dev string:x8f>");
     self endon(#"death");
     self endon(#"stopFacialThread");
     self._currentfacestate = "inactive";
@@ -195,18 +189,14 @@ function private secondaryfacialanimationthink(localclientnum) {
             nextfacestate = "combat";
         }
         if (currfacestate == "inactive" || currfacestate != nextfacestate || forcenewanim) {
-            /#
-                assert(isdefined(level.__facialanimationslist[self.archetype][nextfacestate]));
-            #/
+            assert(isdefined(level.__facialanimationslist[self.archetype][nextfacestate]));
             clearoncompletion = 0;
             if (nextfacestate == "death") {
             }
             animtoplay = array::random(level.__facialanimationslist[self.archetype][nextfacestate]);
             if (isdefined(animoverride)) {
                 animtoplay = animoverride;
-                /#
-                    assert(nextfacestate != "<dev string:x96>" || !isanimlooping(localclientnum, animtoplay), "<dev string:x28>" + animtoplay + "<dev string:x4e>");
-                #/
+                assert(nextfacestate != "<dev string:x96>" || !isanimlooping(localclientnum, animtoplay), "<dev string:x28>" + animtoplay + "<dev string:x4e>");
             }
             applynewfaceanim(localclientnum, animtoplay, clearoncompletion);
             self._currentfacestate = nextfacestate;

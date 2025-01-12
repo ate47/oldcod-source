@@ -23,7 +23,31 @@ class class_882b2531 {
     var var_c31ba99e;
     var var_ccf6139b;
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x267aa24, Offset: 0x6d8
+    // Size: 0x94
+    function constructor() {
+        m_str_type = "unknown";
+        var_c31ba99e = [];
+        var_5ea3c8e5 = [];
+        var_ccf6139b = "allies";
+        var_165c6bb8 = "axis";
+        var_2e3180df = 0;
+        var_5d9b0dc0 = 0;
+        flag::init("paused");
+        flag::init("done");
+    }
+
+    // Namespace namespace_882b2531/gpbundle_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x976f593e, Offset: 0x778
+    // Size: 0x1c
+    function destructor() {
+        iprintlnbold("cGPBundle Destructor Called.");
+    }
+
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 3, eflags: 0x0
     // Checksum 0x592437ad, Offset: 0x14b0
     // Size: 0xde
@@ -39,7 +63,7 @@ class class_882b2531 {
         return e_spawned;
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 7, eflags: 0x0
     // Checksum 0x63220361, Offset: 0x12b8
     // Size: 0x1ee
@@ -72,7 +96,7 @@ class class_882b2531 {
         return e_spawned;
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 0, eflags: 0x0
     // Checksum 0x1bbcc043, Offset: 0x1200
     // Size: 0xaa
@@ -84,7 +108,7 @@ class class_882b2531 {
         var_9c1866c8.o_gpbundle = undefined;
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 1, eflags: 0x0
     // Checksum 0x302657ea, Offset: 0x1198
     // Size: 0x5c
@@ -97,7 +121,7 @@ class class_882b2531 {
         }
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 1, eflags: 0x0
     // Checksum 0xff2613d8, Offset: 0x1130
     // Size: 0x5c
@@ -109,7 +133,7 @@ class class_882b2531 {
         var_9c1866c8.o_gpbundle = self;
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 0, eflags: 0x0
     // Checksum 0xe42f81f5, Offset: 0x10d0
     // Size: 0x56
@@ -124,7 +148,7 @@ class class_882b2531 {
         #/
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 2, eflags: 0x0
     // Checksum 0xe8b5c97a, Offset: 0x1038
     // Size: 0x8c
@@ -139,7 +163,7 @@ class class_882b2531 {
         #/
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 3, eflags: 0x0
     // Checksum 0x2a14d92a, Offset: 0xe88
     // Size: 0x1a4
@@ -150,9 +174,7 @@ class class_882b2531 {
         }
         /#
             var_4baaa193 = "<dev string:x6c>" + tolower(m_str_type);
-            /#
-                assert(isinarray(getscriptbundlenames(var_4baaa193), str_bundle), "<dev string:x76>" + str_bundle + "<dev string:x78>" + var_4baaa193 + "<dev string:x8b>");
-            #/
+            assert(isinarray(getscriptbundlenames(var_4baaa193), str_bundle), "<dev string:x76>" + str_bundle + "<dev string:x78>" + var_4baaa193 + "<dev string:x8b>");
             var_c222d4b0 = getdvarstring(var_4baaa193);
             if (var_c222d4b0 != "<dev string:x8e>") {
                 str_bundle = var_c222d4b0;
@@ -167,17 +189,15 @@ class class_882b2531 {
         flag::set("done");
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 0, eflags: 0x0
     // Checksum 0xa4749311, Offset: 0xe58
     // Size: 0x24
     function function_250ebce8() {
-        /#
-            assert("<dev string:x28>");
-        #/
+        assert("<dev string:x28>");
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 2, eflags: 0x0
     // Checksum 0xaef5cc87, Offset: 0xdb0
     // Size: 0xa0
@@ -195,7 +215,7 @@ class class_882b2531 {
         var_5d9b0dc0 = b_enable;
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 1, eflags: 0x0
     // Checksum 0x8b5a27cd, Offset: 0xcc8
     // Size: 0xe0
@@ -221,7 +241,7 @@ class class_882b2531 {
         }
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 5, eflags: 0x0
     // Checksum 0x1e9d3df7, Offset: 0x9f0
     // Size: 0x2d0
@@ -265,7 +285,7 @@ class class_882b2531 {
         var_5ea3c8e5[var_585b8e6e].var_9a7c87f1 = var_9a7c87f1;
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 2, eflags: 0x0
     // Checksum 0x687ea0b5, Offset: 0x800
     // Size: 0x1e2
@@ -289,7 +309,7 @@ class class_882b2531 {
         }
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
+    // Namespace namespace_882b2531/gpbundle_shared
     // Params 1, eflags: 0x0
     // Checksum 0x4069031f, Offset: 0x7a0
     // Size: 0x58
@@ -302,33 +322,9 @@ class class_882b2531 {
         var_165c6bb8 = "allies";
     }
 
-    // Namespace namespace_882b2531/namespace_1b5b28d4
-    // Params 0, eflags: 0x0
-    // Checksum 0x976f593e, Offset: 0x778
-    // Size: 0x1c
-    function __destructor() {
-        iprintlnbold("cGPBundle Destructor Called.");
-    }
-
-    // Namespace namespace_882b2531/namespace_1b5b28d4
-    // Params 0, eflags: 0x0
-    // Checksum 0x267aa24, Offset: 0x6d8
-    // Size: 0x94
-    function __constructor() {
-        m_str_type = "unknown";
-        var_c31ba99e = [];
-        var_5ea3c8e5 = [];
-        var_ccf6139b = "allies";
-        var_165c6bb8 = "axis";
-        var_2e3180df = 0;
-        var_5d9b0dc0 = 0;
-        flag::init("paused");
-        flag::init("done");
-    }
-
 }
 
-// Namespace gpbundle/namespace_1b5b28d4
+// Namespace gpbundle/gpbundle_shared
 // Params 0, eflags: 0x2
 // Checksum 0x7030c190, Offset: 0x280
 // Size: 0x34
@@ -336,7 +332,7 @@ function autoexec __init__sytem__() {
     system::register("gpbundle", &__init__, undefined, undefined);
 }
 
-// Namespace gpbundle/namespace_1b5b28d4
+// Namespace gpbundle/gpbundle_shared
 // Params 0, eflags: 0x0
 // Checksum 0x129c38ca, Offset: 0x2c0
 // Size: 0x54
@@ -350,7 +346,7 @@ function __init__() {
     #/
 }
 
-// Namespace gpbundle/namespace_1b5b28d4
+// Namespace gpbundle/gpbundle_shared
 // Params 0, eflags: 0x0
 // Checksum 0x56363c32, Offset: 0x320
 // Size: 0x164
@@ -368,7 +364,7 @@ function setup_devgui() {
     }
 }
 
-// Namespace gpbundle/namespace_1b5b28d4
+// Namespace gpbundle/gpbundle_shared
 // Params 0, eflags: 0x0
 // Checksum 0x6abe34fb, Offset: 0x490
 // Size: 0x23c
@@ -395,7 +391,7 @@ function function_eee6213d() {
     }
 }
 
-// Namespace gpbundle/namespace_1b5b28d4
+// Namespace gpbundle/gpbundle_shared
 // Params 3, eflags: 0x20 variadic
 // Checksum 0xe721d9f2, Offset: 0x18c8
 // Size: 0x1b8
@@ -410,9 +406,7 @@ function start(kvp, str_bundle, ...) {
     if (!isdefined(ent)) {
         ent = getent(str_value, str_key);
         if (!isdefined(ent)) {
-            /#
-                assertmsg("<dev string:x9c>" + str_key + "<dev string:xaf>" + str_value + "<dev string:xb5>");
-            #/
+            assertmsg("<dev string:x9c>" + str_key + "<dev string:xaf>" + str_value + "<dev string:xb5>");
             return;
         }
         o_gpbundle = [[ level.var_8dfd1c04["gpbundle_" + ent.var_7ab31d2e] ]]();

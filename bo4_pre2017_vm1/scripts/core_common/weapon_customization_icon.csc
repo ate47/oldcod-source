@@ -80,9 +80,7 @@ function getxcam(weapon_name, camera) {
 // Checksum 0xb702607, Offset: 0x5c0
 // Size: 0x364
 function setup_wc_extracam_settings(localclientnum, extracam_data_struct) {
-    /#
-        assert(isdefined(extracam_data_struct.jobindex));
-    #/
+    assert(isdefined(extracam_data_struct.jobindex));
     if (!isdefined(level.camera_ents)) {
         level.camera_ents = [];
     }
@@ -96,9 +94,7 @@ function setup_wc_extracam_settings(localclientnum, extracam_data_struct) {
             camera_ent = multi_extracam::extracam_init_item(localclientnum, get_safehouse_position_struct(), extracam_data_struct.extracamindex);
         }
     }
-    /#
-        assert(isdefined(camera_ent));
-    #/
+    assert(isdefined(camera_ent));
     if (extracam_data_struct.loadoutslot == "default_camo_render") {
         extracam_data_struct.xcam = "ui_cam_icon_camo_export";
         extracam_data_struct.subxcam = "cam_icon";
@@ -166,10 +162,10 @@ function get_safehouse_position_struct() {
     position = spawnstruct();
     position.angles = (0, 0, 0);
     switch (tolower(getdvarstring("mapname"))) {
-    case #"hash_c0022b6f":
+    case #"cp_sh_cairo":
         position.origin = (-527, 1569, -25);
         break;
-    case #"hash_709124d9":
+    case #"cp_sh_singapore":
         position.origin = (-1215, 2464, 190);
         break;
     default:

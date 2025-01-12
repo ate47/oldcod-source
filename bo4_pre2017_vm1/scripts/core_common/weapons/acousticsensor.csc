@@ -4,9 +4,9 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_efc40536;
+#namespace acousticsensor;
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 0, eflags: 0x0
 // Checksum 0xe2525ff5, Offset: 0x1d0
 // Size: 0xcc
@@ -23,7 +23,7 @@ function init_shared() {
     callback::add_weapon_type("acoustic_sensor", &spawned);
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 1, eflags: 0x0
 // Checksum 0x2e370f91, Offset: 0x2a8
 // Size: 0x44
@@ -34,20 +34,20 @@ function on_player_connect(localclientnum) {
     }
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 3, eflags: 0x0
 // Checksum 0x2554c645, Offset: 0x2f8
 // Size: 0xa6
 function function_bb05d439(handle, sensorent, owner) {
-    var_efc40536 = spawnstruct();
-    var_efc40536.handle = handle;
-    var_efc40536.sensorent = sensorent;
-    var_efc40536.owner = owner;
+    acousticsensor = spawnstruct();
+    acousticsensor.handle = handle;
+    acousticsensor.sensorent = sensorent;
+    acousticsensor.owner = owner;
     size = level.var_e1b96029.size;
-    level.var_e1b96029[size] = var_efc40536;
+    level.var_e1b96029[size] = acousticsensor;
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 1, eflags: 0x0
 // Checksum 0xe4d9d6a4, Offset: 0x3a8
 // Size: 0x13c
@@ -64,7 +64,7 @@ function function_98918d12(var_e19ee9a4) {
     }
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 1, eflags: 0x0
 // Checksum 0xe9f5c612, Offset: 0x4f0
 // Size: 0xac
@@ -77,7 +77,7 @@ function spawned(localclientnum) {
     util::local_players_entity_thread(self, &function_8bbd150b);
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 1, eflags: 0x0
 // Checksum 0x50b2a30c, Offset: 0x5a8
 // Size: 0x64
@@ -86,7 +86,7 @@ function function_8bbd150b(localclientnum) {
     self thread fx::blinky_light(localclientnum, "tag_light", level._effect["acousticsensor_friendly_light"], level._effect["acousticsensor_enemy_light"]);
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 1, eflags: 0x0
 // Checksum 0xd9f090bf, Offset: 0x618
 // Size: 0x34
@@ -95,7 +95,7 @@ function watchshutdown(handle) {
     function_98918d12(handle);
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 0, eflags: 0x0
 // Checksum 0xee23752c, Offset: 0x658
 // Size: 0x258

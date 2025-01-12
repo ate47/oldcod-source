@@ -59,9 +59,7 @@ function post_round_potm() {
         return;
     }
     if (!util::waslastround()) {
-        /#
-            println("<dev string:x28>");
-        #/
+        println("<dev string:x28>");
         return;
     }
     level notify(#"play_potm");
@@ -208,9 +206,7 @@ function function_42d3c3cb(spectatorclient, targetentityindex, killcam_entity_in
         return;
     }
     if (spectatorclient >= level.players.size) {
-        /#
-            println("<dev string:x65>" + spectatorclient + "<dev string:x92>" + level.players.size + "<dev string:xac>");
-        #/
+        println("<dev string:x65>" + spectatorclient + "<dev string:x92>" + level.players.size + "<dev string:xac>");
         return;
     }
     event = spawnstruct();
@@ -241,9 +237,7 @@ function function_42d3c3cb(spectatorclient, targetentityindex, killcam_entity_in
             continue;
         }
         if (event.killcamstarttime >= var_4cc339b8.killcamstarttime && event.killcamstarttime < var_4cc339b8.var_668dad4e) {
-            /#
-                println("<dev string:xb0>");
-            #/
+            println("<dev string:xb0>");
             return;
         }
     }

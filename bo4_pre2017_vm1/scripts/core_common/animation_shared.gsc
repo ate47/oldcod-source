@@ -157,9 +157,7 @@ function _play(animation, v_origin_or_ent, v_angles_or_tag, n_rate, n_blend_in, 
     if (isvec(v_angles_or_tag)) {
         v_angles = v_angles_or_tag;
     } else if (isstring(v_angles_or_tag)) {
-        /#
-            assert(isdefined(v_origin_or_ent.model), "<dev string:x4c>" + animation + "<dev string:x65>" + v_angles_or_tag + "<dev string:x70>");
-        #/
+        assert(isdefined(v_origin_or_ent.model), "<dev string:x4c>" + animation + "<dev string:x65>" + v_angles_or_tag + "<dev string:x70>");
         str_tag = v_angles_or_tag;
         v_origin = v_origin_or_ent gettagorigin(str_tag);
         v_angles = v_origin_or_ent gettagangles(str_tag);
@@ -278,9 +276,7 @@ function _get_align_pos(v_origin_or_ent, v_angles_or_tag) {
     }
     s = spawnstruct();
     if (isvec(v_origin_or_ent)) {
-        /#
-            assert(isvec(v_angles_or_tag), "<dev string:xa9>");
-        #/
+        assert(isvec(v_angles_or_tag), "<dev string:xa9>");
         s.origin = v_origin_or_ent;
         s.angles = v_angles_or_tag;
     } else {
@@ -446,9 +442,7 @@ function add_notetrack_func(funcname, func) {
     if (!isdefined(level._animnotifyfuncs)) {
         level._animnotifyfuncs = [];
     }
-    /#
-        assert(!isdefined(level._animnotifyfuncs[funcname]), "<dev string:xe5>");
-    #/
+    assert(!isdefined(level._animnotifyfuncs[funcname]), "<dev string:xe5>");
     level._animnotifyfuncs[funcname] = func;
 }
 
@@ -643,9 +637,7 @@ function attach_weapon(weaponobject, tag) {
         if (self.item != level.weaponnone) {
             detach_weapon();
         }
-        /#
-            assert(isdefined(weaponobject.worldmodel));
-        #/
+        assert(isdefined(weaponobject.worldmodel));
         self attach(weaponobject.worldmodel, tag);
         self setentityweapon(weaponobject);
         self.gun_removed = undefined;

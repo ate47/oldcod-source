@@ -23,6 +23,20 @@ class robotphalanx {
 
     // Namespace robotphalanx/robot_phalanx
     // Params 0, eflags: 0x0
+    // Checksum 0x3d2c650a, Offset: 0x1828
+    // Size: 0x58
+    function constructor() {
+        tier1robots_ = [];
+        tier2robots_ = [];
+        tier3robots_ = [];
+        startrobotcount_ = 0;
+        currentrobotcount_ = 0;
+        breakingpoint_ = 0;
+        scattered_ = 0;
+    }
+
+    // Namespace robotphalanx/robot_phalanx
+    // Params 0, eflags: 0x0
     // Checksum 0x1e5b236, Offset: 0x1f68
     // Size: 0x108
     function scatterphalanx() {
@@ -84,18 +98,10 @@ class robotphalanx {
         if (!isdefined(tierthreespawner)) {
             tierthreespawner = undefined;
         }
-        /#
-            assert(isstring(phalanxtype));
-        #/
-        /#
-            assert(isint(breakingpoint));
-        #/
-        /#
-            assert(isvec(origin));
-        #/
-        /#
-            assert(isvec(destination));
-        #/
+        assert(isstring(phalanxtype));
+        assert(isint(breakingpoint));
+        assert(isvec(origin));
+        assert(isvec(destination));
         maxtiersize = math::clamp(maxtiersize, 1, 10);
         forward = vectornormalize(destination - origin);
         tier1robots_ = _createphalanxtier(phalanxtype, "phalanx_tier1", origin, forward, maxtiersize, tieronespawner);
@@ -155,28 +161,6 @@ class robotphalanx {
     }
 
     // Namespace robotphalanx/robot_phalanx
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x1888
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace robotphalanx/robot_phalanx
-    // Params 0, eflags: 0x0
-    // Checksum 0x3d2c650a, Offset: 0x1828
-    // Size: 0x58
-    function __constructor() {
-        tier1robots_ = [];
-        tier2robots_ = [];
-        tier3robots_ = [];
-        startrobotcount_ = 0;
-        currentrobotcount_ = 0;
-        breakingpoint_ = 0;
-        scattered_ = 0;
-    }
-
-    // Namespace robotphalanx/robot_phalanx
     // Params 1, eflags: 0x4
     // Checksum 0xd714af38, Offset: 0x17f8
     // Size: 0x28
@@ -199,9 +183,7 @@ class robotphalanx {
     // Checksum 0xfbaf1ed4, Offset: 0x1680
     // Size: 0xc2
     function private _resumefirerobots(robots) {
-        /#
-            assert(isarray(robots));
-        #/
+        assert(isarray(robots));
         foreach (robot in robots) {
             _resumefire(robot);
         }
@@ -269,14 +251,10 @@ class robotphalanx {
     function private _movephalanxtier(robots, phalanxtype, tier, destination, forward) {
         positions = _getphalanxpositions(phalanxtype, tier);
         angles = vectortoangles(forward);
-        /#
-            assert(robots.size <= positions.size, "<dev string:x1b8>");
-        #/
+        assert(robots.size <= positions.size, "<dev string:x1b8>");
         foreach (index, robot in robots) {
             if (isdefined(robot) && isalive(robot)) {
-                /#
-                    assert(isvec(positions[index]), "<dev string:x1f8>" + index + "<dev string:x225>" + tier + "<dev string:x230>" + phalanxtype);
-                #/
+                assert(isvec(positions[index]), "<dev string:x1f8>" + index + "<dev string:x225>" + tier + "<dev string:x230>" + phalanxtype);
                 orientedpos = _rotatevec(positions[index], angles[1] - 90);
                 navmeshposition = getclosestpointonnavmesh(destination + orientedpos, 200);
                 robot useposition(navmeshposition);
@@ -289,9 +267,7 @@ class robotphalanx {
     // Checksum 0x26c0dff4, Offset: 0x1008
     // Size: 0xec
     function private _initializerobot(robot) {
-        /#
-            assert(isactor(robot));
-        #/
+        assert(isactor(robot));
         robot ai::set_behavior_attribute("phalanx", 1);
         robot ai::set_behavior_attribute("move_mode", "marching");
         robot ai::set_behavior_attribute("force_cover", 1);
@@ -304,9 +280,7 @@ class robotphalanx {
     // Checksum 0x44078dfb, Offset: 0xf08
     // Size: 0xf2
     function private _haltfire(robots) {
-        /#
-            assert(isarray(robots));
-        #/
+        assert(isarray(robots));
         foreach (robot in robots) {
             if (isdefined(robot) && isalive(robot)) {
                 robot val::set("halt_fire", "ignoreall", 1);
@@ -319,9 +293,7 @@ class robotphalanx {
     // Checksum 0xdd6cc4a, Offset: 0xdb0
     // Size: 0x14a
     function private _haltadvance(robots) {
-        /#
-            assert(isarray(robots));
-        #/
+        assert(isarray(robots));
         foreach (robot in robots) {
             if (isdefined(robot) && isalive(robot) && robot haspath()) {
                 navmeshposition = getclosestpointonnavmesh(robot.origin, 200);
@@ -337,12 +309,8 @@ class robotphalanx {
     // Size: 0xbc
     function private _getphalanxspawner(tier) {
         spawner = getspawnerarray(tier, "targetname");
-        /#
-            assert(spawner.size >= 0, "<dev string:x59>" + "<dev string:xa5>" + "<dev string:xed>");
-        #/
-        /#
-            assert(spawner.size == 1, "<dev string:x104>" + "<dev string:x14e>" + "<dev string:x174>");
-        #/
+        assert(spawner.size >= 0, "<dev string:x59>" + "<dev string:xa5>" + "<dev string:xed>");
+        assert(spawner.size == 1, "<dev string:x104>" + "<dev string:x14e>" + "<dev string:x174>");
         return spawner[0];
     }
 
@@ -418,14 +386,10 @@ class robotphalanx {
         LOC_00000448:
             break;
         default:
-            /#
-                assert("<dev string:x28>" + phalanxtype + "<dev string:x3f>");
-            #/
+            assert("<dev string:x28>" + phalanxtype + "<dev string:x3f>");
             break;
         }
-        /#
-            assert("<dev string:x42>" + tier + "<dev string:x3f>");
-        #/
+        assert("<dev string:x42>" + tier + "<dev string:x3f>");
     }
 
     // Namespace robotphalanx/robot_phalanx
@@ -485,9 +449,7 @@ class robotphalanx {
     // Checksum 0xf491940f, Offset: 0x2c0
     // Size: 0xf2
     function private _assignphalanxstance(robots, stance) {
-        /#
-            assert(isarray(robots));
-        #/
+        assert(isarray(robots));
         foreach (robot in robots) {
             if (isdefined(robot) && isalive(robot)) {
                 robot ai::set_behavior_attribute("phalanx_force_stance", stance);

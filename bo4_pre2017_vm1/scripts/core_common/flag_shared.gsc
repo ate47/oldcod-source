@@ -22,9 +22,7 @@ function init(str_flag, b_val, b_is_trigger) {
     }
     /#
         if (!isdefined(level.first_frame)) {
-            /#
-                assert(!isdefined(self.flag[str_flag]), "<dev string:x28>" + str_flag + "<dev string:x50>");
-            #/
+            assert(!isdefined(self.flag[str_flag]), "<dev string:x28>" + str_flag + "<dev string:x50>");
         }
     #/
     self.flag[str_flag] = b_val;
@@ -54,9 +52,7 @@ function exists(str_flag) {
 // Checksum 0x68eb9474, Offset: 0x298
 // Size: 0x84
 function set(str_flag) {
-    /#
-        assert(exists(str_flag), "<dev string:x5d>" + str_flag + "<dev string:x78>");
-    #/
+    assert(exists(str_flag), "<dev string:x5d>" + str_flag + "<dev string:x78>");
     self.flag[str_flag] = 1;
     self notify(str_flag);
     trigger::set_flag_permissions(str_flag);
@@ -67,9 +63,7 @@ function set(str_flag) {
 // Checksum 0x722b140, Offset: 0x328
 // Size: 0x74
 function increment(str_flag) {
-    /#
-        assert(exists(str_flag), "<dev string:x92>" + str_flag + "<dev string:x78>");
-    #/
+    assert(exists(str_flag), "<dev string:x92>" + str_flag + "<dev string:x78>");
     self.flag_count[str_flag]++;
     set(str_flag);
 }
@@ -79,12 +73,8 @@ function increment(str_flag) {
 // Checksum 0xc63c8512, Offset: 0x3a8
 // Size: 0xbc
 function decrement(str_flag) {
-    /#
-        assert(exists(str_flag), "<dev string:xb3>" + str_flag + "<dev string:x78>");
-    #/
-    /#
-        assert(self.flag_count[str_flag] > 0, "<dev string:xd4>");
-    #/
+    assert(exists(str_flag), "<dev string:xb3>" + str_flag + "<dev string:x78>");
+    assert(self.flag_count[str_flag] > 0, "<dev string:xd4>");
     self.flag_count[str_flag]--;
     if (self.flag_count[str_flag] == 0) {
         clear(str_flag);
@@ -117,9 +107,7 @@ function _delay_set(n_delay, str_flag, str_cancel) {
 // Checksum 0x91a0b39e, Offset: 0x520
 // Size: 0x74
 function set_val(str_flag, b_val) {
-    /#
-        assert(isdefined(b_val), "<dev string:x111>");
-    #/
+    assert(isdefined(b_val), "<dev string:x111>");
     if (b_val) {
         set(str_flag);
         return;
@@ -144,9 +132,7 @@ function set_for_time(n_time, str_flag) {
 // Checksum 0xf0690bb1, Offset: 0x620
 // Size: 0x94
 function clear(str_flag) {
-    /#
-        assert(exists(str_flag), "<dev string:x13d>" + str_flag + "<dev string:x78>");
-    #/
+    assert(exists(str_flag), "<dev string:x13d>" + str_flag + "<dev string:x78>");
     if (self.flag[str_flag]) {
         self.flag[str_flag] = 0;
         self notify(str_flag);
@@ -171,9 +157,7 @@ function toggle(str_flag) {
 // Checksum 0xb8f19201, Offset: 0x720
 // Size: 0x5c
 function get(str_flag) {
-    /#
-        assert(exists(str_flag), "<dev string:x15a>" + str_flag + "<dev string:x78>");
-    #/
+    assert(exists(str_flag), "<dev string:x15a>" + str_flag + "<dev string:x78>");
     return self.flag[str_flag];
 }
 
@@ -359,9 +343,7 @@ function delete(str_flag) {
         self.flag[str_flag] = undefined;
         return;
     }
-    /#
-        println("<dev string:x16e>" + str_flag);
-    #/
+    println("<dev string:x16e>" + str_flag);
 }
 
 // Namespace flag/flag_shared

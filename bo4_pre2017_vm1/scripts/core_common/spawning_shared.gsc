@@ -36,9 +36,7 @@ function __init__() {
         level.requirespawnpointstoexistinlevel = 1;
     }
     level.convert_spawns_to_structs = getdvarint("spawnsystem_convert_spawns_to_structs");
-    /#
-        println("<dev string:x28>");
-    #/
+    println("<dev string:x28>");
     level.spawnmins = (0, 0, 0);
     level.spawnmaxs = (0, 0, 0);
     level.spawnminsmaxsprimed = 0;
@@ -330,9 +328,7 @@ function onspawnplayer(predictedspawn) {
         }
     }
     if (!isdefined(spawn_origin)) {
-        /#
-            println("<dev string:x71>");
-        #/
+        println("<dev string:x71>");
         callback::abort_level();
     }
     if (predictedspawn) {
@@ -521,9 +517,7 @@ function private add_spawn_points_internal(team, spawnpoints, list) {
 // Size: 0x250
 function clear_and_add_spawn_points(str_team, classnames, ...) {
     str_team = util::get_team_mapping(str_team);
-    /#
-        assert(vararg.size % 2 == 0, "<dev string:xa9>");
-    #/
+    assert(vararg.size % 2 == 0, "<dev string:xa9>");
     clear_spawn_points();
     team_array = array(str_team);
     classnames_array = array(classnames);
@@ -929,12 +923,8 @@ function place_spawn_points(spawnpointname) {
     add_spawn_point_classname(spawnpointname);
     spawnpoints = get_spawnpoint_array(spawnpointname);
     if (!spawnpoints.size && level.requirespawnpointstoexistinlevel) {
-        /#
-            println("<dev string:xf1>" + spawnpointname + "<dev string:xf7>");
-        #/
-        /#
-            assert(spawnpoints.size, "<dev string:xf1>" + spawnpointname + "<dev string:xf7>");
-        #/
+        println("<dev string:xf1>" + spawnpointname + "<dev string:xf7>");
+        assert(spawnpoints.size, "<dev string:xf1>" + spawnpointname + "<dev string:xf7>");
         callback::abort_level();
         wait 1;
         return;
@@ -951,9 +941,7 @@ function place_spawn_points(spawnpointname) {
 function drop_spawn_points(spawnpointname) {
     spawnpoints = get_spawnpoint_array(spawnpointname);
     if (!spawnpoints.size) {
-        /#
-            println("<dev string:xf1>" + spawnpointname + "<dev string:xf7>");
-        #/
+        println("<dev string:xf1>" + spawnpointname + "<dev string:xf7>");
         return;
     }
     for (index = 0; index < spawnpoints.size; index++) {
@@ -1124,9 +1112,7 @@ function get_random_intermission_point() {
     if (!spawnpoints.size) {
         spawnpoints = get_spawnpoint_array("info_player_start");
     }
-    /#
-        assert(spawnpoints.size);
-    #/
+    assert(spawnpoints.size);
     spawnpoint = get_spawnpoint_random(spawnpoints, undefined, 1);
     return spawnpoint;
 }

@@ -10,9 +10,7 @@
 // Checksum 0x137a4030, Offset: 0xb20
 // Size: 0x290
 function commanderassaultsquadstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addprecondition(sequence, "commanderHasAtLeastXUnassignedBots", associativearray("amount", 1));
     planner::addprecondition(sequence, "commanderHasAtLeastXAssaultObjects", associativearray("amount", 1));
@@ -37,9 +35,7 @@ function commanderassaultsquadstrategy(parent) {
 // Checksum 0xed5619c2, Offset: 0xdb8
 // Size: 0x9c
 function commanderdaemons(commander) {
-    /#
-        assert(isstruct(commander));
-    #/
+    assert(isstruct(commander));
     plannercommanderutility::adddaemon(commander, "daemonClients");
     plannercommanderutility::adddaemon(commander, "daemonGameobjects");
     plannercommanderutility::adddaemon(commander, "daemonObjectives");
@@ -50,9 +46,7 @@ function commanderdaemons(commander) {
 // Checksum 0xb34b6bf3, Offset: 0xe60
 // Size: 0x290
 function commanderdefendsquadstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addprecondition(sequence, "commanderHasAtLeastXUnassignedBots", associativearray("amount", 1));
     planner::addprecondition(sequence, "commanderHasAtLeastXDefendObjects", associativearray("amount", 1));
@@ -77,9 +71,7 @@ function commanderdefendsquadstrategy(parent) {
 // Checksum 0xa22f801c, Offset: 0x10f8
 // Size: 0x1e4
 function commanderescortsquadstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addprecondition(sequence, "commanderBlackboardValueIsTrue", associativearray("key", "allow_escort"));
     planner::addprecondition(sequence, "commanderHasAtLeastXUnassignedBots", associativearray("amount", 1));
@@ -98,9 +90,7 @@ function commanderescortsquadstrategy(parent) {
 // Checksum 0xcfeff96f, Offset: 0x12e8
 // Size: 0x450
 function commanderescortsquadpathablepoistrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     selector = planner::addselector(parent);
     sequence = planner::addsequence(selector);
     planner::addprecondition(sequence, "commanderBlackboardValueIsTrue", associativearray("key", "allow_golden_path"));
@@ -136,9 +126,7 @@ function commanderescortsquadpathablepoistrategy(parent) {
 // Checksum 0x8ef11864, Offset: 0x1740
 // Size: 0x150
 function commanderescortsquadformationstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     selector = planner::addselector(parent);
     sequenceinner = planner::addsequence(selector);
     planner::addprecondition(sequenceinner, "commanderSquadEscortHasNoVanguard");
@@ -156,9 +144,7 @@ function commanderescortsquadformationstrategy(parent) {
 // Checksum 0xab27b23b, Offset: 0x1898
 // Size: 0x110
 function commanderforcegoalstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addprecondition(sequence, "commanderHasAtLeastXUnassignedBots", associativearray("amount", 1));
     planner::addprecondition(sequence, "commanderHasForceGoal");
@@ -172,9 +158,7 @@ function commanderforcegoalstrategy(parent) {
 // Checksum 0xcaa1f1bc, Offset: 0x19b0
 // Size: 0x240
 function commandercalculatepathablegameobjectsstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addpostcondition(sequence, "commanderSetBlackboardValue", associativearray("name", "pathing_current_gameobject_index", "value", 0));
     planner::addpostcondition(sequence, "commanderSetBlackboardValue", associativearray("name", "pathing_calculated_gameobjects", "value", array()));
@@ -196,9 +180,7 @@ function commandercalculatepathablegameobjectsstrategy(parent) {
 // Checksum 0x670f02b6, Offset: 0x1bf8
 // Size: 0x240
 function commandercalculatepathableobjectivesstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addpostcondition(sequence, "commanderSetBlackboardValue", associativearray("name", "pathing_current_objective_index", "value", 0));
     planner::addpostcondition(sequence, "commanderSetBlackboardValue", associativearray("name", "pathing_calculated_objectives", "value", array()));
@@ -220,9 +202,7 @@ function commandercalculatepathableobjectivesstrategy(parent) {
 // Checksum 0x5f811b5e, Offset: 0x1e40
 // Size: 0x2e0
 function commandercalculatepathstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addpostcondition(sequence, "commanderSetBlackboardValue", associativearray("name", "pathing_current_bot_index", "value", 0));
     planner::addpostcondition(sequence, "commanderSetBlackboardValue", associativearray("name", "pathing_current_point_index", "value", 0));
@@ -247,9 +227,7 @@ function commandercalculatepathstrategy(parent) {
 // Checksum 0x7a97086c, Offset: 0x2128
 // Size: 0x1a8
 function commanderobjectivesquadstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addprecondition(sequence, "commanderHasAtLeastXUnassignedBots", associativearray("amount", 1));
     planner::addprecondition(sequence, "commanderHasAtLeastXObjectives", associativearray("amount", 1));
@@ -267,9 +245,7 @@ function commanderobjectivesquadstrategy(parent) {
 // Checksum 0x51b32cc4, Offset: 0x22d8
 // Size: 0x290
 function commanderprioritydefendsquadstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addprecondition(sequence, "commanderHasAtLeastXUnassignedBots", associativearray("amount", 1));
     planner::addprecondition(sequence, "commanderHasAtLeastXUnclaimedPriorityDefendObjects", associativearray("amount", 1));
@@ -294,9 +270,7 @@ function commanderprioritydefendsquadstrategy(parent) {
 // Checksum 0xacffa6f3, Offset: 0x2570
 // Size: 0x1cc
 function commanderthrottlesquadstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     selector = planner::addselector(parent);
     sequence = planner::addsequence(selector);
     planner::addprecondition(sequence, "commanderShouldRushProgress");
@@ -316,9 +290,7 @@ function commanderthrottlesquadstrategy(parent) {
 // Checksum 0x77d7fbb7, Offset: 0x2748
 // Size: 0x13c
 function commanderutilityevaluators(commander) {
-    /#
-        assert(isstruct(commander));
-    #/
+    assert(isstruct(commander));
     plannercommanderutility::addsquadevaluator(commander, "commanderScoreBotPresence");
     plannercommanderutility::addsquadevaluator(commander, "commanderScoreEscortPathing");
     plannercommanderutility::addsquadevaluator(commander, "commanderScoreForceGoal");
@@ -334,9 +306,7 @@ function commanderutilityevaluators(commander) {
 // Checksum 0x640e93b9, Offset: 0x2890
 // Size: 0x128
 function commanderwandersquadstrategy(parent) {
-    /#
-        assert(isstruct(parent));
-    #/
+    assert(isstruct(parent));
     sequence = planner::addsequence(parent);
     planner::addprecondition(sequence, "commanderHasAtLeastXUnassignedBots", associativearray("amount", 1));
     planner::addaction(sequence, "commanderSquadCreateOfSizeX", associativearray("amount", 1));

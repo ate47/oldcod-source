@@ -146,9 +146,7 @@ function randomsign() {
 // Checksum 0xc7c61f0e, Offset: 0x6d8
 // Size: 0x394
 function get_dot_direction(v_point, b_ignore_z, b_normalize, str_direction, b_use_eye) {
-    /#
-        assert(isdefined(v_point), "<dev string:x28>");
-    #/
+    assert(isdefined(v_point), "<dev string:x28>");
     if (!isdefined(b_ignore_z)) {
         b_ignore_z = 0;
     }
@@ -200,9 +198,7 @@ function get_dot_direction(v_point, b_ignore_z, b_normalize, str_direction, b_us
         v_direction = anglestoup(v_angles) * -1;
         break;
     default:
-        /#
-            assertmsg(str_direction + "<dev string:x54>");
-        #/
+        assertmsg(str_direction + "<dev string:x54>");
         v_direction = anglestoforward(v_angles);
         break;
     }
@@ -219,9 +215,7 @@ function get_dot_direction(v_point, b_ignore_z, b_normalize, str_direction, b_us
 // Checksum 0x3dab2394, Offset: 0xa78
 // Size: 0x7c
 function get_dot_right(v_point, b_ignore_z, b_normalize) {
-    /#
-        assert(isdefined(v_point), "<dev string:x7f>");
-    #/
+    assert(isdefined(v_point), "<dev string:x7f>");
     n_dot = get_dot_direction(v_point, b_ignore_z, b_normalize, "right");
     return n_dot;
 }
@@ -231,9 +225,7 @@ function get_dot_right(v_point, b_ignore_z, b_normalize) {
 // Checksum 0xd864b67c, Offset: 0xb00
 // Size: 0x7c
 function get_dot_up(v_point, b_ignore_z, b_normalize) {
-    /#
-        assert(isdefined(v_point), "<dev string:xb1>");
-    #/
+    assert(isdefined(v_point), "<dev string:xb1>");
     n_dot = get_dot_direction(v_point, b_ignore_z, b_normalize, "up");
     return n_dot;
 }
@@ -243,9 +235,7 @@ function get_dot_up(v_point, b_ignore_z, b_normalize) {
 // Checksum 0x43341939, Offset: 0xb88
 // Size: 0x7c
 function get_dot_forward(v_point, b_ignore_z, b_normalize) {
-    /#
-        assert(isdefined(v_point), "<dev string:xe0>");
-    #/
+    assert(isdefined(v_point), "<dev string:xe0>");
     n_dot = get_dot_direction(v_point, b_ignore_z, b_normalize, "forward");
     return n_dot;
 }
@@ -255,12 +245,8 @@ function get_dot_forward(v_point, b_ignore_z, b_normalize) {
 // Checksum 0xab85bd00, Offset: 0xc10
 // Size: 0xe4
 function get_dot_from_eye(v_point, b_ignore_z, b_normalize, str_direction) {
-    /#
-        assert(isdefined(v_point), "<dev string:xe0>");
-    #/
-    /#
-        assert(isplayer(self) || isai(self), "<dev string:x114>" + self.classname + "<dev string:x134>");
-    #/
+    assert(isdefined(v_point), "<dev string:xe0>");
+    assert(isplayer(self) || isai(self), "<dev string:x114>" + self.classname + "<dev string:x134>");
     n_dot = get_dot_direction(v_point, b_ignore_z, b_normalize, str_direction, 1);
     return n_dot;
 }
@@ -270,12 +256,8 @@ function get_dot_from_eye(v_point, b_ignore_z, b_normalize, str_direction) {
 // Checksum 0xabb9758f, Offset: 0xd00
 // Size: 0xb8
 function array_average(array) {
-    /#
-        assert(isarray(array));
-    #/
-    /#
-        assert(array.size > 0);
-    #/
+    assert(isarray(array));
+    assert(array.size > 0);
     total = 0;
     for (i = 0; i < array.size; i++) {
         total += array[i];
@@ -288,12 +270,8 @@ function array_average(array) {
 // Checksum 0x1bbe136c, Offset: 0xdc0
 // Size: 0x132
 function array_std_deviation(array, mean) {
-    /#
-        assert(isarray(array));
-    #/
-    /#
-        assert(array.size > 0);
-    #/
+    assert(isarray(array));
+    assert(array.size > 0);
     tmp = [];
     for (i = 0; i < array.size; i++) {
         tmp[i] = (array[i] - mean) * (array[i] - mean);

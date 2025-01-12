@@ -687,9 +687,7 @@ function private strategyhasforcegoal(planner, constants) {
 // Checksum 0xdee669ff, Offset: 0x3830
 // Size: 0x27e
 function private strategyhasbelowxammounsafe(planner, constants) {
-    /#
-        assert(isfloat(constants["<dev string:x33>"]), "<dev string:x3b>" + "plannersquadutility::strategyhasbelowxammounsafe" + "<dev string:x47>");
-    #/
+    assert(isfloat(constants["<dev string:x33>"]), "<dev string:x3b>" + "plannersquadutility::strategyhasbelowxammounsafe" + "<dev string:x47>");
     foreach (botinfo in planner::getblackboardattribute(planner, "doppelbots")) {
         bot = botinfo["__unsafe__"]["bot"];
         if (!isdefined(bot) || !bot isbot()) {
@@ -717,12 +715,8 @@ function private strategyhasbelowxammounsafe(planner, constants) {
 // Checksum 0xa9e4514f, Offset: 0x3ab8
 // Size: 0xc2
 function private strategyhasblackboardvalue(planner, constants) {
-    /#
-        assert(isarray(constants));
-    #/
-    /#
-        assert(isstring(constants["<dev string:x6f>"]));
-    #/
+    assert(isarray(constants));
+    assert(isstring(constants["<dev string:x6f>"]));
     value = planner::getblackboardattribute(planner, constants["name"]);
     return value == constants["value"];
 }
@@ -793,9 +787,7 @@ function private strategyrushammocacheinit(planner, params) {
 // Checksum 0x70cc3ecd, Offset: 0x3f88
 // Size: 0x564
 function private strategyrushammocacheparam(planner, constants) {
-    /#
-        assert(isint(constants["<dev string:x74>"]), "<dev string:x3b>" + "plannersquadutility::strategyrushammocacheparam" + "<dev string:x7d>");
-    #/
+    assert(isint(constants["<dev string:x74>"]), "<dev string:x3b>" + "plannersquadutility::strategyrushammocacheparam" + "<dev string:x7d>");
     params = spawnstruct();
     params.bots = [];
     botpositions = [];

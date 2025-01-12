@@ -74,11 +74,7 @@ function commit_spawn_data() {
     if (self isbot()) {
         return;
     }
-    /#
-        /#
-            assert(isdefined(self._bbdata));
-        #/
-    #/
+    assert(isdefined(self._bbdata));
     if (!isdefined(self._bbdata)) {
         return;
     }
@@ -93,11 +89,7 @@ function commit_weapon_data(spawnid, currentweapon, time0) {
     if (self isbot()) {
         return;
     }
-    /#
-        /#
-            assert(isdefined(self._bbdata));
-        #/
-    #/
+    assert(isdefined(self._bbdata));
     if (!isdefined(self._bbdata)) {
         return;
     }

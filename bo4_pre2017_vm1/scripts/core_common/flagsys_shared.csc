@@ -42,9 +42,7 @@ function clear(str_flag) {
 // Checksum 0x3829ae6d, Offset: 0x200
 // Size: 0x74
 function set_val(str_flag, b_val) {
-    /#
-        assert(isdefined(b_val), "<dev string:x28>");
-    #/
+    assert(isdefined(b_val), "<dev string:x28>");
     if (b_val) {
         set(str_flag);
         return;

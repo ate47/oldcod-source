@@ -16,9 +16,7 @@ function processscoreevent(event, player, victim, weapon) {
     pixbeginevent("processScoreEvent");
     scoregiven = 0;
     if (!isplayer(player)) {
-        /#
-            assertmsg("<dev string:x28>" + event);
-        #/
+        assertmsg("<dev string:x28>" + event);
         return scoregiven;
     }
     isscoreevent = 0;
@@ -119,9 +117,7 @@ function decrementlastobituaryplayercountafterfade() {
     level endon(#"reset_obituary_count");
     wait 5;
     level.lastobituaryplayercount--;
-    /#
-        assert(level.lastobituaryplayercount >= 0);
-    #/
+    assert(level.lastobituaryplayercount >= 0);
 }
 
 // Namespace scoreevents/scoreevents_shared
@@ -159,9 +155,7 @@ function getscoreeventtableid(gametype) {
     if (isdefined(scoreinfotableid)) {
         scoreinfotableloaded = 1;
     }
-    /#
-        assert(scoreinfotableloaded, "<dev string:x58>" + getscoreeventtablename());
-    #/
+    assert(scoreinfotableloaded, "<dev string:x58>" + getscoreeventtablename());
     return scoreinfotableid;
 }
 

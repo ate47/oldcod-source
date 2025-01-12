@@ -14,163 +14,83 @@
 // Checksum 0x18166784, Offset: 0x6b8
 // Size: 0xed4
 function autoexec registerbehaviorscriptfunctions() {
-    /#
-        assert(iscodefunctionptr(&btapi_locomotionbehaviorcondition));
-    #/
+    assert(iscodefunctionptr(&btapi_locomotionbehaviorcondition));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btApi_locomotionBehaviorCondition", &btapi_locomotionbehaviorcondition);
-    /#
-        assert(iscodefunctionptr(&btapi_locomotionbehaviorcondition));
-    #/
+    assert(iscodefunctionptr(&btapi_locomotionbehaviorcondition));
     behaviorstatemachine::registerbsmscriptapiinternal("btApi_locomotionBehaviorCondition", &btapi_locomotionbehaviorcondition);
-    /#
-        assert(isscriptfunctionptr(&noncombatlocomotioncondition));
-    #/
+    assert(isscriptfunctionptr(&noncombatlocomotioncondition));
     behaviortreenetworkutility::registerbehaviortreescriptapi("nonCombatLocomotionCondition", &noncombatlocomotioncondition);
-    /#
-        assert(isscriptfunctionptr(&setdesiredstanceformovement));
-    #/
+    assert(isscriptfunctionptr(&setdesiredstanceformovement));
     behaviortreenetworkutility::registerbehaviortreescriptapi("setDesiredStanceForMovement", &setdesiredstanceformovement);
-    /#
-        assert(isscriptfunctionptr(&clearpathfromscript));
-    #/
+    assert(isscriptfunctionptr(&clearpathfromscript));
     behaviortreenetworkutility::registerbehaviortreescriptapi("clearPathFromScript", &clearpathfromscript);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldpatrol));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldpatrol));
     behaviortreenetworkutility::registerbehaviortreescriptapi("locomotionShouldPatrol", &locomotionshouldpatrol);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldpatrol));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldpatrol));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionShouldPatrol", &locomotionshouldpatrol);
-    /#
-        assert(iscodefunctionptr(&btapi_shouldtacticalwalk));
-    #/
+    assert(iscodefunctionptr(&btapi_shouldtacticalwalk));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btApi_shouldtacticalwalk", &btapi_shouldtacticalwalk);
-    /#
-        assert(isscriptfunctionptr(&shouldtacticalwalk));
-    #/
+    assert(isscriptfunctionptr(&shouldtacticalwalk));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldTacticalWalk", &shouldtacticalwalk);
-    /#
-        assert(iscodefunctionptr(&btapi_shouldtacticalwalk));
-    #/
+    assert(iscodefunctionptr(&btapi_shouldtacticalwalk));
     behaviorstatemachine::registerbsmscriptapiinternal("btApi_shouldtacticalwalk", &btapi_shouldtacticalwalk);
-    /#
-        assert(isscriptfunctionptr(&shouldtacticalwalk));
-    #/
+    assert(isscriptfunctionptr(&shouldtacticalwalk));
     behaviorstatemachine::registerbsmscriptapiinternal("shouldTacticalWalk", &shouldtacticalwalk);
-    /#
-        assert(isscriptfunctionptr(&shouldadjuststanceattacticalwalk));
-    #/
+    assert(isscriptfunctionptr(&shouldadjuststanceattacticalwalk));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldAdjustStanceAtTacticalWalk", &shouldadjuststanceattacticalwalk);
-    /#
-        assert(isscriptfunctionptr(&adjuststancetofaceenemyinitialize));
-    #/
+    assert(isscriptfunctionptr(&adjuststancetofaceenemyinitialize));
     behaviortreenetworkutility::registerbehaviortreescriptapi("adjustStanceToFaceEnemyInitialize", &adjuststancetofaceenemyinitialize);
-    /#
-        assert(isscriptfunctionptr(&adjuststancetofaceenemyterminate));
-    #/
+    assert(isscriptfunctionptr(&adjuststancetofaceenemyterminate));
     behaviortreenetworkutility::registerbehaviortreescriptapi("adjustStanceToFaceEnemyTerminate", &adjuststancetofaceenemyterminate);
-    /#
-        assert(isscriptfunctionptr(&tacticalwalkactionstart));
-    #/
+    assert(isscriptfunctionptr(&tacticalwalkactionstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("tacticalWalkActionStart", &tacticalwalkactionstart);
-    /#
-        assert(isscriptfunctionptr(&tacticalwalkactionstart));
-    #/
+    assert(isscriptfunctionptr(&tacticalwalkactionstart));
     behaviorstatemachine::registerbsmscriptapiinternal("tacticalWalkActionStart", &tacticalwalkactionstart);
-    /#
-        assert(isscriptfunctionptr(&cleararrivalpos));
-    #/
+    assert(isscriptfunctionptr(&cleararrivalpos));
     behaviortreenetworkutility::registerbehaviortreescriptapi("clearArrivalPos", &cleararrivalpos);
-    /#
-        assert(isscriptfunctionptr(&cleararrivalpos));
-    #/
+    assert(isscriptfunctionptr(&cleararrivalpos));
     behaviorstatemachine::registerbsmscriptapiinternal("clearArrivalPos", &cleararrivalpos);
-    /#
-        assert(isscriptfunctionptr(&shouldstartarrivalcondition));
-    #/
+    assert(isscriptfunctionptr(&shouldstartarrivalcondition));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldStartArrival", &shouldstartarrivalcondition);
-    /#
-        assert(isscriptfunctionptr(&shouldstartarrivalcondition));
-    #/
+    assert(isscriptfunctionptr(&shouldstartarrivalcondition));
     behaviorstatemachine::registerbsmscriptapiinternal("shouldStartArrival", &shouldstartarrivalcondition);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldtraverse));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldtraverse));
     behaviortreenetworkutility::registerbehaviortreescriptapi("locomotionShouldTraverse", &locomotionshouldtraverse);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldtraverse));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldtraverse));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionShouldTraverse", &locomotionshouldtraverse);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldparametrictraverse));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldparametrictraverse));
     behaviortreenetworkutility::registerbehaviortreescriptapi("locomotionShouldParametricTraverse", &locomotionshouldparametrictraverse);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldparametrictraverse));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldparametrictraverse));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionShouldParametricTraverse", &locomotionshouldparametrictraverse);
-    /#
-        assert(!isdefined(&traverseactionstart) || isscriptfunctionptr(&traverseactionstart));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
+    assert(!isdefined(&traverseactionstart) || isscriptfunctionptr(&traverseactionstart));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
     behaviortreenetworkutility::registerbehaviortreeaction("traverseActionStart", &traverseactionstart, undefined, undefined);
-    /#
-        assert(isscriptfunctionptr(&traversesetup));
-    #/
+    assert(isscriptfunctionptr(&traversesetup));
     behaviorstatemachine::registerbsmscriptapiinternal("traverseSetup", &traversesetup);
-    /#
-        assert(isscriptfunctionptr(&disablerepath));
-    #/
+    assert(isscriptfunctionptr(&disablerepath));
     behaviortreenetworkutility::registerbehaviortreescriptapi("disableRepath", &disablerepath);
-    /#
-        assert(isscriptfunctionptr(&enablerepath));
-    #/
+    assert(isscriptfunctionptr(&enablerepath));
     behaviortreenetworkutility::registerbehaviortreescriptapi("enableRepath", &enablerepath);
-    /#
-        assert(isscriptfunctionptr(&canjuke));
-    #/
+    assert(isscriptfunctionptr(&canjuke));
     behaviortreenetworkutility::registerbehaviortreescriptapi("canJuke", &canjuke);
-    /#
-        assert(isscriptfunctionptr(&choosejukedirection));
-    #/
+    assert(isscriptfunctionptr(&choosejukedirection));
     behaviortreenetworkutility::registerbehaviortreescriptapi("chooseJukeDirection", &choosejukedirection);
-    /#
-        assert(isscriptfunctionptr(&locomotionpainbehaviorcondition));
-    #/
+    assert(isscriptfunctionptr(&locomotionpainbehaviorcondition));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionPainBehaviorCondition", &locomotionpainbehaviorcondition);
-    /#
-        assert(isscriptfunctionptr(&locomotionisonstairs));
-    #/
+    assert(isscriptfunctionptr(&locomotionisonstairs));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionIsOnStairs", &locomotionisonstairs);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldlooponstairs));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldlooponstairs));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionShouldLoopOnStairs", &locomotionshouldlooponstairs);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldskipstairs));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldskipstairs));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionShouldSkipStairs", &locomotionshouldskipstairs);
-    /#
-        assert(isscriptfunctionptr(&locomotionstairsstart));
-    #/
+    assert(isscriptfunctionptr(&locomotionstairsstart));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionStairsStart", &locomotionstairsstart);
-    /#
-        assert(isscriptfunctionptr(&locomotionstairsend));
-    #/
+    assert(isscriptfunctionptr(&locomotionstairsend));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionStairsEnd", &locomotionstairsend);
-    /#
-        assert(isscriptfunctionptr(&delaymovement));
-    #/
+    assert(isscriptfunctionptr(&delaymovement));
     behaviortreenetworkutility::registerbehaviortreescriptapi("delayMovement", &delaymovement);
-    /#
-        assert(isscriptfunctionptr(&delaymovement));
-    #/
+    assert(isscriptfunctionptr(&delaymovement));
     behaviorstatemachine::registerbsmscriptapiinternal("delayMovement", &delaymovement);
 }
 
@@ -193,9 +113,7 @@ function private locomotionisonstairs(behaviortreeentity) {
 // Checksum 0x81af5141, Offset: 0x1648
 // Size: 0x15a
 function private locomotionshouldskipstairs(behaviortreeentity) {
-    /#
-        assert(isdefined(behaviortreeentity._stairsstartnode) && isdefined(behaviortreeentity._stairsendnode));
-    #/
+    assert(isdefined(behaviortreeentity._stairsstartnode) && isdefined(behaviortreeentity._stairsendnode));
     numtotalsteps = behaviortreeentity getblackboardattribute("_staircase_num_total_steps");
     stepssofar = behaviortreeentity getblackboardattribute("_staircase_num_steps");
     direction = behaviortreeentity getblackboardattribute("_staircase_direction");
@@ -219,9 +137,7 @@ function private locomotionshouldskipstairs(behaviortreeentity) {
 // Checksum 0x5f088980, Offset: 0x17b0
 // Size: 0x18c
 function private locomotionshouldlooponstairs(behaviortreeentity) {
-    /#
-        assert(isdefined(behaviortreeentity._stairsstartnode) && isdefined(behaviortreeentity._stairsendnode));
-    #/
+    assert(isdefined(behaviortreeentity._stairsstartnode) && isdefined(behaviortreeentity._stairsendnode));
     numtotalsteps = behaviortreeentity getblackboardattribute("_staircase_num_total_steps");
     stepssofar = behaviortreeentity getblackboardattribute("_staircase_num_steps");
     exittype = behaviortreeentity getblackboardattribute("_staircase_exit_type");
@@ -253,9 +169,7 @@ function private locomotionshouldlooponstairs(behaviortreeentity) {
 function private locomotionstairsstart(behaviortreeentity) {
     startnode = behaviortreeentity.traversestartnode;
     endnode = behaviortreeentity.traverseendnode;
-    /#
-        assert(isdefined(startnode) && isdefined(endnode));
-    #/
+    assert(isdefined(startnode) && isdefined(endnode));
     behaviortreeentity._stairsstartnode = startnode;
     behaviortreeentity._stairsendnode = endnode;
     if (startnode.type == "Begin") {
@@ -272,9 +186,7 @@ function private locomotionstairsstart(behaviortreeentity) {
     } else if (isdefined(endnode.script_int)) {
         numtotalsteps = int(endnode.script_int);
     }
-    /#
-        assert(isdefined(numtotalsteps) && isint(numtotalsteps) && numtotalsteps > 0);
-    #/
+    assert(isdefined(numtotalsteps) && isint(numtotalsteps) && numtotalsteps > 0);
     behaviortreeentity setblackboardattribute("_staircase_num_total_steps", numtotalsteps);
     behaviortreeentity setblackboardattribute("_staircase_num_steps", 0);
     exittype = undefined;
@@ -312,9 +224,7 @@ function private locomotionstairsstart(behaviortreeentity) {
 // Checksum 0x87672ddc, Offset: 0x1ce0
 // Size: 0x6c
 function private locomotionstairloopstart(behaviortreeentity) {
-    /#
-        assert(isdefined(behaviortreeentity._stairsstartnode) && isdefined(behaviortreeentity._stairsendnode));
-    #/
+    assert(isdefined(behaviortreeentity._stairsstartnode) && isdefined(behaviortreeentity._stairsendnode));
     behaviortreeentity setblackboardattribute("_staircase_state", "staircase_loop");
 }
 
@@ -430,9 +340,7 @@ function traverseactionstart(behaviortreeentity, asmstatename) {
     traversesetup(behaviortreeentity);
     /#
         var_be841c75 = behaviortreeentity astsearch(istring(asmstatename));
-        /#
-            assert(isdefined(var_be841c75["<dev string:x28>"]), behaviortreeentity.archetype + "<dev string:x32>" + behaviortreeentity.traversestartnode.animscript + "<dev string:x57>" + behaviortreeentity.traversestartnode.origin + "<dev string:x5b>");
-        #/
+        assert(isdefined(var_be841c75["<dev string:x28>"]), behaviortreeentity.archetype + "<dev string:x32>" + behaviortreeentity.traversestartnode.animscript + "<dev string:x57>" + behaviortreeentity.traversestartnode.origin + "<dev string:x5b>");
     #/
     animationstatenetworkutility::requeststate(behaviortreeentity, asmstatename);
     return 5;

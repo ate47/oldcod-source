@@ -28,33 +28,17 @@ function autoexec main() {
 function registerbehaviorscriptfunctions() {
     spawner::add_archetype_spawn_function("civilian", &civilianblackboardinit);
     spawner::add_archetype_spawn_function("civilian", &function_f0d98b47);
-    /#
-        assert(!isdefined(&civilianmoveactioninitialize) || isscriptfunctionptr(&civilianmoveactioninitialize));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
-    /#
-        assert(!isdefined(&civilianmoveactionfinalize) || isscriptfunctionptr(&civilianmoveactionfinalize));
-    #/
+    assert(!isdefined(&civilianmoveactioninitialize) || isscriptfunctionptr(&civilianmoveactioninitialize));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
+    assert(!isdefined(&civilianmoveactionfinalize) || isscriptfunctionptr(&civilianmoveactionfinalize));
     behaviortreenetworkutility::registerbehaviortreeaction("civilianMoveAction", &civilianmoveactioninitialize, undefined, &civilianmoveactionfinalize);
-    /#
-        assert(!isdefined(&function_d752eb0e) || isscriptfunctionptr(&function_d752eb0e));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
+    assert(!isdefined(&function_d752eb0e) || isscriptfunctionptr(&function_d752eb0e));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
     behaviortreenetworkutility::registerbehaviortreeaction("civilianCowerAction", &function_d752eb0e, undefined, undefined);
-    /#
-        assert(isscriptfunctionptr(&civilianispanicked));
-    #/
+    assert(isscriptfunctionptr(&civilianispanicked));
     behaviortreenetworkutility::registerbehaviortreescriptapi("civilianIsPanicked", &civilianispanicked);
-    /#
-        assert(isscriptfunctionptr(&civilianarrivalallowed));
-    #/
+    assert(isscriptfunctionptr(&civilianarrivalallowed));
     behaviorstatemachine::registerbsmscriptapiinternal("civilianArrivalAllowed", &civilianarrivalallowed);
 }
 

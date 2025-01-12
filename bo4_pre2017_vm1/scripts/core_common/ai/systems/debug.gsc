@@ -133,9 +133,7 @@
     // Checksum 0x167bd32f, Offset: 0x680
     // Size: 0x144
     function drawdebugenttext(text, ent, color, channel) {
-        /#
-            assert(isdefined(ent));
-        #/
+        assert(isdefined(ent));
         if (!getdvarint("<dev string:x76>")) {
             if (!isdefined(ent.debuganimscripttime) || gettime() > ent.debuganimscripttime) {
                 ent.debuganimscriptlevel = 0;
@@ -161,12 +159,8 @@
         if (ai_entnum > -1 && ai_entnum != self getentitynumber()) {
             return;
         }
-        /#
-            assert(isdefined(self.debuginfo.states));
-        #/
-        /#
-            assert(isdefined(statename));
-        #/
+        assert(isdefined(self.debuginfo.states));
+        assert(isdefined(statename));
         state = spawnstruct();
         state.statename = statename;
         state.statelevel = self.debuginfo.statelevel;
@@ -191,14 +185,10 @@
         if (ai_entnum > -1 && ai_entnum != self getentitynumber()) {
             return;
         }
-        /#
-            assert(isdefined(self.debuginfo.states));
-        #/
+        assert(isdefined(self.debuginfo.states));
         if (isdefined(statename)) {
             for (i = self.debuginfo.states.size - 1; i >= 0; i--) {
-                /#
-                    assert(isdefined(self.debuginfo.states[i]));
-                #/
+                assert(isdefined(self.debuginfo.states[i]));
                 if (self.debuginfo.states[i].statename == statename) {
                     if (!isdefined(self.debuginfo.states[i].extrainfo)) {
                         self.debuginfo.states[i].extrainfo = "<dev string:x8b>";
@@ -211,9 +201,7 @@
         }
         if (self.debuginfo.states.size > 0) {
             lastindex = self.debuginfo.states.size - 1;
-            /#
-                assert(isdefined(self.debuginfo.states[lastindex]));
-            #/
+            assert(isdefined(self.debuginfo.states[lastindex]));
             if (!isdefined(self.debuginfo.states[lastindex].extrainfo)) {
                 self.debuginfo.states[lastindex].extrainfo = "<dev string:x8b>";
             }
@@ -236,9 +224,7 @@
         if (ai_entnum > -1 && ai_entnum != self getentitynumber()) {
             return;
         }
-        /#
-            assert(isdefined(self.debuginfo.states));
-        #/
+        assert(isdefined(self.debuginfo.states));
         if (isdefined(statename)) {
             for (i = 0; i < self.debuginfo.states.size; i++) {
                 if (self.debuginfo.states[i].statename == statename && self.debuginfo.states[i].statevalid) {

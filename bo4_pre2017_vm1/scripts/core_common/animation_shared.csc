@@ -85,9 +85,7 @@ function _play(animation, v_origin_or_ent, v_angles_or_tag, n_rate, n_blend_in, 
     if (isvec(v_origin_or_ent) && isvec(v_angles_or_tag)) {
         self animscripted("_anim_notify_", v_origin_or_ent, v_angles_or_tag, animation, n_blend_in, n_rate);
     } else if (isstring(v_angles_or_tag)) {
-        /#
-            assert(isdefined(v_origin_or_ent.model), "<dev string:x28>" + animation + "<dev string:x41>" + v_angles_or_tag + "<dev string:x4c>");
-        #/
+        assert(isdefined(v_origin_or_ent.model), "<dev string:x28>" + animation + "<dev string:x41>" + v_angles_or_tag + "<dev string:x4c>");
         v_pos = v_origin_or_ent gettagorigin(v_angles_or_tag);
         v_ang = v_origin_or_ent gettagangles(v_angles_or_tag);
         self.origin = v_pos;
@@ -152,9 +150,7 @@ function _get_align_pos(v_origin_or_ent, v_angles_or_tag) {
     }
     s = spawnstruct();
     if (isvec(v_origin_or_ent)) {
-        /#
-            assert(isvec(v_angles_or_tag), "<dev string:x7f>");
-        #/
+        assert(isvec(v_angles_or_tag), "<dev string:x7f>");
         s.origin = v_origin_or_ent;
         s.angles = v_angles_or_tag;
     } else {
@@ -208,9 +204,7 @@ function add_notetrack_func(funcname, func) {
     if (!isdefined(level._animnotifyfuncs)) {
         level._animnotifyfuncs = [];
     }
-    /#
-        assert(!isdefined(level._animnotifyfuncs[funcname]), "<dev string:xa5>");
-    #/
+    assert(!isdefined(level._animnotifyfuncs[funcname]), "<dev string:xa5>");
     level._animnotifyfuncs[funcname] = func;
 }
 
@@ -265,9 +259,7 @@ function call_notetrack_handler(str_note) {
                 self [[ func ]]();
                 break;
             default:
-                /#
-                    assertmsg("<dev string:xc8>");
-                #/
+                assertmsg("<dev string:xc8>");
                 break;
             }
         }

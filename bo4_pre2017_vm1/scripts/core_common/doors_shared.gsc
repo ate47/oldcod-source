@@ -30,6 +30,27 @@ class cdoor {
     var var_d6ef8c9d;
 
     // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xcd9fa1e3, Offset: 0x3f0
+    // Size: 0x38
+    function constructor() {
+        m_n_trigger_height = 80;
+        var_b4d34742 = undefined;
+        m_door_open_delay_time = 0;
+        m_e_trigger_player = undefined;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x95ed808b, Offset: 0x430
+    // Size: 0x2c
+    function destructor() {
+        if (isdefined(m_e_trigger)) {
+            m_e_trigger delete();
+        }
+    }
+
+    // Namespace cdoor/doors_shared
     // Params 1, eflags: 0x0
     // Checksum 0x773e467c, Offset: 0x1ee8
     // Size: 0x1c
@@ -490,27 +511,6 @@ class cdoor {
         }
     }
 
-    // Namespace cdoor/doors_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x95ed808b, Offset: 0x430
-    // Size: 0x2c
-    function __destructor() {
-        if (isdefined(m_e_trigger)) {
-            m_e_trigger delete();
-        }
-    }
-
-    // Namespace cdoor/doors_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xcd9fa1e3, Offset: 0x3f0
-    // Size: 0x38
-    function __constructor() {
-        m_n_trigger_height = 80;
-        var_b4d34742 = undefined;
-        m_door_open_delay_time = 0;
-        m_e_trigger_player = undefined;
-    }
-
 }
 
 // Namespace doors/doors_shared
@@ -650,8 +650,7 @@ function init() {
 // Checksum 0x7e527a32, Offset: 0x2c78
 // Size: 0xc30
 function setup_door_info(s_door_bundle, s_door_instance) {
-    [[ new cdoor ]]->__constructor();
-    c_door = <error pop>;
+    c_door = new cdoor();
     c_door flag::init("locked", 0);
     c_door flag::init("open", 0);
     c_door flag::init("animating", 0);
@@ -1135,9 +1134,7 @@ function function_4c16e397(var_3501c4df, var_b48f50dd) {
     if (!isdefined(var_b48f50dd)) {
         var_b48f50dd = "door";
     }
-    /#
-        assert(isdefined(level.var_96a4595f), "<dev string:x28>");
-    #/
+    assert(isdefined(level.var_96a4595f), "<dev string:x28>");
     self thread function_380dd131(var_3501c4df, var_b48f50dd);
 }
 
@@ -1149,9 +1146,7 @@ function function_fc201a7a(var_b48f50dd) {
     if (!isdefined(var_b48f50dd)) {
         var_b48f50dd = "door";
     }
-    /#
-        assert(isdefined(level.var_10ac440b), "<dev string:x81>");
-    #/
+    assert(isdefined(level.var_10ac440b), "<dev string:x81>");
     if (!isdefined(self.var_1166c5fc)) {
         self.var_1166c5fc = [];
     }

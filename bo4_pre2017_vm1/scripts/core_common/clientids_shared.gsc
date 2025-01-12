@@ -39,8 +39,6 @@ function on_player_connect() {
         self.clientid = level.clientid;
         level.clientid++;
     }
-    /#
-        println("<dev string:x28>" + self.name + "<dev string:x31>" + self.clientid);
-    #/
+    println("<dev string:x28>" + self.name + "<dev string:x31>" + self.clientid);
 }
 

@@ -65,13 +65,9 @@ function watchriotshieldpickup() {
     self endon(#"watch_riotshield_pickup");
     self waittill("pickup_riotshield");
     self endon(#"weapon_change");
-    /#
-        println("<dev string:x28>");
-    #/
+    println("<dev string:x28>");
     wait 0.5;
-    /#
-        println("<dev string:x60>");
-    #/
+    println("<dev string:x60>");
     currentweapon = self getcurrentweapon();
     self.hasriotshield = self hasriotshield();
     self.hasriotshieldequipped = currentweapon.isriotshield;
@@ -263,19 +259,11 @@ function watchriotshielddeploy() {
             item_ent = deployriotshield(self, shield_ent);
             primaries = self getweaponslistprimaries();
             /#
-                /#
-                    assert(isdefined(item_ent));
-                #/
-                /#
-                    assert(!isdefined(self.riotshieldretrievetrigger));
-                #/
-                /#
-                    assert(!isdefined(self.riotshieldentity));
-                #/
+                assert(isdefined(item_ent));
+                assert(!isdefined(self.riotshieldretrievetrigger));
+                assert(!isdefined(self.riotshieldentity));
                 if (level.gametype != "<dev string:x97>") {
-                    /#
-                        assert(primaries.size > 0);
-                    #/
+                    assert(primaries.size > 0);
                 }
             #/
             shield_ent clientfield::set("riotshield_state", 1);
@@ -316,20 +304,14 @@ function watchriotshielddeploy() {
 // Checksum 0xd76197d4, Offset: 0x1560
 // Size: 0x12e
 function riotshielddistancetest(origin) {
-    /#
-        /#
-            assert(isdefined(origin));
-        #/
-    #/
+    assert(isdefined(origin));
     min_dist_squared = getdvarfloat("riotshield_deploy_limit_radius");
     min_dist_squared *= min_dist_squared;
     for (i = 0; i < level.players.size; i++) {
         if (isdefined(level.players[i].riotshieldentity)) {
             dist_squared = distancesquared(level.players[i].riotshieldentity.origin, origin);
             if (min_dist_squared > dist_squared) {
-                /#
-                    println("<dev string:x9c>");
-                #/
+                println("<dev string:x9c>");
                 return false;
             }
         }
@@ -343,12 +325,8 @@ function riotshielddistancetest(origin) {
 // Size: 0xfc
 function watchdeployedriotshieldents() {
     /#
-        /#
-            assert(isdefined(self.riotshieldretrievetrigger));
-        #/
-        /#
-            assert(isdefined(self.riotshieldentity));
-        #/
+        assert(isdefined(self.riotshieldretrievetrigger));
+        assert(isdefined(self.riotshieldentity));
     #/
     self waittill("destroy_riotshield");
     if (isdefined(self.riotshieldretrievetrigger)) {
@@ -382,11 +360,7 @@ function watchdeployedriotshielddamage() {
         if (!isdefined(attacker)) {
             continue;
         }
-        /#
-            /#
-                assert(isdefined(self.owner) && isdefined(self.owner.team));
-            #/
-        #/
+        assert(isdefined(self.owner) && isdefined(self.owner.team));
         if (isplayer(attacker)) {
             if (level.teambased && attacker.team == self.owner.team && attacker != self.owner) {
                 continue;

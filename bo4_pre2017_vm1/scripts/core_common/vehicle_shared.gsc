@@ -173,9 +173,7 @@ function trigger_process(trigger) {
         }
         if (isdefined(trigger.script_vehiclegroupdelete)) {
             if (!isdefined(level.vehicle_deletegroup[trigger.script_vehiclegroupdelete])) {
-                /#
-                    println("<dev string:x28>", trigger.script_vehiclegroupdelete);
-                #/
+                println("<dev string:x28>", trigger.script_vehiclegroupdelete);
                 level.vehicle_deletegroup[trigger.script_vehiclegroupdelete] = [];
             }
             array::delete_all(level.vehicle_deletegroup[trigger.script_vehiclegroupdelete]);
@@ -189,9 +187,7 @@ function trigger_process(trigger) {
         }
         if (isdefined(trigger) && isdefined(trigger.script_vehiclestartmove)) {
             if (!isdefined(level.vehicle_startmovegroup[trigger.script_vehiclestartmove])) {
-                /#
-                    println("<dev string:x78>", trigger.script_vehiclestartmove);
-                #/
+                println("<dev string:x78>", trigger.script_vehiclestartmove);
                 return;
             }
             foreach (vehicle in arraycopy(level.vehicle_startmovegroup[trigger.script_vehiclestartmove])) {
@@ -449,9 +445,7 @@ function islastnode(node) {
 // Size: 0xc24
 function paths(node) {
     self endon(#"death");
-    /#
-        assert(isdefined(node) || isdefined(self.attachedpath), "<dev string:x95>");
-    #/
+    assert(isdefined(node) || isdefined(self.attachedpath), "<dev string:x95>");
     self notify(#"newpath");
     if (isdefined(node)) {
         self.attachedpath = node;
@@ -689,13 +683,9 @@ function get_on_path(path_start, str_key) {
     }
     if (!isdefined(path_start)) {
         if (isdefined(self.targetname)) {
-            /#
-                assertmsg("<dev string:xba>" + self.targetname);
-            #/
+            assertmsg("<dev string:xba>" + self.targetname);
         } else {
-            /#
-                assertmsg("<dev string:xba>" + self.targetname);
-            #/
+            assertmsg("<dev string:xba>" + self.targetname);
         }
     }
     if (isdefined(self.hasstarted)) {
@@ -760,9 +750,7 @@ function go_path() {
         arrayremovevalue(level.vehicle_startmovegroup[self.script_vehiclestartmove], self);
     }
     if (isdefined(self.hasstarted)) {
-        /#
-            println("<dev string:xdf>");
-        #/
+        println("<dev string:xdf>");
         return;
     } else {
         self.hasstarted = 1;
@@ -791,7 +779,7 @@ function go_path() {
 // Size: 0x30
 function path_gate_open(node) {
     node.gateopen = 1;
-    node notify(#"hash_91ff5153");
+    node notify(#"gate opened");
 }
 
 // Namespace vehicle/vehicle_shared
@@ -1322,9 +1310,7 @@ function get_normal_anim_time(animation) {
 // Size: 0x6c
 function setup_dynamic_detour(pathnode, get_func) {
     prevnode = [[ get_func ]](pathnode.targetname);
-    /#
-        assert(isdefined(prevnode), "<dev string:x16b>");
-    #/
+    assert(isdefined(prevnode), "<dev string:x16b>");
     prevnode.detoured = 0;
 }
 
@@ -1776,9 +1762,7 @@ function get_vehiclenode_any_dynamic(target) {
             println("<dev string:x1c7>" + path_start.targetname);
             println("<dev string:x1e4>" + self.vehicletype);
         #/
-        /#
-            assertmsg("<dev string:x1f2>");
-        #/
+        assertmsg("<dev string:x1f2>");
     }
     if (!isdefined(path_start)) {
         path_start = struct::get(target, "targetname");
@@ -1964,9 +1948,7 @@ function simple_spawn_single(name, b_supress_assert) {
         b_supress_assert = 0;
     }
     vehicle_array = simple_spawn(name, b_supress_assert);
-    /#
-        assert(b_supress_assert || vehicle_array.size == 1, "<dev string:x225>" + name + "<dev string:x24f>" + vehicle_array.size + "<dev string:x261>");
-    #/
+    assert(b_supress_assert || vehicle_array.size == 1, "<dev string:x225>" + name + "<dev string:x24f>" + vehicle_array.size + "<dev string:x261>");
     if (vehicle_array.size > 0) {
         return vehicle_array[0];
     }
@@ -1978,9 +1960,7 @@ function simple_spawn_single(name, b_supress_assert) {
 // Size: 0x9c
 function simple_spawn_single_and_drive(name) {
     vehiclearray = simple_spawn(name);
-    /#
-        assert(vehiclearray.size == 1, "<dev string:x225>" + name + "<dev string:x24f>" + vehiclearray.size + "<dev string:x261>");
-    #/
+    assert(vehiclearray.size == 1, "<dev string:x225>" + name + "<dev string:x24f>" + vehiclearray.size + "<dev string:x261>");
     vehiclearray[0] thread go_path();
     return vehiclearray[0];
 }
@@ -2002,18 +1982,10 @@ function simple_spawn_and_drive(name) {
 // Checksum 0x48855c61, Offset: 0x7890
 // Size: 0xda
 function spawn(modelname, targetname, vehicletype, origin, angles, destructibledef) {
-    /#
-        assert(isdefined(targetname));
-    #/
-    /#
-        assert(isdefined(vehicletype));
-    #/
-    /#
-        assert(isdefined(origin));
-    #/
-    /#
-        assert(isdefined(angles));
-    #/
+    assert(isdefined(targetname));
+    assert(isdefined(vehicletype));
+    assert(isdefined(origin));
+    assert(isdefined(angles));
     return spawnvehicle(vehicletype, origin, angles, targetname, destructibledef);
 }
 
@@ -2137,9 +2109,7 @@ function do_death_dynents(special_status) {
     if (!isdefined(special_status)) {
         special_status = 1;
     }
-    /#
-        assert(special_status >= 0 && special_status <= 3);
-    #/
+    assert(special_status >= 0 && special_status <= 3);
     self clientfield::set("spawn_death_dynents", special_status);
 }
 
@@ -2686,9 +2656,7 @@ function init_target_group() {
 // Checksum 0xdcc431ef, Offset: 0x9788
 // Size: 0xb2
 function add_to_target_group(target_ent) {
-    /#
-        assert(isdefined(self.target_group), "<dev string:x30b>");
-    #/
+    assert(isdefined(self.target_group), "<dev string:x30b>");
     if (!isdefined(self.target_group)) {
         self.target_group = [];
     } else if (!isarray(self.target_group)) {
@@ -2702,9 +2670,7 @@ function add_to_target_group(target_ent) {
 // Checksum 0x6524bff7, Offset: 0x9848
 // Size: 0x54
 function remove_from_target_group(target_ent) {
-    /#
-        assert(isdefined(self.target_group), "<dev string:x30b>");
-    #/
+    assert(isdefined(self.target_group), "<dev string:x30b>");
     arrayremovevalue(self.target_group, target_ent);
 }
 
@@ -2718,9 +2684,7 @@ function monitor_missiles_locked_on_to_me(player, wait_time) {
     }
     monitored_entity = self;
     monitored_entity endon(#"death");
-    /#
-        assert(isdefined(monitored_entity.target_group), "<dev string:x30b>");
-    #/
+    assert(isdefined(monitored_entity.target_group), "<dev string:x30b>");
     player endon(#"stop_monitor_missile_locked_on_to_me");
     player endon(#"disconnect");
     player endon(#"joined_team");
@@ -2744,9 +2708,7 @@ function stop_monitor_missiles_locked_on_to_me() {
 // Checksum 0xbf9fb469, Offset: 0x99c8
 // Size: 0x2b2
 function get_closest_attacker_with_missile_locked_on_to_me(monitored_entity) {
-    /#
-        assert(isdefined(monitored_entity.target_group), "<dev string:x30b>");
-    #/
+    assert(isdefined(monitored_entity.target_group), "<dev string:x30b>");
     player = self;
     closest_attacker = undefined;
     closest_attacker_dot = -999;

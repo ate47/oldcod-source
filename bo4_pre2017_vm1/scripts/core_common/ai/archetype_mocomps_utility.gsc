@@ -121,9 +121,7 @@ function private drawtraversalsection(section, entity, animation, mocompanimblen
 // Checksum 0xbfa5d905, Offset: 0xce8
 // Size: 0x7b0
 function private calculatetraveralsection(entity, traversal, animation, starttime, endtime, startposition, endposition, startangles) {
-    /#
-        assert(endtime >= starttime);
-    #/
+    assert(endtime >= starttime);
     animlength = getanimlength(animation);
     section = spawnstruct();
     section.starttime = starttime;
@@ -191,19 +189,13 @@ function private calculatetraveralsection(entity, traversal, animation, starttim
 // Checksum 0x174821ae, Offset: 0x14a0
 // Size: 0x5b0
 function calculatepivotoriginfromedge(entity, mantlenode, traversalstart) {
-    /#
-        assert(isvec(traversalstart));
-    #/
+    assert(isvec(traversalstart));
     mantlepoints = getnodeedge(mantlenode);
     mantlestart = undefined;
     mantleend = undefined;
     if (mantlepoints.size > 0) {
-        /#
-            assert(isarray(mantlepoints));
-        #/
-        /#
-            assert(mantlepoints.size >= 2);
-        #/
+        assert(isarray(mantlepoints));
+        assert(mantlepoints.size >= 2);
         mantlestart = mantlepoints[0];
         mantleend = mantlepoints[mantlepoints.size - 1];
     } else {
@@ -374,16 +366,12 @@ function private mocomptraversalproceduralpivotupdate(entity, mocompanim, mocomp
         }
     #/
     traversal = entity.traversal;
-    /#
-        assert(isdefined(traversal));
-    #/
+    assert(isdefined(traversal));
     animationrate = traversal.initialanimationrate;
     adjusteddeltaperframe = (0, 0, 0);
     animationnextsteptime = entity getanimtime(mocompanim) * traversal.animlength;
     movedelta = getmovedelta(mocompanim, traversal.lastanimtime / traversal.animlength, animationnextsteptime / traversal.animlength);
-    /#
-        assert(traversal.sections.size > 0);
-    #/
+    assert(traversal.sections.size > 0);
     section = traversal.sections[0];
     for (index = 0; index < traversal.sections.size; index++) {
         section = traversal.sections[index];
@@ -419,9 +407,7 @@ function private mocomptraversalproceduralpivotupdate(entity, mocompanim, mocomp
 // Size: 0x142
 function private mocomptraversalproceduralpivotterminate(entity, mocompanim, mocompanimblendouttime, mocompanimflag, mocompduration) {
     traversal = entity.traversal;
-    /#
-        assert(isdefined(traversal));
-    #/
+    assert(isdefined(traversal));
     mocomptraversalproceduralpivotupdate(entity, mocompanim, mocompanimblendouttime, mocompanimflag, mocompduration);
     if (isdefined(traversal.origincontents)) {
         entity setcontents(traversal.origincontents);
@@ -490,24 +476,16 @@ function private _addadjusttocover(archetype, node, stance, rot2, rot32, rot3, r
 // Checksum 0x6eb96dcc, Offset: 0x37a8
 // Size: 0x40a
 function private _getadjusttocoverrotation(archetype, node, stance, angletonode) {
-    /#
-        assert(isarray(level.adjusttocover[archetype]));
-    #/
+    assert(isarray(level.adjusttocover[archetype]));
     if (!isdefined(level.adjusttocover[archetype][node])) {
         node = "cover_any";
     }
-    /#
-        assert(isarray(level.adjusttocover[archetype][node]));
-    #/
+    assert(isarray(level.adjusttocover[archetype][node]));
     if (!isdefined(level.adjusttocover[archetype][node][stance])) {
         stance = "stance_any";
     }
-    /#
-        assert(isarray(level.adjusttocover[archetype][node][stance]));
-    #/
-    /#
-        assert(angletonode >= 0 && angletonode < 360);
-    #/
+    assert(isarray(level.adjusttocover[archetype][node][stance]));
+    assert(angletonode >= 0 && angletonode < 360);
     direction = undefined;
     if (angletonode < 11.25) {
         direction = 2;
@@ -544,9 +522,7 @@ function private _getadjusttocoverrotation(archetype, node, stance, angletonode)
     } else {
         direction = 2;
     }
-    /#
-        assert(isdefined(level.adjusttocover[archetype][node][stance][direction]));
-    #/
+    assert(isdefined(level.adjusttocover[archetype][node][stance][direction]));
     adjusttime = level.adjusttocover[archetype][node][stance][direction];
     if (isdefined(adjusttime)) {
         return adjusttime;

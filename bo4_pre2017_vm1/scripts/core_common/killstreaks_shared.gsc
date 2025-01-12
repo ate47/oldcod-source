@@ -87,9 +87,7 @@ function get_killstreak_weapon(killstreak) {
     if (!isdefined(killstreak)) {
         return level.weaponnone;
     }
-    /#
-        assert(isdefined(level.killstreaks[killstreak]));
-    #/
+    assert(isdefined(level.killstreaks[killstreak]));
     return level.killstreaks[killstreak].weapon;
 }
 

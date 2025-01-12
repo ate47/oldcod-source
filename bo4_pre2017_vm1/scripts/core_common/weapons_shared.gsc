@@ -109,9 +109,7 @@ function stow_on_back(current) {
     } else if (currentweapon != level.weaponnone) {
         for (idx = 0; idx < self.weapon_array_primary.size; idx++) {
             temp_index_weapon = self.weapon_array_primary[idx];
-            /#
-                assert(isdefined(temp_index_weapon), "<dev string:x28>");
-            #/
+            assert(isdefined(temp_index_weapon), "<dev string:x28>");
             if (temp_index_weapon == currentweapon) {
                 continue;
             }
@@ -126,9 +124,7 @@ function stow_on_back(current) {
         if (index_weapon == level.weaponnone) {
             for (idx = 0; idx < self.weapon_array_sidearm.size; idx++) {
                 temp_index_weapon = self.weapon_array_sidearm[idx];
-                /#
-                    assert(isdefined(temp_index_weapon), "<dev string:x47>");
-                #/
+                assert(isdefined(temp_index_weapon), "<dev string:x47>");
                 if (temp_index_weapon == currentweapon) {
                     continue;
                 }

@@ -22,10 +22,12 @@ class wavemanager {
 
     // Namespace wavemanager/wavemanager
     // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x3d0
-    // Size: 0x4
-    function __destructor() {
-        
+    // Checksum 0x35ae7634, Offset: 0x398
+    // Size: 0x2c
+    function constructor() {
+        activeaitypes = [];
+        currentwave = 1;
+        a_spawnfunctionsinfo = [];
     }
 
     // Namespace wavemanager/wavemanager
@@ -33,9 +35,7 @@ class wavemanager {
     // Checksum 0x12d59e18, Offset: 0x3148
     // Size: 0x74
     function stop_wave_manager(n_wave_manager_id) {
-        /#
-            assert(isdefined(n_wave_manager_id));
-        #/
+        assert(isdefined(n_wave_manager_id));
         wavemanager = get_wave_manager(n_wave_manager_id);
         if (isdefined(wavemanager)) {
             wavemanagersys::stopwavemanager(wavemanager);
@@ -47,12 +47,8 @@ class wavemanager {
     // Checksum 0x32590964, Offset: 0x3000
     // Size: 0x13e
     function remove_spawn_function(n_wave_manager_id, func_spawn_function) {
-        /#
-            assert(isdefined(n_wave_manager_id));
-        #/
-        /#
-            assert(isdefined(func_spawn_function));
-        #/
+        assert(isdefined(n_wave_manager_id));
+        assert(isdefined(func_spawn_function));
         wavemanager = get_wave_manager(n_wave_manager_id);
         if (isdefined(wavemanager)) {
             foreach (spawn_function_info in wavemanager.a_spawnfunctionsinfo) {
@@ -68,15 +64,10 @@ class wavemanager {
     // Checksum 0x8eaa97a0, Offset: 0x2e68
     // Size: 0x18a
     function add_spawn_function(n_wave_manager_id, func_spawn_function, ...) {
-        /#
-            assert(isdefined(n_wave_manager_id));
-        #/
-        /#
-            assert(isdefined(func_spawn_function));
-        #/
+        assert(isdefined(n_wave_manager_id));
+        assert(isdefined(func_spawn_function));
         wavemanager = get_wave_manager(n_wave_manager_id);
-        [[ new spawnfunctioninfo ]]->__constructor();
-        spawn_function_info = <error pop>;
+        spawn_function_info = new spawnfunctioninfo();
         spawn_function_info.function_ptr = func_spawn_function;
         spawn_function_info.params = vararg;
         if (isdefined(wavemanager)) {
@@ -132,8 +123,7 @@ class wavemanager {
     // Checksum 0x8055e556, Offset: 0x2b88
     // Size: 0x8a
     function start_wave_manager_by_name(str_wavemanager, str_team, func_spawn_function, ...) {
-        [[ new spawnfunctioninfo ]]->__constructor();
-        spawn_function_info = <error pop>;
+        spawn_function_info = new spawnfunctioninfo();
         spawn_function_info.function_ptr = func_spawn_function;
         spawn_function_info.params = vararg;
         return wavemanagersys::startwavemanagerinternal(undefined, str_team, str_wavemanager, spawn_function_info);
@@ -144,8 +134,7 @@ class wavemanager {
     // Checksum 0xf9c6b263, Offset: 0x2ad0
     // Size: 0xaa
     function start_wave_manager(s_wave_manager_struct, str_team, str_wavemanager, func_spawn_function, ...) {
-        [[ new spawnfunctioninfo ]]->__constructor();
-        spawn_function_info = <error pop>;
+        spawn_function_info = new spawnfunctioninfo();
         spawn_function_info.function_ptr = func_spawn_function;
         spawn_function_info.params = vararg;
         if (!isdefined(str_team)) {
@@ -162,16 +151,6 @@ class wavemanager {
         return level._activewavemanagers[n_id];
     }
 
-    // Namespace wavemanager/wavemanager
-    // Params 0, eflags: 0x0
-    // Checksum 0x35ae7634, Offset: 0x398
-    // Size: 0x2c
-    function __constructor() {
-        activeaitypes = [];
-        currentwave = 1;
-        a_spawnfunctionsinfo = [];
-    }
-
 }
 
 // Namespace wavemanagersys
@@ -184,17 +163,9 @@ class activeaitype {
 
     // Namespace activeaitype/wavemanager
     // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x650
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace activeaitype/wavemanager
-    // Params 0, eflags: 0x0
     // Checksum 0xafb50d7e, Offset: 0x620
     // Size: 0x28
-    function __constructor() {
+    function constructor() {
         variants = [];
         spawnedcount = 0;
         a_ai = [];
@@ -212,17 +183,9 @@ class spawnfunctioninfo {
 
     // Namespace spawnfunctioninfo/wavemanager
     // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x2a08
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace spawnfunctioninfo/wavemanager
-    // Params 0, eflags: 0x0
     // Checksum 0x2426e601, Offset: 0x29f0
     // Size: 0x10
-    function __constructor() {
+    function constructor() {
         params = [];
     }
 
@@ -251,9 +214,7 @@ function private __init__() {
 // Checksum 0xd05ceeef, Offset: 0x710
 // Size: 0xfe
 function private wavemanagerinitflags(wavemanager) {
-    /#
-        assert(isdefined(wavemanager));
-    #/
+    assert(isdefined(wavemanager));
     wavemanager flag::init("complete");
     wavemanager flag::init("cleared");
     for (n_wave = 1; n_wave <= wavemanager.wavecount; n_wave++) {
@@ -367,8 +328,7 @@ function private stopwavemanager(wavemanager) {
 // Size: 0x242
 function private startwavemanagerinternal(s_wave_manager_struct, str_team, str_wavemanager, spawn_function_info) {
     wavemanagerbundle = struct::get_script_bundle("wavemanager", isdefined(str_wavemanager) ? str_wavemanager : s_wave_manager_struct.scriptbundlename);
-    [[ new wavemanager ]]->__constructor();
-    wavemanager = <error pop>;
+    wavemanager = new wavemanager();
     wavemanager.m_str_team = util::get_team_mapping(str_team);
     wavemanager.uniqueid = getwavemanageruniqueid();
     wavemanager.wavemanagerbundle = wavemanagerbundle;
@@ -419,8 +379,7 @@ function private wavemanagerthink(wavemanager) {
         for (aitypeindex = 0; aitypeindex < 5; aitypeindex++) {
             validaitype = isaitypevalid(wavemanager, aitypeindex);
             if (validaitype) {
-                [[ new activeaitype ]]->__constructor();
-                activeaitype = <error pop>;
+                activeaitype = new activeaitype();
                 activeaitype.wavemanagerbundle = wavemanager.wavemanagerbundle;
                 if (!isdefined(wavemanager.activeaitypes)) {
                     wavemanager.activeaitypes = [];
@@ -493,12 +452,8 @@ function private wavemanagerthink(wavemanager) {
 // Checksum 0x494be7d9, Offset: 0x1558
 // Size: 0x122
 function private wavemanagerexecutespawnfunctions(wavemanager, e_ai) {
-    /#
-        assert(isdefined(wavemanager));
-    #/
-    /#
-        assert(isdefined(e_ai));
-    #/
+    assert(isdefined(wavemanager));
+    assert(isdefined(e_ai));
     if (isdefined(wavemanager.a_spawnfunctionsinfo)) {
         foreach (spawnfunction in wavemanager.a_spawnfunctionsinfo) {
             if (isdefined(spawnfunction.function_ptr)) {
@@ -513,9 +468,7 @@ function private wavemanagerexecutespawnfunctions(wavemanager, e_ai) {
 // Checksum 0xccbc15e5, Offset: 0x1688
 // Size: 0x9c
 function private activeaitypeinitflags(activeaitype) {
-    /#
-        assert(isdefined(activeaitype));
-    #/
+    assert(isdefined(activeaitype));
     activeaitype flag::init("activeaitype_" + activeaitype.index + "_complete");
     activeaitype flag::init("activeaitype_" + activeaitype.index + "_cleared");
 }
@@ -565,15 +518,11 @@ function private getactiveaitypealiveai(activeaitype) {
 // Checksum 0x62ad8cac, Offset: 0x1898
 // Size: 0xb8c
 function private activeaitypethink(wavemanager, activeaitype, aitypeindex) {
-    /#
-        assert(isaitypevalid(wavemanager, aitypeindex));
-    #/
+    assert(isaitypevalid(wavemanager, aitypeindex));
     activeaitype.index = aitypeindex;
     activeaitypeinitflags(activeaitype);
     activeaitype.variants = getaitypelist(wavemanager, aitypeindex);
-    /#
-        assert(activeaitype.variants.size);
-    #/
+    assert(activeaitype.variants.size);
     activeaitype.activecount = getaitypeintfield(wavemanager, aitypeindex, "activecount");
     activeaitype.totalcount = getaitypeintfield(wavemanager, aitypeindex, "totalcount");
     spawngroupsizemin = getaitypeintfield(wavemanager, aitypeindex, "groupsizemin");
@@ -619,9 +568,7 @@ function private activeaitypethink(wavemanager, activeaitype, aitypeindex) {
         }
         localspawnedcount = 0;
         spawngroupsize = activeaitype.spawngroupsize;
-        /#
-            assert(isdefined(availableslots));
-        #/
+        assert(isdefined(availableslots));
         if (spawngroupsize > availableslots) {
             spawngroupsize = availableslots;
         }
@@ -643,9 +590,7 @@ function private activeaitypethink(wavemanager, activeaitype, aitypeindex) {
                 randomvariant = randomint(activeaitype.variants.size);
                 randomvariant = activeaitype.variants[randomvariant];
                 randomvariant = aimappingtableutility::getspawnerforai(randomvariant, wavemanager.m_str_team);
-                /#
-                    assert(isdefined(randomvariant));
-                #/
+                assert(isdefined(randomvariant));
             }
             spawner::global_spawn_throttle();
             isaitype = isassetloaded("aitype", randomvariant);
@@ -657,13 +602,9 @@ function private activeaitypethink(wavemanager, activeaitype, aitypeindex) {
                 }
                 if (!isdefined(spawnpoint)) {
                     if (isdefined(wavemanager.str_spawpoint_targetname)) {
-                        /#
-                            assert("<dev string:x28>" + wavemanager.str_spawpoint_targetname + "<dev string:x36>" + getarchetypefromclassname(randomvariant) + "<dev string:x81>" + wavemanager.m_str_team + "<dev string:x8e>");
-                        #/
+                        assert("<dev string:x28>" + wavemanager.str_spawpoint_targetname + "<dev string:x36>" + getarchetypefromclassname(randomvariant) + "<dev string:x81>" + wavemanager.m_str_team + "<dev string:x8e>");
                     } else {
-                        /#
-                            assert("<dev string:x28>" + wavemanager.wavemanagerbundle.name + "<dev string:xab>" + getarchetypefromclassname(randomvariant) + "<dev string:x81>" + wavemanager.m_str_team + "<dev string:x8e>");
-                        #/
+                        assert("<dev string:x28>" + wavemanager.wavemanagerbundle.name + "<dev string:xab>" + getarchetypefromclassname(randomvariant) + "<dev string:x81>" + wavemanager.m_str_team + "<dev string:x8e>");
                     }
                 }
             }
@@ -674,18 +615,14 @@ function private activeaitypethink(wavemanager, activeaitype, aitypeindex) {
                 lastspawnpoint = spawnpoint;
             }
             if (isaitype) {
-                /#
-                    assert(isassetloaded("<dev string:xda>", randomvariant), "<dev string:xe1>" + randomvariant);
-                #/
+                assert(isassetloaded("<dev string:xda>", randomvariant), "<dev string:xe1>" + randomvariant);
                 if (isdefined(e_spawner)) {
                     ai = e_spawner spawnfromspawner(spawnpoint["spawner"].targetname, 1, 0, 1, "actor_" + randomvariant);
                 } else {
                     ai = spawnactor(randomvariant, v_origin, v_angles, undefined, 1);
                 }
             } else {
-                /#
-                    assert(isassetloaded("<dev string:x111>", randomvariant), "<dev string:x119>" + randomvariant);
-                #/
+                assert(isassetloaded("<dev string:x111>", randomvariant), "<dev string:x119>" + randomvariant);
                 if (isdefined(e_spawner)) {
                     ai = e_spawner spawnfromspawner(spawnpoint["spawner"].targetname, 1, 0, 1, randomvariant);
                 } else {
@@ -747,9 +684,7 @@ function private waveprefix(index) {
 // Checksum 0xd31095ed, Offset: 0x24b0
 // Size: 0x144
 function private isaitypevalid(wavemanager, aitypeindex) {
-    /#
-        assert(isdefined(wavemanager.wavemanagerbundle));
-    #/
+    assert(isdefined(wavemanager.wavemanagerbundle));
     prefix = waveprefix(wavemanager.currentwave);
     variant1 = wavemanager.wavemanagerbundle.(prefix + aitypeindex + "_" + "variant1");
     variant2 = wavemanager.wavemanagerbundle.(prefix + aitypeindex + "_" + "variant2");
@@ -765,12 +700,8 @@ function private isaitypevalid(wavemanager, aitypeindex) {
 // Checksum 0x3ddb787, Offset: 0x2600
 // Size: 0x28e
 function private getaitypelist(wavemanager, aitypeindex) {
-    /#
-        assert(isdefined(wavemanager.wavemanagerbundle));
-    #/
-    /#
-        assert(isaitypevalid(wavemanager, aitypeindex));
-    #/
+    assert(isdefined(wavemanager.wavemanagerbundle));
+    assert(isaitypevalid(wavemanager, aitypeindex));
     prefix = waveprefix(wavemanager.currentwave);
     aitypeprefixfromwave = aitypeprefixfromwave(prefix, aitypeindex);
     variant1 = wavemanager.wavemanagerbundle.(aitypeprefixfromwave + "variant1");
@@ -817,12 +748,8 @@ function private aitypeprefixfromwave(waveprefix, aitypeindex) {
 // Checksum 0xf9e191f6, Offset: 0x28c8
 // Size: 0x11a
 function private getaitypeintfield(wavemanager, aitypeindex, field) {
-    /#
-        assert(isdefined(wavemanager.wavemanagerbundle));
-    #/
-    /#
-        assert(isaitypevalid(wavemanager, aitypeindex));
-    #/
+    assert(isdefined(wavemanager.wavemanagerbundle));
+    assert(isaitypevalid(wavemanager, aitypeindex));
     prefix = waveprefix(wavemanager.currentwave);
     aitypeprefix = aitypeprefixfromwave(prefix, aitypeindex);
     value = wavemanager.wavemanagerbundle.(aitypeprefix + field);

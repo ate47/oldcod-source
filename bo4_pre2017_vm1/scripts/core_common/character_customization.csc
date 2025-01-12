@@ -133,9 +133,7 @@ function function_3a4cce98(game_mode) {
 // Checksum 0x46510a4e, Offset: 0x1270
 // Size: 0x38a
 function function_d79d6d7(localclientnum, data_struct, characterindex, params) {
-    /#
-        assert(isdefined(data_struct));
-    #/
+    assert(isdefined(data_struct));
     data_lcn = isdefined(data_struct.var_2fee1906) ? data_struct.var_2fee1906 : localclientnum;
     if (!isdefined(characterindex)) {
         characterindex = getequippedheroindex(data_lcn, params.sessionmode);
@@ -167,23 +165,15 @@ function function_d79d6d7(localclientnum, data_struct, characterindex, params) {
 // Checksum 0xcdc6b812, Offset: 0x1608
 // Size: 0x524
 function update_model_attachment(localclientnum, data_struct, attached_model, slot, model_anim, model_intro_anim, force_update) {
-    /#
-        assert(isdefined(data_struct.attached_models));
-    #/
-    /#
-        assert(isdefined(data_struct.var_b6087788));
-    #/
-    /#
-        assert(isdefined(level.model_type_bones));
-    #/
+    assert(isdefined(data_struct.attached_models));
+    assert(isdefined(data_struct.var_b6087788));
+    assert(isdefined(level.model_type_bones));
     if (force_update || attached_model !== data_struct.attached_models[slot] || model_anim !== data_struct.var_b6087788[slot]) {
         bone = slot;
         if (isdefined(level.model_type_bones[slot])) {
             bone = level.model_type_bones[slot];
         }
-        /#
-            assert(isdefined(bone));
-        #/
+        assert(isdefined(bone));
         if (isdefined(data_struct.attached_models[slot])) {
             if (isdefined(data_struct.var_14726a6d[slot])) {
                 data_struct.var_14726a6d[slot] unlink();
@@ -233,9 +223,7 @@ function set_character(data_struct, characterindex) {
 // Checksum 0x89757279, Offset: 0x1b68
 // Size: 0x68
 function set_character_mode(data_struct, charactermode) {
-    /#
-        assert(isdefined(charactermode));
-    #/
+    assert(isdefined(charactermode));
     data_struct.charactermode = charactermode;
     data_struct.var_b841ac58 = getcharactermoderenderoptions(charactermode);
 }
@@ -245,12 +233,8 @@ function set_character_mode(data_struct, charactermode) {
 // Checksum 0xbfbc627e, Offset: 0x1bd8
 // Size: 0x1cc
 function function_56dceb6(data_struct, mode, characterindex, bodyindex, bodycolors) {
-    /#
-        assert(isdefined(mode));
-    #/
-    /#
-        assert(mode != 3);
-    #/
+    assert(isdefined(mode));
+    assert(mode != 3);
     if (isdefined(data_struct.var_28223325) && mode == 2 && data_struct.var_28223325) {
         bodyindex = 1;
     }
@@ -442,9 +426,7 @@ function update(localclientnum, data_struct, params) {
     update_model_attachment(localclientnum, data_struct, var_88932ad4, "helmet", undefined, undefined, 1);
     head_model = data_struct.headmodel;
     if (show_helmet && isdefined(params) && getcharacterhelmethideshead(data_struct.characterindex, data_struct.var_bf37af0a, isdefined(params.sessionmode) ? params.sessionmode : data_struct.charactermode)) {
-        /#
-            assert(var_88932ad4 != "<dev string:x28>");
-        #/
+        assert(var_88932ad4 != "<dev string:x28>");
         head_model = "tag_origin";
     }
     update_model_attachment(localclientnum, data_struct, head_model, "head", undefined, undefined, 1);
@@ -506,9 +488,7 @@ function get_character_mode(localclientnum) {
 // Checksum 0x75c6081d, Offset: 0x3110
 // Size: 0x14c
 function function_7d59e996(localclientnum, charactermode, characterindex, var_66ec6e) {
-    /#
-        assert(isdefined(characterindex));
-    #/
+    assert(isdefined(characterindex));
     if (isdefined(var_66ec6e.isdefaulthero) && isdefined(var_66ec6e) && var_66ec6e.isdefaulthero) {
         return 0;
     }
@@ -1050,9 +1030,7 @@ function rotation_thread_spawner(localclientnum, data_struct, endonevent) {
     if (!isdefined(endonevent)) {
         return;
     }
-    /#
-        assert(isdefined(data_struct.charactermodel));
-    #/
+    assert(isdefined(data_struct.charactermodel));
     model = data_struct.charactermodel;
     baseangles = model.angles;
     level thread update_model_rotation_for_right_stick(localclientnum, data_struct, endonevent);
@@ -1068,9 +1046,7 @@ function rotation_thread_spawner(localclientnum, data_struct, endonevent) {
 // Size: 0x2b6
 function update_model_rotation_for_right_stick(localclientnum, data_struct, endonevent) {
     level endon(endonevent);
-    /#
-        assert(isdefined(data_struct.charactermodel));
-    #/
+    assert(isdefined(data_struct.charactermodel));
     model = data_struct.charactermodel;
     while (true) {
         data_lcn = isdefined(data_struct.var_2fee1906) ? data_struct.var_2fee1906 : localclientnum;
@@ -1136,9 +1112,7 @@ function wait_for_extracam_close(localclientnum, camera_ent, extracamindex) {
 // Checksum 0x89cae456, Offset: 0x5d50
 // Size: 0x33c
 function setup_character_extracam_settings(localclientnum, data_struct, extracam_data_struct) {
-    /#
-        assert(isdefined(extracam_data_struct.jobindex));
-    #/
+    assert(isdefined(extracam_data_struct.jobindex));
     if (!isdefined(level.camera_ents)) {
         level.camera_ents = [];
     }
@@ -1149,9 +1123,7 @@ function setup_character_extracam_settings(localclientnum, data_struct, extracam
         multi_extracam::extracam_init_index(localclientnum, "character_staging_extracam" + extracam_data_struct.extracamindex + 1, extracam_data_struct.extracamindex);
         camera_ent = level.camera_ents[localclientnum][extracam_data_struct.extracamindex];
     }
-    /#
-        assert(isdefined(camera_ent));
-    #/
+    assert(isdefined(camera_ent));
     camera_ent playextracamxcam(extracam_data_struct.xcam, 0, extracam_data_struct.subxcam);
     params = spawnstruct();
     params.anim_name = extracam_data_struct.anim_name;

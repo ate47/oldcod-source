@@ -80,7 +80,7 @@ function event_handler[GameType_Init] main(eventstruct) {
 function function_f7d50167() {
     waitframe(1);
     if (world.var_1048aced !== 0) {
-        world.var_3dcac2e2 = 0;
+        world.cp_bunk_anim_type = 0;
         level clientfield::set("first_time_flow", 1);
         /#
             printtoprightln("<dev string:x20e>", (1, 1, 1));
@@ -88,17 +88,17 @@ function function_f7d50167() {
         return;
     }
     if (math::cointoss()) {
-        world.var_3dcac2e2 = 0;
+        world.cp_bunk_anim_type = 0;
         /#
             printtoprightln("<dev string:x22e>", (1, 1, 1));
         #/
     } else {
-        world.var_3dcac2e2 = 1;
+        world.cp_bunk_anim_type = 1;
         /#
             printtoprightln("<dev string:x23b>", (1, 1, 1));
         #/
     }
-    level clientfield::set("cp_bunk_anim_type", world.var_3dcac2e2);
+    level clientfield::set("cp_bunk_anim_type", world.cp_bunk_anim_type);
 }
 
 // Namespace frontend/frontend
@@ -300,7 +300,7 @@ function function_c0d629d(animname, idleanimname, var_19357182, tagangles) {
     level.var_cc4f1e31 endon(#"closed");
     self thread animation::stop(0.2);
     self animation::play(animname, var_19357182, tagangles, 1, 0.2, 0.2);
-    self notify(#"hash_d75a7209");
+    self notify(#"finished_black_market_animation");
     self thread animation::play(idleanimname, var_19357182, tagangles, 1, 0.2, 0);
 }
 

@@ -240,9 +240,7 @@ function set_dr_flag(toset, setto) {
     if (!isdefined(setto)) {
         setto = 1;
     }
-    /#
-        assert(isdefined(setto));
-    #/
+    assert(isdefined(setto));
     if (isarray(toset)) {
         foreach (ts in toset) {
             set_dr_flag(ts, setto);

@@ -149,9 +149,7 @@ function callback_vehicledamage(einflictor, eattacker, idamage, idflags, smeanso
             idamage = self [[ damagecallback ]](einflictor, eattacker, idamage, idflags, smeansofdeath, weapon, vpoint, vdir, shitloc, vdamageorigin, psoffsettime, damagefromunderneath, modelindex, partname, vsurfacenormal);
         }
     }
-    /#
-        assert(isdefined(idamage), "<dev string:x28>");
-    #/
+    assert(isdefined(idamage), "<dev string:x28>");
     params.idamage = int(idamage);
     params.idflags = idflags;
     if (issentient(self)) {

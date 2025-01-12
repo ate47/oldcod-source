@@ -69,9 +69,7 @@ function player_init(clientnum) {
 function validate(fxid, origin) {
     /#
         if (!isdefined(level._effect[fxid])) {
-            /#
-                assertmsg("<dev string:x28>" + fxid + "<dev string:x3c>" + origin);
-            #/
+            assertmsg("<dev string:x28>" + fxid + "<dev string:x3c>" + origin);
         }
     #/
 }

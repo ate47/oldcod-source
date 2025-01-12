@@ -432,15 +432,15 @@ function function_3a5977e5(charactermodel, var_c55b8047) {
         return array("pb_launcher_alt_endgame_1stplace_out", "pb_launcher_alt_endgame_2ndplace_out", "pb_launcher_alt_endgame_3rdplace_out")[var_c55b8047];
     case #"weapon_knife":
         return array("pb_knife_endgame_1stplace_out", "pb_knife_endgame_2ndplace_out", "pb_knife_endgame_3rdplace_out")[var_c55b8047];
-    case #"hash_2edffeaa":
+    case #"weapon_knuckles":
         return array("pb_brass_knuckles_endgame_1stplace_out", "pb_brass_knuckles_endgame_2ndplace_out", "pb_brass_knuckles_endgame_3rdplace_out")[var_c55b8047];
-    case #"hash_b0dbbcab":
+    case #"weapon_wrench":
         return array("pb_wrench_endgame_1stplace_out", "pb_wrench_endgame_2ndplace_out", "pb_wrench_endgame_3rdplace_out")[var_c55b8047];
-    case #"hash_e44e282b":
+    case #"weapon_sword":
         return array("pb_sword_endgame_1stplace_out", "pb_sword_endgame_2ndplace_out", "pb_sword_endgame_3rdplace_out")[var_c55b8047];
-    case #"hash_fd9c5e58":
+    case #"weapon_nunchucks":
         return array("pb_nunchucks_endgame_1stplace_out", "pb_nunchucks_endgame_2ndplace_out", "pb_nunchucks_endgame_3rdplace_out")[var_c55b8047];
-    case #"hash_a388c976":
+    case #"weapon_mace":
         return array("pb_mace_endgame_1stplace_out", "pb_mace_endgame_2ndplace_out", "pb_mace_endgame_3rdplace_out")[var_c55b8047];
     }
     return "";
@@ -473,15 +473,15 @@ function function_ae20af86(charactermodel, var_c55b8047) {
         return array("pb_launcher_alt_endgame_1stplace_in", "pb_launcher_alt_endgame_2ndplace_in", "pb_launcher_alt_endgame_3rdplace_in")[var_c55b8047];
     case #"weapon_knife":
         return array("pb_knife_endgame_1stplace_in", "pb_knife_endgame_2ndplace_in", "pb_knife_endgame_3rdplace_in")[var_c55b8047];
-    case #"hash_2edffeaa":
+    case #"weapon_knuckles":
         return array("pb_brass_knuckles_endgame_1stplace_in", "pb_brass_knuckles_endgame_2ndplace_in", "pb_brass_knuckles_endgame_3rdplace_in")[var_c55b8047];
-    case #"hash_b0dbbcab":
+    case #"weapon_wrench":
         return array("pb_wrench_endgame_1stplace_in", "pb_wrench_endgame_2ndplace_in", "pb_wrench_endgame_3rdplace_in")[var_c55b8047];
-    case #"hash_e44e282b":
+    case #"weapon_sword":
         return array("pb_sword_endgame_1stplace_in", "pb_sword_endgame_2ndplace_in", "pb_sword_endgame_3rdplace_in")[var_c55b8047];
-    case #"hash_fd9c5e58":
+    case #"weapon_nunchucks":
         return array("pb_nunchucks_endgame_1stplace_in", "pb_nunchucks_endgame_2ndplace_in", "pb_nunchucks_endgame_3rdplace_in")[var_c55b8047];
-    case #"hash_a388c976":
+    case #"weapon_mace":
         return array("pb_mace_endgame_1stplace_in", "pb_mace_endgame_2ndplace_in", "pb_mace_endgame_3rdplace_in")[var_c55b8047];
     }
     return "";

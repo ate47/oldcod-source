@@ -309,60 +309,24 @@ function aat_response(death, inflictor, attacker, damage, flags, mod, weapon, vp
 // Checksum 0xa6d97959, Offset: 0x1510
 // Size: 0x630
 function register(name, percentage, cooldown_time_entity, cooldown_time_attacker, cooldown_time_global, occurs_on_death, result_func, damage_feedback_icon, damage_feedback_sound, validation_func) {
-    /#
-        assert(isdefined(level.aat_initializing) && level.aat_initializing, "<dev string:xcf>");
-    #/
-    /#
-        assert(isdefined(name), "<dev string:x13a>");
-    #/
-    /#
-        assert("<dev string:x54>" != name, "<dev string:x160>" + "<dev string:x54>" + "<dev string:x182>");
-    #/
-    /#
-        assert(!isdefined(level.aat[name]), "<dev string:x1b9>" + name + "<dev string:x1d0>");
-    #/
-    /#
-        assert(isdefined(percentage), "<dev string:x1b9>" + name + "<dev string:x1ee>");
-    #/
-    /#
-        assert(0 <= percentage && 1 > percentage, "<dev string:x1b9>" + name + "<dev string:x20c>");
-    #/
-    /#
-        assert(isdefined(cooldown_time_entity), "<dev string:x1b9>" + name + "<dev string:x255>");
-    #/
-    /#
-        assert(0 <= cooldown_time_entity, "<dev string:x1b9>" + name + "<dev string:x27d>");
-    #/
-    /#
-        assert(isdefined(cooldown_time_entity), "<dev string:x1b9>" + name + "<dev string:x2c0>");
-    #/
-    /#
-        assert(0 <= cooldown_time_entity, "<dev string:x1b9>" + name + "<dev string:x2ea>");
-    #/
-    /#
-        assert(isdefined(cooldown_time_global), "<dev string:x1b9>" + name + "<dev string:x32f>");
-    #/
-    /#
-        assert(0 <= cooldown_time_global, "<dev string:x1b9>" + name + "<dev string:x357>");
-    #/
-    /#
-        assert(isdefined(occurs_on_death), "<dev string:x1b9>" + name + "<dev string:x39a>");
-    #/
-    /#
-        assert(isdefined(result_func), "<dev string:x1b9>" + name + "<dev string:x3bd>");
-    #/
-    /#
-        assert(isdefined(damage_feedback_icon), "<dev string:x1b9>" + name + "<dev string:x3dc>");
-    #/
-    /#
-        assert(isstring(damage_feedback_icon), "<dev string:x1b9>" + name + "<dev string:x404>");
-    #/
-    /#
-        assert(isdefined(damage_feedback_sound), "<dev string:x1b9>" + name + "<dev string:x42d>");
-    #/
-    /#
-        assert(isstring(damage_feedback_sound), "<dev string:x1b9>" + name + "<dev string:x456>");
-    #/
+    assert(isdefined(level.aat_initializing) && level.aat_initializing, "<dev string:xcf>");
+    assert(isdefined(name), "<dev string:x13a>");
+    assert("<dev string:x54>" != name, "<dev string:x160>" + "<dev string:x54>" + "<dev string:x182>");
+    assert(!isdefined(level.aat[name]), "<dev string:x1b9>" + name + "<dev string:x1d0>");
+    assert(isdefined(percentage), "<dev string:x1b9>" + name + "<dev string:x1ee>");
+    assert(0 <= percentage && 1 > percentage, "<dev string:x1b9>" + name + "<dev string:x20c>");
+    assert(isdefined(cooldown_time_entity), "<dev string:x1b9>" + name + "<dev string:x255>");
+    assert(0 <= cooldown_time_entity, "<dev string:x1b9>" + name + "<dev string:x27d>");
+    assert(isdefined(cooldown_time_entity), "<dev string:x1b9>" + name + "<dev string:x2c0>");
+    assert(0 <= cooldown_time_entity, "<dev string:x1b9>" + name + "<dev string:x2ea>");
+    assert(isdefined(cooldown_time_global), "<dev string:x1b9>" + name + "<dev string:x32f>");
+    assert(0 <= cooldown_time_global, "<dev string:x1b9>" + name + "<dev string:x357>");
+    assert(isdefined(occurs_on_death), "<dev string:x1b9>" + name + "<dev string:x39a>");
+    assert(isdefined(result_func), "<dev string:x1b9>" + name + "<dev string:x3bd>");
+    assert(isdefined(damage_feedback_icon), "<dev string:x1b9>" + name + "<dev string:x3dc>");
+    assert(isstring(damage_feedback_icon), "<dev string:x1b9>" + name + "<dev string:x404>");
+    assert(isdefined(damage_feedback_sound), "<dev string:x1b9>" + name + "<dev string:x42d>");
+    assert(isstring(damage_feedback_sound), "<dev string:x1b9>" + name + "<dev string:x456>");
     level.aat[name] = spawnstruct();
     level.aat[name].name = name;
     level.aat[name].hash_id = hashstring(name);
@@ -389,21 +353,11 @@ function register_immunity(name, archetype, immune_trigger, immune_result_direct
     while (level.aat_initializing !== 0) {
         waitframe(1);
     }
-    /#
-        assert(isdefined(name), "<dev string:x13a>");
-    #/
-    /#
-        assert(isdefined(archetype), "<dev string:x480>");
-    #/
-    /#
-        assert(isdefined(immune_trigger), "<dev string:x4ab>");
-    #/
-    /#
-        assert(isdefined(immune_result_direct), "<dev string:x4db>");
-    #/
-    /#
-        assert(isdefined(immune_result_indirect), "<dev string:x511>");
-    #/
+    assert(isdefined(name), "<dev string:x13a>");
+    assert(isdefined(archetype), "<dev string:x480>");
+    assert(isdefined(immune_trigger), "<dev string:x4ab>");
+    assert(isdefined(immune_result_direct), "<dev string:x4db>");
+    assert(isdefined(immune_result_indirect), "<dev string:x511>");
     if (!isdefined(level.aat[name].immune_trigger)) {
         level.aat[name].immune_trigger = [];
     }
@@ -423,18 +377,14 @@ function register_immunity(name, archetype, immune_trigger, immune_result_direct
 // Checksum 0x9a3ca256, Offset: 0x1d98
 // Size: 0x18c
 function finalize_clientfields() {
-    /#
-        println("<dev string:x549>");
-    #/
+    println("<dev string:x549>");
     if (level.aat.size > 1) {
         array::alphabetize(level.aat);
         i = 0;
         foreach (aat in level.aat) {
             aat.clientfield_index = i;
             i++;
-            /#
-                println("<dev string:x563>" + aat.name);
-            #/
+            println("<dev string:x563>" + aat.name);
         }
         n_bits = getminbitcountfornum(level.aat.size - 1);
         clientfield::register("toplayer", "aat_current", 1, n_bits, "int");
@@ -465,30 +415,14 @@ function is_exempt_weapon(weapon) {
 // Checksum 0x67da6b5d, Offset: 0x1fc0
 // Size: 0x278
 function register_reroll(name, count, active_func, damage_feedback_icon) {
-    /#
-        assert(isdefined(name), "<dev string:x568>");
-    #/
-    /#
-        assert("<dev string:x54>" != name, "<dev string:x596>" + "<dev string:x54>" + "<dev string:x182>");
-    #/
-    /#
-        assert(!isdefined(level.aat[name]), "<dev string:x5bf>" + name + "<dev string:x1d0>");
-    #/
-    /#
-        assert(isdefined(count), "<dev string:x5e3>" + name + "<dev string:x608>");
-    #/
-    /#
-        assert(0 < count, "<dev string:x5e3>" + name + "<dev string:x621>");
-    #/
-    /#
-        assert(isdefined(active_func), "<dev string:x5e3>" + name + "<dev string:x641>");
-    #/
-    /#
-        assert(isdefined(damage_feedback_icon), "<dev string:x5e3>" + name + "<dev string:x3dc>");
-    #/
-    /#
-        assert(isstring(damage_feedback_icon), "<dev string:x5e3>" + name + "<dev string:x404>");
-    #/
+    assert(isdefined(name), "<dev string:x568>");
+    assert("<dev string:x54>" != name, "<dev string:x596>" + "<dev string:x54>" + "<dev string:x182>");
+    assert(!isdefined(level.aat[name]), "<dev string:x5bf>" + name + "<dev string:x1d0>");
+    assert(isdefined(count), "<dev string:x5e3>" + name + "<dev string:x608>");
+    assert(0 < count, "<dev string:x5e3>" + name + "<dev string:x621>");
+    assert(isdefined(active_func), "<dev string:x5e3>" + name + "<dev string:x641>");
+    assert(isdefined(damage_feedback_icon), "<dev string:x5e3>" + name + "<dev string:x3dc>");
+    assert(isstring(damage_feedback_icon), "<dev string:x5e3>" + name + "<dev string:x404>");
     level.aat_reroll[name] = spawnstruct();
     level.aat_reroll[name].name = name;
     level.aat_reroll[name].count = count;
@@ -516,23 +450,15 @@ function acquire(weapon, name) {
     if (!(isdefined(level.aat_in_use) && level.aat_in_use)) {
         return;
     }
-    /#
-        assert(isdefined(weapon), "<dev string:x660>");
-    #/
-    /#
-        assert(weapon != level.weaponnone, "<dev string:x687>");
-    #/
+    assert(isdefined(weapon), "<dev string:x660>");
+    assert(weapon != level.weaponnone, "<dev string:x687>");
     weapon = get_nonalternate_weapon(weapon);
     if (is_exempt_weapon(weapon)) {
         return;
     }
     if (isdefined(name)) {
-        /#
-            assert("<dev string:x54>" != name, "<dev string:x6bb>" + "<dev string:x54>" + "<dev string:x182>");
-        #/
-        /#
-            assert(isdefined(level.aat[name]), "<dev string:x6dc>" + name + "<dev string:x6f2>");
-        #/
+        assert("<dev string:x54>" != name, "<dev string:x6bb>" + "<dev string:x54>" + "<dev string:x182>");
+        assert(isdefined(level.aat[name]), "<dev string:x6dc>" + name + "<dev string:x6f2>");
         self.aat[weapon] = name;
     } else {
         keys = getarraykeys(level.aat);
@@ -556,12 +482,8 @@ function remove(weapon) {
     if (!(isdefined(level.aat_in_use) && level.aat_in_use)) {
         return;
     }
-    /#
-        assert(isdefined(weapon), "<dev string:x709>");
-    #/
-    /#
-        assert(weapon != level.weaponnone, "<dev string:x72f>");
-    #/
+    assert(isdefined(weapon), "<dev string:x709>");
+    assert(weapon != level.weaponnone, "<dev string:x72f>");
     weapon = get_nonalternate_weapon(weapon);
     self.aat[weapon] = undefined;
 }

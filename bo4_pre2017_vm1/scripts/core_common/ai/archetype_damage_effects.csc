@@ -372,9 +372,7 @@ function actorcharrampto(localclientnum, chardesired) {
         maturemask = 1;
     }
     if (!isdefined(self.charsteps)) {
-        /#
-            assert(isdefined(chardesired));
-        #/
+        assert(isdefined(chardesired));
         self.charsteps = int(200);
         delta = chardesired - self.curcharlevel;
         self.charinc = delta / self.charsteps;

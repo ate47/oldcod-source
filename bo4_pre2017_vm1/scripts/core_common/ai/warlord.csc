@@ -88,9 +88,7 @@ function function_6765fb9c(localclientnum, oldvalue, newvalue, bnewent, binitial
 function function_a4d15a01(localclientnum, oldvalue, newvalue, bnewent, binitialsnap, fieldname, wasdemojump) {
     entity = self;
     if (isdefined(entity.var_a8d008e0)) {
-        /#
-            assert(isarray(entity.var_a8d008e0));
-        #/
+        assert(isarray(entity.var_a8d008e0));
         for (index = 0; index < entity.var_a8d008e0.size; index++) {
             stopfx(localclientnum, entity.var_a8d008e0[index]);
         }

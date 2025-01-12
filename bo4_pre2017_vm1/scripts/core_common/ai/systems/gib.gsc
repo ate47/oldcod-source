@@ -41,8 +41,7 @@ function autoexec main() {
     }
     level.var_6a65aa40 = processedbundles;
     if (!isdefined(level.gib_throttle)) {
-        [[ new throttle ]]->__constructor();
-        level.gib_throttle = <error pop>;
+        level.gib_throttle = new throttle();
         [[ level.gib_throttle ]]->initialize(2, 0.2);
     }
 }
@@ -78,9 +77,7 @@ function private _getgibextramodel(entity, gibflag) {
     if (gibflag == 8) {
         return (isdefined(entity.gib_data) ? entity.gib_data.head : entity.head);
     }
-    /#
-        assertmsg("<dev string:x28>");
-    #/
+    assertmsg("<dev string:x28>");
 }
 
 // Namespace gibserverutils/gib

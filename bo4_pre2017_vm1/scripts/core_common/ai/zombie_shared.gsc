@@ -27,15 +27,9 @@ function lookatentity(var_22ba4c26, lookduration, lookspeed, eyesonly, interrupt
 // Checksum 0x936e2bd8, Offset: 0x560
 // Size: 0x1be
 function lookatposition(looktargetpos, lookduration, lookspeed, eyesonly, interruptothers) {
-    /#
-        assert(isai(self), "<dev string:x28>");
-    #/
-    /#
-        assert(self.a.targetlookinitilized == 1, "<dev string:x57>");
-    #/
-    /#
-        assert(lookspeed == "<dev string:x95>" || lookspeed == "<dev string:x9c>", "<dev string:xa2>");
-    #/
+    assert(isai(self), "<dev string:x28>");
+    assert(self.a.targetlookinitilized == 1, "<dev string:x57>");
+    assert(lookspeed == "<dev string:x95>" || lookspeed == "<dev string:x9c>", "<dev string:xa2>");
     if (!isdefined(interruptothers) || interruptothers == "interrupt others" || gettime() > self.a.lookendtime) {
         self.a.looktargetpos = looktargetpos;
         self.a.lookendtime = gettime() + lookduration * 1000;
@@ -391,9 +385,7 @@ function donotetracksforeverproc(notetracksfunc, flagname, killstring, customfun
             returnednote = [[ notetracksfunc ]](flagname, customfunction, var1);
             timetaken = gettime() - time;
             if (timetaken < 0.05) {
-                /#
-                    println(gettime() + "<dev string:xc4>" + flagname + "<dev string:x111>" + returnednote + "<dev string:x11d>");
-                #/
+                println(gettime() + "<dev string:xc4>" + flagname + "<dev string:x111>" + returnednote + "<dev string:x11d>");
                 wait 0.05 - timetaken;
             }
         }
@@ -494,9 +486,7 @@ function playfootstepeffect(foot, groundtype) {
 function movetooriginovertime(origin, time) {
     self endon(#"killanimscript");
     if (distancesquared(self.origin, origin) > 256 && !self maymovetopoint(origin)) {
-        /#
-            println("<dev string:x11f>" + origin + "<dev string:x14c>");
-        #/
+        println("<dev string:x11f>" + origin + "<dev string:x14c>");
         return;
     }
     self.keepclaimednodeingoal = 1;

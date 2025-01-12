@@ -174,9 +174,7 @@ function function_23cf79ea() {
 // Size: 0x5c
 function snd_set_snapshot(state) {
     level._sndnextsnapshot = state;
-    /#
-        println("<dev string:x28>" + state + "<dev string:x44>");
-    #/
+    println("<dev string:x28>" + state + "<dev string:x44>");
     level notify(#"new_bus");
 }
 
@@ -192,12 +190,8 @@ function snd_snapshot_think() {
         if (level._sndactivesnapshot == level._sndnextsnapshot) {
             continue;
         }
-        /#
-            assert(isdefined(level._sndnextsnapshot));
-        #/
-        /#
-            assert(isdefined(level._sndactivesnapshot));
-        #/
+        assert(isdefined(level._sndnextsnapshot));
+        assert(isdefined(level._sndactivesnapshot));
         setgroupsnapshot(level._sndnextsnapshot);
         level._sndactivesnapshot = level._sndnextsnapshot;
     }
@@ -284,15 +278,11 @@ function soundloopthink() {
         return;
     }
     notifyname = "";
-    /#
-        assert(isdefined(notifyname));
-    #/
+    assert(isdefined(notifyname));
     if (isdefined(self.script_string)) {
         notifyname = self.script_string;
     }
-    /#
-        assert(isdefined(notifyname));
-    #/
+    assert(isdefined(notifyname));
     started = 1;
     if (isdefined(self.script_int)) {
         started = self.script_int != 0;
@@ -434,9 +424,7 @@ function startlineemitters() {
 function startrattles() {
     rattles = struct::get_array("sound_rattle", "script_label");
     if (isdefined(rattles)) {
-        /#
-            println("<dev string:xfd>" + rattles.size + "<dev string:x104>");
-        #/
+        println("<dev string:xfd>" + rattles.size + "<dev string:x104>");
         delay = 0;
         for (i = 0; i < rattles.size; i++) {
             soundrattlesetup(rattles[i].script_sound, rattles[i].origin);
@@ -511,11 +499,7 @@ function trig_enter_audio_material_trigger(player) {
 function trig_leave_audio_material_trigger(player) {
     if (isdefined(self.script_label)) {
         player.inmaterialoverridetrigger--;
-        /#
-            /#
-                assert(player.inmaterialoverridetrigger >= 0);
-            #/
-        #/
+        assert(player.inmaterialoverridetrigger >= 0);
         if (player.inmaterialoverridetrigger <= 0) {
             player.audiomaterialoverride = undefined;
             player.inmaterialoverridetrigger = 0;
@@ -566,9 +550,7 @@ function trig_leave_audio_step_trigger(trigplayer) {
         trigplayer.insteptrigger -= 1;
     }
     if (trigplayer.insteptrigger < 0) {
-        /#
-            println("<dev string:x147>");
-        #/
+        println("<dev string:x147>");
         trigplayer.insteptrigger = 0;
     }
     if (trigplayer.insteptrigger == 0) {

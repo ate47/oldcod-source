@@ -341,9 +341,7 @@ function state_emped_update(params) {
     self endon(#"death");
     self endon(#"change_state");
     time = params.notify_param[0];
-    /#
-        assert(isdefined(time));
-    #/
+    assert(isdefined(time));
     vehicle_ai::cooldown("emped_timer", time);
     while (!vehicle_ai::iscooldownready("emped_timer")) {
         timeleft = max(vehicle_ai::getcooldownleft("emped_timer"), 0.5);

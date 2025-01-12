@@ -76,9 +76,7 @@ function init() {
     foreach (str_key, _ in level.struct_class_names) {
         if (isdefined(self.(str_key))) {
             if (str_key == "script_linkname") {
-                /#
-                    assert(!isdefined(level.struct_class_names[str_key][self.(str_key)]), "<dev string:x28>" + str_key);
-                #/
+                assert(!isdefined(level.struct_class_names[str_key][self.(str_key)]), "<dev string:x28>" + str_key);
             }
             if (!isdefined(level.struct_class_names[str_key][self.(str_key)])) {
                 level.struct_class_names[str_key][self.(str_key)] = [];
@@ -101,9 +99,7 @@ function get(kvp_value, kvp_key) {
     if (isdefined(level.struct_class_names[kvp_key]) && isdefined(level.struct_class_names[kvp_key][kvp_value])) {
         /#
             if (level.struct_class_names[kvp_key][kvp_value].size > 1) {
-                /#
-                    assertmsg("<dev string:x43>" + kvp_key + "<dev string:x78>" + kvp_value + "<dev string:x7e>");
-                #/
+                assertmsg("<dev string:x43>" + kvp_key + "<dev string:x78>" + kvp_value + "<dev string:x7e>");
                 return undefined;
             }
         #/

@@ -42,9 +42,7 @@ function callback(event, params) {
 // Checksum 0x35cc66ca, Offset: 0x3b0
 // Size: 0x19c
 function add_callback(event, func, obj) {
-    /#
-        assert(isdefined(event), "<dev string:x28>");
-    #/
+    assert(isdefined(event), "<dev string:x28>");
     if (!isdefined(level._callbacks) || !isdefined(level._callbacks[event])) {
         level._callbacks[event] = [];
     }
@@ -75,12 +73,8 @@ function remove_callback_on_death(event, func) {
 // Checksum 0xf17aed75, Offset: 0x5c0
 // Size: 0x146
 function remove_callback(event, func, obj) {
-    /#
-        assert(isdefined(event), "<dev string:x58>");
-    #/
-    /#
-        assert(isdefined(level._callbacks[event]), "<dev string:x8b>");
-    #/
+    assert(isdefined(event), "<dev string:x58>");
+    assert(isdefined(level._callbacks[event]), "<dev string:x8b>");
     foreach (index, func_group in level._callbacks[event]) {
         if (func_group[0] == func) {
             if (func_group[1] === obj) {
@@ -558,9 +552,7 @@ function event_handler[player_disconnect] codecallback_playerdisconnect(eventstr
 // Checksum 0x883708cc, Offset: 0x15f8
 // Size: 0x34
 function event_handler[hostmigration_setupgametype] codecallback_migration_setupgametype() {
-    /#
-        println("<dev string:xb8>");
-    #/
+    println("<dev string:xb8>");
     simple_hostmigration::migration_setupgametype();
 }
 
@@ -569,9 +561,7 @@ function event_handler[hostmigration_setupgametype] codecallback_migration_setup
 // Checksum 0x89e234e, Offset: 0x1638
 // Size: 0x40
 function event_handler[hostmigration] codecallback_hostmigration(eventstruct) {
-    /#
-        println("<dev string:xe5>");
-    #/
+    println("<dev string:xe5>");
     [[ level.callbackhostmigration ]]();
 }
 
@@ -580,9 +570,7 @@ function event_handler[hostmigration] codecallback_hostmigration(eventstruct) {
 // Checksum 0x535a6c21, Offset: 0x1680
 // Size: 0x40
 function event_handler[hostmigration_save] codecallback_hostmigrationsave(eventstruct) {
-    /#
-        println("<dev string:x108>");
-    #/
+    println("<dev string:x108>");
     [[ level.callbackhostmigrationsave ]]();
 }
 
@@ -591,9 +579,7 @@ function event_handler[hostmigration_save] codecallback_hostmigrationsave(events
 // Checksum 0x522c2eaf, Offset: 0x16c8
 // Size: 0x40
 function event_handler[hostmigration_premigrationsave] codecallback_prehostmigrationsave(eventstruct) {
-    /#
-        println("<dev string:x12f>");
-    #/
+    println("<dev string:x12f>");
     [[ level.callbackprehostmigrationsave ]]();
 }
 
@@ -602,9 +588,7 @@ function event_handler[hostmigration_premigrationsave] codecallback_prehostmigra
 // Checksum 0xf94235f2, Offset: 0x1710
 // Size: 0x40
 function event_handler[hostmigration_playermigrated] codecallback_playermigrated(eventstruct) {
-    /#
-        println("<dev string:x159>");
-    #/
+    println("<dev string:x159>");
     [[ level.callbackplayermigrated ]]();
 }
 
@@ -860,9 +844,7 @@ function event_handler[ui_fadeblackscreen] codecallback_fadeblackscreen(eventstr
 // Checksum 0x6ea66b6d, Offset: 0x2640
 // Size: 0x1dc
 function abort_level() {
-    /#
-        println("<dev string:x17d>");
-    #/
+    println("<dev string:x17d>");
     level.callbackstartgametype = &callback_void;
     level.callbackplayerconnect = &callback_void;
     level.callbackplayerdisconnect = &callback_void;

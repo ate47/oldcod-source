@@ -146,18 +146,10 @@ function function_2d42a17f(movementtype, surfacetype, firstperson, var_7c95fc4) 
     if (!isdefined(level.var_5e17f7ae[movementtype][surfacetype][firstperson])) {
         level.var_5e17f7ae[movementtype][surfacetype][firstperson] = [];
     }
-    /#
-        assert(isarray(level.var_5e17f7ae));
-    #/
-    /#
-        assert(isarray(level.var_5e17f7ae[movementtype]));
-    #/
-    /#
-        assert(isarray(level.var_5e17f7ae[movementtype][surfacetype]));
-    #/
-    /#
-        assert(isarray(level.var_5e17f7ae[movementtype][surfacetype][firstperson]));
-    #/
+    assert(isarray(level.var_5e17f7ae));
+    assert(isarray(level.var_5e17f7ae[movementtype]));
+    assert(isarray(level.var_5e17f7ae[movementtype][surfacetype]));
+    assert(isarray(level.var_5e17f7ae[movementtype][surfacetype][firstperson]));
     level.var_5e17f7ae[movementtype][surfacetype][firstperson][var_7c95fc4] = sound_alias;
     return sound_alias;
 }
@@ -209,9 +201,7 @@ function missing_ai_footstep_callback() {
 // Size: 0xfa
 function playaifootstep(client_num, pos, surface, notetrack, bone) {
     if (!isdefined(self.archetype)) {
-        /#
-            println("<dev string:x175>");
-        #/
+        println("<dev string:x175>");
         footstepdoeverything();
         return;
     }

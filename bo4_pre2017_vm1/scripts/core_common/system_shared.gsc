@@ -12,9 +12,7 @@ function register(str_name, func_preinit, func_postinit, reqs) {
         reqs = [];
     }
     if (isdefined(level.system_funcs) && isdefined(level.system_funcs[str_name])) {
-        /#
-            assertmsg("<dev string:x28>" + str_name + "<dev string:x31>");
-        #/
+        assertmsg("<dev string:x28>" + str_name + "<dev string:x31>");
         return;
     }
     if (!isdefined(level.system_funcs)) {
@@ -36,9 +34,7 @@ function register(str_name, func_preinit, func_postinit, reqs) {
 function exec_post_system(str_name) {
     /#
         if (!isdefined(level.system_funcs[str_name])) {
-            /#
-                assertmsg("<dev string:x28>" + str_name + "<dev string:x79>");
-            #/
+            assertmsg("<dev string:x28>" + str_name + "<dev string:x79>");
         }
     #/
     if (level.system_funcs[str_name].ignore) {
@@ -56,9 +52,7 @@ function exec_post_system(str_name) {
 // Size: 0x1f4
 function run_post_systems() {
     foreach (key, func in level.system_funcs) {
-        /#
-            assert(func.predone || func.ignore, "<dev string:x8b>");
-        #/
+        assert(func.predone || func.ignore, "<dev string:x8b>");
         if (isarray(func.reqs)) {
             foreach (req in func.reqs) {
                 thread exec_post_system(req);
@@ -81,9 +75,7 @@ function run_post_systems() {
 function exec_pre_system(str_name) {
     /#
         if (!isdefined(level.system_funcs[str_name])) {
-            /#
-                assertmsg("<dev string:x28>" + str_name + "<dev string:x79>");
-            #/
+            assertmsg("<dev string:x28>" + str_name + "<dev string:x79>");
         }
     #/
     if (level.system_funcs[str_name].ignore) {
@@ -128,9 +120,7 @@ function wait_till(required_systems) {
 // Checksum 0x5f6c60fa, Offset: 0x830
 // Size: 0xa4
 function ignore(str_name) {
-    /#
-        assert(!isdefined(level.gametype), "<dev string:xf4>");
-    #/
+    assert(!isdefined(level.gametype), "<dev string:xf4>");
     if (!isdefined(level.system_funcs) || !isdefined(level.system_funcs[str_name])) {
         register(str_name, undefined, undefined, undefined);
     }

@@ -461,9 +461,7 @@ function function_7f55c5c4(target) {
 // Checksum 0xb2907bef, Offset: 0x2020
 // Size: 0x154
 function function_90fba777() {
-    /#
-        println("<dev string:x72>" + self getentnum());
-    #/
+    println("<dev string:x72>" + self getentnum());
     self clientfield::set("firefly_state", 5);
     self playsound("wpn_gelgun_hive_die");
     if (isdefined(self.target_entity) && isplayer(self.target_entity)) {
@@ -473,9 +471,7 @@ function function_90fba777() {
     waittillframeend();
     thread function_c3149187(self.killcament);
     if (isdefined(self)) {
-        /#
-            println("<dev string:x81>" + self getentnum());
-        #/
+        println("<dev string:x81>" + self getentnum());
         self delete();
     }
 }

@@ -135,9 +135,7 @@ function gadget_thief_on_give(slot, weapon) {
 // Checksum 0x5daf935a, Offset: 0x1078
 // Size: 0x5c
 function gadget_thief_kill_callback(victim, weapon) {
-    /#
-        assert(isdefined(self.gadget_thief_slot));
-    #/
+    assert(isdefined(self.gadget_thief_slot));
     self thread handlethiefkill(self.gadget_thief_slot, weapon, victim);
 }
 
@@ -436,7 +434,7 @@ function failsafe_reenable_offhand_special() {
 function handlestolenscoreevent(heavyweapon) {
     switch (heavyweapon.name) {
     case #"hero_minigun":
-    case #"hash_8deed52f":
+    case #"hero_minigun_body3":
         event = "minigun_stolen";
         label = "SCORE_MINIGUN_STOLEN";
         break;
@@ -736,7 +734,7 @@ function getvictimbodyindex(victim, heroweapon) {
     if (bodyindex == 9) {
         switch (heroweapon.name) {
         case #"hero_minigun":
-        case #"hash_8deed52f":
+        case #"hero_minigun_body3":
             bodyindex = 6;
             break;
         case #"hero_flamethrower":

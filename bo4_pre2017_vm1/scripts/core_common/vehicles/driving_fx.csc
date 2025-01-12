@@ -11,6 +11,15 @@ class vehiclewheelfx {
     var tag_name;
 
     // Namespace vehiclewheelfx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0x92468f28, Offset: 0x550
+    // Size: 0x24
+    function constructor() {
+        name = "";
+        tag_name = "";
+    }
+
+    // Namespace vehiclewheelfx/driving_fx
     // Params 3, eflags: 0x0
     // Checksum 0x88fb617, Offset: 0x668
     // Size: 0x4d4
@@ -78,29 +87,10 @@ class vehiclewheelfx {
         name = _name;
         tag_name = var_4db840da;
         ground_fx = [];
-        [[ new groundfx ]]->__constructor();
-        ground_fx["skid"] = <error pop>;
-        [[ new groundfx ]]->__constructor();
-        ground_fx["tread"] = <error pop>;
+        ground_fx["skid"] = new groundfx();
+        ground_fx["tread"] = new groundfx();
         ground_fx["tread"].id = "";
         ground_fx["tread"].handle = -1;
-    }
-
-    // Namespace vehiclewheelfx/driving_fx
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x580
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace vehiclewheelfx/driving_fx
-    // Params 0, eflags: 0x0
-    // Checksum 0x92468f28, Offset: 0x550
-    // Size: 0x24
-    function __constructor() {
-        name = "";
-        tag_name = "";
     }
 
 }
@@ -111,6 +101,15 @@ class groundfx {
 
     var handle;
     var id;
+
+    // Namespace groundfx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0xad7cfa9a, Offset: 0x260
+    // Size: 0x20
+    function constructor() {
+        id = undefined;
+        handle = -1;
+    }
 
     // Namespace groundfx/driving_fx
     // Params 1, eflags: 0x0
@@ -151,23 +150,6 @@ class groundfx {
         }
     }
 
-    // Namespace groundfx/driving_fx
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x288
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace groundfx/driving_fx
-    // Params 0, eflags: 0x0
-    // Checksum 0xad7cfa9a, Offset: 0x260
-    // Size: 0x20
-    function __constructor() {
-        id = undefined;
-        handle = -1;
-    }
-
 }
 
 // Namespace driving_fx
@@ -179,6 +161,18 @@ class vehicle_camera_fx {
     var var_356b4f1d;
     var var_b2800d13;
     var var_dbad56df;
+
+    // Namespace vehicle_camera_fx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0xfbd65265, Offset: 0xc38
+    // Size: 0x54
+    function constructor() {
+        var_30ff2ea1 = 0.5;
+        var_dbad56df = 1;
+        var_356b4f1d = 0.1;
+        var_b2800d13 = 0.115;
+        var_2a5a26c8 = "";
+    }
 
     // Namespace vehicle_camera_fx/driving_fx
     // Params 3, eflags: 0x0
@@ -213,26 +207,6 @@ class vehicle_camera_fx {
         var_356b4f1d = var_edd22bf1;
         var_b2800d13 = var_5b4a0a4f;
         var_2a5a26c8 = rumble != "" ? rumble : var_2a5a26c8;
-    }
-
-    // Namespace vehicle_camera_fx/driving_fx
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0xc98
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace vehicle_camera_fx/driving_fx
-    // Params 0, eflags: 0x0
-    // Checksum 0xfbd65265, Offset: 0xc38
-    // Size: 0x54
-    function __constructor() {
-        var_30ff2ea1 = 0.5;
-        var_dbad56df = 1;
-        var_356b4f1d = 0.1;
-        var_b2800d13 = 0.115;
-        var_2a5a26c8 = "";
     }
 
 }
@@ -283,16 +257,13 @@ function function_789b5418(localclientnum) {
         }
         self.var_250efb17 = [];
         for (i = 0; i < var_8b6aab6b.size; i++) {
-            [[ new vehiclewheelfx ]]->__constructor();
-            self.var_250efb17[i] = <error pop>;
+            self.var_250efb17[i] = new vehiclewheelfx();
             [[ self.var_250efb17[i] ]]->init(var_8b6aab6b[i], var_6b26776a[i]);
         }
         self.var_aa924851 = [];
-        [[ new vehicle_camera_fx ]]->__constructor();
-        self.var_aa924851["speed"] = <error pop>;
+        self.var_aa924851["speed"] = new vehicle_camera_fx();
         [[ self.var_aa924851["speed"] ]]->init(0.5, 1, 0.1, 0.115, "reload_small");
-        [[ new vehicle_camera_fx ]]->__constructor();
-        self.var_aa924851["skid"] = <error pop>;
+        self.var_aa924851["skid"] = new vehicle_camera_fx();
         [[ self.var_aa924851["skid"] ]]->init(0.25, 0.35, 0.1, 0.115);
     }
     self.var_560fa114 = 0;

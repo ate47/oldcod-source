@@ -4,9 +4,9 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_f5f10e8c;
+#namespace flashgrenades;
 
-// Namespace namespace_f5f10e8c/namespace_f5f10e8c
+// Namespace flashgrenades/flashgrenades
 // Params 0, eflags: 0x0
 // Checksum 0xc79ca0a1, Offset: 0x1a8
 // Size: 0x64
@@ -17,7 +17,7 @@ function init_shared() {
     callback::on_connect(&monitorflash);
 }
 
-// Namespace namespace_f5f10e8c/namespace_f5f10e8c
+// Namespace flashgrenades/flashgrenades
 // Params 1, eflags: 0x0
 // Checksum 0x411ce68, Offset: 0x218
 // Size: 0x7e
@@ -32,7 +32,7 @@ function flashrumbleloop(duration) {
     }
 }
 
-// Namespace namespace_f5f10e8c/namespace_f5f10e8c
+// Namespace flashgrenades/flashgrenades
 // Params 4, eflags: 0x0
 // Checksum 0x872a1032, Offset: 0x2a0
 // Size: 0x3ec
@@ -57,9 +57,7 @@ function function_8e149bc3(amount_distance, amount_angle, attacker, var_b4b1c76e
     } else {
         rumbleduration = 0.25;
     }
-    /#
-        assert(isdefined(self.team));
-    #/
+    assert(isdefined(self.team));
     if (level.teambased && isdefined(attacker) && isdefined(attacker.team) && attacker.team == self.team && attacker != self) {
         friendlyfire = [[ level.figure_out_friendly_fire ]](self);
         if (friendlyfire == 0) {
@@ -96,7 +94,7 @@ function function_8e149bc3(amount_distance, amount_angle, attacker, var_b4b1c76e
     }
 }
 
-// Namespace namespace_f5f10e8c/namespace_f5f10e8c
+// Namespace flashgrenades/flashgrenades
 // Params 0, eflags: 0x0
 // Checksum 0xf16f063c, Offset: 0x698
 // Size: 0xa8
@@ -113,7 +111,7 @@ function monitorflash() {
     }
 }
 
-// Namespace namespace_f5f10e8c/namespace_f5f10e8c
+// Namespace flashgrenades/flashgrenades
 // Params 0, eflags: 0x0
 // Checksum 0x86655ae1, Offset: 0x748
 // Size: 0xd0
@@ -130,7 +128,7 @@ function function_de4f854a() {
     }
 }
 
-// Namespace namespace_f5f10e8c/namespace_f5f10e8c
+// Namespace flashgrenades/flashgrenades
 // Params 3, eflags: 0x0
 // Checksum 0x4957ac07, Offset: 0x820
 // Size: 0x166
@@ -157,7 +155,7 @@ function applyflash(duration, rumbleduration, attacker) {
     self.var_b3800d86 = undefined;
 }
 
-// Namespace namespace_f5f10e8c/namespace_f5f10e8c
+// Namespace flashgrenades/flashgrenades
 // Params 1, eflags: 0x0
 // Checksum 0x14b0c871, Offset: 0x990
 // Size: 0x16c
@@ -180,7 +178,7 @@ function function_125a6838(duration) {
     var_d514ab92 delete();
 }
 
-// Namespace namespace_f5f10e8c/namespace_f5f10e8c
+// Namespace flashgrenades/flashgrenades
 // Params 1, eflags: 0x0
 // Checksum 0xc567d2b4, Offset: 0xb08
 // Size: 0x3c

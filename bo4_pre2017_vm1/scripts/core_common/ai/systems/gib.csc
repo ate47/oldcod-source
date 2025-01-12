@@ -156,9 +156,7 @@ function private _getgibextramodel(localclientnumm, entity, gibflag) {
     if (gibflag == 8) {
         return (isdefined(entity.gib_data) ? entity.gib_data.head : entity.head);
     }
-    /#
-        assertmsg("<dev string:x28>");
-    #/
+    assertmsg("<dev string:x28>");
 }
 
 // Namespace gibclientutils/gib
@@ -492,9 +490,7 @@ function _playgibsound(localclientnum, entity, soundalias) {
 // Checksum 0x3536ef83, Offset: 0x2208
 // Size: 0xf6
 function addgibcallback(localclientnum, entity, gibflag, callbackfunction) {
-    /#
-        assert(isfunctionptr(callbackfunction));
-    #/
+    assert(isfunctionptr(callbackfunction));
     if (!isdefined(entity._gibcallbacks)) {
         entity._gibcallbacks = [];
     }

@@ -16,9 +16,7 @@ function setupminimap(material, zone) {
     requiredmapaspectratio = getdvarfloat("scr_requiredMapAspectRatio");
     corners = getentarray("minimap_corner", "targetname");
     if (corners.size != 2) {
-        /#
-            println("<dev string:x28>");
-        #/
+        println("<dev string:x28>");
         return;
     }
     corner0 = (corners[0].origin[0], corners[0].origin[1], 0);
@@ -54,9 +52,7 @@ function setupminimap(material, zone) {
 function setupminimapzone(zone) {
     corners = getentarray("zone_0" + zone + "_corner", "targetname");
     if (corners.size != 2) {
-        /#
-            println("<dev string:x28>");
-        #/
+        println("<dev string:x28>");
         return;
     }
     corner0 = (corners[0].origin[0], corners[0].origin[1], 0);

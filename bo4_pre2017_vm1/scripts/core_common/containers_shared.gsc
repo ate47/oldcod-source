@@ -29,22 +29,6 @@ class ccontainer {
         return m_e_container;
     }
 
-    // Namespace ccontainer/containers_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x320
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace ccontainer/containers_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x310
-    // Size: 0x4
-    function __constructor() {
-        
-    }
-
 }
 
 // Namespace containers/containers_shared
@@ -86,8 +70,7 @@ function init() {
 // Checksum 0x6ccbbbb6, Offset: 0x600
 // Size: 0xd8
 function setup_container_scriptbundle(s_bundle, s_container_instance) {
-    [[ new ccontainer ]]->__constructor();
-    c_container = <error pop>;
+    c_container = new ccontainer();
     c_container.m_s_container_bundle = s_bundle;
     c_container.m_s_fxanim_bundle = struct::get_script_bundle("scene", s_bundle.theeffectbundle);
     c_container.m_s_container_instance = s_container_instance;

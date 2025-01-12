@@ -19,31 +19,17 @@
 // Size: 0x2f4
 function autoexec registerbehaviorscriptfunctions() {
     spawner::add_archetype_spawn_function("zombie_dog", &archetypezombiedogblackboardinit);
-    /#
-        assert(isscriptfunctionptr(&zombiedogtargetservice));
-    #/
+    assert(isscriptfunctionptr(&zombiedogtargetservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("zombieDogTargetService", &zombiedogtargetservice);
-    /#
-        assert(isscriptfunctionptr(&zombiedogshouldmelee));
-    #/
+    assert(isscriptfunctionptr(&zombiedogshouldmelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("zombieDogShouldMelee", &zombiedogshouldmelee);
-    /#
-        assert(isscriptfunctionptr(&zombiedogshouldwalk));
-    #/
+    assert(isscriptfunctionptr(&zombiedogshouldwalk));
     behaviortreenetworkutility::registerbehaviortreescriptapi("zombieDogShouldWalk", &zombiedogshouldwalk);
-    /#
-        assert(isscriptfunctionptr(&zombiedogshouldrun));
-    #/
+    assert(isscriptfunctionptr(&zombiedogshouldrun));
     behaviortreenetworkutility::registerbehaviortreescriptapi("zombieDogShouldRun", &zombiedogshouldrun);
-    /#
-        assert(!isdefined(&zombiedogmeleeaction) || isscriptfunctionptr(&zombiedogmeleeaction));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
-    /#
-        assert(!isdefined(&zombiedogmeleeactionterminate) || isscriptfunctionptr(&zombiedogmeleeactionterminate));
-    #/
+    assert(!isdefined(&zombiedogmeleeaction) || isscriptfunctionptr(&zombiedogmeleeaction));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
+    assert(!isdefined(&zombiedogmeleeactionterminate) || isscriptfunctionptr(&zombiedogmeleeactionterminate));
     behaviortreenetworkutility::registerbehaviortreeaction("zombieDogMeleeAction", &zombiedogmeleeaction, undefined, &zombiedogmeleeactionterminate);
     animationstatenetwork::registernotetrackhandlerfunction("dog_melee", &zombiebehavior::zombienotetrackmeleefire);
     namespace_273d1a1c::registerzombiedoginterfaceattributes();
@@ -118,9 +104,7 @@ function getyaw(org) {
 // Checksum 0xa052066c, Offset: 0x980
 // Size: 0xa0
 function absyawtoenemy() {
-    /#
-        assert(isdefined(self.enemy));
-    #/
+    assert(isdefined(self.enemy));
     yaw = self.angles[1] - getyaw(self.enemy.origin);
     yaw = angleclamp180(yaw);
     if (yaw < 0) {

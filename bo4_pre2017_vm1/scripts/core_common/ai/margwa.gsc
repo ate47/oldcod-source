@@ -84,157 +84,79 @@ function function_5f9266e0(weaponname) {
 // Checksum 0xbf17cc7d, Offset: 0x1130
 // Size: 0xf24
 function private function_618e8c7d() {
-    /#
-        assert(isscriptfunctionptr(&margwatargetservice));
-    #/
+    assert(isscriptfunctionptr(&margwatargetservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTargetService", &margwatargetservice);
-    /#
-        assert(isscriptfunctionptr(&margwashouldsmashattack));
-    #/
+    assert(isscriptfunctionptr(&margwashouldsmashattack));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldSmashAttack", &margwashouldsmashattack);
-    /#
-        assert(isscriptfunctionptr(&margwashouldswipeattack));
-    #/
+    assert(isscriptfunctionptr(&margwashouldswipeattack));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldSwipeAttack", &margwashouldswipeattack);
-    /#
-        assert(isscriptfunctionptr(&margwashouldshowpain));
-    #/
+    assert(isscriptfunctionptr(&margwashouldshowpain));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldShowPain", &margwashouldshowpain);
-    /#
-        assert(isscriptfunctionptr(&margwashouldreactstun));
-    #/
+    assert(isscriptfunctionptr(&margwashouldreactstun));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldReactStun", &margwashouldreactstun);
-    /#
-        assert(isscriptfunctionptr(&function_177ffb7f));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldReactIDGun", &function_177ffb7f);
-    /#
-        assert(isscriptfunctionptr(&function_f779aea3));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldReactSword", &function_f779aea3);
-    /#
-        assert(isscriptfunctionptr(&margwashouldspawn));
-    #/
+    assert(isscriptfunctionptr(&margwaShouldReactIDGun));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldReactIDGun", &margwaShouldReactIDGun);
+    assert(isscriptfunctionptr(&margwaShouldReactSword));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldReactSword", &margwaShouldReactSword);
+    assert(isscriptfunctionptr(&margwashouldspawn));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldSpawn", &margwashouldspawn);
-    /#
-        assert(isscriptfunctionptr(&function_41769342));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldFreeze", &function_41769342);
-    /#
-        assert(isscriptfunctionptr(&function_9782fb97));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldTeleportIn", &function_9782fb97);
-    /#
-        assert(isscriptfunctionptr(&function_ee830c62));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldTeleportOut", &function_ee830c62);
-    /#
-        assert(isscriptfunctionptr(&function_8526bc6c));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldWait", &function_8526bc6c);
-    /#
-        assert(isscriptfunctionptr(&margwashouldreset));
-    #/
+    assert(isscriptfunctionptr(&margwaShouldFreeze));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldFreeze", &margwaShouldFreeze);
+    assert(isscriptfunctionptr(&margwaShouldTeleportIn));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldTeleportIn", &margwaShouldTeleportIn);
+    assert(isscriptfunctionptr(&margwaShouldTeleportOut));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldTeleportOut", &margwaShouldTeleportOut);
+    assert(isscriptfunctionptr(&margwaShouldWait));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldWait", &margwaShouldWait);
+    assert(isscriptfunctionptr(&margwashouldreset));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaShouldReset", &margwashouldreset);
-    /#
-        assert(!isdefined(&margwareactstunaction) || isscriptfunctionptr(&margwareactstunaction));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
+    assert(!isdefined(&margwareactstunaction) || isscriptfunctionptr(&margwareactstunaction));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
     behaviortreenetworkutility::registerbehaviortreeaction("margwaReactStunAction", &margwareactstunaction, undefined, undefined);
-    /#
-        assert(!isdefined(&margwaswipeattackaction) || isscriptfunctionptr(&margwaswipeattackaction));
-    #/
-    /#
-        assert(!isdefined(&function_43d6f899) || isscriptfunctionptr(&function_43d6f899));
-    #/
-    /#
-        assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
-    #/
+    assert(!isdefined(&margwaswipeattackaction) || isscriptfunctionptr(&margwaswipeattackaction));
+    assert(!isdefined(&function_43d6f899) || isscriptfunctionptr(&function_43d6f899));
+    assert(!isdefined(undefined) || isscriptfunctionptr(undefined));
     behaviortreenetworkutility::registerbehaviortreeaction("margwaSwipeAttackAction", &margwaswipeattackaction, &function_43d6f899, undefined);
-    /#
-        assert(isscriptfunctionptr(&margwaidlestart));
-    #/
+    assert(isscriptfunctionptr(&margwaidlestart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaIdleStart", &margwaidlestart);
-    /#
-        assert(isscriptfunctionptr(&margwamovestart));
-    #/
+    assert(isscriptfunctionptr(&margwamovestart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaMoveStart", &margwamovestart);
-    /#
-        assert(isscriptfunctionptr(&margwatraverseactionstart));
-    #/
+    assert(isscriptfunctionptr(&margwatraverseactionstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTraverseActionStart", &margwatraverseactionstart);
-    /#
-        assert(isscriptfunctionptr(&function_f4326d46));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTeleportInStart", &function_f4326d46);
-    /#
-        assert(isscriptfunctionptr(&function_d6861357));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTeleportInTerminate", &function_d6861357);
-    /#
-        assert(isscriptfunctionptr(&function_a3b5ed13));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTeleportOutStart", &function_a3b5ed13);
-    /#
-        assert(isscriptfunctionptr(&function_9bf18b02));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTeleportOutTerminate", &function_9bf18b02);
-    /#
-        assert(isscriptfunctionptr(&margwapainstart));
-    #/
+    assert(isscriptfunctionptr(&margwaTeleportInStart));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTeleportInStart", &margwaTeleportInStart);
+    assert(isscriptfunctionptr(&margwaTeleportInTerminate));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTeleportInTerminate", &margwaTeleportInTerminate);
+    assert(isscriptfunctionptr(&margwaTeleportOutStart));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTeleportOutStart", &margwaTeleportOutStart);
+    assert(isscriptfunctionptr(&margwaTeleportOutTerminate));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaTeleportOutTerminate", &margwaTeleportOutTerminate);
+    assert(isscriptfunctionptr(&margwapainstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaPainStart", &margwapainstart);
-    /#
-        assert(isscriptfunctionptr(&margwapainterminate));
-    #/
+    assert(isscriptfunctionptr(&margwapainterminate));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaPainTerminate", &margwapainterminate);
-    /#
-        assert(isscriptfunctionptr(&margwareactstunstart));
-    #/
+    assert(isscriptfunctionptr(&margwareactstunstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactStunStart", &margwareactstunstart);
-    /#
-        assert(isscriptfunctionptr(&margwareactstunterminate));
-    #/
+    assert(isscriptfunctionptr(&margwareactstunterminate));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactStunTerminate", &margwareactstunterminate);
-    /#
-        assert(isscriptfunctionptr(&function_bd904c32));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactIDGunStart", &function_bd904c32);
-    /#
-        assert(isscriptfunctionptr(&function_8219ce43));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactIDGunTerminate", &function_8219ce43);
-    /#
-        assert(isscriptfunctionptr(&function_78a5c7d6));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactSwordStart", &function_78a5c7d6);
-    /#
-        assert(isscriptfunctionptr(&function_976fb907));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactSwordTerminate", &function_976fb907);
-    /#
-        assert(isscriptfunctionptr(&margwaspawnstart));
-    #/
+    assert(isscriptfunctionptr(&margwaReactIDGunStart));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactIDGunStart", &margwaReactIDGunStart);
+    assert(isscriptfunctionptr(&margwaReactIDGunTerminate));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactIDGunTerminate", &margwaReactIDGunTerminate);
+    assert(isscriptfunctionptr(&margwaReactSwordStart));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactSwordStart", &margwaReactSwordStart);
+    assert(isscriptfunctionptr(&margwaReactSwordTerminate));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("margwaReactSwordTerminate", &margwaReactSwordTerminate);
+    assert(isscriptfunctionptr(&margwaspawnstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaSpawnStart", &margwaspawnstart);
-    /#
-        assert(isscriptfunctionptr(&margwasmashattackstart));
-    #/
+    assert(isscriptfunctionptr(&margwasmashattackstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaSmashAttackStart", &margwasmashattackstart);
-    /#
-        assert(isscriptfunctionptr(&margwasmashattackterminate));
-    #/
+    assert(isscriptfunctionptr(&margwasmashattackterminate));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaSmashAttackTerminate", &margwasmashattackterminate);
-    /#
-        assert(isscriptfunctionptr(&margwaswipeattackstart));
-    #/
+    assert(isscriptfunctionptr(&margwaswipeattackstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaSwipeAttackStart", &margwaswipeattackstart);
-    /#
-        assert(isscriptfunctionptr(&margwaswipeattackterminate));
-    #/
+    assert(isscriptfunctionptr(&margwaswipeattackterminate));
     behaviortreenetworkutility::registerbehaviortreescriptapi("margwaSwipeAttackTerminate", &margwaswipeattackterminate);
     animationstatenetwork::registeranimationmocomp("mocomp_teleport_traversal@margwa", &function_405168ca, &function_95847de7, &function_8bdd20c9);
     animationstatenetwork::registernotetrackhandlerfunction("margwa_smash_attack", &function_f28be431);
@@ -430,7 +352,7 @@ function private margwashouldreactstun(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x46b8c2af, Offset: 0x2900
 // Size: 0x3a
-function private function_177ffb7f(entity) {
+function private margwaShouldReactIDGun(entity) {
     if (isdefined(entity.var_843f1731) && entity.var_843f1731) {
         return true;
     }
@@ -441,7 +363,7 @@ function private function_177ffb7f(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x5c75a324, Offset: 0x2948
 // Size: 0x3a
-function private function_f779aea3(entity) {
+function private margwaShouldReactSword(entity) {
     if (isdefined(entity.var_70e85a9d) && entity.var_70e85a9d) {
         return true;
     }
@@ -463,7 +385,7 @@ function private margwashouldspawn(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x48f8a65e, Offset: 0x29d8
 // Size: 0x3a
-function private function_41769342(entity) {
+function private margwaShouldFreeze(entity) {
     if (isdefined(entity.isfrozen) && entity.isfrozen) {
         return true;
     }
@@ -474,7 +396,7 @@ function private function_41769342(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x89747f0, Offset: 0x2a20
 // Size: 0x3a
-function private function_9782fb97(entity) {
+function private margwaShouldTeleportIn(entity) {
     if (isdefined(entity.var_b830cb9) && entity.var_b830cb9) {
         return true;
     }
@@ -485,7 +407,7 @@ function private function_9782fb97(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x6693e902, Offset: 0x2a68
 // Size: 0x3a
-function private function_ee830c62(entity) {
+function private margwaShouldTeleportOut(entity) {
     if (isdefined(entity.var_3993b370) && entity.var_3993b370) {
         return true;
     }
@@ -496,7 +418,7 @@ function private function_ee830c62(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x1dacfaf2, Offset: 0x2ab0
 // Size: 0x3a
-function private function_8526bc6c(entity) {
+function private margwaShouldWait(entity) {
     if (isdefined(entity.waiting) && entity.waiting) {
         return true;
     }
@@ -625,7 +547,7 @@ function private margwatraverseactionstart(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x68b2e017, Offset: 0x3040
 // Size: 0x154
-function private function_f4326d46(entity) {
+function private margwaTeleportInStart(entity) {
     entity unlink();
     if (isdefined(entity.var_16410986)) {
         entity forceteleport(entity.var_16410986);
@@ -647,7 +569,7 @@ function private function_f4326d46(entity) {
 // Params 1, eflags: 0x0
 // Checksum 0x3802f90, Offset: 0x31a0
 // Size: 0x4c
-function function_d6861357(entity) {
+function margwaTeleportInTerminate(entity) {
     if (isdefined(self.var_58ce2260)) {
         self.var_58ce2260 clientfield::set("margwa_fx_travel", 0);
     }
@@ -658,7 +580,7 @@ function function_d6861357(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x21c31fcd, Offset: 0x31f8
 // Size: 0xcc
-function private function_a3b5ed13(entity) {
+function private margwaTeleportOutStart(entity) {
     entity.var_3993b370 = 0;
     entity.isteleporting = 1;
     entity.var_e9eccbbc = entity.origin;
@@ -673,7 +595,7 @@ function private function_a3b5ed13(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x34b82fde, Offset: 0x32d0
 // Size: 0x134
-function private function_9bf18b02(entity) {
+function private margwaTeleportOutTerminate(entity) {
     if (isdefined(entity.var_58ce2260)) {
         entity.var_58ce2260.origin = entity gettagorigin("j_spine_1");
         entity.var_58ce2260 clientfield::set("margwa_fx_travel", 1);
@@ -751,7 +673,7 @@ function margwareactstunterminate(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x7f3b6285, Offset: 0x3660
 // Size: 0x13c
-function private function_bd904c32(entity) {
+function private margwaReactIDGunStart(entity) {
     entity.var_843f1731 = undefined;
     entity.var_894f701d = 0;
     var_15006cdd = 0;
@@ -776,7 +698,7 @@ function private function_bd904c32(entity) {
 // Params 1, eflags: 0x0
 // Checksum 0xb5aad234, Offset: 0x37a8
 // Size: 0x44
-function function_8219ce43(entity) {
+function margwaReactIDGunTerminate(entity) {
     entity.var_894f701d = 1;
     entity setblackboardattribute("_zombie_damageweapon_type", "regular");
 }
@@ -785,7 +707,7 @@ function function_8219ce43(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0xee579895, Offset: 0x37f8
 // Size: 0x58
-function private function_78a5c7d6(entity) {
+function private margwaReactSwordStart(entity) {
     entity.var_70e85a9d = undefined;
     entity.var_894f701d = 0;
     if (isdefined(entity.var_337c5d83)) {
@@ -797,7 +719,7 @@ function private function_78a5c7d6(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0xebb36534, Offset: 0x3858
 // Size: 0x20
-function private function_976fb907(entity) {
+function private margwaReactSwordTerminate(entity) {
     entity.var_894f701d = 1;
 }
 
@@ -878,7 +800,7 @@ function private function_95847de7(entity, mocompanim, mocompanimblendouttime, m
 // Checksum 0x30125933, Offset: 0x3b48
 // Size: 0x44
 function private function_8bdd20c9(entity, mocompanim, mocompanimblendouttime, mocompanimflag, mocompduration) {
-    function_9bf18b02(entity);
+    margwaTeleportOutTerminate(entity);
 }
 
 #namespace namespace_c96301ee;

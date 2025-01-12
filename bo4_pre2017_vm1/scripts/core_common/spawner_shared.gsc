@@ -64,7 +64,7 @@ function __init__() {
     add_global_spawn_function("axis", &global_ai_array);
     add_global_spawn_function("allies", &global_ai_array);
     add_global_spawn_function("team3", &global_ai_array);
-    level thread function_dfee667c();
+    level thread update_nav_triggers();
 }
 
 // Namespace spawner/spawner_shared
@@ -88,7 +88,7 @@ function __main__() {
 // Params 0, eflags: 0x0
 // Checksum 0xc0c4b37, Offset: 0x9d0
 // Size: 0x11c
-function function_dfee667c() {
+function update_nav_triggers() {
     level.var_ca441239 = [];
     var_5f355738 = getentarray("trigger_navmesh", "classname");
     if (!var_5f355738.size) {
@@ -245,9 +245,7 @@ function spawn_guys_until_death_or_no_count() {
 // Checksum 0x1fe8071d, Offset: 0x1220
 // Size: 0x7c
 function flood_spawner_scripted(spawners) {
-    /#
-        assert(isdefined(spawners) && spawners.size, "<dev string:x28>");
-    #/
+    assert(isdefined(spawners) && spawners.size, "<dev string:x28>");
     array::thread_all(spawners, &flood_spawner_init);
     array::thread_all(spawners, &flood_spawner_think);
 }
@@ -341,9 +339,7 @@ function function_938ef3c2(origin, angles, team) {
 // Checksum 0xf0283a96, Offset: 0x16c0
 // Size: 0x154
 function spawn_prethink() {
-    /#
-        assert(self != level);
-    #/
+    assert(self != level);
     level.ai_classname_in_level[self.classname] = 1;
     /#
         if (getdvarstring("<dev string:x59>") != "<dev string:x5e>") {
@@ -373,10 +369,10 @@ function spawn_prethink() {
 // Checksum 0x275e4060, Offset: 0x1820
 // Size: 0x68
 function function_a612833a() {
-    level notify(#"hash_dfee667c");
+    level notify(#"update_nav_triggers");
     while (isalive(self)) {
         self util::waittill_either("death", "goal_changed");
-        level notify(#"hash_dfee667c");
+        level notify(#"update_nav_triggers");
     }
 }
 
@@ -391,9 +387,7 @@ function spawn_think(spawner) {
     }
     self.spawn_think_thread_active = 1;
     self.spawner = spawner;
-    /#
-        assert(isactor(self) || isvehicle(self), "spawner::spawn_think" + "<dev string:x62>");
-    #/
+    assert(isactor(self) || isvehicle(self), "spawner::spawn_think" + "<dev string:x62>");
     if (!isvehicle(self)) {
         if (!isalive(self)) {
             return;
@@ -414,16 +408,12 @@ function spawn_think(spawner) {
     }
     if (isai(self)) {
         spawn_think_action(spawner);
-        /#
-            assert(isalive(self));
-        #/
-        /#
-            assert(isdefined(self.team));
-        #/
+        assert(isalive(self));
+        assert(isdefined(self.team));
     }
     self thread run_spawn_functions();
     self.finished_spawning = 1;
-    self notify(#"hash_f42b7e06");
+    self notify(#"finished spawning");
 }
 
 // Namespace spawner/spawner_shared
@@ -533,20 +523,14 @@ function spawn_think_action(spawner) {
     self.var_b327e32a = issubstr(self.classname, "mgportable");
     gameskill::grenadeawareness();
     if (isdefined(self.script_ignoreme)) {
-        /#
-            assert(self.script_ignoreme == 1, "<dev string:x86>");
-        #/
+        assert(self.script_ignoreme == 1, "<dev string:x86>");
         self val::set("spawn_think", "ignoreme", 1);
     }
     if (isdefined(self.var_665ba85b)) {
-        /#
-            assert(self.var_665ba85b == 1, "<dev string:xd9>");
-        #/
+        assert(self.var_665ba85b == 1, "<dev string:xd9>");
     }
     if (isdefined(self.script_ignoreall)) {
-        /#
-            assert(self.script_ignoreall == 1, "<dev string:x86>");
-        #/
+        assert(self.script_ignoreall == 1, "<dev string:x86>");
         self val::set("spawn_think", "ignoreall", 1);
     }
     if (isdefined(self.script_sightrange)) {
@@ -573,13 +557,9 @@ function spawn_think_action(spawner) {
         self.pathenemylookahead = self.script_maxdist;
     }
     if (isdefined(self.script_longdeath)) {
-        /#
-            assert(!self.script_longdeath, "<dev string:x10c>" + self.export);
-        #/
+        assert(!self.script_longdeath, "<dev string:x10c>" + self.export);
         self.a.disablelongdeath = 1;
-        /#
-            assert(self.team != "<dev string:x16a>", "<dev string:x171>" + self.export);
-        #/
+        assert(self.team != "<dev string:x16a>", "<dev string:x171>" + self.export);
     }
     if (isdefined(self.script_grenades)) {
         self.grenadeammo = self.script_grenades;
@@ -828,9 +808,7 @@ function go_to_spawner_target(var_bc8effff) {
             wait 0.2;
         }
     }
-    /#
-        assert(var_c7b716f5, "<dev string:x1b3>");
-    #/
+    assert(var_c7b716f5, "<dev string:x1b3>");
     goal = undefined;
     if (nodes.size > 0) {
         goal = array::random(nodes);
@@ -843,7 +821,7 @@ function go_to_spawner_target(var_bc8effff) {
         }
         goal.node_claimed = 1;
         self setgoal(goal);
-        self notify(#"hash_aadb7d08");
+        self notify(#"spawner_target_set");
         self thread function_4c9e0c2e(goal);
         self waittill("goal");
     }
@@ -884,9 +862,7 @@ function function_105d04bc(group) {
 // Checksum 0x5ab10060, Offset: 0x3258
 // Size: 0x15a
 function get_least_used_from_array(array) {
-    /#
-        assert(array.size > 0, "<dev string:x1d3>");
-    #/
+    assert(array.size > 0, "<dev string:x1d3>");
     if (array.size == 1) {
         return array[0];
     }
@@ -938,17 +914,13 @@ function go_to_node_using_funcs(node, get_target_func, set_goal_func_quits, opti
         }
         if (isdefined(node.script_ent_flag_set)) {
             if (!self flag::exists(node.script_ent_flag_set)) {
-                /#
-                    assertmsg("<dev string:x1f2>" + node.script_ent_flag_set + "<dev string:x20c>");
-                #/
+                assertmsg("<dev string:x1f2>" + node.script_ent_flag_set + "<dev string:x20c>");
             }
             self flag::set(node.script_ent_flag_set);
         }
         if (isdefined(node.script_ent_flag_clear)) {
             if (!self flag::exists(node.script_ent_flag_clear)) {
-                /#
-                    assertmsg("<dev string:x22e>" + node.script_ent_flag_clear + "<dev string:x20c>");
-                #/
+                assertmsg("<dev string:x22e>" + node.script_ent_flag_clear + "<dev string:x20c>");
             }
             self flag::clear(node.script_ent_flag_clear);
         }
@@ -1265,7 +1237,7 @@ function fallback_goal(var_608c0bae) {
     if (isdefined(var_608c0bae) && var_608c0bae) {
         self val::reset("fallback", "ignoreall");
     }
-    self notify(#"hash_e916a39");
+    self notify(#"fallback_notify");
     self notify(#"hash_7d065586");
 }
 
@@ -1278,7 +1250,7 @@ function function_e8c32f3b() {
     self endon(#"hash_51a5427a");
     self endon(#"stop_going_to_node");
     self endon(#"hash_1f355ad7");
-    self endon(#"hash_e916a39");
+    self endon(#"fallback_notify");
     self endon(#"death");
     while (true) {
         origin = self.origin;
@@ -1301,9 +1273,7 @@ function function_2b3b637c(num, node_array, var_608c0bae) {
     self endon(#"death");
     node = undefined;
     while (true) {
-        /#
-            assert(node_array.size >= level.var_fc07501b[num], "<dev string:x268>" + num + "<dev string:x2af>");
-        #/
+        assert(node_array.size >= level.var_fc07501b[num], "<dev string:x268>" + num + "<dev string:x2af>");
         node = node_array[randomint(node_array.size)];
         if (!isdefined(node.var_c8a47bf2) || !node.var_c8a47bf2) {
             node.var_c8a47bf2 = 1;
@@ -1340,7 +1310,7 @@ function function_2b3b637c(num, node_array, var_608c0bae) {
     // Checksum 0x9ed96da0, Offset: 0x49d8
     // Size: 0xe6
     function function_531d7683(org) {
-        self endon(#"hash_e916a39");
+        self endon(#"fallback_notify");
         self endon(#"hash_7d065586");
         self endon(#"death");
         while (true) {
@@ -1387,9 +1357,7 @@ function function_76ff3fe4(num, group, var_7eb70f59, var_608c0bae, percent) {
             }
         }
     }
-    /#
-        assert(level.var_1c2c9f98[num] <= var_7eb70f59.size, "<dev string:x2f6>" + num);
-    #/
+    assert(level.var_1c2c9f98[num] <= var_7eb70f59.size, "<dev string:x2f6>" + num);
     ai = getaiarray();
     for (i = 0; i < ai.size; i++) {
         if (isdefined(ai[i].var_31afeda1) && ai[i].var_31afeda1 == num) {
@@ -1510,9 +1478,7 @@ function function_cb08e221(num, group, var_608c0bae, percent) {
         #/
         level waittill("fallbacker_died" + num);
     }
-    /#
-        println(var_624f7337, "<dev string:x412>");
-    #/
+    println(var_624f7337, "<dev string:x412>");
     level notify("fallbacker_trigger" + num);
 }
 
@@ -1641,13 +1607,9 @@ function set_ai_group_cleared_flag(tracker) {
 // Checksum 0xba6d77ce, Offset: 0x5e00
 // Size: 0x184
 function flood_trigger_think(trigger) {
-    /#
-        assert(isdefined(trigger.target), "<dev string:x43a>" + trigger.origin + "<dev string:x44c>");
-    #/
+    assert(isdefined(trigger.target), "<dev string:x43a>" + trigger.origin + "<dev string:x44c>");
     var_9207c87c = getentarray(trigger.target, "targetname");
-    /#
-        assert(var_9207c87c.size, "<dev string:x45c>" + trigger.target + "<dev string:x47a>");
-    #/
+    assert(var_9207c87c.size, "<dev string:x45c>" + trigger.target + "<dev string:x47a>");
     for (i = 0; i < var_9207c87c.size; i++) {
         var_9207c87c[i].var_8be655f9 = trigger;
     }
@@ -1662,9 +1624,7 @@ function flood_trigger_think(trigger) {
 // Checksum 0x4dfda8b4, Offset: 0x5f90
 // Size: 0x84
 function flood_spawner_init(spawner) {
-    /#
-        assert(isdefined(self.spawnflags) && (self.spawnflags & 1) == 1, "<dev string:x48f>" + self.origin + "<dev string:x4a1>" + self getorigin() + "<dev string:x4a3>");
-    #/
+    assert(isdefined(self.spawnflags) && (self.spawnflags & 1) == 1, "<dev string:x48f>" + self.origin + "<dev string:x4a1>" + self getorigin() + "<dev string:x4a3>");
 }
 
 // Namespace spawner/spawner_shared
@@ -2086,9 +2046,7 @@ function set_ai_group_cleared_count(aigroup, count) {
 // Checksum 0x579ec039, Offset: 0x75c8
 // Size: 0x74
 function waittill_ai_group_cleared(aigroup) {
-    /#
-        assert(isdefined(level._ai_group[aigroup]), "<dev string:x544>" + aigroup + "<dev string:x551>");
-    #/
+    assert(isdefined(level._ai_group[aigroup]), "<dev string:x544>" + aigroup + "<dev string:x551>");
     level flag::wait_till(aigroup + "_cleared");
 }
 
@@ -2242,9 +2200,7 @@ function remove_global_spawn_function(team, func) {
 // Checksum 0x298b7ec6, Offset: 0x7dd8
 // Size: 0xca
 function add_spawn_function(spawn_func, ...) {
-    /#
-        assert(!isdefined(level._loadstarted) || !isalive(self), "<dev string:x561>");
-    #/
+    assert(!isdefined(level._loadstarted) || !isalive(self), "<dev string:x561>");
     func = [];
     func["function"] = spawn_func;
     func["params"] = vararg;
@@ -2259,9 +2215,7 @@ function add_spawn_function(spawn_func, ...) {
 // Checksum 0x311f3e6, Offset: 0x7eb0
 // Size: 0x124
 function remove_spawn_function(func) {
-    /#
-        assert(!isdefined(level._loadstarted) || !isalive(self), "<dev string:x58e>");
-    #/
+    assert(!isdefined(level._loadstarted) || !isalive(self), "<dev string:x58e>");
     if (isdefined(self.spawn_funcs)) {
         array = [];
         for (i = 0; i < self.spawn_funcs.size; i++) {
@@ -2269,9 +2223,7 @@ function remove_spawn_function(func) {
                 array[array.size] = self.spawn_funcs[i];
             }
         }
-        /#
-            assert(self.spawn_funcs.size != array.size, "<dev string:x5be>");
-        #/
+        assert(self.spawn_funcs.size != array.size, "<dev string:x5be>");
         self.spawn_funcs = array;
     }
 }
@@ -2284,12 +2236,8 @@ function add_spawn_function_group(str_value, str_key, func_spawn, param_1, param
     if (!isdefined(str_key)) {
         str_key = "targetname";
     }
-    /#
-        assert(isdefined(str_value), "<dev string:x611>");
-    #/
-    /#
-        assert(isdefined(func_spawn), "<dev string:x650>");
-    #/
+    assert(isdefined(str_value), "<dev string:x611>");
+    assert(isdefined(func_spawn), "<dev string:x650>");
     a_spawners = getspawnerarray(str_value, str_key);
     array::run_all(a_spawners, &add_spawn_function, func_spawn, param_1, param_2, param_3, param_4, param_5);
 }
@@ -2299,12 +2247,8 @@ function add_spawn_function_group(str_value, str_key, func_spawn, param_1, param
 // Checksum 0x3d1d30de, Offset: 0x80f8
 // Size: 0xf4
 function add_spawn_function_ai_group(str_aigroup, func_spawn, param_1, param_2, param_3, param_4, param_5) {
-    /#
-        assert(isdefined(str_aigroup), "<dev string:x690>");
-    #/
-    /#
-        assert(isdefined(func_spawn), "<dev string:x6d4>");
-    #/
+    assert(isdefined(str_aigroup), "<dev string:x690>");
+    assert(isdefined(func_spawn), "<dev string:x6d4>");
     a_spawners = getspawnerarray(str_aigroup, "script_aigroup");
     array::run_all(a_spawners, &add_spawn_function, func_spawn, param_1, param_2, param_3, param_4, param_5);
 }
@@ -2314,12 +2258,8 @@ function add_spawn_function_ai_group(str_aigroup, func_spawn, param_1, param_2, 
 // Checksum 0x668146e1, Offset: 0x81f8
 // Size: 0xdc
 function remove_spawn_function_ai_group(str_aigroup, func_spawn, param_1, param_2, param_3, param_4, param_5) {
-    /#
-        assert(isdefined(str_aigroup), "<dev string:x717>");
-    #/
-    /#
-        assert(isdefined(func_spawn), "<dev string:x75e>");
-    #/
+    assert(isdefined(str_aigroup), "<dev string:x717>");
+    assert(isdefined(func_spawn), "<dev string:x75e>");
     a_spawners = getspawnerarray(str_aigroup, "script_aigroup");
     array::run_all(a_spawners, &remove_spawn_function, func_spawn);
 }
@@ -2330,9 +2270,7 @@ function remove_spawn_function_ai_group(str_aigroup, func_spawn, param_1, param_
 // Size: 0x19e
 function function_210232b6(name, spawn_func, var_663d6984) {
     spawners = getentarray(name, "targetname");
-    /#
-        assert(spawners.size, "<dev string:x7a4>" + name + "<dev string:x7c1>");
-    #/
+    assert(spawners.size, "<dev string:x7a4>" + name + "<dev string:x7c1>");
     if (isdefined(spawn_func)) {
         for (i = 0; i < spawners.size; i++) {
             spawners[i] add_spawn_function(spawn_func);
@@ -2360,9 +2298,7 @@ function simple_spawn(name_or_spawners, spawn_func, ...) {
     spawners = [];
     if (isstring(name_or_spawners)) {
         spawners = getentarray(name_or_spawners, "targetname");
-        /#
-            assert(spawners.size, "<dev string:x7a4>" + name_or_spawners + "<dev string:x7c1>");
-        #/
+        assert(spawners.size, "<dev string:x7a4>" + name_or_spawners + "<dev string:x7c1>");
     } else {
         if (!isdefined(name_or_spawners)) {
             name_or_spawners = [];
@@ -2396,9 +2332,7 @@ function simple_spawn(name_or_spawners, spawn_func, ...) {
 function simple_spawn_single(name_or_spawner, spawn_func, ...) {
     a_args = arraycombine(array(name_or_spawner, spawn_func), vararg, 1, 0);
     ai = util::single_func_argarray(undefined, &simple_spawn, a_args);
-    /#
-        assert(ai.size <= 1, "<dev string:x7c9>");
-    #/
+    assert(ai.size <= 1, "<dev string:x7c9>");
     if (ai.size) {
         return ai[0];
     }
@@ -2422,9 +2356,7 @@ function function_74f0a2dc(var_8ac7bd04) {
         if (!isdefined(self.specialistindex)) {
             self.specialistindex = 0;
         }
-        /#
-            assert(player_role::is_valid(self.specialistindex));
-        #/
+        assert(player_role::is_valid(self.specialistindex));
         playerrole = getplayerrolecategory(self.specialistindex, currentsessionmode());
         if (!isdefined(playerrole) || playerrole == "<dev string:x819>") {
             playerrole = "<dev string:x821>";

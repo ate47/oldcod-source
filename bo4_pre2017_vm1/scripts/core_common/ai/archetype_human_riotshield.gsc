@@ -37,46 +37,26 @@ function autoexec main() {
 // Checksum 0xeb6669bf, Offset: 0x638
 // Size: 0x3c4
 function registerbehaviorscriptfunctions() {
-    /#
-        assert(isscriptfunctionptr(&function_5e70f8d));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldShouldTacticalWalk", &function_5e70f8d);
-    /#
-        assert(isscriptfunctionptr(&function_97d02621));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldNonCombatLocomotionCondition", &function_97d02621);
-    /#
-        assert(isscriptfunctionptr(&function_6bf49b30));
-    #/
+    assert(isscriptfunctionptr(&riotshieldShouldTacticalWalk));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldShouldTacticalWalk", &riotshieldShouldTacticalWalk);
+    assert(isscriptfunctionptr(&riotshieldNonCombatLocomotionCondition));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldNonCombatLocomotionCondition", &riotshieldNonCombatLocomotionCondition);
+    assert(isscriptfunctionptr(&function_6bf49b30));
     behaviortreenetworkutility::registerbehaviortreescriptapi("unarmedWalkAction", &function_6bf49b30);
-    /#
-        assert(isscriptfunctionptr(&function_32695b48));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldTacticalWalkStart", &function_32695b48);
-    /#
-        assert(isscriptfunctionptr(&function_8ff24c5c));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldAdvanceOnEnemyService", &function_8ff24c5c);
-    /#
-        assert(isscriptfunctionptr(&function_d32282d7));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldShouldFlinch", &function_d32282d7);
-    /#
-        assert(isscriptfunctionptr(&function_23fe9c46));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldIncrementFlinchCount", &function_23fe9c46);
-    /#
-        assert(isscriptfunctionptr(&function_64075986));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldClearFlinchCount", &function_64075986);
-    /#
-        assert(isscriptfunctionptr(&function_e8d37bce));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldUnarmedTargetService", &function_e8d37bce);
-    /#
-        assert(isscriptfunctionptr(&function_27823c66));
-    #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldUnarmedAdvanceOnEnemyService", &function_27823c66);
+    assert(isscriptfunctionptr(&riotshieldTacticalWalkStart));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldTacticalWalkStart", &riotshieldTacticalWalkStart);
+    assert(isscriptfunctionptr(&riotshieldAdvanceOnEnemyService));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldAdvanceOnEnemyService", &riotshieldAdvanceOnEnemyService);
+    assert(isscriptfunctionptr(&riotshieldShouldFlinch));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldShouldFlinch", &riotshieldShouldFlinch);
+    assert(isscriptfunctionptr(&riotshieldIncrementFlinchCount));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldIncrementFlinchCount", &riotshieldIncrementFlinchCount);
+    assert(isscriptfunctionptr(&riotshieldClearFlinchCount));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldClearFlinchCount", &riotshieldClearFlinchCount);
+    assert(isscriptfunctionptr(&riotshieldUnarmedTargetService));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldUnarmedTargetService", &riotshieldUnarmedTargetService);
+    assert(isscriptfunctionptr(&riotshieldUnarmedAdvanceOnEnemyService));
+    behaviortreenetworkutility::registerbehaviortreescriptapi("riotshieldUnarmedAdvanceOnEnemyService", &riotshieldUnarmedAdvanceOnEnemyService);
 }
 
 // Namespace namespace_6e11afc3/archetype_human_riotshield
@@ -115,7 +95,7 @@ function private function_ef5bd70a() {
 // Params 1, eflags: 0x4
 // Checksum 0x30b9596, Offset: 0xb00
 // Size: 0xc4
-function private function_d32282d7(entity) {
+function private riotshieldShouldFlinch(entity) {
     if (entity haspath() && entity ai::get_behavior_attribute("phalanx")) {
         return true;
     }
@@ -132,7 +112,7 @@ function private function_d32282d7(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x26da216f, Offset: 0xbd0
 // Size: 0x2c
-function private function_23fe9c46(entity) {
+function private riotshieldIncrementFlinchCount(entity) {
     entity.var_33646074++;
     entity.var_b6532634 = gettime();
 }
@@ -141,7 +121,7 @@ function private function_23fe9c46(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x9235cdf9, Offset: 0xc08
 // Size: 0x2c
-function private function_64075986(entity) {
+function private riotshieldClearFlinchCount(entity) {
     entity.var_b6532634 = gettime();
     entity.var_33646074 = 0;
 }
@@ -150,7 +130,7 @@ function private function_64075986(entity) {
 // Params 1, eflags: 0x4
 // Checksum 0x1faa0bfd, Offset: 0xc40
 // Size: 0x10
-function private function_5e70f8d(behaviortreeentity) {
+function private riotshieldShouldTacticalWalk(behaviortreeentity) {
     return true;
 }
 
@@ -158,7 +138,7 @@ function private function_5e70f8d(behaviortreeentity) {
 // Params 1, eflags: 0x4
 // Checksum 0xb89be726, Offset: 0xc58
 // Size: 0x70
-function private function_97d02621(behaviortreeentity) {
+function private riotshieldNonCombatLocomotionCondition(behaviortreeentity) {
     if (isdefined(behaviortreeentity.enemy)) {
         if (distancesquared(behaviortreeentity.origin, behaviortreeentity lastknownpos(behaviortreeentity.enemy)) > 490000) {
             return true;
@@ -171,7 +151,7 @@ function private function_97d02621(behaviortreeentity) {
 // Params 1, eflags: 0x4
 // Checksum 0x8234414a, Offset: 0xcd0
 // Size: 0x38e
-function private function_8ff24c5c(behaviortreeentity) {
+function private riotshieldAdvanceOnEnemyService(behaviortreeentity) {
     itsbeenawhile = gettime() > behaviortreeentity.nextfindbestcovertime;
     isatscriptgoal = behaviortreeentity isatgoal();
     var_89889720 = 0;
@@ -224,7 +204,7 @@ function private function_8ff24c5c(behaviortreeentity) {
 // Params 1, eflags: 0x4
 // Checksum 0xf79e7c7d, Offset: 0x1068
 // Size: 0x84
-function private function_32695b48(behaviortreeentity) {
+function private riotshieldTacticalWalkStart(behaviortreeentity) {
     aiutility::resetcoverparameters(behaviortreeentity);
     aiutility::setcanbeflanked(behaviortreeentity, 0);
     behaviortreeentity setblackboardattribute("_stance", "stand");
@@ -235,7 +215,7 @@ function private function_32695b48(behaviortreeentity) {
 // Params 1, eflags: 0x4
 // Checksum 0x4bfa2968, Offset: 0x10f8
 // Size: 0x31c
-function private function_e8d37bce(behaviortreeentity) {
+function private riotshieldUnarmedTargetService(behaviortreeentity) {
     if (!aiutility::shouldmutexmelee(behaviortreeentity)) {
         return false;
     }
@@ -287,7 +267,7 @@ function private function_e8d37bce(behaviortreeentity) {
 // Params 1, eflags: 0x4
 // Checksum 0x2750db3a, Offset: 0x1420
 // Size: 0x13e
-function private function_27823c66(behaviortreeentity) {
+function private riotshieldUnarmedAdvanceOnEnemyService(behaviortreeentity) {
     if (gettime() < behaviortreeentity.nextfindbestcovertime) {
         return false;
     }
@@ -331,7 +311,7 @@ function private function_f6b6cd67(inflictor, attacker, damage, meansofdeath, we
 function private function_b12197(einflictor, eattacker, idamage, idflags, smeansofdeath, sweapon, vpoint, vdir, shitloc, psoffsettime, boneindex, modelindex) {
     entity = self;
     if (shitloc == "riotshield") {
-        function_23fe9c46(entity);
+        riotshieldIncrementFlinchCount(entity);
         entity.health += 1;
         return 1;
     }
@@ -355,6 +335,6 @@ function function_6cd135fd() {
     entity.ignorerunandgundist = 1;
     aiutility::addaioverridedamagecallback(entity, &namespace_6e11afc3::function_b12197);
     aiutility::addaioverridekilledcallback(entity, &namespace_6e11afc3::function_f6b6cd67);
-    namespace_6e11afc3::function_64075986(entity);
+    namespace_6e11afc3::riotshieldClearFlinchCount(entity);
 }
 

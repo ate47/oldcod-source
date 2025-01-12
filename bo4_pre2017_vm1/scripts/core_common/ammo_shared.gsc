@@ -11,8 +11,7 @@
 // Checksum 0x7ff1d97a, Offset: 0x190
 // Size: 0x44
 function autoexec main() {
-    [[ new throttle ]]->__constructor();
-    level.ai_ammo_throttle = <error pop>;
+    level.ai_ammo_throttle = new throttle();
     [[ level.ai_ammo_throttle ]]->initialize(1, 0.1);
 }
 

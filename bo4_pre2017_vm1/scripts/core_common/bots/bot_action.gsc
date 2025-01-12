@@ -1159,9 +1159,7 @@ function look_helplessly_at_enemy_weight(actionutility, tacbundle) {
 function look_helplessly_at_enemy(weapon, enemy) {
     self endon(#"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(enemy), "<dev string:x168>");
-    #/
+    assert(isdefined(enemy), "<dev string:x168>");
     endtime = gettime() + randomintrange(500, 1500);
     while (self bot::enemy_is_current(enemy) && self bot::has_visible_enemy()) {
         aimpoint = enemy gettagorigin("j_spine4");
@@ -1192,9 +1190,7 @@ function switch_to_weapon_weight(actionutility, tacbundle) {
 function switch_to_weapon(weapon, enemy) {
     self endon(#"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(weapon), "<dev string:x193>");
-    #/
+    assert(isdefined(weapon), "<dev string:x193>");
     currentweapon = self getcurrentweapon();
     if (weapon == currentweapon) {
         return;
@@ -1246,9 +1242,7 @@ function reload_weapon_weight(actionutility, tacbundle) {
 function reload_weapon(weapon, enemy) {
     self endon(#"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(weapon), "<dev string:x1c7>");
-    #/
+    assert(isdefined(weapon), "<dev string:x1c7>");
     currentweapon = self getcurrentweapon();
     if (weapon != currentweapon) {
         return;
@@ -1367,12 +1361,8 @@ function shoot_bulletweapon_at_enemy_weight(actionutility, tacbundle) {
 function shoot_bulletweapon_at_enemy(weapon, enemy) {
     self endon(#"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(weapon), "<dev string:x232>");
-    #/
-    /#
-        assert(isdefined(enemy), "<dev string:x260>");
-    #/
+    assert(isdefined(weapon), "<dev string:x232>");
+    assert(isdefined(enemy), "<dev string:x260>");
     currentweapon = self getcurrentweapon();
     if (weapon != currentweapon) {
         return;
@@ -1415,12 +1405,8 @@ function shoot_bulletweapon_at_enemy(weapon, enemy) {
 function shoot_grenadeweapon_at_enemy(weapon, enemy) {
     self endon(#"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(weapon), "<dev string:x28e>");
-    #/
-    /#
-        assert(isdefined(enemy), "<dev string:x2bd>");
-    #/
+    assert(isdefined(weapon), "<dev string:x28e>");
+    assert(isdefined(enemy), "<dev string:x2bd>");
     currentweapon = self getcurrentweapon();
     if (weapon != currentweapon) {
         return;
@@ -1492,12 +1478,8 @@ function shoot_lockon_rocketlauncher_at_enemy_weight(actionutility, tacbundle) {
 function shoot_lockon_rocketlauncher_at_enemy(weapon, enemy) {
     self endon(#"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(weapon), "<dev string:x307>");
-    #/
-    /#
-        assert(isdefined(enemy), "<dev string:x33e>");
-    #/
+    assert(isdefined(weapon), "<dev string:x307>");
+    assert(isdefined(enemy), "<dev string:x33e>");
     currentweapon = self getcurrentweapon();
     if (weapon != currentweapon) {
         return;
@@ -1577,12 +1559,8 @@ function shoot_rocketlauncher_at_enemy_weight(actionutility, tacbundle) {
 function shoot_rocketlauncher_at_enemy(weapon, enemy) {
     self endon(#"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(weapon), "<dev string:x3a0>");
-    #/
-    /#
-        assert(isdefined(enemy), "<dev string:x3d0>");
-    #/
+    assert(isdefined(weapon), "<dev string:x3a0>");
+    assert(isdefined(enemy), "<dev string:x3d0>");
     currentweapon = self getcurrentweapon();
     if (weapon != currentweapon) {
         return;
@@ -1655,9 +1633,7 @@ function activate_charged_gadget_weight(actionutility, tacbundle) {
 function activate_charged_gadget(weapon, enemy) {
     self endon(#"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(weapon), "<dev string:x429>");
-    #/
+    assert(isdefined(weapon), "<dev string:x429>");
     self bot::activate_hero_gadget(weapon);
 }
 
@@ -1765,9 +1741,7 @@ function ruin_stuff_weight(actionutility, tacbundle) {
 function ruin_stuff(weapon, enemy) {
     self endoncallback(&end_ruin_stuff, #"death", #"entering_last_stand", #"bot_cancel_action", #"animscripted_start");
     level endon(#"game_ended");
-    /#
-        assert(isdefined(enemy), "<dev string:x487>");
-    #/
+    assert(isdefined(enemy), "<dev string:x487>");
     self val::set("ruin_stuff", "ignoreme", 1);
     gravityspikes = getweapon("hero_gravityspikes");
     speedburst = getweapon("gadget_speed_burst");

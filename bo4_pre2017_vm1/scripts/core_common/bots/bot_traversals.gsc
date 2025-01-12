@@ -45,9 +45,7 @@ function callback_botentereduseredge(startnode, endnode, endpos) {
         return;
     }
     self botreleasemanualcontrol();
-    /#
-        println("<dev string:x28>", self.name, "<dev string:x2d>");
-    #/
+    println("<dev string:x28>", self.name, "<dev string:x2d>");
 }
 
 // Namespace bot/bot_traversals

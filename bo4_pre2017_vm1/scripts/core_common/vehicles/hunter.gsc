@@ -648,9 +648,7 @@ function movement_thread_stayindistance() {
                     stucklocation = self.origin;
                 } else if (stuckcount > 10) {
                     /#
-                        /#
-                            assert(0, "<dev string:xb0>" + self.origin);
-                        #/
+                        assert(0, "<dev string:xb0>" + self.origin);
                         v_box_min = (self.radius * -1, self.radius * -1, self.radius * -1);
                         v_box_max = (self.radius, self.radius, self.radius);
                         box(self.origin, v_box_min, v_box_max, self.angles[1], (1, 0, 0), 1, 0, 1000000);

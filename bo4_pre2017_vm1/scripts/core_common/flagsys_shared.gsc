@@ -81,9 +81,7 @@ function increment(str_flag) {
 // Checksum 0x40ccee74, Offset: 0x3e0
 // Size: 0xa4
 function decrement(str_flag) {
-    /#
-        assert(isdefined(self.flag_count) && isdefined(self.flag_count[str_flag]) && self.flag_count[str_flag] > 0, "<dev string:x28>");
-    #/
+    assert(isdefined(self.flag_count) && isdefined(self.flag_count[str_flag]) && self.flag_count[str_flag] > 0, "<dev string:x28>");
     self.flag_count[str_flag]--;
     if (self.flag_count[str_flag] == 0) {
         clear(str_flag);
@@ -118,9 +116,7 @@ function clear(str_flag) {
 // Checksum 0x2cf67a6f, Offset: 0x578
 // Size: 0x74
 function set_val(str_flag, b_val) {
-    /#
-        assert(isdefined(b_val), "<dev string:x65>");
-    #/
+    assert(isdefined(b_val), "<dev string:x65>");
     if (b_val) {
         set(str_flag);
         return;

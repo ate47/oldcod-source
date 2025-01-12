@@ -384,12 +384,8 @@ function watch_pickup() {
             println("<dev string:x12a>" + weapon.name + "<dev string:x13d>" + isdefined(self.ownersattacker));
         }
     #/
-    /#
-        assert(isdefined(player.tookweaponfrom));
-    #/
-    /#
-        assert(isdefined(player.pickedupweaponkills));
-    #/
+    assert(isdefined(player.tookweaponfrom));
+    assert(isdefined(player.pickedupweaponkills));
     if (isdefined(droppeditem)) {
         for (i = 0; i < droppeditem.size; i++) {
             if (!isdefined(droppeditem[i])) {
@@ -651,11 +647,7 @@ function begin_grenade_tracking() {
     grenade = waitresult.projectile;
     weapon = waitresult.weapon;
     cooktime = waitresult.cook_time;
-    /#
-        /#
-            assert(isdefined(grenade));
-        #/
-    #/
+    assert(isdefined(grenade));
     level.missileentities[level.missileentities.size] = grenade;
     grenade.weapon = weapon;
     grenade thread watch_missile_death();
@@ -890,11 +882,7 @@ function function_4c2ae355() {
         grenade = waitresult.projectile;
         weapon = waitresult.weapon;
         grenade turn_grenade_into_a_dud(weapon, 0, self);
-        /#
-            /#
-                assert(isdefined(grenade));
-            #/
-        #/
+        assert(isdefined(grenade));
         level.missileentities[level.missileentities.size] = grenade;
         grenade.weapon = weapon;
         grenade thread watch_missile_death();
@@ -1217,9 +1205,7 @@ function function_64df9f6e(stat) {
     if (isdefined(level.givecustomloadout)) {
         return level.weaponnone;
     }
-    /#
-        assert(isdefined(self.class_num));
-    #/
+    assert(isdefined(self.class_num));
     if (isdefined(self.class_num)) {
         index = self loadout::getloadoutitemfromddlstats(self.class_num, stat);
         if (isdefined(level.tbl_weaponids[index]) && isdefined(level.tbl_weaponids[index]["reference"])) {
@@ -1238,9 +1224,7 @@ function loadout_get_offhand_count(stat) {
     if (isdefined(level.givecustomloadout)) {
         return 0;
     }
-    /#
-        assert(isdefined(self.class_num));
-    #/
+    assert(isdefined(self.class_num));
     if (isdefined(self.class_num)) {
         count = self loadout::getloadoutitemfromddlstats(self.class_num, stat);
     }

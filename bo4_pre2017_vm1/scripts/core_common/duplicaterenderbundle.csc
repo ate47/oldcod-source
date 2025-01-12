@@ -6,9 +6,9 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_9e20367a;
+#namespace duplicate_render_bundle;
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 0, eflags: 0x2
 // Checksum 0x46502423, Offset: 0x248
 // Size: 0x34
@@ -16,7 +16,7 @@ function autoexec __init__sytem__() {
     system::register("duplicate_render_bundle", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 0, eflags: 0x0
 // Checksum 0xc63ca8ad, Offset: 0x288
 // Size: 0x24
@@ -24,7 +24,7 @@ function __init__() {
     callback::on_localplayer_spawned(&function_58c8343a);
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 1, eflags: 0x0
 // Checksum 0xa8a1f510, Offset: 0x2b8
 // Size: 0x1c
@@ -32,7 +32,7 @@ function function_58c8343a(localclientnum) {
     function_e5e53b1a();
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 0, eflags: 0x0
 // Checksum 0x7664e0dc, Offset: 0x2e0
 // Size: 0x64
@@ -51,7 +51,7 @@ function function_e5e53b1a() {
 
 /#
 
-    // Namespace namespace_9e20367a/duplicaterenderbundle
+    // Namespace duplicate_render_bundle/duplicaterenderbundle
     // Params 0, eflags: 0x0
     // Checksum 0xd10d08dc, Offset: 0x350
     // Size: 0x1c0
@@ -82,7 +82,7 @@ function function_e5e53b1a() {
 
 #/
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 1, eflags: 0x0
 // Checksum 0xe7417548, Offset: 0x518
 // Size: 0x54c
@@ -92,9 +92,7 @@ function function_5584f24e(playbundlename) {
     function_1122e900();
     bundle = struct::get_script_bundle("duprenderbundle", playbundlename);
     if (!isdefined(bundle)) {
-        /#
-            println("<dev string:x8c>" + playbundlename + "<dev string:xa6>");
-        #/
+        println("<dev string:x8c>" + playbundlename + "<dev string:xa6>");
         return;
     }
     totalaccumtime = 0;
@@ -171,7 +169,7 @@ function function_5584f24e(playbundlename) {
     function_145785e5(localclientnum, "Finished " + playbundlename);
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 4, eflags: 0x0
 // Checksum 0x8d92eb87, Offset: 0xa70
 // Size: 0x1d4
@@ -213,7 +211,7 @@ function function_9cd899ba(localclientnum, bundle, prefix, type) {
     self addduplicaterenderoption(type, method, materialid);
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 4, eflags: 0x0
 // Checksum 0x80f7bb1e, Offset: 0xc50
 // Size: 0x6c
@@ -221,7 +219,7 @@ function function_a6aaa147(localclientnum, var_402c9c53, filterid, values) {
     self mapshaderconstant(localclientnum, 0, var_402c9c53, values[0], values[1], values[2], values[3]);
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 2, eflags: 0x0
 // Checksum 0x9318593c, Offset: 0xcc8
 // Size: 0x64
@@ -236,7 +234,7 @@ function function_145785e5(localclientnum, msg) {
     self.var_33b1de58 = "";
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 0, eflags: 0x0
 // Checksum 0xeadea46a, Offset: 0xd38
 // Size: 0x2c
@@ -246,7 +244,7 @@ function function_1122e900() {
     }
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 0, eflags: 0x0
 // Checksum 0xe0f9cf50, Offset: 0xd70
 // Size: 0x88
@@ -262,7 +260,7 @@ function function_503eb424() {
     }
 }
 
-// Namespace namespace_9e20367a/duplicaterenderbundle
+// Namespace duplicate_render_bundle/duplicaterenderbundle
 // Params 0, eflags: 0x0
 // Checksum 0x39668e4f, Offset: 0xe00
 // Size: 0x5c

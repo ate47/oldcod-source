@@ -5,9 +5,7 @@
 // Checksum 0xe90a0122, Offset: 0x970
 // Size: 0xac
 function setup() {
-    /#
-        assert(!isdefined(level.names));
-    #/
+    assert(!isdefined(level.names));
     level.names = [];
     level.namesindex = [];
     if (!isdefined(level.script)) {
@@ -68,9 +66,7 @@ function add_nationality_names(str_nationality) {
         function_49c33890();
         break;
     default:
-        /#
-            assertmsg("<dev string:x28>" + str_nationality);
-        #/
+        assertmsg("<dev string:x28>" + str_nationality);
         break;
     }
 }
@@ -552,9 +548,7 @@ function get(override) {
         self notify(#"hash_47341e47");
         return;
     }
-    /#
-        assert(isdefined(level.names));
-    #/
+    assert(isdefined(level.names));
     str_classname = self get_ai_classname();
     str_nationality = "american";
     if (issubstr(str_classname, "_civilian_")) {
@@ -607,9 +601,7 @@ function add_override_name_func(nationality, func) {
     if (!isdefined(level._override_name_funcs)) {
         level._override_name_funcs = [];
     }
-    /#
-        assert(!isdefined(level._override_name_funcs[nationality]), "<dev string:x46>");
-    #/
+    assert(!isdefined(level._override_name_funcs[nationality]), "<dev string:x46>");
     level._override_name_funcs[nationality] = func;
 }
 
@@ -618,9 +610,7 @@ function add_override_name_func(nationality, func) {
 // Checksum 0x8e9861e0, Offset: 0x4058
 // Size: 0x49c
 function get_name_for_nationality(nationality) {
-    /#
-        assert(isdefined(level.nameindex[nationality]), nationality);
-    #/
+    assert(isdefined(level.nameindex[nationality]), nationality);
     if (isdefined(level._override_name_funcs) && isdefined(level._override_name_funcs[nationality])) {
         self.propername = [[ level._override_name_funcs[nationality] ]]();
         self.airank = "";
@@ -754,9 +744,7 @@ function getrankfromname(name) {
         self.airank = "private";
     }
     tokens = strtok(name, " ");
-    /#
-        assert(tokens.size);
-    #/
+    assert(tokens.size);
     shortrank = tokens[0];
     switch (shortrank) {
     case #"hash_62cab49":
@@ -778,9 +766,7 @@ function getrankfromname(name) {
         self.airank = "captain";
         break;
     default:
-        /#
-            println("<dev string:x6e>" + shortrank + "<dev string:x89>");
-        #/
+        println("<dev string:x6e>" + shortrank + "<dev string:x89>");
         self.airank = "private";
         break;
     }
@@ -791,9 +777,7 @@ function getrankfromname(name) {
 // Checksum 0x9e039f3c, Offset: 0x4810
 // Size: 0xcc
 function issubstr_match_any(str_match, str_search_array) {
-    /#
-        assert(str_search_array.size, "<dev string:x8b>");
-    #/
+    assert(str_search_array.size, "<dev string:x8b>");
     foreach (str_search in str_search_array) {
         if (issubstr(str_match, str_search)) {
             return true;

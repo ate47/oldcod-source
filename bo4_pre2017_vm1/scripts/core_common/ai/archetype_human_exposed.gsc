@@ -11,33 +11,19 @@
 // Checksum 0x199f4d5d, Offset: 0x248
 // Size: 0x2a4
 function autoexec registerbehaviorscriptfunctions() {
-    /#
-        assert(isscriptfunctionptr(&hascloseenemy));
-    #/
+    assert(isscriptfunctionptr(&hascloseenemy));
     behaviortreenetworkutility::registerbehaviortreescriptapi("hasCloseEnemy", &hascloseenemy);
-    /#
-        assert(isscriptfunctionptr(&nocloseenemyservice));
-    #/
+    assert(isscriptfunctionptr(&nocloseenemyservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("noCloseEnemyService", &nocloseenemyservice);
-    /#
-        assert(isscriptfunctionptr(&tryreacquireservice));
-    #/
+    assert(isscriptfunctionptr(&tryreacquireservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("tryReacquireService", &tryreacquireservice);
-    /#
-        assert(isscriptfunctionptr(&preparetoreacttoenemy));
-    #/
+    assert(isscriptfunctionptr(&preparetoreacttoenemy));
     behaviortreenetworkutility::registerbehaviortreescriptapi("prepareToReactToEnemy", &preparetoreacttoenemy);
-    /#
-        assert(isscriptfunctionptr(&resetreactiontoenemy));
-    #/
+    assert(isscriptfunctionptr(&resetreactiontoenemy));
     behaviortreenetworkutility::registerbehaviortreescriptapi("resetReactionToEnemy", &resetreactiontoenemy);
-    /#
-        assert(isscriptfunctionptr(&exposedsetdesiredstancetostand));
-    #/
+    assert(isscriptfunctionptr(&exposedsetdesiredstancetostand));
     behaviortreenetworkutility::registerbehaviortreescriptapi("exposedSetDesiredStanceToStand", &exposedsetdesiredstancetostand);
-    /#
-        assert(isscriptfunctionptr(&setpathmovedelayedrandom));
-    #/
+    assert(isscriptfunctionptr(&setpathmovedelayedrandom));
     behaviortreenetworkutility::registerbehaviortreescriptapi("setPathMoveDelayedRandom", &setpathmovedelayedrandom);
 }
 

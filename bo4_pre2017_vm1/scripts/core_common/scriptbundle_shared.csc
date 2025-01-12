@@ -28,9 +28,7 @@ class cscriptbundleobjectbase {
             if ([[ var_190b1ea2 ]]->is_testing()) {
                 scriptbundle::error_on_screen(str_msg);
             } else {
-                /#
-                    assertmsg([[ var_190b1ea2 ]]->get_type() + "<dev string:x46>" + var_190b1ea2._str_name + "<dev string:x48>" + (isdefined("<dev string:x4d>") ? "<dev string:x4c>" + "<dev string:x4d>" : isdefined(_s.name) ? "<dev string:x4c>" + _s.name : "<dev string:x4c>") + "<dev string:x55>" + str_msg);
-                #/
+                assertmsg([[ var_190b1ea2 ]]->get_type() + "<dev string:x46>" + var_190b1ea2._str_name + "<dev string:x48>" + (isdefined("<dev string:x4d>") ? "<dev string:x4c>" + "<dev string:x4d>" : isdefined(_s.name) ? "<dev string:x4c>" + _s.name : "<dev string:x4c>") + "<dev string:x55>" + str_msg);
             }
             thread [[ var_190b1ea2 ]]->on_error();
             return true;
@@ -43,9 +41,7 @@ class cscriptbundleobjectbase {
     // Checksum 0x4e61779c, Offset: 0x1f0
     // Size: 0xc4
     function log(str_msg) {
-        /#
-            println([[ var_190b1ea2 ]]->get_type() + "<dev string:x46>" + var_190b1ea2._str_name + "<dev string:x48>" + (isdefined("<dev string:x4d>") ? "<dev string:x4c>" + "<dev string:x4d>" : isdefined(_s.name) ? "<dev string:x4c>" + _s.name : "<dev string:x4c>") + "<dev string:x55>" + str_msg);
-        #/
+        println([[ var_190b1ea2 ]]->get_type() + "<dev string:x46>" + var_190b1ea2._str_name + "<dev string:x48>" + (isdefined("<dev string:x4d>") ? "<dev string:x4c>" + "<dev string:x4d>" : isdefined(_s.name) ? "<dev string:x4c>" + _s.name : "<dev string:x4c>") + "<dev string:x55>" + str_msg);
     }
 
     // Namespace cscriptbundleobjectbase/scriptbundle_shared
@@ -56,9 +52,7 @@ class cscriptbundleobjectbase {
         _s = s_objdef;
         var_190b1ea2 = o_bundle;
         if (isdefined(e_ent)) {
-            /#
-                assert(!isdefined(localclientnum) || e_ent.localclientnum == localclientnum, "<dev string:x28>");
-            #/
+            assert(!isdefined(localclientnum) || e_ent.localclientnum == localclientnum, "<dev string:x28>");
             _n_clientnum = e_ent.localclientnum;
             _e_array[_n_clientnum] = e_ent;
             return;
@@ -67,22 +61,6 @@ class cscriptbundleobjectbase {
         if (isdefined(localclientnum)) {
             _n_clientnum = localclientnum;
         }
-    }
-
-    // Namespace cscriptbundleobjectbase/scriptbundle_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0xf0
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace cscriptbundleobjectbase/scriptbundle_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0xe0
-    // Size: 0x4
-    function __constructor() {
-        
     }
 
 }
@@ -97,6 +75,15 @@ class cscriptbundlebase {
     var _testing;
 
     // Namespace cscriptbundlebase/scriptbundle_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xb05f4042, Offset: 0x580
+    // Size: 0x1c
+    function constructor() {
+        _a_objects = [];
+        _testing = 0;
+    }
+
+    // Namespace cscriptbundlebase/scriptbundle_shared
     // Params 2, eflags: 0x0
     // Checksum 0xc767ac04, Offset: 0x7b8
     // Size: 0x94
@@ -104,9 +91,7 @@ class cscriptbundlebase {
         if (condition) {
             if (_testing) {
             } else {
-                /#
-                    assertmsg(_s.type + "<dev string:x46>" + _str_name + "<dev string:x58>" + str_msg);
-                #/
+                assertmsg(_s.type + "<dev string:x46>" + _str_name + "<dev string:x58>" + str_msg);
             }
             thread on_error();
             return true;
@@ -119,9 +104,7 @@ class cscriptbundlebase {
     // Checksum 0x935a0056, Offset: 0x758
     // Size: 0x54
     function log(str_msg) {
-        /#
-            println(_s.type + "<dev string:x46>" + _str_name + "<dev string:x58>" + str_msg);
-        #/
+        println(_s.type + "<dev string:x46>" + _str_name + "<dev string:x58>" + str_msg);
     }
 
     // Namespace cscriptbundlebase/scriptbundle_shared
@@ -185,23 +168,6 @@ class cscriptbundlebase {
         _s = s;
         _str_name = str_name;
         _testing = b_testing;
-    }
-
-    // Namespace cscriptbundlebase/scriptbundle_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x5a8
-    // Size: 0x4
-    function __destructor() {
-        
-    }
-
-    // Namespace cscriptbundlebase/scriptbundle_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xb05f4042, Offset: 0x580
-    // Size: 0x1c
-    function __constructor() {
-        _a_objects = [];
-        _testing = 0;
     }
 
     // Namespace cscriptbundlebase/scriptbundle_shared

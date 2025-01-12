@@ -154,9 +154,7 @@ function initanimtree(animscript) {
     if (animscript != "pain" && animscript != "death") {
         self.a.special = "none";
     }
-    /#
-        assert(isdefined(animscript), "<dev string:x28>");
-    #/
+    assert(isdefined(animscript), "<dev string:x28>");
     self.a.script = animscript;
 }
 
@@ -165,9 +163,7 @@ function initanimtree(animscript) {
 // Checksum 0xbd792731, Offset: 0xe38
 // Size: 0xb6
 function updateanimpose() {
-    /#
-        assert(self.a.movement == "<dev string:x51>" || self.a.movement == "<dev string:x56>" || self.a.movement == "<dev string:x5b>", "<dev string:x5f>" + self.a.pose + "<dev string:x6f>" + self.a.movement);
-    #/
+    assert(self.a.movement == "<dev string:x51>" || self.a.movement == "<dev string:x56>" || self.a.movement == "<dev string:x5b>", "<dev string:x5f>" + self.a.pose + "<dev string:x6f>" + self.a.movement);
     self.desired_anim_pose = undefined;
 }
 
@@ -318,9 +314,7 @@ function getyaw2d(org) {
 // Checksum 0xdef8864d, Offset: 0x1700
 // Size: 0xb0
 function absyawtoenemy() {
-    /#
-        assert(isvalidenemy(self.enemy));
-    #/
+    assert(isvalidenemy(self.enemy));
     yaw = self.angles[1] - getyaw(self.enemy.origin);
     yaw = angleclamp180(yaw);
     if (yaw < 0) {
@@ -334,9 +328,7 @@ function absyawtoenemy() {
 // Checksum 0x881fb0db, Offset: 0x17b8
 // Size: 0xb0
 function absyawtoenemy2d() {
-    /#
-        assert(isvalidenemy(self.enemy));
-    #/
+    assert(isvalidenemy(self.enemy));
     yaw = self.angles[1] - getyaw2d(self.enemy.origin);
     yaw = angleclamp180(yaw);
     if (yaw < 0) {
@@ -523,9 +515,7 @@ function quadrantanimweights(yaw) {
     result["back"] = 0;
     result["left"] = 0;
     if (isdefined(self.alwaysrunforward)) {
-        /#
-            assert(self.alwaysrunforward);
-        #/
+        assert(self.alwaysrunforward);
         result["front"] = 1;
         return result;
     }
@@ -731,7 +721,7 @@ function getnodeoffset(node) {
     right = anglestoright(node.angles);
     forward = anglestoforward(node.angles);
     switch (node.type) {
-    case #"hash_4abba87d":
+    case #"Cover Left":
     case #"hash_5b0cf3f6":
         if (node isnodedontstand() && !node isnodedontcrouch()) {
             nodeoffset = calculatenodeoffset(right, forward, cover_left_crouch_offset);
@@ -739,7 +729,7 @@ function getnodeoffset(node) {
             nodeoffset = calculatenodeoffset(right, forward, cover_left_stand_offset);
         }
         break;
-    case #"hash_b05b53e0":
+    case #"Cover Right":
     case #"hash_5e2df5d":
         if (node isnodedontstand() && !node isnodedontcrouch()) {
             nodeoffset = calculatenodeoffset(right, forward, cover_right_crouch_offset);
@@ -747,14 +737,14 @@ function getnodeoffset(node) {
             nodeoffset = calculatenodeoffset(right, forward, cover_right_stand_offset);
         }
         break;
-    case #"hash_5a780b38":
-    case #"hash_3ffbf922":
+    case #"Conceal Stand":
+    case #"Cover Stand":
     case #"turret":
         nodeoffset = calculatenodeoffset(right, forward, cover_stand_offset);
         break;
-    case #"hash_5ce1474a":
-    case #"hash_81e96258":
-    case #"hash_c1fef66c":
+    case #"Conceal Crouch":
+    case #"Cover Crouch":
+    case #"Cover Crouch Window":
         nodeoffset = calculatenodeoffset(right, forward, cover_crouch_offset);
         break;
     }
@@ -811,12 +801,8 @@ function checkpitchvisibility(frompoint, topoint, atnode) {
 function anim_array(animarray, animweights) {
     total_anims = animarray.size;
     idleanim = randomint(total_anims);
-    /#
-        assert(total_anims);
-    #/
-    /#
-        assert(animarray.size == animweights.size);
-    #/
+    assert(total_anims);
+    assert(animarray.size == animweights.size);
     if (total_anims == 1) {
         return animarray[0];
     }
@@ -965,12 +951,8 @@ function random_weight(array) {
 // Checksum 0xe8f5047, Offset: 0x3280
 // Size: 0xe0
 function setfootstepeffect(name, fx) {
-    /#
-        assert(isdefined(name), "<dev string:x84>");
-    #/
-    /#
-        assert(isdefined(fx), "<dev string:xae>");
-    #/
+    assert(isdefined(name), "<dev string:x84>");
+    assert(isdefined(fx), "<dev string:xae>");
     if (!isdefined(anim.optionalstepeffects)) {
         anim.optionalstepeffects = [];
     }
@@ -1021,9 +1003,7 @@ function doesnodeallowstance(stance) {
     if (stance == "stand") {
         return !self isnodedontstand();
     }
-    /#
-        assert(stance == "<dev string:xd6>");
-    #/
+    assert(stance == "<dev string:xd6>");
     return !self isnodedontcrouch();
 }
 
@@ -1032,15 +1012,11 @@ function doesnodeallowstance(stance) {
 // Checksum 0x3dc512b7, Offset: 0x34c0
 // Size: 0xcc
 function animarray(animname) {
-    /#
-        assert(isdefined(self.a.array));
-    #/
+    assert(isdefined(self.a.array));
     /#
         if (!isdefined(self.a.array[animname])) {
             dumpanimarray();
-            /#
-                assert(isdefined(self.a.array[animname]), "<dev string:xdd>" + animname + "<dev string:xed>");
-            #/
+            assert(isdefined(self.a.array[animname]), "<dev string:xdd>" + animname + "<dev string:xed>");
         }
     #/
     return self.a.array[animname];
@@ -1051,15 +1027,11 @@ function animarray(animname) {
 // Checksum 0xdc072bda, Offset: 0x3598
 // Size: 0xd2
 function animarrayanyexist(animname) {
-    /#
-        assert(isdefined(self.a.array));
-    #/
+    assert(isdefined(self.a.array));
     /#
         if (!isdefined(self.a.array[animname])) {
             dumpanimarray();
-            /#
-                assert(isdefined(self.a.array[animname]), "<dev string:xdd>" + animname + "<dev string:xed>");
-            #/
+            assert(isdefined(self.a.array[animname]), "<dev string:xdd>" + animname + "<dev string:xed>");
         }
     #/
     return self.a.array[animname].size > 0;
@@ -1070,20 +1042,14 @@ function animarrayanyexist(animname) {
 // Checksum 0x75029233, Offset: 0x3678
 // Size: 0x16a
 function animarraypickrandom(animname) {
-    /#
-        assert(isdefined(self.a.array));
-    #/
+    assert(isdefined(self.a.array));
     /#
         if (!isdefined(self.a.array[animname])) {
             dumpanimarray();
-            /#
-                assert(isdefined(self.a.array[animname]), "<dev string:xdd>" + animname + "<dev string:xed>");
-            #/
+            assert(isdefined(self.a.array[animname]), "<dev string:xdd>" + animname + "<dev string:xed>");
         }
     #/
-    /#
-        assert(self.a.array[animname].size > 0);
-    #/
+    assert(self.a.array[animname].size > 0);
     if (self.a.array[animname].size > 1) {
         index = randomint(self.a.array[animname].size);
     } else {
@@ -1206,9 +1172,7 @@ function damagelocationisany(a, b, c, d, e, f, g, h, i, j, k, ovr) {
     if (self.damagelocation == k) {
         return true;
     }
-    /#
-        assert(!isdefined(ovr));
-    #/
+    assert(!isdefined(ovr));
     return false;
 }
 
@@ -1264,9 +1228,7 @@ function randomizeidleset() {
 // Checksum 0x2c28cd58, Offset: 0x3dc0
 // Size: 0x6a
 function getrandomintfromseed(intseed, intmax) {
-    /#
-        assert(intmax > 0);
-    #/
+    assert(intmax > 0);
     index = intseed % anim.randominttablesize;
     return anim.randominttable[index] % intmax;
 }
@@ -1446,9 +1408,7 @@ function set_zombie_var(zvar, value, is_float, column, is_team_based) {
 // Size: 0x352
 function spawn_zombie(spawner, target_name, spawn_point, round_number) {
     if (!isdefined(spawner)) {
-        /#
-            println("<dev string:x19d>");
-        #/
+        println("<dev string:x19d>");
         return undefined;
     }
     while (getfreeactorcount() < 1) {
@@ -1493,15 +1453,11 @@ function spawn_zombie(spawner, target_name, spawn_point, round_number) {
             #/
             return guy;
         } else {
-            /#
-                println("<dev string:x1c5>", spawner.origin);
-            #/
+            println("<dev string:x1c5>", spawner.origin);
             return undefined;
         }
     } else {
-        /#
-            println("<dev string:x204>", spawner.origin);
-        #/
+        println("<dev string:x204>", spawner.origin);
         return undefined;
     }
     return undefined;
@@ -1533,9 +1489,7 @@ function get_desired_origin() {
         if (!isdefined(ent)) {
             ent = getnode(self.target, "targetname");
         }
-        /#
-            assert(isdefined(ent), "<dev string:x23f>" + self.target + "<dev string:x26b>" + self.origin);
-        #/
+        assert(isdefined(ent), "<dev string:x23f>" + self.target + "<dev string:x26b>" + self.origin);
         return ent.origin;
     }
     return undefined;
@@ -2650,12 +2604,8 @@ function autoexec init_ignore_player_handler() {
 // Checksum 0x7f46a704, Offset: 0x7e10
 // Size: 0x92
 function register_ignore_player_handler(archetype, ignore_player_func) {
-    /#
-        assert(isdefined(archetype), "<dev string:x29c>");
-    #/
-    /#
-        assert(!isdefined(level._ignore_player_handler[archetype]), "<dev string:x2c5>" + archetype + "<dev string:x2de>");
-    #/
+    assert(isdefined(archetype), "<dev string:x29c>");
+    assert(!isdefined(level._ignore_player_handler[archetype]), "<dev string:x2c5>" + archetype + "<dev string:x2de>");
     level._ignore_player_handler[archetype] = ignore_player_func;
 }
 

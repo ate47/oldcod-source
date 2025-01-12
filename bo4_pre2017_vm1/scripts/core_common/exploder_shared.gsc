@@ -74,9 +74,7 @@ function __main__() {
             script_exploders[script_exploders.size] = potentialexploders[i];
         }
     }
-    /#
-        println("<dev string:x28>" + potentialexploders.size);
-    #/
+    println("<dev string:x28>" + potentialexploders.size);
     potentialexploders = getentarray("script_model", "classname");
     for (i = 0; i < potentialexploders.size; i++) {
         if (isdefined(potentialexploders[i].script_prefab_exploder)) {
@@ -86,9 +84,7 @@ function __main__() {
             script_exploders[script_exploders.size] = potentialexploders[i];
         }
     }
-    /#
-        println("<dev string:x57>" + potentialexploders.size);
-    #/
+    println("<dev string:x57>" + potentialexploders.size);
     potentialexploders = getentarray("item_health", "classname");
     for (i = 0; i < potentialexploders.size; i++) {
         if (isdefined(potentialexploders[i].script_prefab_exploder)) {
@@ -98,9 +94,7 @@ function __main__() {
             script_exploders[script_exploders.size] = potentialexploders[i];
         }
     }
-    /#
-        println("<dev string:x87>" + potentialexploders.size);
-    #/
+    println("<dev string:x87>" + potentialexploders.size);
     if (!isdefined(level.createfxent)) {
         level.createfxent = [];
     }
@@ -135,9 +129,7 @@ function __main__() {
             ent.v["fxid"] = exploder.script_fxid;
         }
         ent.v["exploder"] = exploder.script_exploder;
-        /#
-            assert(isdefined(exploder.script_exploder), "<dev string:xb6>" + exploder.origin + "<dev string:xca>");
-        #/
+        assert(isdefined(exploder.script_exploder), "<dev string:xb6>" + exploder.origin + "<dev string:xca>");
         if (!isdefined(ent.v["delay"])) {
             ent.v["delay"] = 0;
         }
@@ -391,9 +383,7 @@ function brush_delete() {
     if (!isdefined(self.model)) {
         return;
     }
-    /#
-        assert(isdefined(self.model));
-    #/
+    assert(isdefined(self.model));
     if (!isdefined(self.v["fxid"]) || self.v["fxid"] == "No FX") {
         self.v["exploder"] = undefined;
     }
@@ -409,9 +399,7 @@ function brush_show() {
     if (isdefined(self.v["delay"])) {
         wait self.v["delay"];
     }
-    /#
-        assert(isdefined(self.model));
-    #/
+    assert(isdefined(self.model));
     self.model show();
     self.model solid();
 }
@@ -552,9 +540,7 @@ function activate_radiant_exploder(string) {
 function activate_individual_exploder(num) {
     level notify("exploder" + self.v["exploder"]);
     if (!level.clientscripts || !isdefined(level._exploder_ids[int(self.v["exploder"])]) || isdefined(self.v["exploder_server"])) {
-        /#
-            println("<dev string:x104>" + self.v["<dev string:x10e>"] + "<dev string:x117>");
-        #/
+        println("<dev string:x104>" + self.v["<dev string:x10e>"] + "<dev string:x117>");
         if (isdefined(self.v["firefx"])) {
             self thread fire_effect();
         }
@@ -651,9 +637,7 @@ function kill_exploder(exploder_string) {
         killclientradiantexploder(exploder_string);
         return;
     }
-    /#
-        assertmsg("<dev string:x12b>");
-    #/
+    assertmsg("<dev string:x12b>");
 }
 
 // Namespace exploder/exploder_shared
@@ -683,9 +667,7 @@ function exploder_damage() {
 // Size: 0xec
 function earthquake() {
     earthquake_name = self.v["earthquake"];
-    /#
-        assert(isdefined(level.earthquake) && isdefined(level.earthquake[earthquake_name]), "<dev string:x167>" + earthquake_name + "<dev string:x177>");
-    #/
+    assert(isdefined(level.earthquake) && isdefined(level.earthquake[earthquake_name]), "<dev string:x167>" + earthquake_name + "<dev string:x177>");
     self exploder_delay();
     eq = level.earthquake[earthquake_name];
     earthquake(eq["magnitude"], eq["duration"], self.v["origin"], eq["radius"]);
@@ -701,9 +683,7 @@ function rumble() {
     if (isdefined(self.v["damage_radius"])) {
         n_rumble_threshold_squared = self.v["damage_radius"] * self.v["damage_radius"];
     } else {
-        /#
-            println("<dev string:x1bc>" + self.v["<dev string:x10e>"] + "<dev string:x1c7>");
-        #/
+        println("<dev string:x1bc>" + self.v["<dev string:x10e>"] + "<dev string:x1c7>");
         n_rumble_threshold_squared = 16384;
     }
     for (i = 0; i < a_players.size; i++) {

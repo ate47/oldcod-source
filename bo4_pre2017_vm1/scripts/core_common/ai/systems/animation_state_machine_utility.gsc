@@ -7,9 +7,7 @@
 // Checksum 0x8920f95, Offset: 0xd0
 // Size: 0x4c
 function requeststate(entity, statename) {
-    /#
-        assert(isdefined(entity));
-    #/
+    assert(isdefined(entity));
     entity asmrequestsubstate(statename);
 }
 

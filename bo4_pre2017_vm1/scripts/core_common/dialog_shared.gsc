@@ -255,9 +255,7 @@ function water_vox() {
     level endon(#"game_ended");
     interval = mpdialog_value("underwaterInterval", 0.05);
     if (interval <= 0) {
-        /#
-            assert(interval > 0, "<dev string:x28>");
-        #/
+        assert(interval > 0, "<dev string:x28>");
         return;
     }
     while (true) {
@@ -559,9 +557,7 @@ function missile_tracking() {
 function incoming_projectile_alert(thrower, projectile, dialogkey, waittime) {
     level endon(#"game_ended");
     if (waittime <= 0) {
-        /#
-            assert(waittime > 0, "<dev string:x6e>");
-        #/
+        assert(waittime > 0, "<dev string:x6e>");
         return;
     }
     while (true) {

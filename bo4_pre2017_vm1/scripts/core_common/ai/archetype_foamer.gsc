@@ -45,13 +45,9 @@ function __init__() {
 // Checksum 0x273a39cd, Offset: 0x568
 // Size: 0xc4
 function autoexec registerbehaviorscriptfunctions() {
-    /#
-        assert(isscriptfunctionptr(&foamerchoosebetterpositionservice));
-    #/
+    assert(isscriptfunctionptr(&foamerchoosebetterpositionservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("foamerChooseBetterPositionService", &foamerchoosebetterpositionservice);
-    /#
-        assert(isscriptfunctionptr(&foamerreaquireservice));
-    #/
+    assert(isscriptfunctionptr(&foamerreaquireservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("foamerReaquireService", &foamerreaquireservice);
 }
 

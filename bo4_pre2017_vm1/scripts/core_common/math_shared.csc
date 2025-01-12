@@ -41,12 +41,8 @@ function lag(desired, curr, k, dt) {
 // Checksum 0xa0ee6d27, Offset: 0x208
 // Size: 0xb8
 function array_average(array) {
-    /#
-        assert(isarray(array));
-    #/
-    /#
-        assert(array.size > 0);
-    #/
+    assert(isarray(array));
+    assert(array.size > 0);
     total = 0;
     for (i = 0; i < array.size; i++) {
         total += array[i];
@@ -59,12 +55,8 @@ function array_average(array) {
 // Checksum 0x56d67ee0, Offset: 0x2c8
 // Size: 0x132
 function array_std_deviation(array, mean) {
-    /#
-        assert(isarray(array));
-    #/
-    /#
-        assert(array.size > 0);
-    #/
+    assert(isarray(array));
+    assert(array.size > 0);
     tmp = [];
     for (i = 0; i < array.size; i++) {
         tmp[i] = (array[i] - mean) * (array[i] - mean);

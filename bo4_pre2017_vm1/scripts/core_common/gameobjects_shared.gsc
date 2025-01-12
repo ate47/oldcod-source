@@ -50,6 +50,24 @@ class cinteractobj {
     var m_v_tag_origin;
 
     // Namespace cinteractobj/gameobjects_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x1b93275, Offset: 0xb5f0
+    // Size: 0x14
+    function constructor() {
+        m_str_trigger_type = "use";
+    }
+
+    // Namespace cinteractobj/gameobjects_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xfedd5785, Offset: 0xb610
+    // Size: 0x24
+    function destructor() {
+        /#
+            iprintlnbold("<dev string:x290>");
+        #/
+    }
+
+    // Namespace cinteractobj/gameobjects_shared
     // Params 1, eflags: 0x0
     // Checksum 0x8ca550f1, Offset: 0xc398
     // Size: 0xb4
@@ -104,15 +122,11 @@ class cinteractobj {
             mdl_gameobject = gameobjects::create_use_object(m_str_team, m_t_interact, m_a_keyline_objects, (0, 0, 0), m_str_objective);
             break;
         case #"carry":
-            /#
-                assert(isdefined(m_a_keyline_objects[0]), "<dev string:x311>");
-            #/
+            assert(isdefined(m_a_keyline_objects[0]), "<dev string:x311>");
             mdl_gameobject = gameobjects::create_carry_object(m_str_team, m_t_interact, m_a_keyline_objects, (0, 0, 0), m_str_objective);
             break;
         case #"pack":
-            /#
-                assert(isdefined(m_a_keyline_objects[0]), "<dev string:x311>");
-            #/
+            assert(isdefined(m_a_keyline_objects[0]), "<dev string:x311>");
             mdl_gameobject = gameobjects::create_pack_object(m_str_team, m_t_interact, m_a_keyline_objects, (0, 0, 0), m_str_objective);
             break;
         case #"generic":
@@ -245,30 +259,10 @@ class cinteractobj {
             if (is_valid_gameobject_trigger(t_override)) {
                 m_t_interact = t_override;
             } else {
-                /#
-                    assert("<dev string:x2e7>");
-                #/
+                assert("<dev string:x2e7>");
             }
         }
         self create_gameobject_trigger();
-    }
-
-    // Namespace cinteractobj/gameobjects_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xfedd5785, Offset: 0xb610
-    // Size: 0x24
-    function __destructor() {
-        /#
-            iprintlnbold("<dev string:x290>");
-        #/
-    }
-
-    // Namespace cinteractobj/gameobjects_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x1b93275, Offset: 0xb5f0
-    // Size: 0x14
-    function __constructor() {
-        m_str_trigger_type = "use";
     }
 
 }
@@ -452,9 +446,7 @@ function set_use_multiplier_callback(callbackfunction) {
 function defaultuseratescalercallback(player) {
     useobj = self;
     characterindex = player getspecialistindex();
-    /#
-        assert(player_role::is_valid(characterindex));
-    #/
+    assert(player_role::is_valid(characterindex));
     playerrole = getplayerrolecategory(characterindex, currentsessionmode());
     if (isdefined(playerrole) && isdefined(useobj.bundle)) {
         switch (playerrole) {
@@ -482,9 +474,7 @@ function defaultuseratescalercallback(player) {
 function defaultallowweaponscallback(object) {
     player = self;
     characterindex = player getspecialistindex();
-    /#
-        assert(player_role::is_valid(characterindex));
-    #/
+    assert(player_role::is_valid(characterindex));
     playerrole = getplayerrolecategory(characterindex, currentsessionmode());
     if (isdefined(playerrole) && isdefined(object.bundle)) {
         switch (playerrole) {
@@ -772,9 +762,7 @@ function update_carry_object_objective_origin() {
 // Checksum 0x69d3ef95, Offset: 0x21f0
 // Size: 0x2d4
 function give_object(object) {
-    /#
-        assert(!isdefined(self.carryobject));
-    #/
+    assert(!isdefined(self.carryobject));
     self.carryobject = object;
     self thread track_carrier(object);
     allowweapons = object.allowweapons;
@@ -1069,9 +1057,7 @@ function should_be_reset(minz, maxz, var_5a190e09) {
     }
     elevators = getentarray("script_elevator", "targetname");
     foreach (elevator in elevators) {
-        /#
-            assert(isdefined(elevator.occupy_volume));
-        #/
+        assert(isdefined(elevator.occupy_volume));
         if (self.visuals[0] istouchingswept(elevator.occupy_volume, minz, maxz)) {
             return true;
         }
@@ -1269,12 +1255,8 @@ function watchholdusedrop() {
     self endon(#"death");
     self endon(#"disconnect");
     self endon(#"drop_object");
-    /#
-        assert(isdefined(self.carryobject));
-    #/
-    /#
-        assert(isdefined(self.carryobject.droptrigger));
-    #/
+    assert(isdefined(self.carryobject));
+    assert(isdefined(self.carryobject.droptrigger));
     trigger = self.carryobject.droptrigger;
     while (true) {
         waitresult = trigger waittill("trigger");
@@ -1645,9 +1627,7 @@ function use_object_onuse(player) {
 // Checksum 0x8b54c565, Offset: 0x5628
 // Size: 0x15a
 function get_earliest_claim_player() {
-    /#
-        assert(self.claimteam != "<dev string:x86>");
-    #/
+    assert(self.claimteam != "<dev string:x86>");
     team = self.claimteam;
     earliestplayer = self.claimplayer;
     if (self.touchlist[team].size > 0) {
@@ -2036,9 +2016,7 @@ function clear_progress() {
 // Checksum 0xcb97ea5a, Offset: 0x6da8
 // Size: 0x11c
 function set_claim_team(newteam) {
-    /#
-        assert(newteam != self.claimteam);
-    #/
+    assert(newteam != self.claimteam);
     if (!self.decayprogress && self.claimteam == "none" && gettime() - self.lastclaimtime > self.claimgraceperiod * 1000) {
         self clear_progress();
     } else if (newteam != "none" && newteam != self.lastclaimteam) {
@@ -2546,9 +2524,7 @@ function update_objective() {
 // Size: 0x8c
 function hide_waypoint(e_player) {
     if (isdefined(e_player)) {
-        /#
-            assert(isplayer(e_player), "<dev string:x8b>");
-        #/
+        assert(isplayer(e_player), "<dev string:x8b>");
         objective_setinvisibletoplayer(self.objectiveid, e_player);
         return;
     }
@@ -2561,9 +2537,7 @@ function hide_waypoint(e_player) {
 // Size: 0x8c
 function show_waypoint(e_player) {
     if (isdefined(e_player)) {
-        /#
-            assert(isplayer(e_player), "<dev string:x8b>");
-        #/
+        assert(isplayer(e_player), "<dev string:x8b>");
         objective_setvisibletoplayer(self.objectiveid, e_player);
         return;
     }
@@ -2892,9 +2866,7 @@ function get_objective_ids(str_team) {
 // Checksum 0xf9cc8ab3, Offset: 0x9838
 // Size: 0x240
 function gameobject_is_player_looking_at(origin, dot, do_trace, ignore_ent, ignore_trace_distance) {
-    /#
-        assert(isplayer(self), "<dev string:xc8>");
-    #/
+    assert(isplayer(self), "<dev string:xc8>");
     if (!isdefined(dot)) {
         dot = 0.7;
     }
@@ -2988,9 +2960,7 @@ function set_3d_is_waypoint(relativeteam, waypoint) {
 // Checksum 0x616e4f6b, Offset: 0x9d30
 // Size: 0x4c
 function set_carry_icon(shader) {
-    /#
-        assert(self.type == "<dev string:xf6>", "<dev string:x102>");
-    #/
+    assert(self.type == "<dev string:xf6>", "<dev string:x102>");
     self.carryicon = shader;
 }
 
@@ -3188,9 +3158,7 @@ function can_interact_with(player) {
             return false;
         }
     default:
-        /#
-            assert(0, "<dev string:x130>");
-        #/
+        assert(0, "<dev string:x130>");
         return false;
     }
 }
@@ -3251,9 +3219,7 @@ function get_enemy_team(str_team) {
 // Size: 0x74
 function set_absolute_visible_and_interact_team(str_team) {
     str_team = util::get_team_mapping(str_team);
-    /#
-        assert(str_team == "<dev string:x145>" || str_team == "<dev string:x14c>", "<dev string:x151>");
-    #/
+    assert(str_team == "<dev string:x145>" || str_team == "<dev string:x14c>", "<dev string:x151>");
     self.absolute_visible_and_interact_team = str_team;
 }
 
@@ -3286,18 +3252,12 @@ function get_next_obj_id() {
 // Checksum 0x7751b664, Offset: 0xa940
 // Size: 0x124
 function release_obj_id(objid) {
-    /#
-        assert(objid < level.numgametypereservedobjectives);
-    #/
+    assert(objid < level.numgametypereservedobjectives);
     for (i = 0; i < level.releasedobjectives.size; i++) {
         if (objid == level.releasedobjectives[i] && objid == 127) {
             return;
         }
-        /#
-            /#
-                assert(objid != level.releasedobjectives[i]);
-            #/
-        #/
+        assert(objid != level.releasedobjectives[i]);
     }
     level.releasedobjectives[level.releasedobjectives.size] = objid;
     objective_setcolor(objid, 1, 1, 1, 1);
@@ -3398,9 +3358,7 @@ function create_pack_object(ownerteam, trigger, visuals, offset, objectivename, 
     if (!isdefined(level.max_packobjects)) {
         level.max_packobjects = 4;
     }
-    /#
-        assert(level.max_packobjects < 5, "<dev string:x1ae>");
-    #/
+    assert(level.max_packobjects < 5, "<dev string:x1ae>");
     packobject = spawn("script_model", trigger.origin);
     packobject.type = "packObject";
     packobject.curorigin = trigger.origin;
@@ -3527,9 +3485,7 @@ function adjust_remaining_packicons() {
 // Checksum 0x5c4afc81, Offset: 0xb468
 // Size: 0x4c
 function set_pack_icon(shader) {
-    /#
-        assert(self.type == "<dev string:x224>", "<dev string:x22f>");
-    #/
+    assert(self.type == "<dev string:x224>", "<dev string:x22f>");
     self.packicon = shader;
 }
 
@@ -3538,8 +3494,7 @@ function set_pack_icon(shader) {
 // Checksum 0x864d63c, Offset: 0xb4c0
 // Size: 0x124
 function init_game_objects(str_gameobject_bundle, str_team_override, b_allow_companion_command, t_override, a_keyline_objects, str_objective_override, str_tag_override, str_identifier_override) {
-    [[ new cinteractobj ]]->__constructor();
-    c_interact_obj = <error pop>;
+    c_interact_obj = new cinteractobj();
     c_interact_obj.e_object = self;
     str_bundle = undefined;
     if (isdefined(str_gameobject_bundle)) {
@@ -3547,9 +3502,7 @@ function init_game_objects(str_gameobject_bundle, str_team_override, b_allow_com
     } else if (self.classname === "scriptbundle_gameobject") {
         str_bundle = self.scriptbundlename;
     }
-    /#
-        assert(isdefined(str_bundle), "<dev string:x25f>" + self.origin);
-    #/
+    assert(isdefined(str_bundle), "<dev string:x25f>" + self.origin);
     [[ c_interact_obj ]]->init_game_object(str_bundle, str_team_override, str_tag_override, str_identifier_override, a_keyline_objects, t_override, b_allow_companion_command);
     return c_interact_obj;
 }

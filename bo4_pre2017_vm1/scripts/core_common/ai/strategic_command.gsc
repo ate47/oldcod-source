@@ -24,8 +24,7 @@ function private __init__() {
         level thread _debuggameobjects();
     #/
     if (!isdefined(level.strategic_command_throttle)) {
-        [[ new throttle ]]->__constructor();
-        level.strategic_command_throttle = <error pop>;
+        level.strategic_command_throttle = new throttle();
         [[ level.strategic_command_throttle ]]->initialize(1, 0.05);
     }
 }
@@ -110,12 +109,8 @@ function private _debuggameobjects() {
 // Checksum 0xee1712cc, Offset: 0x858
 // Size: 0xf2
 function calculatepathtogameobject(bot, gameobject) {
-    /#
-        assert(isvalidbotorplayer(bot));
-    #/
-    /#
-        assert(isdefined(gameobject));
-    #/
+    assert(isvalidbotorplayer(bot));
+    assert(isdefined(gameobject));
     botposition = getclosestpointonnavmesh(bot.origin, 200);
     if (!isdefined(botposition)) {
         return;
@@ -132,12 +127,8 @@ function calculatepathtogameobject(bot, gameobject) {
 // Checksum 0x3e1c6557, Offset: 0x958
 // Size: 0xf2
 function calculatepathtoobjective(bot, objective) {
-    /#
-        assert(isvalidbotorplayer(bot));
-    #/
-    /#
-        assert(isdefined(objective));
-    #/
+    assert(isvalidbotorplayer(bot));
+    assert(isdefined(objective));
     botposition = getclosestpointonnavmesh(bot.origin, 200);
     if (!isdefined(botposition)) {
         return;
@@ -154,12 +145,8 @@ function calculatepathtoobjective(bot, objective) {
 // Checksum 0xdb73ed3a, Offset: 0xa58
 // Size: 0xd2
 function calculatepathtopoints(bot, points) {
-    /#
-        assert(isvalidbotorplayer(bot));
-    #/
-    /#
-        assert(isdefined(points));
-    #/
+    assert(isvalidbotorplayer(bot));
+    assert(isdefined(points));
     botposition = getclosestpointonnavmesh(bot.origin, 200);
     if (!isdefined(botposition)) {
         return;
@@ -181,12 +168,8 @@ function calculatepathtoposition(bot, position, radius, halfheight) {
     if (!isdefined(halfheight)) {
         halfheight = 100;
     }
-    /#
-        assert(bot isbot());
-    #/
-    /#
-        assert(isdefined(position));
-    #/
+    assert(bot isbot());
+    assert(isdefined(position));
     botposition = getclosestpointonnavmesh(bot.origin, 200);
     if (!isdefined(botposition)) {
         return;
@@ -203,12 +186,8 @@ function calculatepathtoposition(bot, position, radius, halfheight) {
 // Checksum 0x8312f902, Offset: 0xc78
 // Size: 0xf2
 function calculatepathtotrigger(bot, trigger) {
-    /#
-        assert(bot isbot());
-    #/
-    /#
-        assert(isdefined(trigger));
-    #/
+    assert(bot isbot());
+    assert(isdefined(trigger));
     botposition = getclosestpointonnavmesh(bot.origin, 200);
     if (!isdefined(botposition)) {
         return;
@@ -293,12 +272,8 @@ function isvalidbot(bot) {
 // Checksum 0xd214055d, Offset: 0x11b0
 // Size: 0x18e
 function querypointsaroundgameobject(bot, gameobject) {
-    /#
-        assert(isvalidbotorplayer(bot));
-    #/
-    /#
-        assert(isdefined(gameobject));
-    #/
+    assert(isvalidbotorplayer(bot));
+    assert(isdefined(gameobject));
     points = array();
     if (isdefined(gameobject) && isdefined(gameobject.trigger)) {
         points = tacticalquery("stratcom_tacquery_gameobject", gameobject.trigger);
@@ -318,12 +293,8 @@ function querypointsaroundgameobject(bot, gameobject) {
 // Checksum 0x60e31eb2, Offset: 0x1348
 // Size: 0x156
 function querypointsinsideobjective(bot, trigger) {
-    /#
-        assert(isvalidbotorplayer(bot));
-    #/
-    /#
-        assert(isdefined(trigger));
-    #/
+    assert(isvalidbotorplayer(bot));
+    assert(isdefined(trigger));
     points = tacticalquery("stratcom_tacquery_objective", trigger);
     /#
         if (getdvarint("<dev string:x33>")) {
@@ -340,12 +311,8 @@ function querypointsinsideobjective(bot, trigger) {
 // Checksum 0xb7aed2, Offset: 0x14a8
 // Size: 0x18e
 function querypointsinsideposition(bot, position, radius, halfheight) {
-    /#
-        assert(bot isbot());
-    #/
-    /#
-        assert(isdefined(position));
-    #/
+    assert(bot isbot());
+    assert(isdefined(position));
     cylinder = ai::t_cylinder(position, radius, halfheight);
     points = tacticalquery("stratcom_tacquery_position", cylinder);
     /#
@@ -363,12 +330,8 @@ function querypointsinsideposition(bot, position, radius, halfheight) {
 // Checksum 0x9f99a8de, Offset: 0x1640
 // Size: 0x156
 function querypointsinsidetrigger(bot, trigger) {
-    /#
-        assert(isvalidbotorplayer(bot));
-    #/
-    /#
-        assert(isdefined(trigger));
-    #/
+    assert(isvalidbotorplayer(bot));
+    assert(isdefined(trigger));
     points = tacticalquery("stratcom_tacquery_trigger", trigger);
     /#
         if (getdvarint("<dev string:x33>")) {

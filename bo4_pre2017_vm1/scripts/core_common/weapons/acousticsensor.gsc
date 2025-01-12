@@ -7,9 +7,9 @@
 #using scripts/core_common/util_shared;
 #using scripts/core_common/weapons/weaponobjects;
 
-#namespace namespace_efc40536;
+#namespace acousticsensor;
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 0, eflags: 0x0
 // Checksum 0xadef10d, Offset: 0x2b8
 // Size: 0x64
@@ -19,7 +19,7 @@ function init_shared() {
     callback::add_weapon_watcher(&function_f7da464e);
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 0, eflags: 0x0
 // Checksum 0x1340ff91, Offset: 0x328
 // Size: 0xc0
@@ -33,14 +33,14 @@ function function_f7da464e() {
     watcher.ondamage = &function_1e59bb1a;
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 2, eflags: 0x0
 // Checksum 0x3a6b5453, Offset: 0x3f0
 // Size: 0x114
 function function_ed275b60(watcher, player) {
     self endon(#"death");
     self thread weaponobjects::onspawnuseweaponobject(watcher, player);
-    player.var_efc40536 = self;
+    player.acousticsensor = self;
     self setowner(player);
     self setteam(player.team);
     self.owner = player;
@@ -51,7 +51,7 @@ function function_ed275b60(watcher, player) {
     self thread watchshutdown(player, self.origin);
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 3, eflags: 0x0
 // Checksum 0xf4e48abc, Offset: 0x510
 // Size: 0x10c
@@ -69,7 +69,7 @@ function function_46660dce(attacker, weapon, target) {
     self destroyent();
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 0, eflags: 0x0
 // Checksum 0x9fe736bd, Offset: 0x628
 // Size: 0x1c
@@ -77,18 +77,18 @@ function destroyent() {
     self delete();
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 2, eflags: 0x0
 // Checksum 0x73a448f1, Offset: 0x650
 // Size: 0x42
 function watchshutdown(player, origin) {
     self waittill("death", "hacked");
     if (isdefined(player)) {
-        player.var_efc40536 = undefined;
+        player.acousticsensor = undefined;
     }
 }
 
-// Namespace namespace_efc40536/namespace_efc40536
+// Namespace acousticsensor/acousticsensor
 // Params 1, eflags: 0x0
 // Checksum 0xdf103130, Offset: 0x6a0
 // Size: 0x3ca

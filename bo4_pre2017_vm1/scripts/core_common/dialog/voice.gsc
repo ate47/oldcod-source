@@ -43,7 +43,7 @@ function add_igc(scriptid, alias) {
         level.scr_sound["generic"] = [];
     }
     level.scr_sound["generic"][scriptid] = alias;
-    animation::add_global_notetrack_handler("vox#" + scriptid, &namespace_3a85d5f1::play_notetrack, 0, scriptid);
+    animation::add_global_notetrack_handler("vox#" + scriptid, &dialog2::play_notetrack, 0, scriptid);
 }
 
 // Namespace voice/voice

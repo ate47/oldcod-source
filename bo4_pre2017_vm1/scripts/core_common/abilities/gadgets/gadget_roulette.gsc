@@ -409,13 +409,9 @@ function getrandomgadget(isprimaryroll) {
 // Size: 0x146
 function registergadgettype(gadgetnamestring, primaryweight, secondaryweight) {
     gadgetweapon = getweapon(gadgetnamestring);
-    /#
-        assert(isdefined(gadgetweapon));
-    #/
+    assert(isdefined(gadgetweapon));
     if (gadgetweapon == level.weaponnone) {
-        /#
-            assertmsg(gadgetnamestring + "<dev string:x28>");
-        #/
+        assertmsg(gadgetnamestring + "<dev string:x28>");
     }
     if (!isdefined(level.gadgetrouletteprobabilities[gadgetweapon])) {
         level.gadgetrouletteprobabilities[gadgetweapon] = [];

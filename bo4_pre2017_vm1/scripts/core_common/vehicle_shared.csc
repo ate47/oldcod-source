@@ -216,9 +216,7 @@ function play_exhaust(localclientnum) {
     }
     if (isdefined(self.exhaust_fx) && isdefined(self.exhaustfxtag1)) {
         if (isalive(self)) {
-            /#
-                assert(isdefined(self.exhaustfxtag1), self.vehicletype + "<dev string:x28>");
-            #/
+            assert(isdefined(self.exhaustfxtag1), self.vehicletype + "<dev string:x28>");
             self endon(#"death");
             self wait_for_dobj(localclientnum);
             self.exhaust_id_left = playfxontag(localclientnum, self.exhaust_fx, self, self.exhaustfxtag1);
@@ -252,7 +250,7 @@ function function_49a7bb3b(localclientnum) {
 // Checksum 0x6faa9c4a, Offset: 0x1e40
 // Size: 0x1a
 function stop_exhaust(localclientnum) {
-    self notify(#"hash_ab268b3b");
+    self notify(#"stop_exhaust_fx");
 }
 
 // Namespace vehicle/vehicle_shared
@@ -738,9 +736,7 @@ function toggle_flir_postfxbundle(localclientnum, oldval, newval, bnewent, binit
 // Size: 0xa0
 function shouldchangescreenpostfx(localclientnum) {
     player = self;
-    /#
-        assert(isdefined(player));
-    #/
+    assert(isdefined(player));
     if (player getinkillcam(localclientnum)) {
         killcamentity = player getkillcamentity(localclientnum);
         if (isdefined(killcamentity) && killcamentity != player) {
@@ -789,9 +785,7 @@ function update_ui_fullscreen_filter_model(localclientnum, vision_set_value) {
 // Size: 0x234
 function field_toggle_treadfx(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     if (self.vehicleclass === "helicopter" || self.vehicleclass === "plane") {
-        /#
-            println("<dev string:xc7>");
-        #/
+        println("<dev string:xc7>");
         if (newval) {
             if (isdefined(bnewent) && bnewent) {
                 self.csf_no_tread = 1;
@@ -808,25 +802,17 @@ function field_toggle_treadfx(localclientnum, oldval, newval, bnewent, binitials
         return;
     }
     if (newval) {
-        /#
-            println("<dev string:xe7>");
-        #/
+        println("<dev string:xe7>");
         if (isdefined(bnewent) && bnewent) {
-            /#
-                println("<dev string:x10e>" + self getentitynumber());
-            #/
+            println("<dev string:x10e>" + self getentitynumber());
             self.csf_no_tread = 1;
         } else {
-            /#
-                println("<dev string:x12c>" + self getentitynumber());
-            #/
+            println("<dev string:x12c>" + self getentitynumber());
             self kill_treads_forever();
         }
         return;
     }
-    /#
-        println("<dev string:x148>");
-    #/
+    println("<dev string:x148>");
     if (isdefined(self.csf_no_tread)) {
         self.csf_no_tread = 0;
     }

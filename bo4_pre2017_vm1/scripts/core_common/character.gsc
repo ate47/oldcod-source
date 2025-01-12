@@ -50,13 +50,9 @@ function save() {
     info["gearModel"] = self.gearmodel;
     if (isdefined(self.name)) {
         info["name"] = self.name;
-        /#
-            println("<dev string:x28>", self.name);
-        #/
+        println("<dev string:x28>", self.name);
     } else {
-        /#
-            println("<dev string:x3c>");
-        #/
+        println("<dev string:x3c>");
     }
     attachsize = self getattachsize();
     for (i = 0; i < attachsize; i++) {
@@ -79,13 +75,9 @@ function load(info) {
     self.gearmodel = info["gearModel"];
     if (isdefined(info["name"])) {
         self.name = info["name"];
-        /#
-            println("<dev string:x53>", self.name);
-        #/
+        println("<dev string:x53>", self.name);
     } else {
-        /#
-            println("<dev string:x67>");
-        #/
+        println("<dev string:x67>");
     }
     attachinfo = info["attach"];
     attachsize = attachinfo.size;
@@ -151,9 +143,7 @@ function get_least_used_index(prefix, group) {
         }
         lowest_indices[lowest_indices.size] = i;
     }
-    /#
-        assert(lowest_indices.size, "<dev string:x7e>");
-    #/
+    assert(lowest_indices.size, "<dev string:x7e>");
     return random(lowest_indices);
 }
 

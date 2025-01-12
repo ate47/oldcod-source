@@ -679,9 +679,7 @@ function detonateweaponobjectarray(forcedetonation, weapon) {
 // Size: 0x8c
 function addweaponobjecttowatcher(watchername, weapon_instance) {
     watcher = getweaponobjectwatcher(watchername);
-    /#
-        assert(isdefined(watcher), "<dev string:x28>" + watchername + "<dev string:x3f>");
-    #/
+    assert(isdefined(watcher), "<dev string:x28>" + watchername + "<dev string:x3f>");
     self addweaponobject(watcher, weapon_instance);
 }
 
@@ -1573,9 +1571,7 @@ function weaponobjectdetectiontrigger(ownerteam) {
 // Size: 0x118
 function hackertriggersetvisibility(owner) {
     self endon(#"death");
-    /#
-        assert(isplayer(owner));
-    #/
+    assert(isplayer(owner));
     ownerteam = owner.pers["team"];
     for (;;) {
         if (level.teambased) {
@@ -2181,7 +2177,7 @@ function function_efc7ac4() {
         if (!isalive(self) && !self util::isusingremote()) {
             continue;
         }
-        self notify(#"hash_1a071f19");
+        self notify(#"alt_detonate");
         waitframe(1);
     }
 }
@@ -2215,9 +2211,7 @@ function function_197a78e0() {
 // Size: 0x146
 function function_3f1ca510() {
     if (!isdefined(self.weaponobjectwatcherarray)) {
-        /#
-            assert("<dev string:x4f>");
-        #/
+        assert("<dev string:x4f>");
         return;
     }
     watchers = [];

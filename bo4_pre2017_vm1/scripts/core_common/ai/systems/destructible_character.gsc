@@ -117,11 +117,7 @@ function destructleftlegpieces(entity) {
 // Checksum 0x74727765, Offset: 0x950
 // Size: 0x184
 function destructpiece(entity, piecenumber) {
-    /#
-        /#
-            assert(1 <= piecenumber && piecenumber <= 20);
-        #/
-    #/
+    assert(1 <= piecenumber && piecenumber <= 20);
     if (isdestructed(entity, piecenumber)) {
         return;
     }
@@ -233,11 +229,7 @@ function handledamage(einflictor, eattacker, idamage, idflags, smeansofdeath, sw
 // Checksum 0x539417d7, Offset: 0xf40
 // Size: 0x66
 function isdestructed(entity, piecenumber) {
-    /#
-        /#
-            assert(1 <= piecenumber && piecenumber <= 20);
-        #/
-    #/
+    assert(1 <= piecenumber && piecenumber <= 20);
     return _getdestructstate(entity) & 1 << piecenumber;
 }
 

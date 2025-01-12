@@ -48,6 +48,27 @@ class csceneobject {
 
     // Namespace csceneobject/scene_objects_shared
     // Params 0, eflags: 0x0
+    // Checksum 0xff913a5d, Offset: 0xb80
+    // Size: 0x38
+    function constructor() {
+        _b_set_goal = 1;
+        _b_first_frame = 0;
+        _b_active_anim = 0;
+        _n_blend = 0;
+    }
+
+    // Namespace csceneobject/scene_objects_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xec5bc0a1, Offset: 0xbc0
+    // Size: 0x24
+    function destructor() {
+        /#
+            log("<dev string:x28>");
+        #/
+    }
+
+    // Namespace csceneobject/scene_objects_shared
+    // Params 0, eflags: 0x0
     // Checksum 0xf09f4b8a, Offset: 0x5de0
     // Size: 0xe
     function get_ent() {
@@ -77,9 +98,7 @@ class csceneobject {
             if (isdefined(_o_scene._b_testing) && _o_scene._b_testing) {
                 scene::error_on_screen(str_msg);
             } else {
-                /#
-                    assertmsg(str_msg);
-                #/
+                assertmsg(str_msg);
             }
             thread [[ _o_scene ]]->on_error();
             return true;
@@ -92,9 +111,7 @@ class csceneobject {
     // Checksum 0xd5c5e75a, Offset: 0x5af8
     // Size: 0xcc
     function log(str_msg) {
-        /#
-            println(_o_scene._s.type + "<dev string:x134>" + _o_scene._str_name + "<dev string:x136>" + (isdefined("<dev string:x13b>") ? "<dev string:x13a>" + "<dev string:x13b>" : isdefined(_s.name) ? "<dev string:x13a>" + _s.name : "<dev string:x13a>") + "<dev string:x143>" + str_msg);
-        #/
+        println(_o_scene._s.type + "<dev string:x134>" + _o_scene._str_name + "<dev string:x136>" + (isdefined("<dev string:x13b>") ? "<dev string:x13a>" + "<dev string:x13b>" : isdefined(_s.name) ? "<dev string:x13a>" + _s.name : "<dev string:x13a>") + "<dev string:x143>" + str_msg);
     }
 
     // Namespace csceneobject/scene_objects_shared
@@ -1410,27 +1427,6 @@ class csceneobject {
         }
     }
 
-    // Namespace csceneobject/scene_objects_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xec5bc0a1, Offset: 0xbc0
-    // Size: 0x24
-    function __destructor() {
-        /#
-            log("<dev string:x28>");
-        #/
-    }
-
-    // Namespace csceneobject/scene_objects_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0xff913a5d, Offset: 0xb80
-    // Size: 0x38
-    function __constructor() {
-        _b_set_goal = 1;
-        _b_first_frame = 0;
-        _b_active_anim = 0;
-        _n_blend = 0;
-    }
-
 }
 
 // Namespace scene
@@ -1460,6 +1456,31 @@ class cscene {
     var var_24424892;
 
     // Namespace cscene/scene_objects_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x389d6e85, Offset: 0x6b18
+    // Size: 0x68
+    function constructor() {
+        _a_objects = [];
+        _b_testing = 0;
+        _n_object_id = 0;
+        _str_mode = "";
+        _a_streamer_hint = [];
+        _a_active_shots = [];
+        _a_request_times = [];
+        _b_stopped = 0;
+    }
+
+    // Namespace cscene/scene_objects_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x75144853, Offset: 0x6b88
+    // Size: 0x24
+    function destructor() {
+        /#
+            log("<dev string:x146>");
+        #/
+    }
+
+    // Namespace cscene/scene_objects_shared
     // Params 2, eflags: 0x0
     // Checksum 0xdf9206e5, Offset: 0xcf58
     // Size: 0x64
@@ -1482,9 +1503,7 @@ class cscene {
             if (_b_testing) {
                 scene::error_on_screen(str_msg);
             } else {
-                /#
-                    assertmsg(_s.type + "<dev string:x134>" + _str_name + "<dev string:x396>" + str_msg);
-                #/
+                assertmsg(_s.type + "<dev string:x134>" + _str_name + "<dev string:x396>" + str_msg);
             }
             thread on_error();
             return true;
@@ -1497,9 +1516,7 @@ class cscene {
     // Checksum 0x2a4b116f, Offset: 0xce40
     // Size: 0x54
     function log(str_msg) {
-        /#
-            println(_s.type + "<dev string:x134>" + _str_name + "<dev string:x396>" + str_msg);
-        #/
+        println(_s.type + "<dev string:x134>" + _str_name + "<dev string:x396>" + str_msg);
     }
 
     // Namespace cscene/scene_objects_shared
@@ -2070,9 +2087,7 @@ class cscene {
                     _e_root thread [[ func ]](a_ents);
                     break;
                 default:
-                    /#
-                        assertmsg("<dev string:x252>");
-                    #/
+                    assertmsg("<dev string:x252>");
                     break;
                 }
             }
@@ -2870,32 +2885,23 @@ class cscene {
     function new_object(str_type) {
         switch (str_type) {
         case #"model":
-            [[ new cscenemodel ]]->__constructor();
-            return <error pop>;
+            return new cscenemodel();
         case #"vehicle":
-            [[ new cscenevehicle ]]->__constructor();
-            return <error pop>;
+            return new cscenevehicle();
         case #"actor":
-            [[ new csceneactor ]]->__constructor();
-            return <error pop>;
+            return new csceneactor();
         case #"fakeactor":
-            [[ new cscenefakeactor ]]->__constructor();
-            return <error pop>;
+            return new cscenefakeactor();
         case #"player":
-            [[ new csceneplayer ]]->__constructor();
-            return <error pop>;
+            return new csceneplayer();
         case #"sharedplayer":
-            [[ new cscenesharedplayer ]]->__constructor();
-            return <error pop>;
+            return new cscenesharedplayer();
         case #"fakeplayer":
-            [[ new cscenefakeplayer ]]->__constructor();
-            return <error pop>;
+            return new cscenefakeplayer();
         case #"companion":
-            [[ new cscenecompanion ]]->__constructor();
-            return <error pop>;
+            return new cscenecompanion();
         case #"sharedcompanion":
-            [[ new cscenesharedcompanion ]]->__constructor();
-            return <error pop>;
+            return new cscenesharedcompanion();
         default:
             error(0, "Unsupported object type '" + str_type + "'.");
             break;
@@ -3000,31 +3006,6 @@ class cscene {
                 }
             #/
         }
-    }
-
-    // Namespace cscene/scene_objects_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x75144853, Offset: 0x6b88
-    // Size: 0x24
-    function __destructor() {
-        /#
-            log("<dev string:x146>");
-        #/
-    }
-
-    // Namespace cscene/scene_objects_shared
-    // Params 0, eflags: 0x0
-    // Checksum 0x389d6e85, Offset: 0x6b18
-    // Size: 0x68
-    function __constructor() {
-        _a_objects = [];
-        _b_testing = 0;
-        _n_object_id = 0;
-        _str_mode = "";
-        _a_streamer_hint = [];
-        _a_active_shots = [];
-        _a_request_times = [];
-        _b_stopped = 0;
     }
 
 }

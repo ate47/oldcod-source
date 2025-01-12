@@ -65,9 +65,7 @@ function get_killcam_entity_start_time(killcamentity) {
 // Checksum 0xa8167cb6, Offset: 0x708
 // Size: 0x6c
 function store_killcam_entity_on_entity(killcam_entity) {
-    /#
-        assert(isdefined(killcam_entity));
-    #/
+    assert(isdefined(killcam_entity));
     self.killcamentitystarttime = get_killcam_entity_start_time(killcam_entity);
     self.killcamentityindex = killcam_entity getentitynumber();
 }
@@ -277,20 +275,14 @@ function killcam(attackernum, targetnum, killcam_entity_info, weapon, meansofdea
     }
     self thread watch_for_skip_killcam();
     level.numplayerswaitingtoenterkillcam++;
-    /#
-        assert(level.numplayerswaitingtoenterkillcam < 20);
-    #/
+    assert(level.numplayerswaitingtoenterkillcam < 20);
     if (level.numplayerswaitingtoenterkillcam > 1) {
-        /#
-            println("<dev string:x28>");
-        #/
+        println("<dev string:x28>");
         waitframe(level.numplayerswaitingtoenterkillcam - 1);
     }
     waitframe(1);
     level.numplayerswaitingtoenterkillcam--;
-    /#
-        assert(level.numplayerswaitingtoenterkillcam > -1);
-    #/
+    assert(level.numplayerswaitingtoenterkillcam > -1);
     postdeathdelay = (gettime() - deathtime) / 1000;
     predelay = postdeathdelay + deathtimeoffset;
     killcamentitystarttime = get_killcam_entity_info_starttime(killcam_entity_info);

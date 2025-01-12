@@ -45,15 +45,9 @@ function private _updateevents() {
 // Size: 0x1cc
 function addblackboardevent(eventname, data, timetoliveinmillis) {
     /#
-        /#
-            assert(isstring(eventname), "<dev string:x28>");
-        #/
-        /#
-            assert(isdefined(data), "<dev string:x6b>");
-        #/
-        /#
-            assert(isint(timetoliveinmillis) && timetoliveinmillis > 0, "<dev string:xa0>");
-        #/
+        assert(isstring(eventname), "<dev string:x28>");
+        assert(isdefined(data), "<dev string:x6b>");
+        assert(isint(timetoliveinmillis) && timetoliveinmillis > 0, "<dev string:xa0>");
     #/
     event = spawnstruct();
     event.data = data;

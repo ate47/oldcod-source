@@ -230,14 +230,10 @@ function weapon_ammo() {
             }
             if (change_ammo) {
                 if (!isdefined(clip)) {
-                    /#
-                        assertmsg("<dev string:xfa>" + weap.classname + "<dev string:x103>" + weap.origin + "<dev string:x105>");
-                    #/
+                    assertmsg("<dev string:xfa>" + weap.classname + "<dev string:x103>" + weap.origin + "<dev string:x105>");
                 }
                 if (!isdefined(extra)) {
-                    /#
-                        assertmsg("<dev string:xfa>" + weap.classname + "<dev string:x103>" + weap.origin + "<dev string:x136>");
-                    #/
+                    assertmsg("<dev string:xfa>" + weap.classname + "<dev string:x103>" + weap.origin + "<dev string:x136>");
                 }
                 weap itemweaponsetammo(clip, extra);
                 weap itemweaponsetammo(clip, extra, 1);
@@ -640,13 +636,9 @@ function function_90e3bbdb(overlay) {
 // Checksum 0x7406459a, Offset: 0x29b8
 // Size: 0x486
 function water_think() {
-    /#
-        assert(isdefined(self.target));
-    #/
+    assert(isdefined(self.target));
     targeted = getent(self.target, "targetname");
-    /#
-        assert(isdefined(targeted));
-    #/
+    assert(isdefined(targeted));
     waterheight = targeted.origin[2];
     targeted = undefined;
     level.depth_allow_prone = 8;
@@ -683,9 +675,7 @@ function water_think() {
                     if (newspeed < 50) {
                         newspeed = 50;
                     }
-                    /#
-                        assert(newspeed <= 190);
-                    #/
+                    assert(newspeed <= 190);
                     if (abs(d) > level.depth_allow_crouch) {
                         players[i] allowcrouch(0);
                     } else {
@@ -750,9 +740,7 @@ function calculate_map_center() {
         }
         for (index = 0; index < nodes.size; index++) {
             if (nodes[index].type == "BAD NODE") {
-                /#
-                    println("<dev string:x167>", nodes[index].origin);
-                #/
+                println("<dev string:x167>", nodes[index].origin);
                 continue;
             }
             origin = nodes[index].origin;
@@ -760,9 +748,7 @@ function calculate_map_center() {
             level.nodesmaxs = math::expand_maxs(level.nodesmaxs, origin);
         }
         level.mapcenter = math::find_box_center(level.nodesmins, level.nodesmaxs);
-        /#
-            println("<dev string:x1a9>", level.mapcenter);
-        #/
+        println("<dev string:x1a9>", level.mapcenter);
         setmapcenter(level.mapcenter);
     }
 }

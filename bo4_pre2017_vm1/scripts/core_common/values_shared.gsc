@@ -65,9 +65,7 @@ function register(str_name, call_on, func, ...) {
     }
     a_registered = getarraykeys(level.values);
     if (isinarray(a_registered, str_name)) {
-        /#
-            assertmsg("<dev string:x48>" + str_name + "<dev string:x50>");
-        #/
+        assertmsg("<dev string:x48>" + str_name + "<dev string:x50>");
         return;
     }
     s_value = spawnstruct();
@@ -86,9 +84,7 @@ function private assert_registered(str_name) {
     /#
         a_registered = getarraykeys(level.values);
         if (!isinarray(a_registered, str_name)) {
-            /#
-                assertmsg("<dev string:x48>" + str_name + "<dev string:x66>");
-            #/
+            assertmsg("<dev string:x48>" + str_name + "<dev string:x66>");
             return false;
         }
     #/
@@ -328,9 +324,7 @@ function private set_disableweapons(b_value) {
     function private validate(str_name, call_on, func, ...) {
         a_registered = getarraykeys(level.values);
         if (!isinarray(a_registered, str_name)) {
-            /#
-                assertmsg("<dev string:x48>" + str_name + "<dev string:x66>");
-            #/
+            assertmsg("<dev string:x48>" + str_name + "<dev string:x66>");
             return;
         }
         s_value = level.values[str_name];
@@ -357,9 +351,7 @@ function private set_disableweapons(b_value) {
         }
         b_match = current_value === value;
         if (b_assert) {
-            /#
-                assert(b_match, "<dev string:x78>" + str_name + "<dev string:x8b>" + current_value + "<dev string:x92>" + value + "<dev string:xa4>");
-            #/
+            assert(b_match, "<dev string:x78>" + str_name + "<dev string:x8b>" + current_value + "<dev string:x92>" + value + "<dev string:xa4>");
         }
         return b_match;
     }

@@ -109,12 +109,8 @@ function notify_all(&array, str_notify) {
 // Checksum 0xe9ac0aa9, Offset: 0x660
 // Size: 0x4cc
 function thread_all(&entities, func, arg1, arg2, arg3, arg4, arg5, arg6) {
-    /#
-        assert(isdefined(entities), "<dev string:x28>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:x5b>");
-    #/
+    assert(isdefined(entities), "<dev string:x28>");
+    assert(isdefined(func), "<dev string:x5b>");
     if (isarray(entities)) {
         if (isdefined(arg6)) {
             foreach (ent in entities) {
@@ -155,12 +151,8 @@ function thread_all(&entities, func, arg1, arg2, arg3, arg4, arg5, arg6) {
 // Checksum 0x3f8e0140, Offset: 0xb38
 // Size: 0x16c
 function thread_all_ents(&entities, func, arg1, arg2, arg3, arg4, arg5) {
-    /#
-        assert(isdefined(entities), "<dev string:x8a>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:xc2>");
-    #/
+    assert(isdefined(entities), "<dev string:x8a>");
+    assert(isdefined(func), "<dev string:xc2>");
     if (isarray(entities)) {
         if (entities.size) {
             keys = getarraykeys(entities);
@@ -178,12 +170,8 @@ function thread_all_ents(&entities, func, arg1, arg2, arg3, arg4, arg5) {
 // Checksum 0xc0494c9b, Offset: 0xcb0
 // Size: 0x4cc
 function run_all(&entities, func, arg1, arg2, arg3, arg4, arg5, arg6) {
-    /#
-        assert(isdefined(entities), "<dev string:xf6>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:x126>");
-    #/
+    assert(isdefined(entities), "<dev string:xf6>");
+    assert(isdefined(func), "<dev string:x126>");
     if (isarray(entities)) {
         if (isdefined(arg6)) {
             foreach (ent in entities) {
@@ -479,12 +467,8 @@ function remove_keys(array) {
 // Checksum 0xfe71a53e, Offset: 0x1df0
 // Size: 0xaa
 function swap(&array, index1, index2) {
-    /#
-        assert(index1 < array.size, "<dev string:x152>");
-    #/
-    /#
-        assert(index2 < array.size, "<dev string:x16e>");
-    #/
+    assert(index1 < array.size, "<dev string:x152>");
+    assert(index2 < array.size, "<dev string:x16e>");
     temp = array[index1];
     array[index1] = array[index2];
     array[index2] = temp;
@@ -556,9 +540,7 @@ function get_closest(org, &array, dist) {
     if (!isdefined(dist)) {
         dist = undefined;
     }
-    /#
-        assert(0, "<dev string:x18a>");
-    #/
+    assert(0, "<dev string:x18a>");
 }
 
 // Namespace array/array_shared
@@ -569,9 +551,7 @@ function function_8e7b4ab7(org, &array, dist) {
     if (!isdefined(dist)) {
         dist = undefined;
     }
-    /#
-        assert(0, "<dev string:x1be>");
-    #/
+    assert(0, "<dev string:x1be>");
 }
 
 // Namespace array/array_shared
@@ -775,12 +755,8 @@ function merge(left, right, func_sort, param) {
 // Checksum 0x5491b87c, Offset: 0x2ae8
 // Size: 0x1b4
 function spread_all(&entities, func, arg1, arg2, arg3, arg4, arg5) {
-    /#
-        assert(isdefined(entities), "<dev string:x1f3>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:x22b>");
-    #/
+    assert(isdefined(entities), "<dev string:x1f3>");
+    assert(isdefined(func), "<dev string:x22b>");
     if (isarray(entities)) {
         foreach (ent in entities) {
             util::single_thread(ent, func, arg1, arg2, arg3, arg4, arg5);

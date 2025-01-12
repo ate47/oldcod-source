@@ -107,20 +107,18 @@ function setpoint(point, relativepoint, xoffset, yoffset, movetime) {
         self.aligny = "top";
         self.alignx = "center";
         break;
-    case #"hash_53c524d6":
+    case #"BOTTOM RIGHT":
     case #"bottom_right":
         self.aligny = "bottom";
         self.alignx = "right";
         break;
-    case #"hash_b13eab63":
+    case #"BOTTOM LEFT":
     case #"bottom_left":
         self.aligny = "bottom";
         self.alignx = "left";
         break;
     default:
-        /#
-            println("<dev string:x28>" + point);
-        #/
+        println("<dev string:x28>" + point);
         break;
     }
     if (!isdefined(relativepoint)) {
@@ -158,20 +156,18 @@ function setpoint(point, relativepoint, xoffset, yoffset, movetime) {
         relativey = "top";
         relativex = "center";
         break;
-    case #"hash_53c524d6":
+    case #"BOTTOM RIGHT":
     case #"bottom_right":
         relativey = "bottom";
         relativex = "right";
         break;
-    case #"hash_b13eab63":
+    case #"BOTTOM LEFT":
     case #"bottom_left":
         relativey = "bottom";
         relativex = "left";
         break;
     default:
-        /#
-            println("<dev string:x58>" + relativepoint);
-        #/
+        println("<dev string:x58>" + relativepoint);
         break;
     }
     if (element == level.uiparent) {
@@ -277,19 +273,13 @@ function updatebarscale(barfrac, rateofchange) {
     }
     self.bar.frac = barfrac;
     self.bar setshader(self.bar.shader, barwidth, self.height);
-    /#
-        assert(barwidth <= self.width, "<dev string:x90>" + barwidth + "<dev string:xa9>" + self.width + "<dev string:xae>" + barfrac);
-    #/
+    assert(barwidth <= self.width, "<dev string:x90>" + barwidth + "<dev string:xa9>" + self.width + "<dev string:xae>" + barfrac);
     if (isdefined(rateofchange) && barwidth < self.width) {
         if (rateofchange > 0) {
-            /#
-                assert((1 - barfrac) / rateofchange > 0, "<dev string:xbe>" + barfrac + "<dev string:xc8>" + rateofchange);
-            #/
+            assert((1 - barfrac) / rateofchange > 0, "<dev string:xbe>" + barfrac + "<dev string:xc8>" + rateofchange);
             self.bar scaleovertime((1 - barfrac) / rateofchange, self.width, self.height);
         } else if (rateofchange < 0) {
-            /#
-                assert(barfrac / -1 * rateofchange > 0, "<dev string:xbe>" + barfrac + "<dev string:xc8>" + rateofchange);
-            #/
+            assert(barfrac / -1 * rateofchange > 0, "<dev string:xbe>" + barfrac + "<dev string:xc8>" + rateofchange);
             self.bar scaleovertime(barfrac / -1 * rateofchange, 1, self.height);
         }
     }
@@ -932,17 +922,13 @@ function showperks() {
 // Checksum 0xdf741e9d, Offset: 0x33e8
 // Size: 0x314
 function function_ae77a5ba(index, perk, ypos) {
-    /#
-        assert(game.state != "<dev string:xd7>");
-    #/
+    assert(game.state != "<dev string:xd7>");
     if (!isdefined(self.perkicon)) {
         self.perkicon = [];
         self.perkname = [];
     }
     if (!isdefined(self.perkicon[index])) {
-        /#
-            assert(!isdefined(self.perkname[index]));
-        #/
+        assert(!isdefined(self.perkname[index]));
         self.perkicon[index] = function_21f67f44(self, index, 0, 200, ypos);
         self.perkname[index] = function_81ff9096(self.perkicon[index], 160);
     } else {
@@ -952,9 +938,7 @@ function function_ae77a5ba(index, perk, ypos) {
     if (perk == "perk_null" || perk == "weapon_null" || perk == "specialty_null") {
         alpha = 0;
     } else {
-        /#
-            assert(isdefined(level.perknames[perk]), perk);
-        #/
+        assert(isdefined(level.perknames[perk]), perk);
         alpha = 1;
     }
     function_489f386e(self.perkicon[index], perk, alpha, self.perkname[index], level.perknames[perk]);
@@ -977,21 +961,13 @@ function function_74b6cb2d(index, fadetime, var_deead00e) {
     if (level.perksenabled == 1) {
         if (game.state == "postgame") {
             if (isdefined(self.perkicon)) {
-                /#
-                    assert(!isdefined(self.perkicon[index]));
-                #/
-                /#
-                    assert(!isdefined(self.perkname[index]));
-                #/
+                assert(!isdefined(self.perkicon[index]));
+                assert(!isdefined(self.perkname[index]));
             }
             return;
         }
-        /#
-            assert(isdefined(self.perkicon[index]));
-        #/
-        /#
-            assert(isdefined(self.perkname[index]));
-        #/
+        assert(isdefined(self.perkicon[index]));
+        assert(isdefined(self.perkname[index]));
         if (isdefined(self.perkicon) && isdefined(self.perkicon[index]) && isdefined(self.perkname) && isdefined(self.perkname[index])) {
             function_c7cd3259(self.perkicon[index], fadetime, self.perkname[index], var_deead00e);
         }
@@ -1003,9 +979,7 @@ function function_74b6cb2d(index, fadetime, var_deead00e) {
 // Checksum 0x22156db1, Offset: 0x38b0
 // Size: 0x16c
 function function_8842ffe4(index, killstreak, xpos, ypos) {
-    /#
-        assert(game.state != "<dev string:xd7>");
-    #/
+    assert(game.state != "<dev string:xd7>");
     if (!isdefined(self.killstreakicon)) {
         self.killstreakicon = [];
     }
@@ -1015,9 +989,7 @@ function function_8842ffe4(index, killstreak, xpos, ypos) {
     if (killstreak == "killstreak_null" || killstreak == "weapon_null") {
         alpha = 0;
     } else {
-        /#
-            assert(isdefined(level.killstreakicons[killstreak]), killstreak);
-        #/
+        assert(isdefined(level.killstreakicons[killstreak]), killstreak);
         alpha = 1;
     }
     function_489f386e(self.killstreakicon[index], level.killstreakicons[killstreak], alpha);
@@ -1030,14 +1002,10 @@ function function_8842ffe4(index, killstreak, xpos, ypos) {
 function function_743093ab(index, fadetime) {
     if (util::is_killstreaks_enabled()) {
         if (game.state == "postgame") {
-            /#
-                assert(!isdefined(self.killstreakicon[index]));
-            #/
+            assert(!isdefined(self.killstreakicon[index]));
             return;
         }
-        /#
-            assert(isdefined(self.killstreakicon[index]));
-        #/
+        assert(isdefined(self.killstreakicon[index]));
         function_c7cd3259(self.killstreakicon[index], fadetime);
     }
 }

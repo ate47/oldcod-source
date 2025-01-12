@@ -148,12 +148,8 @@ function revive_hud_create() {
 // Checksum 0x503bf861, Offset: 0x768
 // Size: 0x54
 function function_89c586ec() {
-    /#
-        assert(isdefined(self));
-    #/
-    /#
-        assert(isdefined(self.revive_hud));
-    #/
+    assert(isdefined(self));
+    assert(isdefined(self.revive_hud));
     self.revive_hud.alpha = 1;
 }
 
@@ -192,9 +188,7 @@ function revive_hud_show_n_fade(time) {
 // Checksum 0x2ff8884d, Offset: 0xa88
 // Size: 0x86
 function function_fa369ede() {
-    /#
-        assert(level.var_da98bf76, "<dev string:x28>");
-    #/
+    assert(level.var_da98bf76, "<dev string:x28>");
     if (level.var_da98bf76 && isdefined(self.var_5ad7ff7e) && isdefined(self.var_5ad7ff7e.var_5aa0f5d3)) {
         return max(0, self.var_5ad7ff7e.var_5aa0f5d3);
     }
@@ -206,12 +200,8 @@ function function_fa369ede() {
 // Checksum 0xffa62386, Offset: 0xb18
 // Size: 0xe2
 function function_cd85ffaf(increment) {
-    /#
-        assert(level.var_da98bf76, "<dev string:x28>");
-    #/
-    /#
-        assert(isdefined(increment), "<dev string:x56>");
-    #/
+    assert(level.var_da98bf76, "<dev string:x28>");
+    assert(isdefined(increment), "<dev string:x56>");
     increment = isdefined(increment) ? increment : 0;
     self.var_5ad7ff7e.var_5aa0f5d3 = max(0, increment ? self.var_5ad7ff7e.var_5aa0f5d3 + 1 : self.var_5ad7ff7e.var_5aa0f5d3 - 1);
     self notify(#"hash_e4b1bf1f");
@@ -222,9 +212,7 @@ function function_cd85ffaf(increment) {
 // Checksum 0xf3368ce, Offset: 0xc08
 // Size: 0x50
 function function_590a49b2() {
-    /#
-        println("<dev string:x7b>");
-    #/
+    println("<dev string:x7b>");
     self.var_5ad7ff7e = spawnstruct();
     self.var_5ad7ff7e.var_5aa0f5d3 = 0;
 }

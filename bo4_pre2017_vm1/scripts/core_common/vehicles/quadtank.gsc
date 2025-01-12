@@ -59,9 +59,7 @@ function quadtank_initialize() {
     self.spike_hits_during_trophy_down = 0;
     self.trophy_disables = 0;
     self.allow_movement = 1;
-    /#
-        assert(isdefined(self.scriptbundlesettings));
-    #/
+    assert(isdefined(self.scriptbundlesettings));
     self.settings = struct::get_script_bundle("vehiclecustomsettings", self.scriptbundlesettings);
     if (isdefined(0) && 0) {
         objectives::set("cp_quadtank_rocket_icon", self);
@@ -318,7 +316,7 @@ function state_combat_update(params) {
         vehicle_ai::cooldown("main_cannon", 4);
         self thread quadtank_weapon_think_cannon();
         break;
-    case #"hash_4b7a4cf2":
+    case #"rocketpod":
         self thread attack_thread_rocket();
         break;
     }
@@ -395,9 +393,7 @@ function quadtank_emped(params) {
         self.stun_fx linkto(self, "tag_turret", (0, 0, 0), (0, 0, 0));
     }
     time = params.notify_param[0];
-    /#
-        assert(isdefined(time));
-    #/
+    assert(isdefined(time));
     vehicle_ai::cooldown("emped_timer", time);
     while (!vehicle_ai::iscooldownready("emped_timer")) {
         timeleft = max(vehicle_ai::getcooldownleft("emped_timer"), 0.5);
@@ -1066,9 +1062,7 @@ function quadtank_automelee_update() {
     self endon(#"death");
     self notify(#"quadtank_automelee_update");
     self endon(#"quadtank_automelee_update");
-    /#
-        assert(isdefined(self.team));
-    #/
+    assert(isdefined(self.team));
     while (true) {
         enemies = self getenemies();
         meleed = 0;

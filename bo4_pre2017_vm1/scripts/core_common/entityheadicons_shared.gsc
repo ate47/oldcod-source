@@ -23,12 +23,8 @@ function start_gametype() {
         return;
     }
     level.var_3d8a3717 = 1;
-    /#
-        assert(isdefined(game.entity_headicon["<dev string:x28>"]), "<dev string:x2f>");
-    #/
-    /#
-        assert(isdefined(game.entity_headicon["<dev string:x75>"]), "<dev string:x7a>");
-    #/
+    assert(isdefined(game.entity_headicon["<dev string:x28>"]), "<dev string:x2f>");
+    assert(isdefined(game.entity_headicon["<dev string:x75>"]), "<dev string:x7a>");
     if (!level.teambased) {
         return;
     }
@@ -89,9 +85,7 @@ function setentityheadicon(team, owner, offset, objective, var_cc32611f) {
     if (isdefined(objective)) {
         if (isdefined(owner) && !level.teambased) {
             if (!isplayer(owner)) {
-                /#
-                    assert(isdefined(owner.owner), "<dev string:xbe>");
-                #/
+                assert(isdefined(owner.owner), "<dev string:xbe>");
                 owner = owner.owner;
             }
             if (isstring(objective)) {

@@ -19,333 +19,169 @@
 // Checksum 0x5c2b9cd2, Offset: 0x11e0
 // Size: 0x1efc
 function autoexec registerbehaviorscriptfunctions() {
-    /#
-        assert(iscodefunctionptr(&btapi_forceragdoll));
-    #/
+    assert(iscodefunctionptr(&btapi_forceragdoll));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_forceRagdoll", &btapi_forceragdoll);
-    /#
-        assert(iscodefunctionptr(&btapi_hasammo));
-    #/
+    assert(iscodefunctionptr(&btapi_hasammo));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_hasAmmo", &btapi_hasammo);
-    /#
-        assert(iscodefunctionptr(&btapi_haslowammo));
-    #/
+    assert(iscodefunctionptr(&btapi_haslowammo));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_hasLowAmmo", &btapi_haslowammo);
-    /#
-        assert(iscodefunctionptr(&btapi_hasenemy));
-    #/
+    assert(iscodefunctionptr(&btapi_hasenemy));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_hasEnemy", &btapi_hasenemy);
-    /#
-        assert(iscodefunctionptr(&btapi_issafefromgrenades));
-    #/
+    assert(iscodefunctionptr(&btapi_issafefromgrenades));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_isSafeFromGrenades", &btapi_issafefromgrenades);
-    /#
-        assert(isscriptfunctionptr(&issafefromgrenades));
-    #/
+    assert(isscriptfunctionptr(&issafefromgrenades));
     behaviortreenetworkutility::registerbehaviortreescriptapi("isSafeFromGrenades", &issafefromgrenades);
-    /#
-        assert(isscriptfunctionptr(&ingrenadeblastradius));
-    #/
+    assert(isscriptfunctionptr(&ingrenadeblastradius));
     behaviortreenetworkutility::registerbehaviortreescriptapi("inGrenadeBlastRadius", &ingrenadeblastradius);
-    /#
-        assert(isscriptfunctionptr(&recentlysawenemy));
-    #/
+    assert(isscriptfunctionptr(&recentlysawenemy));
     behaviortreenetworkutility::registerbehaviortreescriptapi("recentlySawEnemy", &recentlysawenemy);
-    /#
-        assert(isscriptfunctionptr(&shouldbeaggressive));
-    #/
+    assert(isscriptfunctionptr(&shouldbeaggressive));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldBeAggressive", &shouldbeaggressive);
-    /#
-        assert(isscriptfunctionptr(&shouldonlyfireaccurately));
-    #/
+    assert(isscriptfunctionptr(&shouldonlyfireaccurately));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldOnlyFireAccurately", &shouldonlyfireaccurately);
-    /#
-        assert(isscriptfunctionptr(&shouldreacttonewenemy));
-    #/
+    assert(isscriptfunctionptr(&shouldreacttonewenemy));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldReactToNewEnemy", &shouldreacttonewenemy);
-    /#
-        assert(isscriptfunctionptr(&shouldreacttonewenemy));
-    #/
+    assert(isscriptfunctionptr(&shouldreacttonewenemy));
     behaviorstatemachine::registerbsmscriptapiinternal("shouldReactToNewEnemy", &shouldreacttonewenemy);
-    /#
-        assert(isscriptfunctionptr(&hasweaponmalfunctioned));
-    #/
+    assert(isscriptfunctionptr(&hasweaponmalfunctioned));
     behaviortreenetworkutility::registerbehaviortreescriptapi("hasWeaponMalfunctioned", &hasweaponmalfunctioned);
-    /#
-        assert(isscriptfunctionptr(&shouldstopmoving));
-    #/
+    assert(isscriptfunctionptr(&shouldstopmoving));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldStopMoving", &shouldstopmoving);
-    /#
-        assert(isscriptfunctionptr(&shouldstopmoving));
-    #/
+    assert(isscriptfunctionptr(&shouldstopmoving));
     behaviorstatemachine::registerbsmscriptapiinternal("shouldStopMoving", &shouldstopmoving);
-    /#
-        assert(isscriptfunctionptr(&choosebestcovernodeasap));
-    #/
+    assert(isscriptfunctionptr(&choosebestcovernodeasap));
     behaviortreenetworkutility::registerbehaviortreescriptapi("chooseBestCoverNodeASAP", &choosebestcovernodeasap);
-    /#
-        assert(isscriptfunctionptr(&choosebettercoverservicecodeversion));
-    #/
+    assert(isscriptfunctionptr(&choosebettercoverservicecodeversion));
     behaviortreenetworkutility::registerbehaviortreescriptapi("chooseBetterCoverService", &choosebettercoverservicecodeversion, 1);
-    /#
-        assert(iscodefunctionptr(&btapi_trackcoverparamsservice));
-    #/
+    assert(iscodefunctionptr(&btapi_trackcoverparamsservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_trackcoverparamsservice", &btapi_trackcoverparamsservice);
-    /#
-        assert(isscriptfunctionptr(&trackcoverparamsservice));
-    #/
+    assert(isscriptfunctionptr(&trackcoverparamsservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("trackCoverParamsService", &trackcoverparamsservice);
-    /#
-        assert(iscodefunctionptr(&btapi_refillammoifneededservice));
-    #/
+    assert(iscodefunctionptr(&btapi_refillammoifneededservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btApi_refillammoifneededservice", &btapi_refillammoifneededservice);
-    /#
-        assert(isscriptfunctionptr(&refillammo));
-    #/
+    assert(isscriptfunctionptr(&refillammo));
     behaviortreenetworkutility::registerbehaviortreescriptapi("refillAmmoIfNeededService", &refillammo);
-    /#
-        assert(isscriptfunctionptr(&trystoppingservice));
-    #/
+    assert(isscriptfunctionptr(&trystoppingservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("tryStoppingService", &trystoppingservice);
-    /#
-        assert(isscriptfunctionptr(&isfrustrated));
-    #/
+    assert(isscriptfunctionptr(&isfrustrated));
     behaviortreenetworkutility::registerbehaviortreescriptapi("isFrustrated", &isfrustrated);
-    /#
-        assert(iscodefunctionptr(&btapi_updatefrustrationlevel));
-    #/
+    assert(iscodefunctionptr(&btapi_updatefrustrationlevel));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_updatefrustrationLevel", &btapi_updatefrustrationlevel);
-    /#
-        assert(isscriptfunctionptr(&updatefrustrationlevel));
-    #/
+    assert(isscriptfunctionptr(&updatefrustrationlevel));
     behaviortreenetworkutility::registerbehaviortreescriptapi("updatefrustrationLevel", &updatefrustrationlevel);
-    /#
-        assert(isscriptfunctionptr(&islastknownenemypositionapproachable));
-    #/
+    assert(isscriptfunctionptr(&islastknownenemypositionapproachable));
     behaviortreenetworkutility::registerbehaviortreescriptapi("isLastKnownEnemyPositionApproachable", &islastknownenemypositionapproachable);
-    /#
-        assert(isscriptfunctionptr(&tryadvancingonlastknownpositionbehavior));
-    #/
+    assert(isscriptfunctionptr(&tryadvancingonlastknownpositionbehavior));
     behaviortreenetworkutility::registerbehaviortreescriptapi("tryAdvancingOnLastKnownPositionBehavior", &tryadvancingonlastknownpositionbehavior);
-    /#
-        assert(isscriptfunctionptr(&trygoingtoclosestnodetoenemybehavior));
-    #/
+    assert(isscriptfunctionptr(&trygoingtoclosestnodetoenemybehavior));
     behaviortreenetworkutility::registerbehaviortreescriptapi("tryGoingToClosestNodeToEnemyBehavior", &trygoingtoclosestnodetoenemybehavior);
-    /#
-        assert(isscriptfunctionptr(&tryrunningdirectlytoenemybehavior));
-    #/
+    assert(isscriptfunctionptr(&tryrunningdirectlytoenemybehavior));
     behaviortreenetworkutility::registerbehaviortreescriptapi("tryRunningDirectlyToEnemyBehavior", &tryrunningdirectlytoenemybehavior);
-    /#
-        assert(isscriptfunctionptr(&flagenemyunattackableservice));
-    #/
+    assert(isscriptfunctionptr(&flagenemyunattackableservice));
     behaviortreenetworkutility::registerbehaviortreescriptapi("flagEnemyUnAttackableService", &flagenemyunattackableservice);
-    /#
-        assert(isscriptfunctionptr(&keepclaimnode));
-    #/
+    assert(isscriptfunctionptr(&keepclaimnode));
     behaviortreenetworkutility::registerbehaviortreescriptapi("keepClaimNode", &keepclaimnode);
-    /#
-        assert(isscriptfunctionptr(&keepclaimnode));
-    #/
+    assert(isscriptfunctionptr(&keepclaimnode));
     behaviorstatemachine::registerbsmscriptapiinternal("keepClaimNode", &keepclaimnode);
-    /#
-        assert(isscriptfunctionptr(&releaseclaimnode));
-    #/
+    assert(isscriptfunctionptr(&releaseclaimnode));
     behaviortreenetworkutility::registerbehaviortreescriptapi("releaseClaimNode", &releaseclaimnode);
-    /#
-        assert(isscriptfunctionptr(&scriptstartragdoll));
-    #/
+    assert(isscriptfunctionptr(&scriptstartragdoll));
     behaviortreenetworkutility::registerbehaviortreescriptapi("startRagdoll", &scriptstartragdoll);
-    /#
-        assert(isscriptfunctionptr(&notstandingcondition));
-    #/
+    assert(isscriptfunctionptr(&notstandingcondition));
     behaviortreenetworkutility::registerbehaviortreescriptapi("notStandingCondition", &notstandingcondition);
-    /#
-        assert(isscriptfunctionptr(&notcrouchingcondition));
-    #/
+    assert(isscriptfunctionptr(&notcrouchingcondition));
     behaviortreenetworkutility::registerbehaviortreescriptapi("notCrouchingCondition", &notcrouchingcondition);
-    /#
-        assert(isscriptfunctionptr(&explosivekilled));
-    #/
+    assert(isscriptfunctionptr(&explosivekilled));
     behaviortreenetworkutility::registerbehaviortreescriptapi("explosiveKilled", &explosivekilled);
-    /#
-        assert(isscriptfunctionptr(&electrifiedkilled));
-    #/
+    assert(isscriptfunctionptr(&electrifiedkilled));
     behaviortreenetworkutility::registerbehaviortreescriptapi("electrifiedKilled", &electrifiedkilled);
-    /#
-        assert(isscriptfunctionptr(&burnedkilled));
-    #/
+    assert(isscriptfunctionptr(&burnedkilled));
     behaviortreenetworkutility::registerbehaviortreescriptapi("burnedKilled", &burnedkilled);
-    /#
-        assert(isscriptfunctionptr(&rapskilled));
-    #/
+    assert(isscriptfunctionptr(&rapskilled));
     behaviortreenetworkutility::registerbehaviortreescriptapi("rapsKilled", &rapskilled);
-    /#
-        assert(isscriptfunctionptr(&meleeacquiremutex));
-    #/
+    assert(isscriptfunctionptr(&meleeacquiremutex));
     behaviortreenetworkutility::registerbehaviortreescriptapi("meleeAcquireMutex", &meleeacquiremutex);
-    /#
-        assert(isscriptfunctionptr(&meleereleasemutex));
-    #/
+    assert(isscriptfunctionptr(&meleereleasemutex));
     behaviortreenetworkutility::registerbehaviortreescriptapi("meleeReleaseMutex", &meleereleasemutex);
-    /#
-        assert(isscriptfunctionptr(&prepareforexposedmelee));
-    #/
+    assert(isscriptfunctionptr(&prepareforexposedmelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("prepareForExposedMelee", &prepareforexposedmelee);
-    /#
-        assert(isscriptfunctionptr(&cleanupmelee));
-    #/
+    assert(isscriptfunctionptr(&cleanupmelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("cleanupMelee", &cleanupmelee);
-    /#
-        assert(iscodefunctionptr(&btapi_shouldnormalmelee));
-    #/
+    assert(iscodefunctionptr(&btapi_shouldnormalmelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_shouldNormalMelee", &btapi_shouldnormalmelee);
-    /#
-        assert(isscriptfunctionptr(&shouldnormalmelee));
-    #/
+    assert(isscriptfunctionptr(&shouldnormalmelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldNormalMelee", &shouldnormalmelee);
-    /#
-        assert(iscodefunctionptr(&btapi_shouldmelee));
-    #/
+    assert(iscodefunctionptr(&btapi_shouldmelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_shouldmelee", &btapi_shouldmelee);
-    /#
-        assert(iscodefunctionptr(&btapi_shouldmelee));
-    #/
+    assert(iscodefunctionptr(&btapi_shouldmelee));
     behaviorstatemachine::registerbsmscriptapiinternal("btapi_shouldmelee", &btapi_shouldmelee);
-    /#
-        assert(isscriptfunctionptr(&shouldmelee));
-    #/
+    assert(isscriptfunctionptr(&shouldmelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldMelee", &shouldmelee);
-    /#
-        assert(isscriptfunctionptr(&shouldmelee));
-    #/
+    assert(isscriptfunctionptr(&shouldmelee));
     behaviorstatemachine::registerbsmscriptapiinternal("shouldMelee", &shouldmelee);
-    /#
-        assert(isscriptfunctionptr(&hascloseenemytomelee));
-    #/
+    assert(isscriptfunctionptr(&hascloseenemytomelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("hasCloseEnemyMelee", &hascloseenemytomelee);
-    /#
-        assert(isscriptfunctionptr(&isbalconydeath));
-    #/
+    assert(isscriptfunctionptr(&isbalconydeath));
     behaviortreenetworkutility::registerbehaviortreescriptapi("isBalconyDeath", &isbalconydeath);
-    /#
-        assert(isscriptfunctionptr(&balconydeath));
-    #/
+    assert(isscriptfunctionptr(&balconydeath));
     behaviortreenetworkutility::registerbehaviortreescriptapi("balconyDeath", &balconydeath);
-    /#
-        assert(isscriptfunctionptr(&usecurrentposition));
-    #/
+    assert(isscriptfunctionptr(&usecurrentposition));
     behaviortreenetworkutility::registerbehaviortreescriptapi("useCurrentPosition", &usecurrentposition);
-    /#
-        assert(isscriptfunctionptr(&isunarmed));
-    #/
+    assert(isscriptfunctionptr(&isunarmed));
     behaviortreenetworkutility::registerbehaviortreescriptapi("isUnarmed", &isunarmed);
-    /#
-        assert(iscodefunctionptr(&btapi_shouldchargemelee));
-    #/
+    assert(iscodefunctionptr(&btapi_shouldchargemelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_shouldChargeMelee", &btapi_shouldchargemelee);
-    /#
-        assert(isscriptfunctionptr(&shouldchargemelee));
-    #/
+    assert(isscriptfunctionptr(&shouldchargemelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldChargeMelee", &shouldchargemelee);
-    /#
-        assert(isscriptfunctionptr(&shouldattackinchargemelee));
-    #/
+    assert(isscriptfunctionptr(&shouldattackinchargemelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldAttackInChargeMelee", &shouldattackinchargemelee);
-    /#
-        assert(isscriptfunctionptr(&cleanupchargemelee));
-    #/
+    assert(isscriptfunctionptr(&cleanupchargemelee));
     behaviortreenetworkutility::registerbehaviortreescriptapi("cleanupChargeMelee", &cleanupchargemelee);
-    /#
-        assert(isscriptfunctionptr(&cleanupchargemeleeattack));
-    #/
+    assert(isscriptfunctionptr(&cleanupchargemeleeattack));
     behaviortreenetworkutility::registerbehaviortreescriptapi("cleanupChargeMeleeAttack", &cleanupchargemeleeattack);
-    /#
-        assert(isscriptfunctionptr(&setupchargemeleeattack));
-    #/
+    assert(isscriptfunctionptr(&setupchargemeleeattack));
     behaviortreenetworkutility::registerbehaviortreescriptapi("setupChargeMeleeAttack", &setupchargemeleeattack);
-    /#
-        assert(isscriptfunctionptr(&shouldchoosespecialpain));
-    #/
+    assert(isscriptfunctionptr(&shouldchoosespecialpain));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldChooseSpecialPain", &shouldchoosespecialpain);
-    /#
-        assert(isscriptfunctionptr(&shouldchoosespecialpronepain));
-    #/
+    assert(isscriptfunctionptr(&shouldchoosespecialpronepain));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldChooseSpecialPronePain", &shouldchoosespecialpronepain);
-    /#
-        assert(isscriptfunctionptr(&shouldchoosespecialdeath));
-    #/
+    assert(isscriptfunctionptr(&shouldchoosespecialdeath));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldChooseSpecialDeath", &shouldchoosespecialdeath);
-    /#
-        assert(isscriptfunctionptr(&shouldchoosespecialpronedeath));
-    #/
+    assert(isscriptfunctionptr(&shouldchoosespecialpronedeath));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldChooseSpecialProneDeath", &shouldchoosespecialpronedeath);
-    /#
-        assert(isscriptfunctionptr(&setupexplosionanimscale));
-    #/
+    assert(isscriptfunctionptr(&setupexplosionanimscale));
     behaviortreenetworkutility::registerbehaviortreescriptapi("setupExplosionAnimScale", &setupexplosionanimscale);
-    /#
-        assert(isscriptfunctionptr(&shouldstealth));
-    #/
+    assert(isscriptfunctionptr(&shouldstealth));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldStealth", &shouldstealth);
-    /#
-        assert(isscriptfunctionptr(&stealthreactcondition));
-    #/
+    assert(isscriptfunctionptr(&stealthreactcondition));
     behaviortreenetworkutility::registerbehaviortreescriptapi("stealthReactCondition", &stealthreactcondition);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldstealth));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldstealth));
     behaviortreenetworkutility::registerbehaviortreescriptapi("locomotionShouldStealth", &locomotionshouldstealth);
-    /#
-        assert(isscriptfunctionptr(&shouldstealthresume));
-    #/
+    assert(isscriptfunctionptr(&shouldstealthresume));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldStealthResume", &shouldstealthresume);
-    /#
-        assert(isscriptfunctionptr(&locomotionshouldstealth));
-    #/
+    assert(isscriptfunctionptr(&locomotionshouldstealth));
     behaviorstatemachine::registerbsmscriptapiinternal("locomotionShouldStealth", &locomotionshouldstealth);
-    /#
-        assert(isscriptfunctionptr(&stealthreactcondition));
-    #/
+    assert(isscriptfunctionptr(&stealthreactcondition));
     behaviorstatemachine::registerbsmscriptapiinternal("stealthReactCondition", &stealthreactcondition);
-    /#
-        assert(isscriptfunctionptr(&stealthreactstart));
-    #/
+    assert(isscriptfunctionptr(&stealthreactstart));
     behaviortreenetworkutility::registerbehaviortreescriptapi("stealthReactStart", &stealthreactstart);
-    /#
-        assert(isscriptfunctionptr(&stealthreactterminate));
-    #/
+    assert(isscriptfunctionptr(&stealthreactterminate));
     behaviortreenetworkutility::registerbehaviortreescriptapi("stealthReactTerminate", &stealthreactterminate);
-    /#
-        assert(isscriptfunctionptr(&stealthidleterminate));
-    #/
+    assert(isscriptfunctionptr(&stealthidleterminate));
     behaviortreenetworkutility::registerbehaviortreescriptapi("stealthIdleTerminate", &stealthidleterminate);
-    /#
-        assert(iscodefunctionptr(&btapi_isinphalanx));
-    #/
+    assert(iscodefunctionptr(&btapi_isinphalanx));
     behaviortreenetworkutility::registerbehaviortreescriptapi("btapi_isinphalanx", &btapi_isinphalanx);
-    /#
-        assert(isscriptfunctionptr(&isinphalanx));
-    #/
+    assert(isscriptfunctionptr(&isinphalanx));
     behaviortreenetworkutility::registerbehaviortreescriptapi("isInPhalanx", &isinphalanx);
-    /#
-        assert(isscriptfunctionptr(&isinphalanxstance));
-    #/
+    assert(isscriptfunctionptr(&isinphalanxstance));
     behaviortreenetworkutility::registerbehaviortreescriptapi("isInPhalanxStance", &isinphalanxstance);
-    /#
-        assert(isscriptfunctionptr(&togglephalanxstance));
-    #/
+    assert(isscriptfunctionptr(&togglephalanxstance));
     behaviortreenetworkutility::registerbehaviortreescriptapi("togglePhalanxStance", &togglephalanxstance);
-    /#
-        assert(isscriptfunctionptr(&tookflashbangdamage));
-    #/
+    assert(isscriptfunctionptr(&tookflashbangdamage));
     behaviortreenetworkutility::registerbehaviortreescriptapi("tookFlashbangDamage", &tookflashbangdamage);
-    /#
-        assert(isscriptfunctionptr(&isatattackobject));
-    #/
+    assert(isscriptfunctionptr(&isatattackobject));
     behaviortreenetworkutility::registerbehaviortreescriptapi("isAtAttackObject", &isatattackobject);
-    /#
-        assert(isscriptfunctionptr(&shouldattackobject));
-    #/
+    assert(isscriptfunctionptr(&shouldattackobject));
     behaviortreenetworkutility::registerbehaviortreescriptapi("shouldAttackObject", &shouldattackobject);
     behaviortreenetworkutility::registerbehaviortreeaction("defaultAction", undefined, undefined, undefined);
     archetype_aivsaimelee::registeraivsaimeleebehaviorfunctions();
@@ -356,26 +192,20 @@ function autoexec registerbehaviorscriptfunctions() {
 // Checksum 0x237a074d, Offset: 0x30e8
 // Size: 0x172
 function private bb_getstairsnumskipsteps() {
-    /#
-        assert(isdefined(self._stairsstartnode) && isdefined(self._stairsendnode));
-    #/
+    assert(isdefined(self._stairsstartnode) && isdefined(self._stairsendnode));
     numtotalsteps = self getblackboardattribute("_staircase_num_total_steps");
     stepssofar = self getblackboardattribute("_staircase_num_steps");
     direction = self getblackboardattribute("_staircase_direction");
     numoutsteps = 2;
     totalstepswithoutout = numtotalsteps - numoutsteps;
-    /#
-        assert(stepssofar < totalstepswithoutout);
-    #/
+    assert(stepssofar < totalstepswithoutout);
     remainingsteps = totalstepswithoutout - stepssofar;
     if (remainingsteps >= 8) {
         return "staircase_skip_8";
     } else if (remainingsteps >= 6) {
         return "staircase_skip_6";
     }
-    /#
-        assert(remainingsteps >= 3);
-    #/
+    assert(remainingsteps >= 3);
     return "staircase_skip_3";
 }
 
@@ -656,9 +486,7 @@ function bb_actorgetdamagelocation() {
         possiblehitlocations[possiblehitlocations.size] = "chest";
         possiblehitlocations[possiblehitlocations.size] = "groin";
     }
-    /#
-        assert(possiblehitlocations.size > 0, possiblehitlocations.size);
-    #/
+    assert(possiblehitlocations.size > 0, possiblehitlocations.size);
     damagelocation = possiblehitlocations[randomint(possiblehitlocations.size)];
     return damagelocation;
 }
@@ -790,15 +618,9 @@ function bb_gethaslegsstatus() {
 // Checksum 0x2378e0a9, Offset: 0x4460
 // Size: 0x2a6
 function addaioverridedamagecallback(entity, callback, addtofront) {
-    /#
-        assert(isentity(entity));
-    #/
-    /#
-        assert(isfunctionptr(callback));
-    #/
-    /#
-        assert(!isdefined(entity.aioverridedamage) || isarray(entity.aioverridedamage));
-    #/
+    assert(isentity(entity));
+    assert(isfunctionptr(callback));
+    assert(!isdefined(entity.aioverridedamage) || isarray(entity.aioverridedamage));
     if (!isdefined(entity.aioverridedamage)) {
         entity.aioverridedamage = [];
     } else if (!isarray(entity.aioverridedamage)) {
@@ -826,15 +648,9 @@ function addaioverridedamagecallback(entity, callback, addtofront) {
 // Checksum 0x8e273609, Offset: 0x4710
 // Size: 0x178
 function removeaioverridedamagecallback(entity, callback) {
-    /#
-        assert(isentity(entity));
-    #/
-    /#
-        assert(isfunctionptr(callback));
-    #/
-    /#
-        assert(isarray(entity.aioverridedamage));
-    #/
+    assert(isentity(entity));
+    assert(isfunctionptr(callback));
+    assert(isarray(entity.aioverridedamage));
     currentdamagecallbacks = entity.aioverridedamage;
     entity.aioverridedamage = [];
     foreach (value in currentdamagecallbacks) {
@@ -857,15 +673,9 @@ function clearaioverridedamagecallbacks(entity) {
 // Checksum 0xe00f6ba6, Offset: 0x48b8
 // Size: 0x156
 function addaioverridekilledcallback(entity, callback) {
-    /#
-        assert(isentity(entity));
-    #/
-    /#
-        assert(isfunctionptr(callback));
-    #/
-    /#
-        assert(!isdefined(entity.aioverridekilled) || isarray(entity.aioverridekilled));
-    #/
+    assert(isentity(entity));
+    assert(isfunctionptr(callback));
+    assert(!isdefined(entity.aioverridekilled) || isarray(entity.aioverridekilled));
     if (!isdefined(entity.aioverridekilled)) {
         entity.aioverridekilled = [];
     } else if (!isarray(entity.aioverridekilled)) {
@@ -1767,9 +1577,7 @@ function canseeenemywrapper() {
     }
     nodeoffset = (0, 0, 0);
     if (node.type == "Cover Pillar") {
-        /#
-            assert(!(isdefined(node.spawnflags) && (node.spawnflags & 2048) == 2048) || !(isdefined(node.spawnflags) && (node.spawnflags & 1024) == 1024));
-        #/
+        assert(!(isdefined(node.spawnflags) && (node.spawnflags & 2048) == 2048) || !(isdefined(node.spawnflags) && (node.spawnflags & 1024) == 1024));
         canseefromleft = 1;
         canseefromright = 1;
         nodeoffset = (-32, 3.7, 60);
@@ -1811,9 +1619,7 @@ function calculatenodeoffsetposition(node, nodeoffset) {
 // Checksum 0xfaba6ee3, Offset: 0x80c8
 // Size: 0x186
 function gethighestnodestance(node) {
-    /#
-        assert(isdefined(node));
-    #/
+    assert(isdefined(node));
     if (isdefined(node.spawnflags) && (node.spawnflags & 4) == 4) {
         return "stand";
     }
@@ -1823,9 +1629,7 @@ function gethighestnodestance(node) {
     if (isdefined(node.spawnflags) && (node.spawnflags & 16) == 16) {
         return "prone";
     }
-    /#
-        errormsg(node.type + "<dev string:x109>" + node.origin + "<dev string:x112>");
-    #/
+    errormsg(node.type + "<dev string:x109>" + node.origin + "<dev string:x112>");
     if (node.type == "Cover Crouch" || node.type == "Cover Crouch Window" || node.type == "Conceal Crouch") {
         return "crouch";
     }
@@ -1837,12 +1641,8 @@ function gethighestnodestance(node) {
 // Checksum 0x65376108, Offset: 0x8258
 // Size: 0x12e
 function isstanceallowedatnode(stance, node) {
-    /#
-        assert(isdefined(stance));
-    #/
-    /#
-        assert(isdefined(node));
-    #/
+    assert(isdefined(stance));
+    assert(isdefined(node));
     if (isdefined(node.spawnflags) && stance == "stand" && (node.spawnflags & 4) == 4) {
         return true;
     }
@@ -1888,9 +1688,7 @@ function setcurrentweapon(weapon) {
     self.weapon = weapon;
     self.weaponclass = weapon.weapclass;
     if (weapon != level.weaponnone) {
-        /#
-            assert(isdefined(weapon.worldmodel), "<dev string:x127>" + weapon.name + "<dev string:x130>");
-        #/
+        assert(isdefined(weapon.worldmodel), "<dev string:x127>" + weapon.name + "<dev string:x130>");
     }
     self.weaponmodel = weapon.worldmodel;
 }
@@ -1903,9 +1701,7 @@ function setprimaryweapon(weapon) {
     self.primaryweapon = weapon;
     self.primaryweaponclass = weapon.weapclass;
     if (weapon != level.weaponnone) {
-        /#
-            assert(isdefined(weapon.worldmodel), "<dev string:x127>" + weapon.name + "<dev string:x130>");
-        #/
+        assert(isdefined(weapon.worldmodel), "<dev string:x127>" + weapon.name + "<dev string:x130>");
     }
 }
 
@@ -1917,9 +1713,7 @@ function setsecondaryweapon(weapon) {
     self.secondaryweapon = weapon;
     self.secondaryweaponclass = weapon.weapclass;
     if (weapon != level.weaponnone) {
-        /#
-            assert(isdefined(weapon.worldmodel), "<dev string:x127>" + weapon.name + "<dev string:x130>");
-        #/
+        assert(isdefined(weapon.worldmodel), "<dev string:x127>" + weapon.name + "<dev string:x130>");
     }
 }
 
@@ -2333,9 +2127,7 @@ function hascloseenemytomelee(entity) {
 // Checksum 0x5224d82d, Offset: 0x98d0
 // Size: 0x1c4
 function hascloseenemytomeleewithrange(entity, melee_range_sq) {
-    /#
-        assert(isdefined(entity.enemy));
-    #/
+    assert(isdefined(entity.enemy));
     if (!entity cansee(entity.enemy)) {
         return false;
     }
@@ -2356,9 +2148,7 @@ function hascloseenemytomeleewithrange(entity, melee_range_sq) {
 // Checksum 0x31a7b29a, Offset: 0x9aa0
 // Size: 0x224
 function shouldchargemelee(entity) {
-    /#
-        assert(isdefined(entity.enemy));
-    #/
+    assert(isdefined(entity.enemy));
     currentstance = entity getblackboardattribute("_stance");
     if (currentstance != "stand") {
         return false;
@@ -2584,9 +2374,7 @@ function preshootlaserandglinton(ai) {
                     continue;
                 }
                 type = isdefined(ai.classname) ? "" + ai.classname : "";
-                /#
-                    println("<dev string:x150>" + type + "<dev string:x154>");
-                #/
+                println("<dev string:x150>" + type + "<dev string:x154>");
                 playfxontag(sniper_glint, ai, "tag_eye");
             }
         }

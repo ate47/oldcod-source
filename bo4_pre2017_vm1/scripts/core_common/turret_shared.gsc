@@ -405,9 +405,7 @@ function set_min_target_distance_squared(n_distance_squared, n_index) {
 // Size: 0x17c
 function fire(n_index) {
     s_turret = _get_turret_data(n_index);
-    /#
-        assert(isdefined(n_index) && n_index >= 0, "<dev string:x28>");
-    #/
+    assert(isdefined(n_index) && n_index >= 0, "<dev string:x28>");
     if (n_index == 0) {
         self fireweapon(0, s_turret.e_target);
     } else {
@@ -449,9 +447,7 @@ function fire_for_time(n_time, n_index) {
     if (!isdefined(n_index)) {
         n_index = 0;
     }
-    /#
-        assert(isdefined(n_time), "<dev string:x58>");
-    #/
+    assert(isdefined(n_time), "<dev string:x58>");
     self endon(#"death");
     self endon(#"drone_death");
     self endon("_stop_turret" + _index(n_index));
@@ -464,9 +460,7 @@ function fire_for_time(n_time, n_index) {
     } else {
         /#
             w_weapon = get_weapon(n_index);
-            /#
-                assert(n_time >= w_weapon.firetime, "<dev string:x92>" + n_time + "<dev string:x9e>" + w_weapon.firetime);
-            #/
+            assert(n_time >= w_weapon.firetime, "<dev string:x92>" + n_time + "<dev string:x9e>" + w_weapon.firetime);
         #/
     }
     while (n_time > 0 || b_fire_forever) {
@@ -482,9 +476,7 @@ function fire_for_time(n_time, n_index) {
 // Checksum 0x19256c3a, Offset: 0x1950
 // Size: 0xf4
 function shoot_at_target(e_target, n_time, v_offset, n_index, b_just_once) {
-    /#
-        assert(isdefined(e_target), "<dev string:xe1>");
-    #/
+    assert(isdefined(e_target), "<dev string:xe1>");
     self endon(#"drone_death");
     self endon(#"death");
     s_turret = _get_turret_data(n_index);
@@ -1048,9 +1040,7 @@ function _init_turret(n_index) {
     self endon(#"death");
     w_weapon = get_weapon(n_index);
     if (w_weapon == level.weaponnone) {
-        /#
-            assertmsg("<dev string:x174>");
-        #/
+        assertmsg("<dev string:x174>");
         return;
     }
     util::waittill_asset_loaded("xmodel", self.model);
@@ -1075,9 +1065,7 @@ function _init_turret(n_index) {
 // Checksum 0xf9fc03db, Offset: 0x3ab0
 // Size: 0x230
 function _init_vehicle_turret(n_index) {
-    /#
-        assert(isdefined(n_index) && n_index >= 0, "<dev string:x19e>");
-    #/
+    assert(isdefined(n_index) && n_index >= 0, "<dev string:x19e>");
     s_turret = spawnstruct();
     switch (n_index) {
     case 0:
@@ -1356,9 +1344,7 @@ function _get_gunner_tag_for_turret_index(n_index) {
     case 4:
         return "tag_gunner4";
     default:
-        /#
-            assertmsg("<dev string:x1d4>");
-        #/
+        assertmsg("<dev string:x1d4>");
         break;
     }
 }

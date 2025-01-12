@@ -356,9 +356,7 @@ function create_map_placed_influencer(influencer_entity) {
         team_mask = util::getteammask(influencer_entity.script_team);
         level create_enemy_influencer(influencer_entity.script_noteworty, influencer_entity.origin, team_mask);
     } else {
-        /#
-            assertmsg("<dev string:x28>");
-        #/
+        assertmsg("<dev string:x28>");
     }
     return influencer_id;
 }

@@ -150,12 +150,8 @@ function notify_all(&array, str_notify) {
 // Checksum 0x7be6b969, Offset: 0x8a0
 // Size: 0x18c
 function thread_all(&entities, func, arg1, arg2, arg3, arg4, arg5, arg6) {
-    /#
-        assert(isdefined(entities), "<dev string:x28>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:x5b>");
-    #/
+    assert(isdefined(entities), "<dev string:x28>");
+    assert(isdefined(func), "<dev string:x5b>");
     if (isarray(entities)) {
         foreach (ent in entities) {
             util::single_thread(ent, func, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -170,12 +166,8 @@ function thread_all(&entities, func, arg1, arg2, arg3, arg4, arg5, arg6) {
 // Checksum 0x4f31d578, Offset: 0xa38
 // Size: 0x16c
 function thread_all_ents(&entities, func, arg1, arg2, arg3, arg4, arg5) {
-    /#
-        assert(isdefined(entities), "<dev string:x8a>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:xc2>");
-    #/
+    assert(isdefined(entities), "<dev string:x8a>");
+    assert(isdefined(func), "<dev string:xc2>");
     if (isarray(entities)) {
         if (entities.size) {
             keys = getarraykeys(entities);
@@ -193,12 +185,8 @@ function thread_all_ents(&entities, func, arg1, arg2, arg3, arg4, arg5) {
 // Checksum 0xcdcd6d8c, Offset: 0xbb0
 // Size: 0x18c
 function run_all(&entities, func, arg1, arg2, arg3, arg4, arg5, arg6) {
-    /#
-        assert(isdefined(entities), "<dev string:xf6>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:x126>");
-    #/
+    assert(isdefined(entities), "<dev string:xf6>");
+    assert(isdefined(func), "<dev string:x126>");
     if (isarray(entities)) {
         foreach (ent in entities) {
             util::single_func(ent, func, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -667,9 +655,7 @@ function function_8e7b4ab7(org, &array, dist) {
     if (!isdefined(dist)) {
         dist = undefined;
     }
-    /#
-        assert(0, "<dev string:x186>");
-    #/
+    assert(0, "<dev string:x186>");
 }
 
 // Namespace array/array_shared
@@ -842,12 +828,8 @@ function function_5fee9333(&a, var_82126fd8, val) {
 // Checksum 0xb3b7594f, Offset: 0x2ab8
 // Size: 0x1bc
 function spread_all(&entities, func, arg1, arg2, arg3, arg4, arg5) {
-    /#
-        assert(isdefined(entities), "<dev string:x1bb>");
-    #/
-    /#
-        assert(isdefined(func), "<dev string:x1f3>");
-    #/
+    assert(isdefined(entities), "<dev string:x1bb>");
+    assert(isdefined(func), "<dev string:x1f3>");
     if (isarray(entities)) {
         foreach (ent in entities) {
             if (isdefined(ent)) {

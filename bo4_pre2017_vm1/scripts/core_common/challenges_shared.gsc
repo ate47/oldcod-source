@@ -332,12 +332,8 @@ function perkkills(victim, isstunned, time) {
     activecuav = 0;
     if (level.teambased) {
         foreach (team in level.teams) {
-            /#
-                assert(isdefined(level.activecounteruavs[team]));
-            #/
-            /#
-                assert(isdefined(level.activeemps[team]));
-            #/
+            assert(isdefined(level.activecounteruavs[team]));
+            assert(isdefined(level.activeemps[team]));
             if (team == player.team) {
                 continue;
             }
@@ -349,12 +345,8 @@ function perkkills(victim, isstunned, time) {
             }
         }
     } else {
-        /#
-            assert(isdefined(level.activecounteruavs[victim.entnum]));
-        #/
-        /#
-            assert(isdefined(level.activeemps[victim.entnum]));
-        #/
+        assert(isdefined(level.activecounteruavs[victim.entnum]));
+        assert(isdefined(level.activeemps[victim.entnum]));
         players = level.players;
         for (i = 0; i < players.size; i++) {
             if (players[i] != player) {

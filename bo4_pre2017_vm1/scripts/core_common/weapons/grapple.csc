@@ -38,7 +38,7 @@ function player_on_spawned(localclientnum) {
 // Checksum 0x53bde688, Offset: 0x2b0
 // Size: 0x54
 function function_55af4b5b(player, tag, pivot, delay) {
-    player endon(#"hash_2f0976f1");
+    player endon(#"grapple_done");
     wait delay;
     thread grapple_beam(player, tag, pivot);
 }
@@ -64,7 +64,7 @@ function function_b25c9962(onoff, tag, delay) {
     if (!isdefined(delay)) {
         delay = 0.15;
     }
-    self notify(#"hash_2f0976f1");
+    self notify(#"grapple_done");
     self notify(#"hash_b25c9962");
     self endon(#"hash_b25c9962");
     self endon(#"death");
@@ -81,7 +81,7 @@ function function_b25c9962(onoff, tag, delay) {
                 thread function_55af4b5b(self, var_1e66ebb1, waitresult.pivot, delay);
             }
             evt = self waittilltimeout(7.5, "grapple_pulled", "grapple_landed", "grapple_cancel", "grapple_beam_off", "disconnect");
-            self notify(#"hash_2f0976f1");
+            self notify(#"grapple_done");
         }
     }
 }

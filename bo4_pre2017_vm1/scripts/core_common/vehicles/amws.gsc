@@ -46,9 +46,7 @@ function amws_initialize() {
     self.fovcosine = 0;
     self.fovcosinebusy = 0.574;
     self.vehaircraftcollisionenabled = 1;
-    /#
-        assert(isdefined(self.scriptbundlesettings));
-    #/
+    assert(isdefined(self.scriptbundlesettings));
     self.settings = struct::get_script_bundle("vehiclecustomsettings", self.scriptbundlesettings);
     self.goalradius = 999999;
     self.goalheight = 512;
@@ -591,9 +589,7 @@ function getnextmoveposition_wander() {
 // Checksum 0xdf2f0e5b, Offset: 0x27f0
 // Size: 0x8ce
 function getnextmoveposition_evasive(client_flags) {
-    /#
-        assert(isdefined(client_flags));
-    #/
+    assert(isdefined(client_flags));
     self setspeed(self.settings.defaultmovespeed * (isdefined(self.settings.lock_evade_speed_boost) ? self.settings.lock_evade_speed_boost : 2));
     self setacceleration((isdefined(self.settings.default_move_acceleration) ? self.settings.default_move_acceleration : 10) * (isdefined(self.settings.lock_evade_acceleration_boost) ? self.settings.lock_evade_acceleration_boost : 2));
     queryresult = positionquery_source_navigation(self.origin, isdefined(self.settings.lock_evade_dist_min) ? self.settings.lock_evade_dist_min : 120, isdefined(self.settings.lock_evade_dist_max) ? self.settings.lock_evade_dist_max : 360, math::clamp(isdefined(self.settings.lock_evade_dist_half_height) ? self.settings.lock_evade_dist_half_height : 250, 0.1, 99000), (isdefined(self.settings.lock_evade_point_spacing_factor) ? self.settings.lock_evade_point_spacing_factor : 1.5) * self.radius, self);

@@ -18,9 +18,7 @@ function init(str_flag, b_val, b_is_trigger) {
     }
     /#
         if (!isdefined(level.first_frame)) {
-            /#
-                assert(!isdefined(self.flag[str_flag]), "<dev string:x28>" + str_flag + "<dev string:x50>");
-            #/
+            assert(!isdefined(self.flag[str_flag]), "<dev string:x28>" + str_flag + "<dev string:x50>");
         }
     #/
     self.flag[str_flag] = b_val;
@@ -39,11 +37,7 @@ function exists(str_flag) {
 // Checksum 0x4cb45dd9, Offset: 0x1d0
 // Size: 0x74
 function set(str_flag) {
-    /#
-        /#
-            assert(exists(str_flag), "<dev string:x5d>" + str_flag + "<dev string:x78>");
-        #/
-    #/
+    assert(exists(str_flag), "<dev string:x5d>" + str_flag + "<dev string:x78>");
     self.flag[str_flag] = 1;
     self notify(str_flag);
 }
@@ -86,9 +80,7 @@ function set_for_time(n_time, str_flag) {
 // Checksum 0x576be808, Offset: 0x380
 // Size: 0x7c
 function clear(str_flag) {
-    /#
-        assert(exists(str_flag), "<dev string:x92>" + str_flag + "<dev string:x78>");
-    #/
+    assert(exists(str_flag), "<dev string:x92>" + str_flag + "<dev string:x78>");
     if (self.flag[str_flag]) {
         self.flag[str_flag] = 0;
         self notify(str_flag);
@@ -112,9 +104,7 @@ function toggle(str_flag) {
 // Checksum 0xa0a08ec8, Offset: 0x468
 // Size: 0x5c
 function get(str_flag) {
-    /#
-        assert(exists(str_flag), "<dev string:xaf>" + str_flag + "<dev string:x78>");
-    #/
+    assert(exists(str_flag), "<dev string:xaf>" + str_flag + "<dev string:x78>");
     return self.flag[str_flag];
 }
 
@@ -287,8 +277,6 @@ function delete(str_flag) {
         self.flag[str_flag] = undefined;
         return;
     }
-    /#
-        println("<dev string:xc3>" + str_flag);
-    #/
+    println("<dev string:xc3>" + str_flag);
 }
 

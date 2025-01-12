@@ -23,8 +23,8 @@ function init_shared() {
 // Size: 0xdc
 function register() {
     clientfield::register("scriptmover", "firefly_state", 1, 3, "int", &function_4dc1ebd, 0, 0);
-    clientfield::register("toplayer", "fireflies_attacking", 1, 1, "int", &function_2d29dc1d, 0, 1);
-    clientfield::register("toplayer", "fireflies_chasing", 1, 1, "int", &function_917da836, 0, 1);
+    clientfield::register("toplayer", "fireflies_attacking", 1, 1, "int", &fireflies_attacking, 0, 1);
+    clientfield::register("toplayer", "fireflies_chasing", 1, 1, "int", &fireflies_chasing, 0, 1);
 }
 
 // Namespace hive_gun/hive_gun
@@ -45,7 +45,7 @@ function getotherteam(team) {
 // Params 7, eflags: 0x0
 // Checksum 0x3f4aaa5f, Offset: 0x528
 // Size: 0x116
-function function_2d29dc1d(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+function fireflies_attacking(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     self endon(#"death");
     self util::waittill_dobj(localclientnum);
     if (!isdefined(self)) {
@@ -66,7 +66,7 @@ function function_2d29dc1d(localclientnum, oldval, newval, bnewent, binitialsnap
 // Params 7, eflags: 0x0
 // Checksum 0x3eb79b6d, Offset: 0x648
 // Size: 0x166
-function function_917da836(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+function fireflies_chasing(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     self endon(#"death");
     self util::waittill_dobj(localclientnum);
     if (!isdefined(self)) {
@@ -188,7 +188,7 @@ function function_e7ff9fa6(localclientnum, fx) {
 // Checksum 0x6eecd755, Offset: 0xc48
 // Size: 0x28
 function function_c0c4f0d9(localclientnum) {
-    self notify(#"hash_b2f94bca");
+    self notify(#"stop_effects");
     self.var_98cbe294 = 1;
 }
 
@@ -199,7 +199,7 @@ function function_c0c4f0d9(localclientnum) {
 function function_c2dd71e6(localclientnum) {
     fx = playfx(localclientnum, "weapon/fx_hero_firefly_start_entity", self.origin, anglestoup(self.angles));
     setfxteam(localclientnum, fx, self.team);
-    self notify(#"hash_b2f94bca");
+    self notify(#"stop_effects");
     self.var_98cbe294 = 1;
 }
 

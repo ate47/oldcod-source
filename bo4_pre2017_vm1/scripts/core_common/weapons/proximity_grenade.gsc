@@ -474,9 +474,7 @@ function damageplayerinradius(position, eattacker, killcament) {
             damage = level.proximitygrenadedotdamageamounthardcore;
         }
         for (i = 0; i < level.proximitygrenadedotdamageinstances; i++) {
-            /#
-                assert(isdefined(eattacker));
-            #/
+            assert(isdefined(eattacker));
             if (!isdefined(killcament)) {
                 killcament = spawn("script_model", position + (0, 0, 8));
                 killcament.soundmod = "taser_spike";

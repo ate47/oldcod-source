@@ -62,9 +62,7 @@ function init() {
     level.var_d6d75559 = int(tablelookup(level.var_4712114f, 0, "maxlevel", 1));
     rankid = 0;
     rankname = tablelookup(level.var_b7e5f751, 0, rankid, 1);
-    /#
-        assert(isdefined(rankname) && rankname != "<dev string:x28>");
-    #/
+    assert(isdefined(rankname) && rankname != "<dev string:x28>");
     while (isdefined(rankname) && rankname != "") {
         level.ranktable[rankid][1] = tablelookup(level.var_b7e5f751, 0, rankid, 1);
         level.ranktable[rankid][2] = tablelookup(level.var_b7e5f751, 0, rankid, 2);
@@ -225,9 +223,7 @@ function getscoreinfovalue(type) {
 // Size: 0x144
 function getscoreinfoposition(type) {
     characterindex = self getspecialistindex();
-    /#
-        assert(player_role::is_valid(characterindex));
-    #/
+    assert(player_role::is_valid(characterindex));
     playerrole = getplayerrolecategory(characterindex, currentsessionmode());
     if (!isdefined(playerrole) || playerrole == "default") {
         playerrole = "prc_mp_slayer";
@@ -248,9 +244,7 @@ function getscoreinfoposition(type) {
 // Size: 0x13c
 function getscoreinforesource(type) {
     characterindex = self getspecialistindex();
-    /#
-        assert(player_role::is_valid(characterindex));
-    #/
+    assert(player_role::is_valid(characterindex));
     playerrole = getplayerrolecategory(characterindex, currentsessionmode());
     if (!isdefined(playerrole) || playerrole == "default") {
         playerrole = "prc_mp_slayer";
@@ -271,9 +265,7 @@ function getscoreinforesource(type) {
 // Size: 0x13c
 function getscoreinfoxp(type) {
     characterindex = self getspecialistindex();
-    /#
-        assert(player_role::is_valid(characterindex));
-    #/
+    assert(player_role::is_valid(characterindex));
     playerrole = getplayerrolecategory(characterindex, currentsessionmode());
     if (!isdefined(playerrole) || playerrole == "default") {
         playerrole = "prc_mp_slayer";
@@ -294,9 +286,7 @@ function getscoreinfoxp(type) {
 // Size: 0x150
 function function_481d607(type) {
     characterindex = self getspecialistindex();
-    /#
-        assert(player_role::is_valid(characterindex));
-    #/
+    assert(player_role::is_valid(characterindex));
     playerrole = getplayerrolecategory(characterindex, currentsessionmode());
     if (!isdefined(playerrole) || playerrole == "default") {
         playerrole = "prc_mp_slayer";
@@ -489,9 +479,7 @@ function on_player_connect() {
     }
     self.rankupdatetotal = 0;
     self.cur_ranknum = rankid;
-    /#
-        assert(isdefined(self.cur_ranknum), "<dev string:x29>" + rankid + "<dev string:x30>" + level.var_b7e5f751);
-    #/
+    assert(isdefined(self.cur_ranknum), "<dev string:x29>" + rankid + "<dev string:x30>" + level.var_b7e5f751);
     prestige = self getdstat("playerstatslist", "plevel", "StatValue");
     self setrank(rankid, prestige);
     self.pers["prestige"] = prestige;
@@ -806,15 +794,11 @@ function event_handler[player_rankup] codecallback_rankup(eventstruct) {
 function getitemindex(refstring) {
     if (sessionmodeismultiplayergame()) {
         itemindex = getitemindexfromref(refstring);
-        /#
-            assert(itemindex > 0, "<dev string:x9e>" + refstring + "<dev string:xb9>" + itemindex);
-        #/
+        assert(itemindex > 0, "<dev string:x9e>" + refstring + "<dev string:xb9>" + itemindex);
     } else {
         var_a804a5cf = util::function_bc37a245();
         itemindex = int(tablelookup(var_a804a5cf, 4, refstring, 0));
-        /#
-            assert(itemindex > 0, "<dev string:xce>" + refstring + "<dev string:xb9>" + itemindex);
-        #/
+        assert(itemindex > 0, "<dev string:xce>" + refstring + "<dev string:xb9>" + itemindex);
     }
     return itemindex;
 }
@@ -949,9 +933,7 @@ function getrank() {
 function getrankforxp(xpval) {
     rankid = 0;
     rankname = level.ranktable[rankid][1];
-    /#
-        assert(isdefined(rankname));
-    #/
+    assert(isdefined(rankname));
     while (isdefined(rankname) && rankname != "") {
         if (xpval < getrankinfominxp(rankid) + getrankinfoxpamt(rankid)) {
             return rankid;

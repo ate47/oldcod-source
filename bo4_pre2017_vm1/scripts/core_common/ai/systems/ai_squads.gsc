@@ -18,10 +18,12 @@ class squad {
 
     // Namespace squad/ai_squads
     // Params 0, eflags: 0x0
-    // Checksum 0x80f724d1, Offset: 0x558
-    // Size: 0x4
-    function __destructor() {
-        
+    // Checksum 0x28cad7ba, Offset: 0x278
+    // Size: 0x28
+    function constructor() {
+        squadleader = 0;
+        squadmembers = [];
+        squadbreadcrumb = [];
     }
 
     // Namespace squad/ai_squads
@@ -95,25 +97,13 @@ class squad {
     // Checksum 0xc91dbcbc, Offset: 0x2a8
     // Size: 0xb4
     function addsquadbreadcrumbs(ai) {
-        /#
-            assert(squadleader == ai);
-        #/
+        assert(squadleader == ai);
         if (distance2dsquared(squadbreadcrumb, ai.origin) >= 9216) {
             /#
                 recordcircle(ai.origin, 4, (0, 0, 1), "<dev string:x28>", ai);
             #/
             squadbreadcrumb = ai.origin;
         }
-    }
-
-    // Namespace squad/ai_squads
-    // Params 0, eflags: 0x0
-    // Checksum 0x28cad7ba, Offset: 0x278
-    // Size: 0x28
-    function __constructor() {
-        squadleader = 0;
-        squadmembers = [];
-        squadbreadcrumb = [];
     }
 
 }
@@ -141,8 +131,7 @@ function __init__() {
 // Checksum 0x7bbfd321, Offset: 0x748
 // Size: 0x40
 function private createsquad(squadname) {
-    [[ new squad ]]->__constructor();
-    level._squads[squadname] = <error pop>;
+    level._squads[squadname] = new squad();
     return level._squads[squadname];
 }
 

@@ -120,7 +120,7 @@ function setup_deployable_barriers() {
 // Size: 0x36
 function private function_580bfc00(barrier) {
     self.var_7542f498 = barrier;
-    self notify(#"hash_57328a5f", {#var_a01e96a1:barrier});
+    self notify(#"barrier_zone_entered", {#var_a01e96a1:barrier});
 }
 
 // Namespace barrier_builder/barrier_builder
@@ -129,7 +129,7 @@ function private function_580bfc00(barrier) {
 // Size: 0x1a
 function private function_179eb227() {
     self.var_7542f498 = undefined;
-    self notify(#"hash_6489ce3e");
+    self notify(#"barrier_zone_cleared");
 }
 
 // Namespace barrier_builder/barrier_builder
@@ -203,9 +203,7 @@ function function_bcb3593c() {
         visual playsound(level.var_245008d8);
     }
     self.var_48eb942b = 0;
-    /#
-        println("<dev string:x28>");
-    #/
+    println("<dev string:x28>");
     self notify(#"is_destroyed");
 }
 
@@ -223,9 +221,7 @@ function private function_4770bc3b(var_aafe7100) {
             damageapplied = int(waitresult.amount * level.var_79ca335e - waitresult.amount);
             var_aafe7100.health -= damageapplied;
         }
-        /#
-            println("<dev string:x43>" + var_aafe7100.health + "<dev string:x68>" + damageapplied);
-        #/
+        println("<dev string:x43>" + var_aafe7100.health + "<dev string:x68>" + damageapplied);
     }
     var_aafe7100 function_bcb3593c();
 }
@@ -344,11 +340,11 @@ function private function_23b580c0(barrier, weapon, zone) {
 function private function_c82f3a7d(var_18b9ece0) {
     self.var_7542f498 endon(#"disconnect");
     self.var_7542f498 endon(#"death");
-    self endon(#"hash_6489ce3e");
+    self endon(#"barrier_zone_cleared");
     for (;;) {
         waitframe(1);
         if (!self istouchingswept(self.var_7542f498.var_2d13e2b7)) {
-            self notify(#"hash_6489ce3e");
+            self notify(#"barrier_zone_cleared");
         }
     }
 }

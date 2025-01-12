@@ -5,9 +5,7 @@
 // Checksum 0x235a8b83, Offset: 0x78
 // Size: 0x11c
 function event_handler[delete] main(eventstruct) {
-    /#
-        assert(isdefined(self));
-    #/
+    assert(isdefined(self));
     waitframe(1);
     if (isdefined(self)) {
         /#

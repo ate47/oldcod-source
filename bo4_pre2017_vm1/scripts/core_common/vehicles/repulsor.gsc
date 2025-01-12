@@ -50,9 +50,7 @@ function repulsor_initialize() {
     self.fovcosine = 0;
     self.fovcosinebusy = 0;
     self.vehaircraftcollisionenabled = 1;
-    /#
-        assert(isdefined(self.scriptbundlesettings));
-    #/
+    assert(isdefined(self.scriptbundlesettings));
     self.settings = struct::get_script_bundle("vehiclecustomsettings", self.scriptbundlesettings);
     self.goalradius = 999999;
     self.goalheight = 999999;
@@ -173,9 +171,7 @@ function state_death_update(params) {
 // Checksum 0x1cf7b38c, Offset: 0xc08
 // Size: 0x38e
 function get_guard_points(owner) {
-    /#
-        assert(self._guard_points.size > 0, "<dev string:x38>");
-    #/
+    assert(self._guard_points.size > 0, "<dev string:x38>");
     points_array = [];
     foreach (point in self._guard_points) {
         offset = rotatepoint(point, owner.angles);
