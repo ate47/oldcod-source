@@ -9,54 +9,49 @@
 #using scripts/core_common/util_shared;
 #using scripts/core_common/visionset_mgr_shared;
 
-#namespace ccontainer;
-
-// Namespace ccontainer/containers_shared
-// Params 0, eflags: 0x0
-// Checksum 0x80f724d1, Offset: 0x310
-// Size: 0x4
-function __constructor() {
-    
-}
-
-// Namespace ccontainer/containers_shared
-// Params 0, eflags: 0x0
-// Checksum 0x80f724d1, Offset: 0x320
-// Size: 0x4
-function __destructor() {
-    
-}
-
-// Namespace ccontainer/containers_shared
-// Params 3, eflags: 0x0
-// Checksum 0xb3c33fe0, Offset: 0x330
-// Size: 0x66
-function init_xmodel(str_xmodel, v_origin, v_angles) {
-    if (!isdefined(str_xmodel)) {
-        str_xmodel = "script_origin";
-    }
-    self.m_e_container = util::spawn_model(str_xmodel, v_origin, v_angles);
-    return self.m_e_container;
-}
-
 #namespace containers;
 
-// Namespace containers/containers_shared
-// Params 0, eflags: 0x6
-// Checksum 0xbfdad90d, Offset: 0x3a0
-// Size: 0xb6
-function private autoexec ccontainer() {
-    classes.ccontainer[0] = spawnstruct();
-    classes.ccontainer[0].__vtable[-1234449151] = &ccontainer::init_xmodel;
-    classes.ccontainer[0].__vtable[1606033458] = &ccontainer::__destructor;
-    classes.ccontainer[0].__vtable[-1690805083] = &ccontainer::__constructor;
+// Namespace containers
+// Method(s) 3 Total 3
+class ccontainer {
+
+    var m_e_container;
+
+    // Namespace ccontainer/containers_shared
+    // Params 3, eflags: 0x0
+    // Checksum 0xb3c33fe0, Offset: 0x330
+    // Size: 0x66
+    function init_xmodel(str_xmodel, v_origin, v_angles) {
+        if (!isdefined(str_xmodel)) {
+            str_xmodel = "script_origin";
+        }
+        m_e_container = util::spawn_model(str_xmodel, v_origin, v_angles);
+        return m_e_container;
+    }
+
+    // Namespace ccontainer/containers_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x80f724d1, Offset: 0x320
+    // Size: 0x4
+    function __destructor() {
+        
+    }
+
+    // Namespace ccontainer/containers_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x80f724d1, Offset: 0x310
+    // Size: 0x4
+    function __constructor() {
+        
+    }
+
 }
 
 // Namespace containers/containers_shared
 // Params 0, eflags: 0x2
 // Checksum 0xf482147e, Offset: 0x460
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("containers", &__init__, undefined, undefined);
 }
 

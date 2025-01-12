@@ -16,7 +16,7 @@
 function init_shared() {
     level._effect["acousticsensor_enemy_light"] = "_t6/misc/fx_equip_light_red";
     level._effect["acousticsensor_friendly_light"] = "_t6/misc/fx_equip_light_green";
-    callback::function_367a33a8(&function_f7da464e);
+    callback::add_weapon_watcher(&function_f7da464e);
 }
 
 // Namespace namespace_efc40536/namespace_efc40536

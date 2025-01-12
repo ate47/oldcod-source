@@ -1,255 +1,240 @@
 #using scripts/core_common/audio_shared;
 
-#namespace namespace_7db19bba;
-
-// Namespace namespace_7db19bba/driving_fx
-// Params 0, eflags: 0x0
-// Checksum 0xad7cfa9a, Offset: 0x260
-// Size: 0x20
-function __constructor() {
-    self.id = undefined;
-    self.handle = -1;
-}
-
-// Namespace namespace_7db19bba/driving_fx
-// Params 0, eflags: 0x0
-// Checksum 0x80f724d1, Offset: 0x288
-// Size: 0x4
-function __destructor() {
-    
-}
-
-// Namespace namespace_7db19bba/driving_fx
-// Params 4, eflags: 0x0
-// Checksum 0x7bd341ac, Offset: 0x298
-// Size: 0x15c
-function play(localclientnum, vehicle, fx_id, fx_tag) {
-    if (!isdefined(fx_id)) {
-        if (self.handle > 0) {
-            stopfx(localclientnum, self.handle);
-        }
-        self.id = undefined;
-        self.handle = -1;
-        return;
-    }
-    if (!isdefined(self.id)) {
-        self.id = fx_id;
-        self.handle = playfxontag(localclientnum, self.id, vehicle, fx_tag);
-        return;
-    }
-    if (!isdefined(self.id) || self.id != fx_id) {
-        if (self.handle > 0) {
-            stopfx(localclientnum, self.handle);
-        }
-        self.id = fx_id;
-        self.handle = playfxontag(localclientnum, self.id, vehicle, fx_tag);
-    }
-}
-
-// Namespace namespace_7db19bba/driving_fx
-// Params 1, eflags: 0x0
-// Checksum 0x59ce27e3, Offset: 0x400
-// Size: 0x58
-function stop(localclientnum) {
-    if (self.handle > 0) {
-        stopfx(localclientnum, self.handle);
-    }
-    self.id = undefined;
-    self.handle = -1;
-}
-
 #namespace driving_fx;
 
-// Namespace driving_fx/driving_fx
-// Params 0, eflags: 0x6
-// Checksum 0x60c60f7f, Offset: 0x460
-// Size: 0xe6
-function private autoexec function_7db19bba() {
-    classes.var_7db19bba[0] = spawnstruct();
-    classes.var_7db19bba[0].__vtable[-51025227] = &namespace_7db19bba::stop;
-    classes.var_7db19bba[0].__vtable[1131512199] = &namespace_7db19bba::play;
-    classes.var_7db19bba[0].__vtable[1606033458] = &namespace_7db19bba::__destructor;
-    classes.var_7db19bba[0].__vtable[-1690805083] = &namespace_7db19bba::__constructor;
-}
+// Namespace driving_fx
+// Method(s) 4 Total 4
+class vehiclewheelfx {
 
-#namespace namespace_aeb003f6;
+    var ground_fx;
+    var name;
+    var tag_name;
 
-// Namespace namespace_aeb003f6/driving_fx
-// Params 0, eflags: 0x0
-// Checksum 0x92468f28, Offset: 0x550
-// Size: 0x24
-function __constructor() {
-    self.name = "";
-    self.tag_name = "";
-}
-
-// Namespace namespace_aeb003f6/driving_fx
-// Params 0, eflags: 0x0
-// Checksum 0x80f724d1, Offset: 0x580
-// Size: 0x4
-function __destructor() {
-    
-}
-
-// Namespace namespace_aeb003f6/driving_fx
-// Params 2, eflags: 0x0
-// Checksum 0xb0a93365, Offset: 0x590
-// Size: 0xcc
-function init(_name, var_4db840da) {
-    self.name = _name;
-    self.tag_name = var_4db840da;
-    self.ground_fx = [];
-    [[ new class_7db19bba ]]->__constructor();
-    self.ground_fx["skid"] = <error pop>;
-    [[ new class_7db19bba ]]->__constructor();
-    self.ground_fx["tread"] = <error pop>;
-    self.ground_fx["tread"].id = "";
-    self.ground_fx["tread"].handle = -1;
-}
-
-// Namespace namespace_aeb003f6/driving_fx
-// Params 3, eflags: 0x0
-// Checksum 0x88fb617, Offset: 0x668
-// Size: 0x4d4
-function update(localclientnum, vehicle, var_53b07afb) {
-    if (vehicle.vehicleclass === "boat") {
-        var_32b709f3 = 0;
-        sliding = 0;
-        trace = bullettrace(vehicle.origin + (0, 0, 60), vehicle.origin - (0, 0, 200), 0, vehicle);
-        if (trace["fraction"] < 1) {
-            surface = trace["surfacetype"];
+    // Namespace vehiclewheelfx/driving_fx
+    // Params 3, eflags: 0x0
+    // Checksum 0x88fb617, Offset: 0x668
+    // Size: 0x4d4
+    function update(localclientnum, vehicle, speed_fraction) {
+        if (vehicle.vehicleclass === "boat") {
+            var_32b709f3 = 0;
+            sliding = 0;
+            trace = bullettrace(vehicle.origin + (0, 0, 60), vehicle.origin - (0, 0, 200), 0, vehicle);
+            if (trace["fraction"] < 1) {
+                surface = trace["surfacetype"];
+            } else {
+                [[ ground_fx["skid"] ]]->stop(localclientnum);
+                [[ ground_fx["tread"] ]]->stop(localclientnum);
+                return;
+            }
         } else {
-            [[ self.ground_fx["skid"] ]]->stop(localclientnum);
-            [[ self.ground_fx["tread"] ]]->stop(localclientnum);
-            return;
+            if (!vehicle iswheelcolliding(name)) {
+                [[ ground_fx["skid"] ]]->stop(localclientnum);
+                [[ ground_fx["tread"] ]]->stop(localclientnum);
+                return;
+            }
+            var_32b709f3 = vehicle iswheelpeelingout(name);
+            sliding = vehicle iswheelsliding(name);
+            surface = vehicle getwheelsurface(name);
         }
-    } else {
-        if (!vehicle iswheelcolliding(self.name)) {
-            [[ self.ground_fx["skid"] ]]->stop(localclientnum);
-            [[ self.ground_fx["tread"] ]]->stop(localclientnum);
-            return;
+        origin = vehicle gettagorigin(tag_name) + (0, 0, 1);
+        angles = vehicle gettagangles(tag_name);
+        fwd = anglestoforward(angles);
+        right = anglestoright(angles);
+        rumble = 0;
+        if (var_32b709f3) {
+            var_7f1577dc = vehicle driving_fx::function_b237cc74("peel", surface);
+            if (isdefined(var_7f1577dc)) {
+                playfx(localclientnum, var_7f1577dc, origin, fwd * -1);
+                rumble = 1;
+            }
         }
-        var_32b709f3 = vehicle iswheelpeelingout(self.name);
-        sliding = vehicle iswheelsliding(self.name);
-        surface = vehicle getwheelsurface(self.name);
-    }
-    origin = vehicle gettagorigin(self.tag_name) + (0, 0, 1);
-    angles = vehicle gettagangles(self.tag_name);
-    fwd = anglestoforward(angles);
-    right = anglestoright(angles);
-    rumble = 0;
-    if (var_32b709f3) {
-        var_7f1577dc = vehicle driving_fx::function_b237cc74("peel", surface);
-        if (isdefined(var_7f1577dc)) {
-            playfx(localclientnum, var_7f1577dc, origin, fwd * -1);
+        if (sliding) {
+            var_d93a6469 = vehicle driving_fx::function_b237cc74("skid", surface);
+            [[ ground_fx["skid"] ]]->play(localclientnum, vehicle, var_d93a6469, tag_name);
+            vehicle.var_b3bac88c = 1;
             rumble = 1;
+        } else {
+            [[ ground_fx["skid"] ]]->stop(localclientnum);
+        }
+        if (speed_fraction > 0.01) {
+            var_3a66468c = vehicle driving_fx::function_b237cc74("tread", surface);
+            [[ ground_fx["tread"] ]]->play(localclientnum, vehicle, var_3a66468c, tag_name);
+        } else {
+            [[ ground_fx["tread"] ]]->stop(localclientnum);
+        }
+        if (rumble) {
+            if (vehicle islocalclientdriver(localclientnum)) {
+                player = getlocalplayer(localclientnum);
+                player playrumbleonentity(localclientnum, "reload_small");
+            }
         }
     }
-    if (sliding) {
-        var_d93a6469 = vehicle driving_fx::function_b237cc74("skid", surface);
-        [[ self.ground_fx["skid"] ]]->play(localclientnum, vehicle, var_d93a6469, self.tag_name);
-        vehicle.var_b3bac88c = 1;
-        rumble = 1;
-    } else {
-        [[ self.ground_fx["skid"] ]]->stop(localclientnum);
+
+    // Namespace vehiclewheelfx/driving_fx
+    // Params 2, eflags: 0x0
+    // Checksum 0xb0a93365, Offset: 0x590
+    // Size: 0xcc
+    function init(_name, var_4db840da) {
+        name = _name;
+        tag_name = var_4db840da;
+        ground_fx = [];
+        [[ new groundfx ]]->__constructor();
+        ground_fx["skid"] = <error pop>;
+        [[ new groundfx ]]->__constructor();
+        ground_fx["tread"] = <error pop>;
+        ground_fx["tread"].id = "";
+        ground_fx["tread"].handle = -1;
     }
-    if (var_53b07afb > 0.01) {
-        var_3a66468c = vehicle driving_fx::function_b237cc74("tread", surface);
-        [[ self.ground_fx["tread"] ]]->play(localclientnum, vehicle, var_3a66468c, self.tag_name);
-    } else {
-        [[ self.ground_fx["tread"] ]]->stop(localclientnum);
+
+    // Namespace vehiclewheelfx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0x80f724d1, Offset: 0x580
+    // Size: 0x4
+    function __destructor() {
+        
     }
-    if (rumble) {
+
+    // Namespace vehiclewheelfx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0x92468f28, Offset: 0x550
+    // Size: 0x24
+    function __constructor() {
+        name = "";
+        tag_name = "";
+    }
+
+}
+
+// Namespace driving_fx
+// Method(s) 4 Total 4
+class groundfx {
+
+    var handle;
+    var id;
+
+    // Namespace groundfx/driving_fx
+    // Params 1, eflags: 0x0
+    // Checksum 0x59ce27e3, Offset: 0x400
+    // Size: 0x58
+    function stop(localclientnum) {
+        if (handle > 0) {
+            stopfx(localclientnum, handle);
+        }
+        id = undefined;
+        handle = -1;
+    }
+
+    // Namespace groundfx/driving_fx
+    // Params 4, eflags: 0x0
+    // Checksum 0x7bd341ac, Offset: 0x298
+    // Size: 0x15c
+    function play(localclientnum, vehicle, fx_id, fx_tag) {
+        if (!isdefined(fx_id)) {
+            if (handle > 0) {
+                stopfx(localclientnum, handle);
+            }
+            id = undefined;
+            handle = -1;
+            return;
+        }
+        if (!isdefined(id)) {
+            id = fx_id;
+            handle = playfxontag(localclientnum, id, vehicle, fx_tag);
+            return;
+        }
+        if (!isdefined(id) || id != fx_id) {
+            if (handle > 0) {
+                stopfx(localclientnum, handle);
+            }
+            id = fx_id;
+            handle = playfxontag(localclientnum, id, vehicle, fx_tag);
+        }
+    }
+
+    // Namespace groundfx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0x80f724d1, Offset: 0x288
+    // Size: 0x4
+    function __destructor() {
+        
+    }
+
+    // Namespace groundfx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0xad7cfa9a, Offset: 0x260
+    // Size: 0x20
+    function __constructor() {
+        id = undefined;
+        handle = -1;
+    }
+
+}
+
+// Namespace driving_fx
+// Method(s) 4 Total 4
+class vehicle_camera_fx {
+
+    var var_2a5a26c8;
+    var var_30ff2ea1;
+    var var_356b4f1d;
+    var var_b2800d13;
+    var var_dbad56df;
+
+    // Namespace vehicle_camera_fx/driving_fx
+    // Params 3, eflags: 0x0
+    // Checksum 0x54ec14c6, Offset: 0xd60
+    // Size: 0x15c
+    function update(localclientnum, vehicle, speed_fraction) {
         if (vehicle islocalclientdriver(localclientnum)) {
             player = getlocalplayer(localclientnum);
-            player playrumbleonentity(localclientnum, "reload_small");
-        }
-    }
-}
-
-#namespace driving_fx;
-
-// Namespace driving_fx/driving_fx
-// Params 0, eflags: 0x6
-// Checksum 0x9b3bc318, Offset: 0xb48
-// Size: 0xe6
-function private autoexec function_aeb003f6() {
-    classes.var_aeb003f6[0] = spawnstruct();
-    classes.var_aeb003f6[0].__vtable[-558052070] = &namespace_aeb003f6::update;
-    classes.var_aeb003f6[0].__vtable[-1017222485] = &namespace_aeb003f6::init;
-    classes.var_aeb003f6[0].__vtable[1606033458] = &namespace_aeb003f6::__destructor;
-    classes.var_aeb003f6[0].__vtable[-1690805083] = &namespace_aeb003f6::__constructor;
-}
-
-#namespace namespace_e927da48;
-
-// Namespace namespace_e927da48/driving_fx
-// Params 0, eflags: 0x0
-// Checksum 0xfbd65265, Offset: 0xc38
-// Size: 0x54
-function __constructor() {
-    self.var_30ff2ea1 = 0.5;
-    self.var_dbad56df = 1;
-    self.var_356b4f1d = 0.1;
-    self.var_b2800d13 = 0.115;
-    self.var_2a5a26c8 = "";
-}
-
-// Namespace namespace_e927da48/driving_fx
-// Params 0, eflags: 0x0
-// Checksum 0x80f724d1, Offset: 0xc98
-// Size: 0x4
-function __destructor() {
-    
-}
-
-// Namespace namespace_e927da48/driving_fx
-// Params 5, eflags: 0x0
-// Checksum 0xd3e14d9c, Offset: 0xca8
-// Size: 0xb0
-function init(var_b1d0498a, var_c4748824, var_edd22bf1, var_5b4a0a4f, rumble) {
-    if (!isdefined(rumble)) {
-        rumble = "";
-    }
-    self.var_30ff2ea1 = var_b1d0498a;
-    self.var_dbad56df = var_c4748824;
-    self.var_356b4f1d = var_edd22bf1;
-    self.var_b2800d13 = var_5b4a0a4f;
-    self.var_2a5a26c8 = rumble != "" ? rumble : self.var_2a5a26c8;
-}
-
-// Namespace namespace_e927da48/driving_fx
-// Params 3, eflags: 0x0
-// Checksum 0x54ec14c6, Offset: 0xd60
-// Size: 0x15c
-function update(localclientnum, vehicle, var_53b07afb) {
-    if (vehicle islocalclientdriver(localclientnum)) {
-        player = getlocalplayer(localclientnum);
-        if (var_53b07afb > 0) {
-            strength = randomfloatrange(self.var_356b4f1d, self.var_b2800d13) * var_53b07afb;
-            time = randomfloatrange(self.var_30ff2ea1, self.var_dbad56df);
-            player earthquake(strength, time, player.origin, 500);
-            if (self.var_2a5a26c8 != "" && var_53b07afb > 0.5) {
-                if (randomint(100) < 10) {
-                    player playrumbleonentity(localclientnum, self.var_2a5a26c8);
+            if (speed_fraction > 0) {
+                strength = randomfloatrange(var_356b4f1d, var_b2800d13) * speed_fraction;
+                time = randomfloatrange(var_30ff2ea1, var_dbad56df);
+                player earthquake(strength, time, player.origin, 500);
+                if (var_2a5a26c8 != "" && speed_fraction > 0.5) {
+                    if (randomint(100) < 10) {
+                        player playrumbleonentity(localclientnum, var_2a5a26c8);
+                    }
                 }
             }
         }
     }
-}
 
-#namespace driving_fx;
+    // Namespace vehicle_camera_fx/driving_fx
+    // Params 5, eflags: 0x0
+    // Checksum 0xd3e14d9c, Offset: 0xca8
+    // Size: 0xb0
+    function init(var_b1d0498a, var_c4748824, var_edd22bf1, var_5b4a0a4f, rumble) {
+        if (!isdefined(rumble)) {
+            rumble = "";
+        }
+        var_30ff2ea1 = var_b1d0498a;
+        var_dbad56df = var_c4748824;
+        var_356b4f1d = var_edd22bf1;
+        var_b2800d13 = var_5b4a0a4f;
+        var_2a5a26c8 = rumble != "" ? rumble : var_2a5a26c8;
+    }
 
-// Namespace driving_fx/driving_fx
-// Params 0, eflags: 0x6
-// Checksum 0xf9e5b737, Offset: 0xec8
-// Size: 0xe6
-function private autoexec function_e927da48() {
-    classes.var_e927da48[0] = spawnstruct();
-    classes.var_e927da48[0].__vtable[-558052070] = &namespace_e927da48::update;
-    classes.var_e927da48[0].__vtable[-1017222485] = &namespace_e927da48::init;
-    classes.var_e927da48[0].__vtable[1606033458] = &namespace_e927da48::__destructor;
-    classes.var_e927da48[0].__vtable[-1690805083] = &namespace_e927da48::__constructor;
+    // Namespace vehicle_camera_fx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0x80f724d1, Offset: 0xc98
+    // Size: 0x4
+    function __destructor() {
+        
+    }
+
+    // Namespace vehicle_camera_fx/driving_fx
+    // Params 0, eflags: 0x0
+    // Checksum 0xfbd65265, Offset: 0xc38
+    // Size: 0x54
+    function __constructor() {
+        var_30ff2ea1 = 0.5;
+        var_dbad56df = 1;
+        var_356b4f1d = 0.1;
+        var_b2800d13 = 0.115;
+        var_2a5a26c8 = "";
+    }
+
 }
 
 // Namespace driving_fx/driving_fx
@@ -298,28 +283,28 @@ function function_789b5418(localclientnum) {
         }
         self.var_250efb17 = [];
         for (i = 0; i < var_8b6aab6b.size; i++) {
-            [[ new class_aeb003f6 ]]->__constructor();
+            [[ new vehiclewheelfx ]]->__constructor();
             self.var_250efb17[i] = <error pop>;
             [[ self.var_250efb17[i] ]]->init(var_8b6aab6b[i], var_6b26776a[i]);
         }
         self.var_aa924851 = [];
-        [[ new class_e927da48 ]]->__constructor();
+        [[ new vehicle_camera_fx ]]->__constructor();
         self.var_aa924851["speed"] = <error pop>;
         [[ self.var_aa924851["speed"] ]]->init(0.5, 1, 0.1, 0.115, "reload_small");
-        [[ new class_e927da48 ]]->__constructor();
+        [[ new vehicle_camera_fx ]]->__constructor();
         self.var_aa924851["skid"] = <error pop>;
         [[ self.var_aa924851["skid"] ]]->init(0.25, 0.35, 0.1, 0.115);
     }
     self.var_560fa114 = 0;
     self.var_414f019b = 0;
-    var_53b07afb = 0;
+    speed_fraction = 0;
     while (true) {
         speed = length(self getvelocity());
         max_speed = speed < 0 ? self getmaxreversespeed() : self getmaxspeed();
-        var_53b07afb = max_speed > 0 ? abs(speed) / max_speed : 0;
+        speed_fraction = max_speed > 0 ? abs(speed) / max_speed : 0;
         self.var_b3bac88c = 0;
         for (i = 0; i < self.var_250efb17.size; i++) {
-            [[ self.var_250efb17[i] ]]->update(localclientnum, self, var_53b07afb);
+            [[ self.var_250efb17[i] ]]->update(localclientnum, self, speed_fraction);
         }
         wait 0.1;
     }
@@ -348,8 +333,8 @@ function function_b237cc74(type, surface) {
 // Params 3, eflags: 0x0
 // Checksum 0xf0f5b7d3, Offset: 0x1578
 // Size: 0x1bc
-function function_8185750c(localclientnum, speed, var_53b07afb) {
-    if (speed > 0 && var_53b07afb >= 0.25) {
+function function_8185750c(localclientnum, speed, speed_fraction) {
+    if (speed > 0 && speed_fraction >= 0.25) {
         viewangles = getlocalclientangles(localclientnum);
         pitch = angleclamp180(viewangles[0]);
         if (pitch > -10) {
@@ -360,9 +345,9 @@ function function_8185750c(localclientnum, speed, var_53b07afb) {
             if (self.var_560fa114 + self.var_414f019b + var_9b1a25f8 < getrealtime()) {
                 var_7ef93455 = self function_7f884b2c();
                 if (var_7ef93455 == "dirt") {
-                    function_3e13e5c5(localclientnum);
+                    play_screen_fx_dirt(localclientnum);
                 } else {
-                    function_ba7b10a6(localclientnum);
+                    play_screen_fx_dust(localclientnum);
                 }
                 self.var_560fa114 = getrealtime();
                 self.var_414f019b = randomintrange(250, 500);
@@ -535,7 +520,7 @@ function function_7f884b2c() {
 // Params 1, eflags: 0x0
 // Checksum 0xadd227b0, Offset: 0x1f30
 // Size: 0xc
-function function_3e13e5c5(localclientnum) {
+function play_screen_fx_dirt(localclientnum) {
     
 }
 
@@ -543,7 +528,7 @@ function function_3e13e5c5(localclientnum) {
 // Params 1, eflags: 0x0
 // Checksum 0xe053cd95, Offset: 0x1f48
 // Size: 0xc
-function function_ba7b10a6(localclientnum) {
+function play_screen_fx_dust(localclientnum) {
     
 }
 

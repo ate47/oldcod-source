@@ -47,7 +47,7 @@ function private on_entity_spawn(localclientnum) {
 // Size: 0x6c
 function private on_entity_shutdown(localclientnum) {
     if (isdefined(self)) {
-        self notify(#"stopfacialthread");
+        self notify(#"stopFacialThread");
         if (isdefined(self.facialdeathanimstarted) && self.facialdeathanimstarted) {
             return;
         }
@@ -130,7 +130,7 @@ function private secondaryfacialanimationthink(localclientnum) {
         assert(self.archetype == "<dev string:x89>" || isdefined(self.archetype) && self.archetype == "<dev string:x8f>");
     #/
     self endon(#"death");
-    self endon(#"stopfacialthread");
+    self endon(#"stopFacialThread");
     self._currentfacestate = "inactive";
     while (true) {
         if (self.archetype == "human" && self clientfield::get("facial_dial")) {

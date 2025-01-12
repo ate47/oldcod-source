@@ -17,7 +17,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x64afdb26, Offset: 0x3d0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_heat_wave", &__init__, undefined, undefined);
 }
 
@@ -26,10 +26,10 @@ function autoexec function_2dc19561() {
 // Checksum 0x631faf16, Offset: 0x410
 // Size: 0x16c
 function __init__() {
-    clientfield::register("scriptmover", "heatwave_fx", 1, 1, "int", &function_35b42cb4, 0, 0);
-    clientfield::register("allplayers", "heatwave_victim", 1, 1, "int", &function_318dd491, 0, 0);
-    clientfield::register("toplayer", "heatwave_activate", 1, 1, "int", &function_4bf284ca, 0, 0);
-    level.var_ca9e7366 = getdvarint("scr_debug_heat_wave_traces", 0);
+    clientfield::register("scriptmover", "heatwave_fx", 1, 1, "int", &set_heatwave_fx, 0, 0);
+    clientfield::register("allplayers", "heatwave_victim", 1, 1, "int", &update_victim, 0, 0);
+    clientfield::register("toplayer", "heatwave_activate", 1, 1, "int", &update_activate, 0, 0);
+    level.debug_heat_wave_traces = getdvarint("scr_debug_heat_wave_traces", 0);
     visionset_mgr::register_visionset_info("heatwave", 1, 16, undefined, "heatwave");
     visionset_mgr::register_visionset_info("charred", 1, 16, undefined, "charred");
     /#
@@ -45,7 +45,7 @@ function __init__() {
     // Size: 0x4c
     function updatedvars() {
         while (true) {
-            level.var_ca9e7366 = getdvarint("<dev string:x28>", level.var_ca9e7366);
+            level.debug_heat_wave_traces = getdvarint("<dev string:x28>", level.debug_heat_wave_traces);
             wait 1;
         }
     }
@@ -56,7 +56,7 @@ function __init__() {
 // Params 7, eflags: 0x0
 // Checksum 0xf3efb982, Offset: 0x5e0
 // Size: 0x64
-function function_4bf284ca(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+function update_activate(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     if (newval) {
         self thread postfx::playpostfxbundle("pstfx_heat_pulse");
     }
@@ -66,7 +66,7 @@ function function_4bf284ca(localclientnum, oldval, newval, bnewent, binitialsnap
 // Params 7, eflags: 0x0
 // Checksum 0x1166902d, Offset: 0x650
 // Size: 0xac
-function function_318dd491(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+function update_victim(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     if (newval) {
         self endon(#"death");
         self util::waittill_dobj(localclientnum);
@@ -79,10 +79,10 @@ function function_318dd491(localclientnum, oldval, newval, bnewent, binitialsnap
 // Params 7, eflags: 0x0
 // Checksum 0x6d328c4a, Offset: 0x708
 // Size: 0x84
-function function_35b42cb4(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
-    self function_45bc6290(localclientnum);
+function set_heatwave_fx(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+    self clear_heat_wave_fx(localclientnum);
     if (newval) {
-        self.var_c9a5771e = [];
+        self.heatwavefx = [];
         self thread aoe_fx(localclientnum);
     }
 }
@@ -91,11 +91,11 @@ function function_35b42cb4(localclientnum, oldval, newval, bnewent, binitialsnap
 // Params 1, eflags: 0x0
 // Checksum 0x8334f915, Offset: 0x798
 // Size: 0xaa
-function function_45bc6290(localclientnum) {
-    if (!isdefined(self.var_c9a5771e)) {
+function clear_heat_wave_fx(localclientnum) {
+    if (!isdefined(self.heatwavefx)) {
         return;
     }
-    foreach (fx in self.var_c9a5771e) {
+    foreach (fx in self.heatwavefx) {
         stopfx(localclientnum, fx);
     }
 }
@@ -139,7 +139,7 @@ function aoe_fx(localclientnum) {
     currentpitch = startpitch;
     for (yaw_level = 0; yaw_level < yaw_count.size; yaw_level++) {
         currentpitch = pitch_vals[yaw_level];
-        function_89e1d77b(localclientnum, center, yaw_count[yaw_level], currentpitch);
+        do_fx(localclientnum, center, yaw_count[yaw_level], currentpitch);
     }
 }
 
@@ -147,7 +147,7 @@ function aoe_fx(localclientnum) {
 // Params 4, eflags: 0x0
 // Checksum 0x5c2770e3, Offset: 0xbb0
 // Size: 0x4d8
-function function_89e1d77b(localclientnum, center, yaw_count, pitch) {
+function do_fx(localclientnum, center, yaw_count, pitch) {
     currentyaw = randomint(360);
     for (fxcount = 0; fxcount < yaw_count; fxcount++) {
         randomoffsetpitch = randomint(5) - 2.5;
@@ -163,7 +163,7 @@ function function_89e1d77b(localclientnum, center, yaw_count, pitch) {
         if (trace["fraction"] < 1) {
             fx_position = center + tracedir * 400 * trace["fraction"];
             /#
-                if (level.var_ca9e7366) {
+                if (level.debug_heat_wave_traces) {
                     sphere(fx_position, sphere_size, (1, 0, 1), 1, 1, 8, 300);
                     sphere(trace["<dev string:x43>"], sphere_size, (1, 1, 0), 1, 1, 8, 300);
                 }
@@ -176,10 +176,10 @@ function function_89e1d77b(localclientnum, center, yaw_count, pitch) {
             if (lengthsquared(vectorcross(forward, normal)) == 0) {
                 forward = vectorcross(right, forward);
             }
-            self.var_c9a5771e[self.var_c9a5771e.size] = playfx(localclientnum, "player/fx_plyr_heat_wave_distortion_volume", trace["position"], normal, forward);
+            self.heatwavefx[self.heatwavefx.size] = playfx(localclientnum, "player/fx_plyr_heat_wave_distortion_volume", trace["position"], normal, forward);
         } else {
             /#
-                if (level.var_ca9e7366) {
+                if (level.debug_heat_wave_traces) {
                     line(fx_position + (0, 0, 50), fx_position - (0, 0, 50), (1, 0, 0), 1, 0, 300);
                     sphere(fx_position, sphere_size, (1, 0, 1), 1, 1, 8, 300);
                 }
@@ -187,7 +187,7 @@ function function_89e1d77b(localclientnum, center, yaw_count, pitch) {
             if (lengthsquared(vectorcross(forward, tracedir * -1)) == 0) {
                 forward = vectorcross(right, forward);
             }
-            self.var_c9a5771e[self.var_c9a5771e.size] = playfx(localclientnum, "player/fx_plyr_heat_wave_distortion_volume_air", fx_position, tracedir * -1, forward);
+            self.heatwavefx[self.heatwavefx.size] = playfx(localclientnum, "player/fx_plyr_heat_wave_distortion_volume_air", fx_position, tracedir * -1, forward);
         }
         if (fxcount % 2) {
             waitframe(1);

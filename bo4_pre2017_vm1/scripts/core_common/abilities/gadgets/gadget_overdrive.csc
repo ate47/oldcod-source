@@ -17,7 +17,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xbad09f5a, Offset: 0x438
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_overdrive", &__init__, undefined, undefined);
 }
 
@@ -29,7 +29,7 @@ function __init__() {
     callback::on_localclient_connect(&on_player_connect);
     callback::on_localplayer_spawned(&on_localplayer_spawned);
     callback::on_localclient_shutdown(&on_localplayer_shutdown);
-    clientfield::register("toplayer", "overdrive_state", 1, 1, "int", &function_6c1d8418, 0, 1);
+    clientfield::register("toplayer", "overdrive_state", 1, 1, "int", &player_overdrive_handler, 0, 1);
     visionset_mgr::register_visionset_info("overdrive", 1, 15, undefined, "overdrive_initialize");
 }
 
@@ -38,7 +38,7 @@ function __init__() {
 // Checksum 0xb273c6e3, Offset: 0x558
 // Size: 0x24
 function on_localplayer_shutdown(localclientnum) {
-    self function_8e10aa46(localclientnum);
+    self overdrive_shutdown(localclientnum);
 }
 
 // Namespace gadget_overdrive/gadget_overdrive
@@ -49,8 +49,8 @@ function on_localplayer_spawned(localclientnum) {
     if (self != getlocalplayer(localclientnum)) {
         return;
     }
-    filter::function_1f1af853(self);
-    filter::function_d17703cb(self, 3);
+    filter::init_filter_overdrive(self);
+    filter::disable_filter_overdrive(self, 3);
     disablespeedblur(localclientnum);
 }
 
@@ -66,20 +66,20 @@ function on_player_connect(local_client_num) {
 // Params 7, eflags: 0x0
 // Checksum 0xd138dab3, Offset: 0x618
 // Size: 0x214
-function function_6c1d8418(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+function player_overdrive_handler(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     if (isdefined(level.localplayers[localclientnum]) && (!self islocalplayer() || isspectating(localclientnum, 0) || self getentitynumber() != level.localplayers[localclientnum] getentitynumber())) {
         return;
     }
     if (newval != oldval && newval) {
         enablespeedblur(localclientnum, getdvarfloat("scr_overdrive_amount", 0.15), getdvarfloat("scr_overdrive_inner_radius", 0.6), getdvarfloat("scr_overdrive_outer_radius", 1), getdvarint("scr_overdrive_velShouldScale", 1), getdvarint("scr_overdrive_velScale", 220));
-        filter::function_46839542(self, 3);
+        filter::enable_filter_overdrive(self, 3);
         self usealternateaimparams();
-        self thread function_435df4ae(localclientnum);
-        self function_7f9030dd(localclientnum);
+        self thread activation_flash(localclientnum);
+        self boost_fx_on_velocity(localclientnum);
         return;
     }
     if (newval != oldval && !newval) {
-        self function_8e10aa46(localclientnum);
+        self overdrive_shutdown(localclientnum);
     }
 }
 
@@ -87,44 +87,44 @@ function function_6c1d8418(localclientnum, oldval, newval, bnewent, binitialsnap
 // Params 1, eflags: 0x0
 // Checksum 0x80045df0, Offset: 0x838
 // Size: 0x13e
-function function_435df4ae(localclientnum) {
-    self notify(#"hash_435df4ae");
-    self endon(#"hash_435df4ae");
+function activation_flash(localclientnum) {
+    self notify(#"activation_flash");
+    self endon(#"activation_flash");
     self endon(#"death");
     self endon(#"stop_player_fx");
     self endon(#"disable_cybercom");
-    self.var_e9fb6bcc = 1;
+    self.whiteflashfade = 1;
     lui::screen_fade(getdvarfloat("scr_overdrive_flash_fade_in_time", 0.075), getdvarfloat("scr_overdrive_flash_alpha", 0.7), 0, "white");
     wait getdvarfloat("scr_overdrive_flash_fade_in_time", 0.075);
     lui::screen_fade(getdvarfloat("scr_overdrive_flash_fade_out_time", 0.45), 0, getdvarfloat("scr_overdrive_flash_alpha", 0.7), "white");
-    self.var_e9fb6bcc = undefined;
+    self.whiteflashfade = undefined;
 }
 
 // Namespace gadget_overdrive/gadget_overdrive
 // Params 1, eflags: 0x0
 // Checksum 0xb146d7b, Offset: 0x980
 // Size: 0x94
-function function_f8cd963(localclientnum) {
-    if (isdefined(self.var_f913815c)) {
-        stopfx(localclientnum, self.var_f913815c);
-        self.var_f913815c = undefined;
+function enable_boost_camera_fx(localclientnum) {
+    if (isdefined(self.firstperson_fx_overdrive)) {
+        stopfx(localclientnum, self.firstperson_fx_overdrive);
+        self.firstperson_fx_overdrive = undefined;
     }
-    self.var_f913815c = playfxoncamera(localclientnum, "player/fx_plyr_ability_screen_blur_overdrive", (0, 0, 0), (1, 0, 0), (0, 0, 1));
-    self thread function_795d8024(localclientnum, self.var_f913815c);
+    self.firstperson_fx_overdrive = playfxoncamera(localclientnum, "player/fx_plyr_ability_screen_blur_overdrive", (0, 0, 0), (1, 0, 0), (0, 0, 1));
+    self thread watch_stop_player_fx(localclientnum, self.firstperson_fx_overdrive);
 }
 
 // Namespace gadget_overdrive/gadget_overdrive
 // Params 2, eflags: 0x0
 // Checksum 0xad7a6287, Offset: 0xa20
 // Size: 0x86
-function function_795d8024(localclientnum, fx) {
-    self notify(#"hash_795d8024");
-    self endon(#"hash_795d8024");
+function watch_stop_player_fx(localclientnum, fx) {
+    self notify(#"watch_stop_player_fx");
+    self endon(#"watch_stop_player_fx");
     self endon(#"death");
     self waittill("stop_player_fx", "death", "disable_cybercom");
     if (isdefined(fx)) {
         stopfx(localclientnum, fx);
-        self.var_f913815c = undefined;
+        self.firstperson_fx_overdrive = undefined;
     }
 }
 
@@ -132,9 +132,9 @@ function function_795d8024(localclientnum, fx) {
 // Params 1, eflags: 0x0
 // Checksum 0x8595d7c4, Offset: 0xab0
 // Size: 0x8c
-function function_26d7266e(localclientnum) {
+function stop_boost_camera_fx(localclientnum) {
     self notify(#"stop_player_fx");
-    if (isdefined(self.var_e9fb6bcc) && self.var_e9fb6bcc) {
+    if (isdefined(self.whiteflashfade) && self.whiteflashfade) {
         lui::screen_fade(getdvarfloat("scr_overdrive_flash_fade_out_time", 0.45), 0, getdvarfloat("scr_overdrive_flash_alpha", 0.7), "white");
     }
 }
@@ -143,25 +143,25 @@ function function_26d7266e(localclientnum) {
 // Params 1, eflags: 0x0
 // Checksum 0xd856de8, Offset: 0xb48
 // Size: 0x5c
-function function_2e0c658b(localclientnum) {
-    self endon(#"hash_2e0c658b");
-    self endon(#"hash_6cc6e004");
+function overdrive_boost_fx_interrupt_handler(localclientnum) {
+    self endon(#"overdrive_boost_fx_interrupt_handler");
+    self endon(#"end_overdrive_boost_fx");
     self endon(#"death");
     self waittill("death", "disable_cybercom");
-    self function_8e10aa46(localclientnum);
+    self overdrive_shutdown(localclientnum);
 }
 
 // Namespace gadget_overdrive/gadget_overdrive
 // Params 1, eflags: 0x0
 // Checksum 0xa5236132, Offset: 0xbb0
 // Size: 0x82
-function function_8e10aa46(localclientnum) {
+function overdrive_shutdown(localclientnum) {
     if (isdefined(localclientnum)) {
-        self function_26d7266e(localclientnum);
+        self stop_boost_camera_fx(localclientnum);
         self clearalternateaimparams();
-        filter::function_d17703cb(self, 3);
+        filter::disable_filter_overdrive(self, 3);
         disablespeedblur(localclientnum);
-        self notify(#"hash_6cc6e004");
+        self notify(#"end_overdrive_boost_fx");
     }
 }
 
@@ -169,13 +169,13 @@ function function_8e10aa46(localclientnum) {
 // Params 1, eflags: 0x0
 // Checksum 0x160dbf3d, Offset: 0xc40
 // Size: 0x1d6
-function function_7f9030dd(localclientnum) {
+function boost_fx_on_velocity(localclientnum) {
     self endon(#"disable_cybercom");
     self endon(#"death");
-    self endon(#"hash_6cc6e004");
+    self endon(#"end_overdrive_boost_fx");
     self endon(#"disconnect");
-    self function_f8cd963(localclientnum);
-    self thread function_2e0c658b(localclientnum);
+    self enable_boost_camera_fx(localclientnum);
+    self thread overdrive_boost_fx_interrupt_handler(localclientnum);
     wait getdvarfloat("scr_overdrive_boost_fx_time", 0.75);
     while (isdefined(self)) {
         v_player_velocity = self getvelocity();
@@ -183,11 +183,11 @@ function function_7f9030dd(localclientnum) {
         n_dot = vectordot(vectornormalize(v_player_velocity), v_player_forward);
         n_speed = length(v_player_velocity);
         if (n_speed >= getdvarint("scr_overdrive_boost_speed_tol", 280) && n_dot > 0.8) {
-            if (!isdefined(self.var_f913815c)) {
-                self function_f8cd963(localclientnum);
+            if (!isdefined(self.firstperson_fx_overdrive)) {
+                self enable_boost_camera_fx(localclientnum);
             }
-        } else if (isdefined(self.var_f913815c)) {
-            self function_26d7266e(localclientnum);
+        } else if (isdefined(self.firstperson_fx_overdrive)) {
+            self stop_boost_camera_fx(localclientnum);
         }
         waitframe(1);
     }

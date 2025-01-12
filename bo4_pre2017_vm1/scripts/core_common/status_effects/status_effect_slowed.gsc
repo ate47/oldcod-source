@@ -9,7 +9,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xdce1270e, Offset: 0x158
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("status_effect_slowed", &__init__, undefined, undefined);
 }
 
@@ -19,7 +19,7 @@ function autoexec function_2dc19561() {
 // Size: 0x44
 function __init__() {
     status_effect::register_status_effect_callback_apply(0, &slowed_apply);
-    status_effect::function_9acf95a1(0, "slowed");
+    status_effect::register_status_effect_name(0, "slowed");
 }
 
 // Namespace status_effect_slowed/status_effect_slowed

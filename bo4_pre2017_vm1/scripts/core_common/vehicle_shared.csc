@@ -13,7 +13,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xf16e7fd5, Offset: 0x700
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("vehicle_shared", &__init__, undefined, undefined);
 }
 
@@ -220,7 +220,7 @@ function play_exhaust(localclientnum) {
                 assert(isdefined(self.exhaustfxtag1), self.vehicletype + "<dev string:x28>");
             #/
             self endon(#"death");
-            self function_b7c7870e(localclientnum);
+            self wait_for_dobj(localclientnum);
             self.exhaust_id_left = playfxontag(localclientnum, self.exhaust_fx, self, self.exhaustfxtag1);
             if (!isdefined(self.exhaust_id_right) && isdefined(self.exhaustfxtag2)) {
                 self.exhaust_id_right = playfxontag(localclientnum, self.exhaust_fx, self, self.exhaustfxtag2);
@@ -308,7 +308,7 @@ function aircraft_dustkick() {
 // Params 1, eflags: 0x0
 // Checksum 0x8b735e58, Offset: 0x2170
 // Size: 0x78
-function function_b7c7870e(localclientnum) {
+function wait_for_dobj(localclientnum) {
     for (count = 30; !self hasdobj(localclientnum); count -= 1) {
         if (count < 0) {
             /#
@@ -327,7 +327,7 @@ function function_b7c7870e(localclientnum) {
 function lights_on(localclientnum, team) {
     self endon(#"death");
     lights_off(localclientnum);
-    function_b7c7870e(localclientnum);
+    wait_for_dobj(localclientnum);
     if (isdefined(self.lightfxnamearray)) {
         if (!isdefined(self.light_fx_handles)) {
             self.light_fx_handles = [];
@@ -379,7 +379,7 @@ function ambient_anim_toggle(localclientnum, groupid, ison) {
     if (!isdefined(settings)) {
         return;
     }
-    function_b7c7870e(localclientnum);
+    wait_for_dobj(localclientnum);
     liston = [];
     listoff = [];
     switch (groupid) {
@@ -468,7 +468,7 @@ function lights_group_toggle(localclientnum, id, ison) {
     if (!isdefined(settings) || !isdefined(settings.lightgroups_numgroups)) {
         return;
     }
-    function_b7c7870e(localclientnum);
+    wait_for_dobj(localclientnum);
     groupid = id - 1;
     if (isdefined(self.lightfxgroups) && groupid < self.lightfxgroups.size) {
         foreach (fx_handle in self.lightfxgroups[groupid]) {
@@ -619,7 +619,7 @@ function toggle_fx_bundle(localclientnum, name, turnon) {
     self endon(#"death");
     self notify("end_toggle_field_fx_" + name);
     self endon("end_toggle_field_fx_" + name);
-    function_b7c7870e(localclientnum);
+    wait_for_dobj(localclientnum);
     if (!isdefined(self.fx_handles)) {
         self.fx_handles = [];
     }
@@ -875,7 +875,7 @@ function field_do_deathfx(localclientnum, oldval, newval, bnewent, binitialsnap,
 // Size: 0x194
 function field_do_standarddeathfx(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     if (newval && !binitialsnap) {
-        function_b7c7870e(localclientnum);
+        wait_for_dobj(localclientnum);
         if (isdefined(self.deathfxname)) {
             if (isdefined(self.deathfxtag) && self.deathfxtag != "") {
                 handle = playfxontag(localclientnum, self.deathfxname, self, self.deathfxtag);
@@ -904,7 +904,7 @@ function field_do_empdeathfx(localclientnum, oldval, newval, bnewent, binitialsn
         return;
     }
     if (newval && !binitialsnap) {
-        function_b7c7870e(localclientnum);
+        wait_for_dobj(localclientnum);
         s = self.settings;
         if (isdefined(s.emp_death_fx_1)) {
             if (isdefined(s.emp_death_tag_1) && s.emp_death_tag_1 != "") {

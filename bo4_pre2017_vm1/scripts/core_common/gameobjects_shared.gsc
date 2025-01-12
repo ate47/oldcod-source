@@ -19,11 +19,265 @@
 
 #namespace gameobjects;
 
+// Namespace gameobjects
+// Method(s) 5 Total 5
+class cinteractobj {
+
+    var e_object;
+    var m_a_keyline_objects;
+    var m_b_allow_companion_command;
+    var m_b_allow_weapons;
+    var m_b_auto_reenable;
+    var m_b_gameobject_scene_alignment;
+    var m_b_reusable;
+    var m_b_scene_use_time_override;
+    var m_n_trigger_height;
+    var m_n_trigger_offset;
+    var m_n_trigger_radius;
+    var m_n_trigger_use_time;
+    var m_s_bundle;
+    var m_str_anim;
+    var m_str_hint;
+    var m_str_identifier;
+    var m_str_obj_anim;
+    var m_str_objective;
+    var m_str_player_scene_anim;
+    var m_str_tag;
+    var m_str_team;
+    var m_str_trigger_type;
+    var m_str_type;
+    var m_t_interact;
+    var m_v_tag_origin;
+
+    // Namespace cinteractobj/gameobjects_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x8ca550f1, Offset: 0xc398
+    // Size: 0xb4
+    function is_valid_gameobject_trigger(t_override) {
+        if (m_str_trigger_type === "proximity") {
+            switch (t_override.classname) {
+            case #"trigger_box":
+            case #"trigger_multiple":
+            case #"trigger_once":
+            case #"trigger_radius":
+                return true;
+            default:
+                return false;
+            }
+        } else {
+            switch (t_override.classname) {
+            case #"trigger_radius_use":
+            case #"trigger_use":
+                return true;
+            default:
+                return false;
+            }
+        }
+        return false;
+    }
+
+    // Namespace cinteractobj/gameobjects_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x5a94a31a, Offset: 0xbc00
+    // Size: 0x78c
+    function create_gameobject_trigger() {
+        if (!isdefined(m_t_interact)) {
+            if (m_str_type === "generic" || m_str_trigger_type === "proximity") {
+                m_t_interact = spawn("trigger_radius", m_v_tag_origin + m_n_trigger_offset + (0, 0, m_n_trigger_height / 2), 0, m_n_trigger_radius, m_n_trigger_height, 1);
+            } else {
+                m_t_interact = spawn("trigger_radius_use", m_v_tag_origin + m_n_trigger_offset + (0, 0, m_n_trigger_height / 2), 0, m_n_trigger_radius, m_n_trigger_height, 1);
+            }
+        }
+        m_t_interact triggerignoreteam();
+        m_t_interact setvisibletoall();
+        m_t_interact setcursorhint("HINT_INTERACTIVE_PROMPT");
+        if (m_str_team != "any") {
+            m_t_interact setteamfortrigger(m_str_team);
+        }
+        if (!isdefined(m_a_keyline_objects)) {
+            m_a_keyline_objects = [];
+        } else if (!isarray(m_a_keyline_objects)) {
+            m_a_keyline_objects = array(m_a_keyline_objects);
+        }
+        switch (m_str_type) {
+        case #"use":
+            mdl_gameobject = gameobjects::create_use_object(m_str_team, m_t_interact, m_a_keyline_objects, (0, 0, 0), m_str_objective);
+            break;
+        case #"carry":
+            /#
+                assert(isdefined(m_a_keyline_objects[0]), "<dev string:x311>");
+            #/
+            mdl_gameobject = gameobjects::create_carry_object(m_str_team, m_t_interact, m_a_keyline_objects, (0, 0, 0), m_str_objective);
+            break;
+        case #"pack":
+            /#
+                assert(isdefined(m_a_keyline_objects[0]), "<dev string:x311>");
+            #/
+            mdl_gameobject = gameobjects::create_pack_object(m_str_team, m_t_interact, m_a_keyline_objects, (0, 0, 0), m_str_objective);
+            break;
+        case #"generic":
+            mdl_gameobject = gameobjects::create_generic_object(m_str_team, m_t_interact, m_a_keyline_objects, (0, 0, 0));
+            break;
+        default:
+            mdl_gameobject = gameobjects::create_use_object(m_str_team, m_t_interact, m_a_keyline_objects, (0, 0, 0), m_str_objective);
+            break;
+        }
+        mdl_gameobject.single_use = 0;
+        mdl_gameobject gameobjects::set_identifier(m_str_identifier);
+        mdl_gameobject.origin = m_t_interact.origin;
+        mdl_gameobject.angles = m_t_interact.angles;
+        mdl_gameobject gameobjects::set_owner_team(m_str_team);
+        if (m_str_team == "any") {
+            mdl_gameobject gameobjects::allow_use(m_str_team);
+            mdl_gameobject gameobjects::set_visible_team(m_str_team);
+        } else {
+            mdl_gameobject gameobjects::allow_use("friendly");
+            mdl_gameobject gameobjects::set_visible_team("friendly");
+        }
+        mdl_gameobject gameobjects::set_use_time(m_n_trigger_use_time);
+        mdl_gameobject.str_player_scene_anim = m_str_player_scene_anim;
+        mdl_gameobject.str_anim = m_str_anim;
+        mdl_gameobject.b_reusable = m_b_reusable;
+        mdl_gameobject.b_auto_reenable = m_b_auto_reenable;
+        mdl_gameobject.allowweapons = m_b_allow_weapons;
+        mdl_gameobject.b_scene_use_time_override = m_b_scene_use_time_override;
+        mdl_gameobject.b_use_gameobject_for_alignment = m_b_gameobject_scene_alignment;
+        mdl_gameobject.b_allow_companion_command = m_b_allow_companion_command;
+        if (isdefined(m_str_obj_anim)) {
+            mdl_gameobject.str_obj_anim = m_str_obj_anim;
+        }
+        mdl_gameobject.t_interact = m_t_interact;
+        mdl_gameobject.t_interact enablelinkto();
+        mdl_gameobject.e_object = e_object;
+        if (isentity(mdl_gameobject.e_object)) {
+            if (isdefined(m_str_tag)) {
+                mdl_gameobject.t_interact linkto(mdl_gameobject.e_object, m_str_tag);
+            } else {
+                mdl_gameobject.t_interact linkto(mdl_gameobject.e_object);
+            }
+        }
+        if (isdefined(mdl_gameobject.str_player_scene_anim) || isdefined(mdl_gameobject.str_anim)) {
+            mdl_gameobject.dontlinkplayertotrigger = 1;
+        }
+        if (!mdl_gameobject.e_object flag::exists("gameobject_end_use")) {
+            mdl_gameobject.e_object flag::init("gameobject_end_use");
+        }
+        e_object.mdl_gameobject = mdl_gameobject;
+    }
+
+    // Namespace cinteractobj/gameobjects_shared
+    // Params 7, eflags: 0x0
+    // Checksum 0x3d5e571d, Offset: 0xb640
+    // Size: 0x5b4
+    function init_game_object(str_bundle, str_team_override, str_tag_override, str_identifier_override, a_keyline_objects, t_override, b_allow_companion_command) {
+        if (!isdefined(b_allow_companion_command)) {
+            b_allow_companion_command = 1;
+        }
+        m_s_bundle = getscriptbundle(str_bundle);
+        if (isdefined(str_tag_override)) {
+            m_str_tag = str_tag_override;
+        } else {
+            m_str_tag = m_s_bundle.str_tag;
+        }
+        if (isentity(e_object)) {
+            m_v_tag_origin = e_object gettagorigin(m_str_tag);
+        }
+        if (!isdefined(m_v_tag_origin)) {
+            m_str_tag = undefined;
+            m_v_tag_origin = e_object.origin;
+            /#
+                if (isentity(e_object)) {
+                    println("<dev string:x2b0>" + m_s_bundle.str_tag + "<dev string:x2c3>" + e_object.model);
+                }
+            #/
+        }
+        m_n_trigger_height = m_s_bundle.n_trigger_height;
+        m_n_trigger_radius = m_s_bundle.n_trigger_radius;
+        m_str_team = m_s_bundle.str_team;
+        m_str_player_scene_anim = m_s_bundle.playerscenebundle;
+        m_b_scene_use_time_override = m_s_bundle.playerscenebundletimeoverride;
+        m_str_anim = m_s_bundle.viewanim;
+        m_str_obj_anim = m_s_bundle.entityanim;
+        m_b_reusable = m_s_bundle.b_reusable;
+        m_b_auto_reenable = m_s_bundle.autoreenable;
+        m_str_identifier = m_s_bundle.str_identifier;
+        m_str_trigger_type = m_s_bundle.triggertype;
+        m_b_gameobject_scene_alignment = m_s_bundle.playerscenebundlegameobjectalignment;
+        m_n_trigger_use_time = m_s_bundle.n_trigger_use_time;
+        if (!isdefined(m_n_trigger_use_time)) {
+            m_n_trigger_use_time = 0;
+        }
+        if (isdefined(str_identifier_override)) {
+            m_str_identifier = str_identifier_override;
+        }
+        m_str_hint = istring(m_s_bundle.str_hint);
+        m_str_objective = istring(m_s_bundle.objective);
+        m_str_type = m_s_bundle.gameobjecttype;
+        if (isdefined(m_s_bundle.allowweapons) && m_s_bundle.allowweapons) {
+            m_b_allow_weapons = 1;
+        } else {
+            m_b_allow_weapons = 0;
+        }
+        if (isdefined(str_team_override)) {
+            m_str_team = str_team_override;
+        }
+        m_str_team = util::get_team_mapping(m_str_team);
+        m_a_keyline_objects = a_keyline_objects;
+        n_trig_x = m_s_bundle.triggerxoffset;
+        if (!isdefined(n_trig_x)) {
+            n_trig_x = 0;
+        }
+        n_trig_y = m_s_bundle.triggeryoffset;
+        if (!isdefined(n_trig_y)) {
+            n_trig_y = 0;
+        }
+        n_trig_z = m_s_bundle.triggerzoffset;
+        if (!isdefined(n_trig_z)) {
+            n_trig_z = 0;
+        }
+        m_n_trigger_offset = (n_trig_x, n_trig_y, n_trig_z);
+        if (isdefined(e_object.func_custom_gameobject_position)) {
+            m_n_trigger_offset = (0, 0, 0);
+            m_v_tag_origin = e_object [[ e_object.func_custom_gameobject_position ]]();
+        }
+        m_b_allow_companion_command = b_allow_companion_command;
+        if (isdefined(t_override) && isdefined(t_override.classname)) {
+            if (is_valid_gameobject_trigger(t_override)) {
+                m_t_interact = t_override;
+            } else {
+                /#
+                    assert("<dev string:x2e7>");
+                #/
+            }
+        }
+        self create_gameobject_trigger();
+    }
+
+    // Namespace cinteractobj/gameobjects_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xfedd5785, Offset: 0xb610
+    // Size: 0x24
+    function __destructor() {
+        /#
+            iprintlnbold("<dev string:x290>");
+        #/
+    }
+
+    // Namespace cinteractobj/gameobjects_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x1b93275, Offset: 0xb5f0
+    // Size: 0x14
+    function __constructor() {
+        m_str_trigger_type = "use";
+    }
+
+}
+
 // Namespace gameobjects/gameobjects_shared
 // Params 0, eflags: 0x2
 // Checksum 0x6b07f311, Offset: 0x6c0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gameobjects", &__init__, undefined, undefined);
 }
 
@@ -544,7 +798,7 @@ function give_object(object) {
         self setblockweaponpickup(object.carryweapon, 1);
         self disableweaponcycling();
     } else if (!allowweapons) {
-        self util::function_f9e9f0f0();
+        self util::_disableweapon();
         if (!(isdefined(object.droponusebutton) && object.droponusebutton)) {
             self thread manual_drop_think();
         }
@@ -898,7 +1152,7 @@ function take_object(object) {
         allowweapons = [[ object.allowweaponscallback ]](object);
     }
     if (!allowweapons && shouldenableweapon) {
-        self util::function_ee182f5d();
+        self util::_enableweapon();
     }
 }
 
@@ -1083,7 +1337,7 @@ function function_67317efa() {
     while (level.time < wait_time && self usebuttonpressed()) {
         waitframe(1);
     }
-    self util::function_ee182f5d();
+    self util::_enableweapon();
 }
 
 // Namespace gameobjects/gameobjects_shared
@@ -1355,7 +1609,7 @@ function use_object_use_think(disableinitialholddelay, disableweaponcyclingdurin
             self.e_object flag::set("gameobject_end_use");
         }
         self notify(#"gameobject_end_use_player", {#player:player});
-        if (player util::function_4f5dd9d2()) {
+        if (player util::is_companion()) {
             level notify(#"hash_2b26439b", {#event:"complete", #player:player.owner, #object:self});
         }
         if (isdefined(self.onuse)) {
@@ -1683,7 +1937,7 @@ function prox_trigger_think() {
         if (!isplayer(player)) {
             continue;
         }
-        if (isdefined(level.var_538e2d88) && level.var_538e2d88) {
+        if (isdefined(level.vehicle_map) && level.vehicle_map) {
             if (!(isdefined(player.usingvehicle) && player.usingvehicle)) {
                 continue;
             }
@@ -1812,7 +2066,7 @@ function continue_trigger_touch_think(team, object) {
     if (!isalive(self)) {
         return false;
     }
-    if (isdefined(level.var_538e2d88) && level.var_538e2d88) {
+    if (isdefined(level.vehicle_map) && level.vehicle_map) {
         if (!(isdefined(self.usingvehicle) && self.usingvehicle)) {
             return false;
         }
@@ -2017,7 +2271,7 @@ function use_hold_think(player, disableweaponcyclingduringhold) {
         player setweaponammoclip(useweapon, 0);
         player switchtoweapon(useweapon);
     } else if (self.keepweapon !== 1) {
-        player util::function_f9e9f0f0();
+        player util::_disableweapon();
     }
     self clear_progress();
     self.inuse = 1;
@@ -2048,7 +2302,7 @@ function use_hold_think(player, disableweaponcyclingduringhold) {
         if (isdefined(useweapon)) {
             player killstreaks::switch_to_last_non_killstreak_weapon();
         } else if (self.keepweapon !== 1) {
-            player util::function_ee182f5d();
+            player util::_enableweapon();
         }
         if (!(isdefined(self.dontlinkplayertotrigger) && self.dontlinkplayertotrigger)) {
             player unlink();
@@ -2881,7 +3135,7 @@ function is_friendly_team(str_team) {
 // Checksum 0xdb94b4d0, Offset: 0xa3e8
 // Size: 0x256
 function can_interact_with(player) {
-    if (isdefined(level.var_538e2d88) && level.var_538e2d88) {
+    if (isdefined(level.vehicle_map) && level.vehicle_map) {
         if (!(isdefined(player.usingvehicle) && player.usingvehicle)) {
             return false;
         }
@@ -3298,245 +3552,6 @@ function init_game_objects(str_gameobject_bundle, str_team_override, b_allow_com
     #/
     [[ c_interact_obj ]]->init_game_object(str_bundle, str_team_override, str_tag_override, str_identifier_override, a_keyline_objects, t_override, b_allow_companion_command);
     return c_interact_obj;
-}
-
-#namespace cinteractobj;
-
-// Namespace cinteractobj/gameobjects_shared
-// Params 0, eflags: 0x0
-// Checksum 0x1b93275, Offset: 0xb5f0
-// Size: 0x14
-function __constructor() {
-    self.m_str_trigger_type = "use";
-}
-
-// Namespace cinteractobj/gameobjects_shared
-// Params 0, eflags: 0x0
-// Checksum 0xfedd5785, Offset: 0xb610
-// Size: 0x24
-function __destructor() {
-    /#
-        iprintlnbold("<dev string:x290>");
-    #/
-}
-
-// Namespace cinteractobj/gameobjects_shared
-// Params 7, eflags: 0x0
-// Checksum 0x3d5e571d, Offset: 0xb640
-// Size: 0x5b4
-function init_game_object(str_bundle, str_team_override, str_tag_override, str_identifier_override, a_keyline_objects, t_override, b_allow_companion_command) {
-    if (!isdefined(b_allow_companion_command)) {
-        b_allow_companion_command = 1;
-    }
-    self.m_s_bundle = getscriptbundle(str_bundle);
-    if (isdefined(str_tag_override)) {
-        self.m_str_tag = str_tag_override;
-    } else {
-        self.m_str_tag = self.m_s_bundle.str_tag;
-    }
-    if (isentity(self.e_object)) {
-        self.m_v_tag_origin = self.e_object gettagorigin(self.m_str_tag);
-    }
-    if (!isdefined(self.m_v_tag_origin)) {
-        self.m_str_tag = undefined;
-        self.m_v_tag_origin = self.e_object.origin;
-        /#
-            if (isentity(self.e_object)) {
-                println("<dev string:x2b0>" + self.m_s_bundle.str_tag + "<dev string:x2c3>" + self.e_object.model);
-            }
-        #/
-    }
-    self.m_n_trigger_height = self.m_s_bundle.n_trigger_height;
-    self.m_n_trigger_radius = self.m_s_bundle.n_trigger_radius;
-    self.m_str_team = self.m_s_bundle.str_team;
-    self.m_str_player_scene_anim = self.m_s_bundle.playerscenebundle;
-    self.m_b_scene_use_time_override = self.m_s_bundle.playerscenebundletimeoverride;
-    self.m_str_anim = self.m_s_bundle.viewanim;
-    self.m_str_obj_anim = self.m_s_bundle.entityanim;
-    self.m_b_reusable = self.m_s_bundle.b_reusable;
-    self.m_b_auto_reenable = self.m_s_bundle.autoreenable;
-    self.m_str_identifier = self.m_s_bundle.str_identifier;
-    self.m_str_trigger_type = self.m_s_bundle.triggertype;
-    self.m_b_gameobject_scene_alignment = self.m_s_bundle.playerscenebundlegameobjectalignment;
-    self.m_n_trigger_use_time = self.m_s_bundle.n_trigger_use_time;
-    if (!isdefined(self.m_n_trigger_use_time)) {
-        self.m_n_trigger_use_time = 0;
-    }
-    if (isdefined(str_identifier_override)) {
-        self.m_str_identifier = str_identifier_override;
-    }
-    self.m_str_hint = istring(self.m_s_bundle.str_hint);
-    self.m_str_objective = istring(self.m_s_bundle.objective);
-    self.m_str_type = self.m_s_bundle.gameobjecttype;
-    if (isdefined(self.m_s_bundle.allowweapons) && self.m_s_bundle.allowweapons) {
-        self.m_b_allow_weapons = 1;
-    } else {
-        self.m_b_allow_weapons = 0;
-    }
-    if (isdefined(str_team_override)) {
-        self.m_str_team = str_team_override;
-    }
-    self.m_str_team = util::get_team_mapping(self.m_str_team);
-    self.m_a_keyline_objects = a_keyline_objects;
-    n_trig_x = self.m_s_bundle.triggerxoffset;
-    if (!isdefined(n_trig_x)) {
-        n_trig_x = 0;
-    }
-    n_trig_y = self.m_s_bundle.triggeryoffset;
-    if (!isdefined(n_trig_y)) {
-        n_trig_y = 0;
-    }
-    n_trig_z = self.m_s_bundle.triggerzoffset;
-    if (!isdefined(n_trig_z)) {
-        n_trig_z = 0;
-    }
-    self.m_n_trigger_offset = (n_trig_x, n_trig_y, n_trig_z);
-    if (isdefined(self.e_object.func_custom_gameobject_position)) {
-        self.m_n_trigger_offset = (0, 0, 0);
-        self.m_v_tag_origin = self.e_object [[ self.e_object.func_custom_gameobject_position ]]();
-    }
-    self.m_b_allow_companion_command = b_allow_companion_command;
-    if (isdefined(t_override) && isdefined(t_override.classname)) {
-        if (is_valid_gameobject_trigger(t_override)) {
-            self.m_t_interact = t_override;
-        } else {
-            /#
-                assert("<dev string:x2e7>");
-            #/
-        }
-    }
-    self create_gameobject_trigger();
-}
-
-// Namespace cinteractobj/gameobjects_shared
-// Params 0, eflags: 0x0
-// Checksum 0x5a94a31a, Offset: 0xbc00
-// Size: 0x78c
-function create_gameobject_trigger() {
-    if (!isdefined(self.m_t_interact)) {
-        if (self.m_str_type === "generic" || self.m_str_trigger_type === "proximity") {
-            self.m_t_interact = spawn("trigger_radius", self.m_v_tag_origin + self.m_n_trigger_offset + (0, 0, self.m_n_trigger_height / 2), 0, self.m_n_trigger_radius, self.m_n_trigger_height, 1);
-        } else {
-            self.m_t_interact = spawn("trigger_radius_use", self.m_v_tag_origin + self.m_n_trigger_offset + (0, 0, self.m_n_trigger_height / 2), 0, self.m_n_trigger_radius, self.m_n_trigger_height, 1);
-        }
-    }
-    self.m_t_interact triggerignoreteam();
-    self.m_t_interact setvisibletoall();
-    self.m_t_interact setcursorhint("HINT_INTERACTIVE_PROMPT");
-    if (self.m_str_team != "any") {
-        self.m_t_interact setteamfortrigger(self.m_str_team);
-    }
-    if (!isdefined(self.m_a_keyline_objects)) {
-        self.m_a_keyline_objects = [];
-    } else if (!isarray(self.m_a_keyline_objects)) {
-        self.m_a_keyline_objects = array(self.m_a_keyline_objects);
-    }
-    switch (self.m_str_type) {
-    case #"use":
-        mdl_gameobject = gameobjects::create_use_object(self.m_str_team, self.m_t_interact, self.m_a_keyline_objects, (0, 0, 0), self.m_str_objective);
-        break;
-    case #"carry":
-        /#
-            assert(isdefined(self.m_a_keyline_objects[0]), "<dev string:x311>");
-        #/
-        mdl_gameobject = gameobjects::create_carry_object(self.m_str_team, self.m_t_interact, self.m_a_keyline_objects, (0, 0, 0), self.m_str_objective);
-        break;
-    case #"pack":
-        /#
-            assert(isdefined(self.m_a_keyline_objects[0]), "<dev string:x311>");
-        #/
-        mdl_gameobject = gameobjects::create_pack_object(self.m_str_team, self.m_t_interact, self.m_a_keyline_objects, (0, 0, 0), self.m_str_objective);
-        break;
-    case #"generic":
-        mdl_gameobject = gameobjects::create_generic_object(self.m_str_team, self.m_t_interact, self.m_a_keyline_objects, (0, 0, 0));
-        break;
-    default:
-        mdl_gameobject = gameobjects::create_use_object(self.m_str_team, self.m_t_interact, self.m_a_keyline_objects, (0, 0, 0), self.m_str_objective);
-        break;
-    }
-    mdl_gameobject.single_use = 0;
-    mdl_gameobject gameobjects::set_identifier(self.m_str_identifier);
-    mdl_gameobject.origin = self.m_t_interact.origin;
-    mdl_gameobject.angles = self.m_t_interact.angles;
-    mdl_gameobject gameobjects::set_owner_team(self.m_str_team);
-    if (self.m_str_team == "any") {
-        mdl_gameobject gameobjects::allow_use(self.m_str_team);
-        mdl_gameobject gameobjects::set_visible_team(self.m_str_team);
-    } else {
-        mdl_gameobject gameobjects::allow_use("friendly");
-        mdl_gameobject gameobjects::set_visible_team("friendly");
-    }
-    mdl_gameobject gameobjects::set_use_time(self.m_n_trigger_use_time);
-    mdl_gameobject.str_player_scene_anim = self.m_str_player_scene_anim;
-    mdl_gameobject.str_anim = self.m_str_anim;
-    mdl_gameobject.b_reusable = self.m_b_reusable;
-    mdl_gameobject.b_auto_reenable = self.m_b_auto_reenable;
-    mdl_gameobject.allowweapons = self.m_b_allow_weapons;
-    mdl_gameobject.b_scene_use_time_override = self.m_b_scene_use_time_override;
-    mdl_gameobject.b_use_gameobject_for_alignment = self.m_b_gameobject_scene_alignment;
-    mdl_gameobject.b_allow_companion_command = self.m_b_allow_companion_command;
-    if (isdefined(self.m_str_obj_anim)) {
-        mdl_gameobject.str_obj_anim = self.m_str_obj_anim;
-    }
-    mdl_gameobject.t_interact = self.m_t_interact;
-    mdl_gameobject.t_interact enablelinkto();
-    mdl_gameobject.e_object = self.e_object;
-    if (isentity(mdl_gameobject.e_object)) {
-        if (isdefined(self.m_str_tag)) {
-            mdl_gameobject.t_interact linkto(mdl_gameobject.e_object, self.m_str_tag);
-        } else {
-            mdl_gameobject.t_interact linkto(mdl_gameobject.e_object);
-        }
-    }
-    if (isdefined(mdl_gameobject.str_player_scene_anim) || isdefined(mdl_gameobject.str_anim)) {
-        mdl_gameobject.dontlinkplayertotrigger = 1;
-    }
-    if (!mdl_gameobject.e_object flag::exists("gameobject_end_use")) {
-        mdl_gameobject.e_object flag::init("gameobject_end_use");
-    }
-    self.e_object.mdl_gameobject = mdl_gameobject;
-}
-
-// Namespace cinteractobj/gameobjects_shared
-// Params 1, eflags: 0x0
-// Checksum 0x8ca550f1, Offset: 0xc398
-// Size: 0xb4
-function is_valid_gameobject_trigger(t_override) {
-    if (self.m_str_trigger_type === "proximity") {
-        switch (t_override.classname) {
-        case #"trigger_box":
-        case #"trigger_multiple":
-        case #"trigger_once":
-        case #"trigger_radius":
-            return true;
-        default:
-            return false;
-        }
-    } else {
-        switch (t_override.classname) {
-        case #"trigger_radius_use":
-        case #"trigger_use":
-            return true;
-        default:
-            return false;
-        }
-    }
-    return false;
-}
-
-#namespace gameobjects;
-
-// Namespace gameobjects/gameobjects_shared
-// Params 0, eflags: 0x6
-// Checksum 0xda89801a, Offset: 0xc458
-// Size: 0x116
-function private autoexec cinteractobj() {
-    classes.cinteractobj[0] = spawnstruct();
-    classes.cinteractobj[0].__vtable[1486426079] = &cinteractobj::is_valid_gameobject_trigger;
-    classes.cinteractobj[0].__vtable[-1284033234] = &cinteractobj::create_gameobject_trigger;
-    classes.cinteractobj[0].__vtable[211598550] = &cinteractobj::init_game_object;
-    classes.cinteractobj[0].__vtable[1606033458] = &cinteractobj::__destructor;
-    classes.cinteractobj[0].__vtable[-1690805083] = &cinteractobj::__constructor;
 }
 
 // Namespace gameobjects/gameobjects_shared

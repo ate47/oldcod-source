@@ -58,7 +58,7 @@ function spawned(localclientnum, oldval, newval, bnewent, binitialsnap, fieldnam
 function playflarefx(localclientnum) {
     self endon(#"death");
     level endon(#"player_switch");
-    if (util::function_f36b8920(localclientnum)) {
+    if (util::friend_not_foe(localclientnum)) {
         self.tacticalinsertionfx = playfxontag(localclientnum, level._effect["tacticalInsertionFriendly"], self, "tag_flash");
     } else {
         self.tacticalinsertionfx = playfxontag(localclientnum, level._effect["tacticalInsertionEnemy"], self, "tag_flash");

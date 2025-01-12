@@ -11,7 +11,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xec48af81, Offset: 0x3c0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("util_shared", &__init__, undefined, undefined);
 }
 
@@ -744,7 +744,7 @@ function server_wait(localclientnum, seconds, waitbetweenchecks, level_endon) {
 // Params 2, eflags: 0x0
 // Checksum 0x95bd653, Offset: 0x22e0
 // Size: 0x14c
-function function_f36b8920(var_1d8cde9, var_56abff8b) {
+function friend_not_foe(var_1d8cde9, var_56abff8b) {
     player = getnonpredictedlocalplayer(var_1d8cde9);
     if (isdefined(player) && isdefined(player.team) && (isdefined(var_56abff8b) && var_56abff8b || player.team == "spectator")) {
         player = getlocalplayer(var_1d8cde9);
@@ -767,7 +767,7 @@ function function_f36b8920(var_1d8cde9, var_56abff8b) {
 // Params 3, eflags: 0x0
 // Checksum 0x6b3a3a53, Offset: 0x2438
 // Size: 0xe4
-function function_d3d6ba6c(var_1d8cde9, team, var_56abff8b) {
+function friend_not_foe_team(var_1d8cde9, team, var_56abff8b) {
     player = getnonpredictedlocalplayer(var_1d8cde9);
     if (isdefined(player) && isdefined(player.team) && (isdefined(var_56abff8b) && var_56abff8b || player.team == "spectator")) {
         player = getlocalplayer(var_1d8cde9);

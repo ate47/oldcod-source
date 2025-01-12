@@ -187,103 +187,103 @@ function connection_on_notify(state_machine, notify_name, connection) {
     while (true) {
         waitresult = self waittill(notify_name);
         params = spawnstruct();
-        params.var_6e0794d4 = [];
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param = [];
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param0;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param0;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param1;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param1;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param2;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param2;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param3;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param3;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param4;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param4;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param5;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param5;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param6;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param6;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param7;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param7;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param8;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param8;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param9;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param9;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param10;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param10;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param11;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param11;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.param12;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.param12;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.var_bd69a304;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.var_bd69a304;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.var_9767289b;
-        if (!isdefined(params.var_6e0794d4)) {
-            params.var_6e0794d4 = [];
-        } else if (!isarray(params.var_6e0794d4)) {
-            params.var_6e0794d4 = array(params.var_6e0794d4);
+        params.notify_param[params.notify_param.size] = waitresult.var_9767289b;
+        if (!isdefined(params.notify_param)) {
+            params.notify_param = [];
+        } else if (!isarray(params.notify_param)) {
+            params.notify_param = array(params.notify_param);
         }
-        params.var_6e0794d4[params.var_6e0794d4.size] = waitresult.var_7164ae32;
+        params.notify_param[params.notify_param.size] = waitresult.var_7164ae32;
         connectionvalid = 1;
         if (isdefined(connection.checkfunc)) {
             connectionvalid = self [[ connection.checkfunc ]](self.current_state, connection.to_state.name, connection, params);

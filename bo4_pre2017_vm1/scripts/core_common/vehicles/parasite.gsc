@@ -21,7 +21,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xb1e913bf, Offset: 0x4d0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("parasite", &__init__, undefined, undefined);
 }
 
@@ -30,11 +30,11 @@ function autoexec function_2dc19561() {
 // Checksum 0xe1b819ec, Offset: 0x510
 // Size: 0x12c
 function __init__() {
-    vehicle::add_main_callback("parasite", &function_41ba5057);
+    vehicle::add_main_callback("parasite", &parasite_initialize);
     clientfield::register("vehicle", "parasite_tell_fx", 1, 1, "int");
     clientfield::register("vehicle", "parasite_secondary_deathfx", 1, 1, "int");
     clientfield::register("toplayer", "parasite_damage", 1, 1, "counter");
-    callback::on_spawned(&function_5f6cf4b2);
+    callback::on_spawned(&parasite_damage);
     ai::registermatchedinterface("parasite", "firing_rate", "slow", array("slow", "medium", "fast"));
 }
 
@@ -42,13 +42,13 @@ function __init__() {
 // Params 0, eflags: 0x0
 // Checksum 0xe5e85ca6, Offset: 0x648
 // Size: 0xd8
-function function_5f6cf4b2() {
-    self notify(#"hash_f6527ca9");
-    self endon(#"hash_f6527ca9");
+function parasite_damage() {
+    self notify(#"parasite_damage_thread");
+    self endon(#"parasite_damage_thread");
     self endon(#"death");
     while (true) {
         waitresult = self waittill("damage");
-        if (isdefined(waitresult.attacker.var_8a1ad3bb) && waitresult.attacker.var_8a1ad3bb && !(isdefined(waitresult.attacker.var_7c26245) && waitresult.attacker.var_7c26245)) {
+        if (isdefined(waitresult.attacker.is_parasite) && waitresult.attacker.is_parasite && !(isdefined(waitresult.attacker.squelch_damage_overlay) && waitresult.attacker.squelch_damage_overlay)) {
             self clientfield::increment_to_player("parasite_damage");
         }
     }
@@ -84,21 +84,21 @@ function private is_target_valid(target) {
 // Params 0, eflags: 0x0
 // Checksum 0x351e7cbc, Offset: 0x828
 // Size: 0x13c
-function function_d3d4f77c() {
-    var_3daa9d01 = getplayers();
-    least_hunted = var_3daa9d01[0];
-    for (i = 0; i < var_3daa9d01.size; i++) {
-        if (!isdefined(var_3daa9d01[i].hunted_by)) {
-            var_3daa9d01[i].hunted_by = 0;
+function get_parasite_enemy() {
+    parasite_targets = getplayers();
+    least_hunted = parasite_targets[0];
+    for (i = 0; i < parasite_targets.size; i++) {
+        if (!isdefined(parasite_targets[i].hunted_by)) {
+            parasite_targets[i].hunted_by = 0;
         }
-        if (!is_target_valid(var_3daa9d01[i])) {
+        if (!is_target_valid(parasite_targets[i])) {
             continue;
         }
         if (!is_target_valid(least_hunted)) {
-            least_hunted = var_3daa9d01[i];
+            least_hunted = parasite_targets[i];
         }
-        if (var_3daa9d01[i].hunted_by < least_hunted.hunted_by) {
-            least_hunted = var_3daa9d01[i];
+        if (parasite_targets[i].hunted_by < least_hunted.hunted_by) {
+            least_hunted = parasite_targets[i];
         }
     }
     if (!is_target_valid(least_hunted)) {
@@ -111,7 +111,7 @@ function function_d3d4f77c() {
 // Params 1, eflags: 0x0
 // Checksum 0x6cfe76cb, Offset: 0x970
 // Size: 0x11c
-function function_61692488(enemy) {
+function set_parasite_enemy(enemy) {
     if (!is_target_valid(enemy)) {
         return;
     }
@@ -136,7 +136,7 @@ function function_61692488(enemy) {
 // Params 0, eflags: 0x4
 // Checksum 0x3080aa3f, Offset: 0xa98
 // Size: 0x128
-function private function_ec393181() {
+function private parasite_target_selection() {
     self endon(#"change_state");
     self endon(#"death");
     for (;;) {
@@ -148,7 +148,7 @@ function private function_ec393181() {
             wait 0.5;
             continue;
         }
-        target = function_d3d4f77c();
+        target = get_parasite_enemy();
         if (!isdefined(target)) {
             self.parasiteenemy = undefined;
         } else {
@@ -165,7 +165,7 @@ function private function_ec393181() {
 // Params 0, eflags: 0x0
 // Checksum 0x14c58f5a, Offset: 0xbc8
 // Size: 0x1fc
-function function_41ba5057() {
+function parasite_initialize() {
     self useanimtree(#generic);
     blackboard::createblackboardforentity(self);
     self blackboard::registervehicleblackboardattributes();
@@ -185,7 +185,7 @@ function function_41ba5057() {
     self.goalradius = 999999;
     self.goalheight = 4000;
     self setgoal(self.origin, 0, self.goalradius, self.goalheight);
-    self.var_8a1ad3bb = 1;
+    self.is_parasite = 1;
     self thread vehicle_ai::nudge_collision();
     if (isdefined(level.vehicle_initializer_cb)) {
         [[ level.vehicle_initializer_cb ]](self);
@@ -210,7 +210,7 @@ function defaultrole() {
 // Params 0, eflags: 0x0
 // Checksum 0xf7b880d4, Offset: 0xec0
 // Size: 0x22
-function function_639ba96b() {
+function getparasitefiringrate() {
     return self ai::get_behavior_attribute("firing_rate");
 }
 
@@ -242,7 +242,7 @@ function state_combat_enter(params) {
     if (isdefined(self.owner) && isdefined(self.owner.enemy)) {
         self.parasiteenemy = self.owner.enemy;
     }
-    self thread function_ec393181();
+    self thread parasite_target_selection();
 }
 
 // Namespace parasite/parasite
@@ -255,11 +255,11 @@ function state_combat_update(params) {
     lasttimechangeposition = 0;
     self.shouldgotonewposition = 0;
     self.lasttimetargetinsight = 0;
-    self.var_d475d13 = 0;
+    self.lasttimejuked = 0;
     self asmrequestsubstate("locomotion@movement");
     for (;;) {
-        if (isdefined(self.var_2ef8c407)) {
-            self setspeed(self.var_2ef8c407);
+        if (isdefined(self._override_parasite_combat_speed)) {
+            self setspeed(self._override_parasite_combat_speed);
         } else {
             self setspeed(self.settings.defaultmovespeed);
         }
@@ -275,13 +275,13 @@ function state_combat_update(params) {
             returndata = [];
             returndata["origin"] = self getclosestpointonnavvolume(self.goalpos, 100);
             returndata["centerOnNav"] = ispointinnavvolume(self.origin, "navvolume_small");
-        } else if (isdefined(self.var_e62301a4) && (randomint(100) < self.settings.jukeprobability && !(isdefined(self.var_d475d13) && self.var_d475d13) || self.var_e62301a4)) {
-            returndata = function_efac5bc3();
-            self.var_d475d13 = 1;
-            self.var_e62301a4 = undefined;
+        } else if (isdefined(self._override_juke) && (randomint(100) < self.settings.jukeprobability && !(isdefined(self.lasttimejuked) && self.lasttimejuked) || self._override_juke)) {
+            returndata = getnextmoveposition_forwardjuke();
+            self.lasttimejuked = 1;
+            self._override_juke = undefined;
         } else {
             returndata = getnextmoveposition_tactical();
-            self.var_d475d13 = 0;
+            self.lasttimejuked = 0;
         }
         self.current_pathto_pos = returndata["origin"];
         if (isdefined(self.current_pathto_pos)) {
@@ -303,16 +303,16 @@ function state_combat_update(params) {
                 self dodamage(self.health + 100, self.origin);
             }
         }
-        if (isdefined(self.var_d475d13) && self.var_d475d13) {
+        if (isdefined(self.lasttimejuked) && self.lasttimejuked) {
             if (randomint(100) < 50 && isdefined(self.parasiteenemy) && distance2dsquared(self.origin, self.parasiteenemy.origin) < 64 * 64) {
                 self.parasiteenemy dodamage(self.settings.meleedamage, self.parasiteenemy.origin, self);
             } else {
-                self function_be283ba2(self.var_d475d13);
+                self fire_pod_logic(self.lasttimejuked);
             }
             continue;
         }
         if (randomint(100) < 30) {
-            self function_be283ba2(self.var_d475d13);
+            self fire_pod_logic(self.lasttimejuked);
         }
     }
 }
@@ -321,7 +321,7 @@ function state_combat_update(params) {
 // Params 1, eflags: 0x0
 // Checksum 0x53819e0f, Offset: 0x1570
 // Size: 0x2f4
-function function_be283ba2(var_1fc3b33b) {
+function fire_pod_logic(chosetojuke) {
     if (isdefined(self.parasiteenemy) && self cansee(self.parasiteenemy) && distance2dsquared(self.parasiteenemy.origin, self.origin) < 0.5 * (self.settings.engagementdistmin + self.settings.engagementdistmax) * 3 * 0.5 * (self.settings.engagementdistmin + self.settings.engagementdistmax) * 3) {
         self asmrequestsubstate("fire@stationary");
         self playsound("zmb_vocals_parasite_preattack");
@@ -333,7 +333,7 @@ function function_be283ba2(var_1fc3b33b) {
         self vehicle_ai::waittill_asm_complete("fire@stationary", 5);
         self asmrequestsubstate("locomotion@movement");
         self clientfield::set("parasite_tell_fx", 0);
-        if (!var_1fc3b33b) {
+        if (!chosetojuke) {
             wait randomfloatrange(0.25, 0.5);
         }
         return;
@@ -430,7 +430,7 @@ function getnextmoveposition_tactical() {
 // Params 0, eflags: 0x0
 // Checksum 0x8a2c8ec5, Offset: 0x1fb0
 // Size: 0x736
-function function_efac5bc3() {
+function getnextmoveposition_forwardjuke() {
     self endon(#"change_state");
     self endon(#"death");
     selfdisttotarget = distance2d(self.origin, self.parasiteenemy.origin);
@@ -525,7 +525,7 @@ function path_update_interrupt() {
         if (isdefined(self.current_pathto_pos)) {
             if (distance2dsquared(self.current_pathto_pos, self.goalpos) > self.goalradius * self.goalradius) {
                 wait 0.2;
-                self.var_e62301a4 = 1;
+                self._override_juke = 1;
                 self notify(#"near_goal");
             }
         }

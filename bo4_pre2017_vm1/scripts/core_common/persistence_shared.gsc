@@ -10,7 +10,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x3938c9b0, Offset: 0x2f8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("persistence", &__init__, undefined, undefined);
 }
 
@@ -398,7 +398,7 @@ function function_ae338cde(playerindex, medalindex, value) {
 // Params 3, eflags: 0x0
 // Checksum 0xe08a9ecb, Offset: 0x1760
 // Size: 0xe4
-function function_2eb5e93(statname, value, index) {
+function set_after_action_report_stat(statname, value, index) {
     if (self isbot()) {
         return;
     }
@@ -497,7 +497,7 @@ function event_handler[player_gunchallengecomplete] codecallback_gunchallengecom
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x1f50
 // Size: 0x4
-function function_b526d623() {
+function check_contract_expirations() {
     
 }
 
@@ -505,7 +505,7 @@ function function_b526d623() {
 // Params 1, eflags: 0x0
 // Checksum 0x154f5479, Offset: 0x1f60
 // Size: 0xc
-function function_f81a1bca(var_9c648312) {
+function increment_contract_times(var_9c648312) {
     
 }
 

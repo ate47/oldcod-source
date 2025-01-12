@@ -12,7 +12,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x6e1e7324, Offset: 0x1c8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("status_effect_blind", &__init__, undefined, undefined);
 }
 
@@ -22,8 +22,8 @@ function autoexec function_2dc19561() {
 // Size: 0x7c
 function __init__() {
     status_effect::register_status_effect_callback_apply(3, &blind_apply);
-    status_effect::function_9acf95a1(3, "blind");
-    status_effect::function_96de5b5e(3, getscriptbundle("blind").var_804bc9d5 * 1000);
+    status_effect::register_status_effect_name(3, "blind");
+    status_effect::register_status_effect_base_duration(3, getscriptbundle("blind").seduration * 1000);
 }
 
 // Namespace status_effect_blind/status_effect_blind
@@ -31,7 +31,7 @@ function __init__() {
 // Checksum 0xba7aeb9f, Offset: 0x290
 // Size: 0x74
 function blind_apply() {
-    var_bb6d051e = getscriptbundle("blind");
-    thread hud::fade_to_black_for_x_sec(0, status_effect::status_effect_get_duration(3) / 1000, var_bb6d051e.fadeintime, var_bb6d051e.fadeouttime, (1, 1, 1));
+    blindbundle = getscriptbundle("blind");
+    thread hud::fade_to_black_for_x_sec(0, status_effect::status_effect_get_duration(3) / 1000, blindbundle.fadeintime, blindbundle.fadeouttime, (1, 1, 1));
 }
 

@@ -23,7 +23,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xfe3929c9, Offset: 0x740
 // Size: 0x3c
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("scene", &__init__, &__main__, undefined);
 }
 
@@ -1366,10 +1366,10 @@ function scene_enable_player_stuff(s_scenedef, s_objectdef, e_scene_root) {
 function function_a198015a(e_scene_root) {
     self endon(#"disconnect");
     if (isdefined(e_scene_root)) {
-        if (self util::function_4f5dd9d2()) {
+        if (self util::is_companion()) {
             waitframe(0);
         }
-        if (self util::function_4f5dd9d2() && isdefined(e_scene_root.var_37a40366)) {
+        if (self util::is_companion() && isdefined(e_scene_root.var_37a40366)) {
             function_baec50e1(e_scene_root.var_37a40366[self.team]);
             return;
         }
@@ -1384,7 +1384,7 @@ function function_a198015a(e_scene_root) {
 // Checksum 0xeb15c7b0, Offset: 0x5b90
 // Size: 0x184
 function private function_baec50e1(&a_locations) {
-    if (self util::function_4f5dd9d2()) {
+    if (self util::is_companion()) {
         a_locations = arraysortclosest(a_locations, self.owner.origin);
     }
     foreach (s_loc in a_locations) {

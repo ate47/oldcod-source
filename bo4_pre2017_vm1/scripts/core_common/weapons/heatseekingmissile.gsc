@@ -175,7 +175,7 @@ function stingertoggleloop() {
             while (weapon.noadslockoncheck || self playerstingerads()) {
                 waitframe(1);
             }
-            self notify(#"stinger_irt_off");
+            self notify(#"stinger_IRT_off");
             self clearirtarget();
             currweap = self getcurrentweapon();
         }
@@ -189,7 +189,7 @@ function stingertoggleloop() {
 function stingerirtloop(weapon) {
     self endon(#"disconnect");
     self endon(#"death");
-    self endon(#"stinger_irt_off");
+    self endon(#"stinger_IRT_off");
     locklength = self getlockonspeed();
     for (;;) {
         waitframe(1);

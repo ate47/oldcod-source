@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x5383851b, Offset: 0x338
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_vision_pulse", &__init__, undefined, undefined);
 }
 
@@ -39,11 +39,11 @@ function __init__() {
 function on_localplayer_spawned(localclientnum) {
     if (self == getlocalplayer(localclientnum)) {
         self.vision_pulse_owner = undefined;
-        filter::function_1d7f017d(localclientnum);
+        filter::init_filter_vision_pulse(localclientnum);
         self gadgetpulseresetreveal();
         self set_reveal_self(localclientnum, 0);
         self set_reveal_enemy(localclientnum, 0);
-        self thread function_d0c5071a(localclientnum);
+        self thread watch_emped(localclientnum);
     }
 }
 
@@ -51,12 +51,12 @@ function on_localplayer_spawned(localclientnum) {
 // Params 1, eflags: 0x0
 // Checksum 0x64e5a623, Offset: 0x540
 // Size: 0x70
-function function_d0c5071a(localclientnum) {
+function watch_emped(localclientnum) {
     self endon(#"death");
     while (true) {
         if (self isempjammed()) {
-            self thread function_2902f0fc(localclientnum, 0);
-            self notify(#"hash_3fca355b");
+            self thread disableshader(localclientnum, 0);
+            self notify(#"emp_jammed_vp");
             break;
         }
         waitframe(1);
@@ -67,46 +67,46 @@ function function_d0c5071a(localclientnum) {
 // Params 2, eflags: 0x0
 // Checksum 0x16cac6d9, Offset: 0x5b8
 // Size: 0x6c
-function function_2902f0fc(localclientnum, duration) {
-    self endon(#"hash_dc1b8822");
+function disableshader(localclientnum, duration) {
+    self endon(#"startVPShader");
     self endon(#"death");
-    self notify(#"hash_7cc7626e");
-    self endon(#"hash_7cc7626e");
+    self notify(#"disableVPShader");
+    self endon(#"disableVPShader");
     wait duration;
-    filter::function_3255f545(localclientnum, 3);
+    filter::disable_filter_vision_pulse(localclientnum, 3);
 }
 
 // Namespace gadget_vision_pulse/gadget_vision_pulse
 // Params 1, eflags: 0x0
 // Checksum 0xae2ed6f6, Offset: 0x630
 // Size: 0x74
-function function_d42fa123(localclientnum) {
-    self notify(#"hash_70cf2688");
-    self endon(#"hash_70cf2688");
+function watch_world_pulse_end(localclientnum) {
+    self notify(#"watchworldpulseend");
+    self endon(#"watchworldpulseend");
     self waittill("death", "emp_jammed_vp");
-    filter::function_7fe7fc80(localclientnum, 3, 0, getvisionpulsemaxradius(localclientnum) + 1);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 0, getvisionpulsemaxradius(localclientnum) + 1);
 }
 
 // Namespace gadget_vision_pulse/gadget_vision_pulse
 // Params 1, eflags: 0x0
 // Checksum 0x3e429356, Offset: 0x6b0
 // Size: 0x1cc
-function function_2cf010aa(localclientnum) {
+function do_vision_world_pulse(localclientnum) {
     self endon(#"death");
-    self notify(#"hash_dc1b8822");
-    self thread function_d42fa123(localclientnum);
-    filter::function_c4f1d452(localclientnum, 3);
-    filter::function_7fe7fc80(localclientnum, 3, 1, 1);
-    filter::function_7fe7fc80(localclientnum, 3, 2, 0.08);
-    filter::function_7fe7fc80(localclientnum, 3, 3, 0);
-    filter::function_7fe7fc80(localclientnum, 3, 4, 1);
-    filter::function_7fe7fc80(localclientnum, 3, 0, 0);
-    filter::function_7fe7fc80(localclientnum, 3, 11, 1);
+    self notify(#"startVPShader");
+    self thread watch_world_pulse_end(localclientnum);
+    filter::enable_filter_vision_pulse(localclientnum, 3);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 1, 1);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 2, 0.08);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 3, 0);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 4, 1);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 0, 0);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 11, 1);
     waitframe(1);
     pulsemaxradius = 0;
     util::lerp_generic(localclientnum, 2000, &do_vision_world_pulse_lerp_helper);
-    filter::function_7fe7fc80(localclientnum, 3, 1, 0);
-    self thread function_2902f0fc(localclientnum, 4);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 1, 0);
+    self thread disableshader(localclientnum, 4);
 }
 
 // Namespace gadget_vision_pulse/gadget_vision_pulse
@@ -123,9 +123,9 @@ function do_vision_world_pulse_lerp_helper(currenttime, elapsedtime, localclient
     }
     pulseradius = getvisionpulseradius(localclientnum);
     pulsemaxradius = getvisionpulsemaxradius(localclientnum);
-    filter::function_7fe7fc80(localclientnum, 3, 0, pulseradius);
-    filter::function_7fe7fc80(localclientnum, 3, 3, irisamount);
-    filter::function_7fe7fc80(localclientnum, 3, 11, pulsemaxradius);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 0, pulseradius);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 3, irisamount);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 11, pulsemaxradius);
 }
 
 // Namespace gadget_vision_pulse/gadget_vision_pulse
@@ -153,8 +153,8 @@ function watch_vision_pulse_owner_death(localclientnum) {
         owner waittill("death");
     }
     self notify(#"vision_pulse_owner_death");
-    filter::function_7fe7fc80(localclientnum, 3, 7, 0);
-    self thread function_2902f0fc(localclientnum, 4);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 7, 0);
+    self thread disableshader(localclientnum, 4);
     self.vision_pulse_owner = undefined;
 }
 
@@ -165,27 +165,27 @@ function watch_vision_pulse_owner_death(localclientnum) {
 function do_vision_local_pulse(localclientnum) {
     self endon(#"death");
     self endon(#"vision_pulse_owner_death");
-    self notify(#"hash_dc1b8822");
-    self notify(#"startlocalpulse");
-    self endon(#"startlocalpulse");
+    self notify(#"startVPShader");
+    self notify(#"startLocalPulse");
+    self endon(#"startLocalPulse");
     self thread watch_vision_pulse_owner_death(localclientnum);
     origin = getrevealpulseorigin(localclientnum);
-    filter::function_c4f1d452(localclientnum, 3);
-    filter::function_7fe7fc80(localclientnum, 3, 5, 0.4);
-    filter::function_7fe7fc80(localclientnum, 3, 6, 0.0001);
-    filter::function_7fe7fc80(localclientnum, 3, 8, origin[0]);
-    filter::function_7fe7fc80(localclientnum, 3, 9, origin[1]);
-    filter::function_7fe7fc80(localclientnum, 3, 7, 1);
+    filter::enable_filter_vision_pulse(localclientnum, 3);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 5, 0.4);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 6, 0.0001);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 8, origin[0]);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 9, origin[1]);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 7, 1);
     starttime = getservertime(localclientnum);
     while (getservertime(localclientnum) - starttime < 4000) {
         if (getservertime(localclientnum) - starttime < 2000) {
             pulseradius = (getservertime(localclientnum) - starttime) / 2000 * 2000;
         }
-        filter::function_7fe7fc80(localclientnum, 3, 10, pulseradius);
+        filter::set_filter_vision_pulse_constant(localclientnum, 3, 10, pulseradius);
         waitframe(1);
     }
-    filter::function_7fe7fc80(localclientnum, 3, 7, 0);
-    self thread function_2902f0fc(localclientnum, 4);
+    filter::set_filter_vision_pulse_constant(localclientnum, 3, 7, 0);
+    self thread disableshader(localclientnum, 4);
     self notify(#"finished_local_pulse");
     self.vision_pulse_owner = undefined;
 }
@@ -200,7 +200,7 @@ function vision_pulse_changed(localclientnum, oldval, newval, bnewent, binitials
             if (bnewent || isdemoplaying() && oldval == newval) {
                 return;
             }
-            self thread function_2cf010aa(localclientnum);
+            self thread do_vision_world_pulse(localclientnum);
         }
     }
 }
@@ -209,10 +209,10 @@ function vision_pulse_changed(localclientnum, oldval, newval, bnewent, binitials
 // Params 1, eflags: 0x0
 // Checksum 0xae0ad913, Offset: 0xe50
 // Size: 0x14c
-function function_4ebdb91d(localclientnum) {
+function do_reveal_enemy_pulse(localclientnum) {
     self endon(#"death");
-    self notify(#"hash_9564271c");
-    self endon(#"hash_9564271c");
+    self notify(#"startEnemyPulse");
+    self endon(#"startEnemyPulse");
     starttime = getservertime(localclientnum);
     currtime = starttime;
     self mapshaderconstant(localclientnum, 0, "scriptVector7", 0, 0, 0, 0);
@@ -232,7 +232,7 @@ function function_4ebdb91d(localclientnum) {
 // Size: 0x5c
 function set_reveal_enemy(localclientnum, on_off) {
     if (on_off) {
-        self thread function_4ebdb91d(localclientnum);
+        self thread do_reveal_enemy_pulse(localclientnum);
     }
     self duplicate_render::update_dr_flag(localclientnum, "reveal_enemy", on_off);
 }
@@ -247,7 +247,7 @@ function set_reveal_self(localclientnum, on_off) {
         return;
     }
     if (!on_off) {
-        filter::function_7fe7fc80(localclientnum, 3, 7, 0);
+        filter::set_filter_vision_pulse_constant(localclientnum, 3, 7, 0);
     }
 }
 

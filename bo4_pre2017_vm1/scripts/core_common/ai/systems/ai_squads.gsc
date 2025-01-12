@@ -8,11 +8,121 @@
 
 #namespace aisquads;
 
+// Namespace aisquads
+// Method(s) 9 Total 9
+class squad {
+
+    var squadbreadcrumb;
+    var squadleader;
+    var squadmembers;
+
+    // Namespace squad/ai_squads
+    // Params 0, eflags: 0x0
+    // Checksum 0x80f724d1, Offset: 0x558
+    // Size: 0x4
+    function __destructor() {
+        
+    }
+
+    // Namespace squad/ai_squads
+    // Params 0, eflags: 0x0
+    // Checksum 0xc698fc82, Offset: 0x4c0
+    // Size: 0x90
+    function think() {
+        if (isint(squadleader) && squadleader == 0 || !isdefined(squadleader)) {
+            if (squadmembers.size > 0) {
+                squadleader = squadmembers[0];
+                squadbreadcrumb = squadleader.origin;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Namespace squad/ai_squads
+    // Params 1, eflags: 0x0
+    // Checksum 0xbf90d7bd, Offset: 0x448
+    // Size: 0x6c
+    function removeaifromsqaud(ai) {
+        if (isinarray(squadmembers, ai)) {
+            arrayremovevalue(squadmembers, ai, 0);
+            if (squadleader === ai) {
+                squadleader = undefined;
+            }
+        }
+    }
+
+    // Namespace squad/ai_squads
+    // Params 1, eflags: 0x0
+    // Checksum 0x4e5c60c, Offset: 0x3b0
+    // Size: 0x8a
+    function addaitosquad(ai) {
+        if (!isinarray(squadmembers, ai)) {
+            if (ai.archetype == "robot") {
+                ai ai::set_behavior_attribute("move_mode", "squadmember");
+            }
+            squadmembers[squadmembers.size] = ai;
+        }
+    }
+
+    // Namespace squad/ai_squads
+    // Params 0, eflags: 0x0
+    // Checksum 0xd7295fd0, Offset: 0x398
+    // Size: 0xe
+    function getmembers() {
+        return squadmembers;
+    }
+
+    // Namespace squad/ai_squads
+    // Params 0, eflags: 0x0
+    // Checksum 0x43f5abea, Offset: 0x380
+    // Size: 0xe
+    function getleader() {
+        return squadleader;
+    }
+
+    // Namespace squad/ai_squads
+    // Params 0, eflags: 0x0
+    // Checksum 0xc8394992, Offset: 0x368
+    // Size: 0xe
+    function getsquadbreadcrumb() {
+        return squadbreadcrumb;
+    }
+
+    // Namespace squad/ai_squads
+    // Params 1, eflags: 0x0
+    // Checksum 0xc91dbcbc, Offset: 0x2a8
+    // Size: 0xb4
+    function addsquadbreadcrumbs(ai) {
+        /#
+            assert(squadleader == ai);
+        #/
+        if (distance2dsquared(squadbreadcrumb, ai.origin) >= 9216) {
+            /#
+                recordcircle(ai.origin, 4, (0, 0, 1), "<dev string:x28>", ai);
+            #/
+            squadbreadcrumb = ai.origin;
+        }
+    }
+
+    // Namespace squad/ai_squads
+    // Params 0, eflags: 0x0
+    // Checksum 0x28cad7ba, Offset: 0x278
+    // Size: 0x28
+    function __constructor() {
+        squadleader = 0;
+        squadmembers = [];
+        squadbreadcrumb = [];
+    }
+
+}
+
 // Namespace aisquads/ai_squads
 // Params 0, eflags: 0x2
 // Checksum 0xa7d0819, Offset: 0x1c0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("ai_squads", &__init__, undefined, undefined);
 }
 
@@ -24,127 +134,6 @@ function __init__() {
     level._squads = [];
     actorspawnerarray = getactorspawnerteamarray("axis");
     array::run_all(actorspawnerarray, &spawner::add_spawn_function, &squadmemberthink);
-}
-
-#namespace squad;
-
-// Namespace squad/ai_squads
-// Params 0, eflags: 0x0
-// Checksum 0x28cad7ba, Offset: 0x278
-// Size: 0x28
-function __constructor() {
-    self.squadleader = 0;
-    self.squadmembers = [];
-    self.squadbreadcrumb = [];
-}
-
-// Namespace squad/ai_squads
-// Params 1, eflags: 0x0
-// Checksum 0xc91dbcbc, Offset: 0x2a8
-// Size: 0xb4
-function addsquadbreadcrumbs(ai) {
-    /#
-        assert(self.squadleader == ai);
-    #/
-    if (distance2dsquared(self.squadbreadcrumb, ai.origin) >= 9216) {
-        /#
-            recordcircle(ai.origin, 4, (0, 0, 1), "<dev string:x28>", ai);
-        #/
-        self.squadbreadcrumb = ai.origin;
-    }
-}
-
-// Namespace squad/ai_squads
-// Params 0, eflags: 0x0
-// Checksum 0xc8394992, Offset: 0x368
-// Size: 0xe
-function getsquadbreadcrumb() {
-    return self.squadbreadcrumb;
-}
-
-// Namespace squad/ai_squads
-// Params 0, eflags: 0x0
-// Checksum 0x43f5abea, Offset: 0x380
-// Size: 0xe
-function getleader() {
-    return self.squadleader;
-}
-
-// Namespace squad/ai_squads
-// Params 0, eflags: 0x0
-// Checksum 0xd7295fd0, Offset: 0x398
-// Size: 0xe
-function getmembers() {
-    return self.squadmembers;
-}
-
-// Namespace squad/ai_squads
-// Params 1, eflags: 0x0
-// Checksum 0x4e5c60c, Offset: 0x3b0
-// Size: 0x8a
-function addaitosquad(ai) {
-    if (!isinarray(self.squadmembers, ai)) {
-        if (ai.archetype == "robot") {
-            ai ai::set_behavior_attribute("move_mode", "squadmember");
-        }
-        self.squadmembers[self.squadmembers.size] = ai;
-    }
-}
-
-// Namespace squad/ai_squads
-// Params 1, eflags: 0x0
-// Checksum 0xbf90d7bd, Offset: 0x448
-// Size: 0x6c
-function removeaifromsqaud(ai) {
-    if (isinarray(self.squadmembers, ai)) {
-        arrayremovevalue(self.squadmembers, ai, 0);
-        if (self.squadleader === ai) {
-            self.squadleader = undefined;
-        }
-    }
-}
-
-// Namespace squad/ai_squads
-// Params 0, eflags: 0x0
-// Checksum 0xc698fc82, Offset: 0x4c0
-// Size: 0x90
-function think() {
-    if (isint(self.squadleader) && self.squadleader == 0 || !isdefined(self.squadleader)) {
-        if (self.squadmembers.size > 0) {
-            self.squadleader = self.squadmembers[0];
-            self.squadbreadcrumb = self.squadleader.origin;
-        } else {
-            return false;
-        }
-    }
-    return true;
-}
-
-// Namespace squad/ai_squads
-// Params 0, eflags: 0x0
-// Checksum 0x80f724d1, Offset: 0x558
-// Size: 0x4
-function __destructor() {
-    
-}
-
-#namespace aisquads;
-
-// Namespace aisquads/ai_squads
-// Params 0, eflags: 0x6
-// Checksum 0x25c26923, Offset: 0x568
-// Size: 0x1d6
-function private autoexec squad() {
-    classes.squad[0] = spawnstruct();
-    classes.squad[0].__vtable[1606033458] = &squad::__destructor;
-    classes.squad[0].__vtable[1077602763] = &squad::think;
-    classes.squad[0].__vtable[-956678077] = &squad::removeaifromsqaud;
-    classes.squad[0].__vtable[2131588255] = &squad::addaitosquad;
-    classes.squad[0].__vtable[16176468] = &squad::getmembers;
-    classes.squad[0].__vtable[-667235832] = &squad::getleader;
-    classes.squad[0].__vtable[-407785572] = &squad::getsquadbreadcrumb;
-    classes.squad[0].__vtable[-997895106] = &squad::addsquadbreadcrumbs;
-    classes.squad[0].__vtable[-1690805083] = &squad::__constructor;
 }
 
 // Namespace aisquads/ai_squads

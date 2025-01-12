@@ -5,6 +5,6 @@
 // Checksum 0xa7b896a0, Offset: 0xa0
 // Size: 0x20
 function autoexec init() {
-    var_f7ff2d16 = generic%faces;
+    dummyvar = generic%faces;
 }
 

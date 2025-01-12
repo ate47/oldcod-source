@@ -8,17 +8,17 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_f3b73f0c;
+#namespace gadget_system_overload;
 
-// Namespace namespace_f3b73f0c/namespace_f3b73f0c
+// Namespace gadget_system_overload/gadget_system_overload
 // Params 0, eflags: 0x2
 // Checksum 0xf4853159, Offset: 0x228
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_system_overload", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_f3b73f0c/namespace_f3b73f0c
+// Namespace gadget_system_overload/gadget_system_overload
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x268
 // Size: 0x4

@@ -12,7 +12,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xff41eb45, Offset: 0x278
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_health_regen", &__init__, undefined, undefined);
 }
 
@@ -23,9 +23,9 @@ function autoexec function_2dc19561() {
 function __init__() {
     ability_player::register_gadget_activation_callbacks(54, &gadget_health_regen_on, &gadget_health_regen_off);
     ability_player::register_gadget_possession_callbacks(54, &gadget_health_regen_on_give, &gadget_health_regen_on_take);
-    ability_player::register_gadget_flicker_callbacks(54, &function_9091ad45);
-    ability_player::register_gadget_is_inuse_callbacks(54, &function_a8ec9f78);
-    ability_player::register_gadget_is_flickering_callbacks(54, &function_34566336);
+    ability_player::register_gadget_flicker_callbacks(54, &gadget_health_regen_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(54, &gadget_health_regen_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(54, &gadget_health_regen_is_flickering);
     callback::on_spawned(&on_player_spawned);
 }
 
@@ -33,7 +33,7 @@ function __init__() {
 // Params 1, eflags: 0x0
 // Checksum 0x301536f7, Offset: 0x3a8
 // Size: 0x22
-function function_a8ec9f78(slot) {
+function gadget_health_regen_is_inuse(slot) {
     return self gadgetisactive(slot);
 }
 
@@ -41,7 +41,7 @@ function function_a8ec9f78(slot) {
 // Params 1, eflags: 0x0
 // Checksum 0x5261c0f4, Offset: 0x3d8
 // Size: 0x22
-function function_34566336(slot) {
+function gadget_health_regen_is_flickering(slot) {
     return self gadgetflickering(slot);
 }
 
@@ -49,7 +49,7 @@ function function_34566336(slot) {
 // Params 2, eflags: 0x0
 // Checksum 0x8fe5e808, Offset: 0x408
 // Size: 0x14
-function function_9091ad45(slot, weapon) {
+function gadget_health_regen_on_flicker(slot, weapon) {
     
 }
 
@@ -58,10 +58,10 @@ function function_9091ad45(slot, weapon) {
 // Checksum 0x1c81b59b, Offset: 0x428
 // Size: 0x5c
 function gadget_health_regen_on_give(slot, weapon) {
-    self.var_3c7e8c9 = 1;
+    self.has_gadget_health_regen = 1;
     self.gadget_health_regen_slot = slot;
     weapon.ignore_grenade = 1;
-    self thread function_b93a597e();
+    self thread watch_player_damage_taken();
 }
 
 // Namespace gadget_health_regen/gadget_health_regen
@@ -69,9 +69,9 @@ function gadget_health_regen_on_give(slot, weapon) {
 // Checksum 0x1968c150, Offset: 0x490
 // Size: 0x36
 function gadget_health_regen_on_take(slot, weapon) {
-    self.var_3c7e8c9 = 0;
+    self.has_gadget_health_regen = 0;
     self.gadget_health_regen_slot = undefined;
-    self notify(#"hash_c01e27d8");
+    self notify(#"gadget_health_regen_taken");
 }
 
 // Namespace gadget_health_regen/gadget_health_regen
@@ -79,8 +79,8 @@ function gadget_health_regen_on_take(slot, weapon) {
 // Checksum 0x1c86c67, Offset: 0x4d0
 // Size: 0x34
 function on_player_spawned() {
-    self function_48ac3bb4();
-    self thread function_a2637ba7();
+    self disable_healing();
+    self thread temp_watch_gadget_power_workaround();
 }
 
 // Namespace gadget_health_regen/gadget_health_regen
@@ -96,7 +96,7 @@ function gadget_health_regen_on(slot, weapon) {
 // Checksum 0xb2943919, Offset: 0x548
 // Size: 0x2c
 function gadget_health_regen_off(slot, weapon) {
-    self function_48ac3bb4();
+    self disable_healing();
 }
 
 // Namespace gadget_health_regen/gadget_health_regen
@@ -118,33 +118,33 @@ function enable_healing_after_wait() {
 // Size: 0x2c
 function enable_healing() {
     self.healing_enabled = 1;
-    self thread function_3d5efd47();
+    self thread watch_full_health();
 }
 
 // Namespace gadget_health_regen/gadget_health_regen
 // Params 0, eflags: 0x0
 // Checksum 0x1d29a605, Offset: 0x640
 // Size: 0x34
-function function_48ac3bb4() {
+function disable_healing() {
     self.healing_enabled = 0;
     self notify(#"healing_disabled");
-    self function_7c8fcb4f();
+    self update_gadget_power();
 }
 
 // Namespace gadget_health_regen/gadget_health_regen
 // Params 0, eflags: 0x0
 // Checksum 0xf1685901, Offset: 0x680
 // Size: 0x14
-function function_3c7e8c9() {
-    return self.var_3c7e8c9 === 1;
+function has_gadget_health_regen() {
+    return self.has_gadget_health_regen === 1;
 }
 
 // Namespace gadget_health_regen/gadget_health_regen
 // Params 0, eflags: 0x0
 // Checksum 0x36a48f0d, Offset: 0x6a0
 // Size: 0x32
-function function_e0e60428() {
-    if (!self function_3c7e8c9()) {
+function is_regen_active() {
+    if (!self has_gadget_health_regen()) {
         return 0;
     }
     return self secondaryoffhandbuttonpressed();
@@ -154,16 +154,16 @@ function function_e0e60428() {
 // Params 0, eflags: 0x0
 // Checksum 0x1ccbf030, Offset: 0x6e0
 // Size: 0xa4
-function function_3d5efd47() {
+function watch_full_health() {
     waitresult = self waittill("fully_healed", "death", "disconnect", "healing_disabled");
     if (waitresult._notify != "fully_healed") {
         return;
     }
     if (isdefined(self)) {
-        if (self function_e0e60428()) {
+        if (self is_regen_active()) {
             self playsoundtoplayer("mpl_full_health_plr", self);
         }
-        self function_7c8fcb4f();
+        self update_gadget_power();
     }
 }
 
@@ -171,7 +171,7 @@ function function_3d5efd47() {
 // Params 0, eflags: 0x0
 // Checksum 0x78785ac3, Offset: 0x790
 // Size: 0x90
-function function_b93a597e() {
+function watch_player_damage_taken() {
     while (true) {
         waitresult = self waittill("damage", "death", "disconnect", "gadget_health_regen_taken");
         if (waitresult._notify != "damage") {
@@ -183,7 +183,7 @@ function function_b93a597e() {
         if (!isdefined(self.gadget_health_regen_slot)) {
             continue;
         }
-        self function_7c8fcb4f();
+        self update_gadget_power();
     }
 }
 
@@ -191,7 +191,7 @@ function function_b93a597e() {
 // Params 0, eflags: 0x0
 // Checksum 0xbd103853, Offset: 0x828
 // Size: 0x5c
-function function_7c8fcb4f() {
+function update_gadget_power() {
     if (!isdefined(self)) {
         return;
     }
@@ -204,8 +204,8 @@ function function_7c8fcb4f() {
 // Params 0, eflags: 0x0
 // Checksum 0x551bde9a, Offset: 0x890
 // Size: 0x146
-function function_a2637ba7() {
-    self notify(#"hash_29d16ea5");
+function temp_watch_gadget_power_workaround() {
+    self notify(#"TEMP_watch_gadget_power_workaround_singleton");
     while (true) {
         if (!isdefined(self)) {
             return;

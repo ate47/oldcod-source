@@ -9,7 +9,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x8361db6f, Offset: 0x140
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("hud", &__init__, undefined, undefined);
 }
 

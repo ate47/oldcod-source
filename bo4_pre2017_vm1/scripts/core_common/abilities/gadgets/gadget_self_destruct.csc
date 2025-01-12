@@ -5,41 +5,41 @@
 #using scripts/core_common/struct;
 #using scripts/core_common/system_shared;
 
-#namespace namespace_ad6bb417;
+#namespace gadget_self_destruct;
 
-// Namespace namespace_ad6bb417/namespace_ad6bb417
+// Namespace gadget_self_destruct/gadget_self_destruct
 // Params 0, eflags: 0x2
 // Checksum 0x2d4b4973, Offset: 0x200
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_self_destruct", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_ad6bb417/namespace_ad6bb417
+// Namespace gadget_self_destruct/gadget_self_destruct
 // Params 0, eflags: 0x0
 // Checksum 0x27519477, Offset: 0x240
 // Size: 0x4c
 function __init__() {
-    clientfield::register("scriptmover", "death_fx", 1, 1, "int", &function_29d4a48d, 0, 0);
+    clientfield::register("scriptmover", "death_fx", 1, 1, "int", &set_death_fx, 0, 0);
 }
 
-// Namespace namespace_ad6bb417/namespace_ad6bb417
+// Namespace gadget_self_destruct/gadget_self_destruct
 // Params 7, eflags: 0x0
 // Checksum 0xb956ade8, Offset: 0x298
 // Size: 0x84
-function function_29d4a48d(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
-    self function_eceea3f0(localclientnum);
+function set_death_fx(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+    self clear_death_fx(localclientnum);
     if (newval) {
         self.deathfx = [];
         self thread aoe_fx(localclientnum);
     }
 }
 
-// Namespace namespace_ad6bb417/namespace_ad6bb417
+// Namespace gadget_self_destruct/gadget_self_destruct
 // Params 1, eflags: 0x0
 // Checksum 0x7fe8c19c, Offset: 0x328
 // Size: 0xaa
-function function_eceea3f0(localclientnum) {
+function clear_death_fx(localclientnum) {
     if (!isdefined(self.deathfx)) {
         return;
     }
@@ -48,7 +48,7 @@ function function_eceea3f0(localclientnum) {
     }
 }
 
-// Namespace namespace_ad6bb417/namespace_ad6bb417
+// Namespace gadget_self_destruct/gadget_self_destruct
 // Params 1, eflags: 0x0
 // Checksum 0x25259563, Offset: 0x3e0
 // Size: 0x356
@@ -87,15 +87,15 @@ function aoe_fx(localclientnum) {
     currentpitch = startpitch;
     for (yaw_level = 0; yaw_level < yaw_count.size; yaw_level++) {
         currentpitch = pitch_vals[yaw_level];
-        function_89e1d77b(localclientnum, center, yaw_count[yaw_level], currentpitch);
+        do_fx(localclientnum, center, yaw_count[yaw_level], currentpitch);
     }
 }
 
-// Namespace namespace_ad6bb417/namespace_ad6bb417
+// Namespace gadget_self_destruct/gadget_self_destruct
 // Params 4, eflags: 0x0
 // Checksum 0x529fc484, Offset: 0x740
 // Size: 0x4d8
-function function_89e1d77b(localclientnum, center, yaw_count, pitch) {
+function do_fx(localclientnum, center, yaw_count, pitch) {
     currentyaw = randomint(360);
     for (fxcount = 0; fxcount < yaw_count; fxcount++) {
         randomoffsetpitch = randomint(5) - 2.5;
@@ -111,7 +111,7 @@ function function_89e1d77b(localclientnum, center, yaw_count, pitch) {
         if (trace["fraction"] < 1) {
             fx_position = center + tracedir * 400 * trace["fraction"];
             /#
-                if (level.var_ca9e7366) {
+                if (level.debug_heat_wave_traces) {
                     sphere(fx_position, sphere_size, (1, 0, 1), 1, 1, 8, 300);
                     sphere(trace["<dev string:x28>"], sphere_size, (1, 1, 0), 1, 1, 8, 300);
                 }
@@ -127,7 +127,7 @@ function function_89e1d77b(localclientnum, center, yaw_count, pitch) {
             self.deathfx[self.deathfx.size] = playfx(localclientnum, "explosions/fx_exp_grenade_default", trace["position"], normal, forward);
         } else {
             /#
-                if (level.var_ca9e7366) {
+                if (level.debug_heat_wave_traces) {
                     line(fx_position + (0, 0, 50), fx_position - (0, 0, 50), (1, 0, 0), 1, 0, 300);
                     sphere(fx_position, sphere_size, (1, 0, 1), 1, 1, 8, 300);
                 }

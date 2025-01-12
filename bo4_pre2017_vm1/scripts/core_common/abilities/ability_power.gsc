@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xb9f34ea3, Offset: 0x2d8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("ability_power", &__init__, undefined, undefined);
 }
 
@@ -85,12 +85,12 @@ function is_weapon_or_variant_same_as_gadget(weapon, gadget) {
 // Checksum 0x1189e978, Offset: 0x518
 // Size: 0x26e
 function power_gain_event_score(event, eattacker, score, weapon) {
-    var_27a55984 = score;
+    base_value = score;
     resource = self rank::getscoreinforesource(event);
     if (isdefined(resource)) {
-        var_27a55984 = resource;
+        base_value = resource;
     }
-    if (var_27a55984 > 0) {
+    if (base_value > 0) {
         for (slot = 0; slot < 4; slot++) {
             gadget = self._gadgets_player[slot];
             if (isdefined(gadget)) {
@@ -112,7 +112,7 @@ function power_gain_event_score(event, eattacker, score, weapon) {
                     perkfactor = getdvarfloat("gadgetPowerOverchargePerkScoreFactor");
                 }
                 if (scorefactor > 0 && gametypefactor > 0) {
-                    gaintoadd = var_27a55984 * scorefactor * gametypefactor * perkfactor;
+                    gaintoadd = base_value * scorefactor * gametypefactor * perkfactor;
                     self power_gain_event(slot, eattacker, gaintoadd, "score");
                 }
             }
@@ -143,7 +143,7 @@ function power_gain_event_killed_actor(eattacker, meansofdeath) {
     basegain = 5;
     for (slot = 0; slot < 4; slot++) {
         if (isdefined(self._gadgets_player[slot])) {
-            if (meansofdeath == "MOD_MELEE_ASSASSINATE" && self ability_util::function_7bf047db()) {
+            if (meansofdeath == "MOD_MELEE_ASSASSINATE" && self ability_util::gadget_is_camo_suit_on()) {
                 if (self._gadgets_player[slot].gadget_powertakedowngain > 0) {
                     source = "assassinate actor";
                     self power_gain_event(slot, eattacker, self._gadgets_player[slot].gadget_powertakedowngain, source);

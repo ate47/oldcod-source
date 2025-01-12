@@ -8,17 +8,17 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_c7c9ced8;
+#namespace gadget_concussive_wave;
 
-// Namespace namespace_c7c9ced8/namespace_c7c9ced8
+// Namespace gadget_concussive_wave/gadget_concussive_wave
 // Params 0, eflags: 0x2
 // Checksum 0xeed25dc7, Offset: 0x228
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_concussive_wave", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_c7c9ced8/namespace_c7c9ced8
+// Namespace gadget_concussive_wave/gadget_concussive_wave
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x268
 // Size: 0x4

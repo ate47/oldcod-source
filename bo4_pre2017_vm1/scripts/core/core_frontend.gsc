@@ -7,11 +7,11 @@
 
 #namespace core_frontend;
 
-// Namespace core_frontend/level_init
+// Namespace core_frontend/Level_Init
 // Params 1, eflags: 0x40
 // Checksum 0x9253402c, Offset: 0x160
 // Size: 0x74
-function event_handler[level_init] main(eventstruct) {
+function event_handler[Level_Init] main(eventstruct) {
     precache();
     setmapcenter((0, 0, 0));
     core_frontend_fx::main();

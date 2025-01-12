@@ -15,7 +15,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x276ea341, Offset: 0x298
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_shock_field", &__init__, undefined, undefined);
 }
 
@@ -25,19 +25,19 @@ function autoexec function_2dc19561() {
 // Size: 0x114
 function __init__() {
     clientfield::register("allplayers", "shock_field", 1, 1, "int");
-    ability_player::register_gadget_activation_callbacks(39, &function_be1dbd79, &function_44bc8785);
-    ability_player::register_gadget_possession_callbacks(39, &function_87ef79df, &function_7a6e5295);
-    ability_player::register_gadget_flicker_callbacks(39, &function_6ee8cd88);
-    ability_player::register_gadget_is_inuse_callbacks(39, &function_c51245b9);
-    ability_player::register_gadget_is_flickering_callbacks(39, &function_578640dd);
-    callback::on_connect(&function_8baeb8be);
+    ability_player::register_gadget_activation_callbacks(39, &gadget_shock_field_on, &gadget_shock_field_off);
+    ability_player::register_gadget_possession_callbacks(39, &gadget_shock_field_on_give, &gadget_shock_field_on_take);
+    ability_player::register_gadget_flicker_callbacks(39, &gadget_shock_field_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(39, &gadget_shock_field_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(39, &gadget_shock_field_is_flickering);
+    callback::on_connect(&gadget_shock_field_on_connect);
 }
 
 // Namespace gadget_shock_field/gadget_shock_field
 // Params 1, eflags: 0x0
 // Checksum 0x1a26604f, Offset: 0x3f8
 // Size: 0x22
-function function_c51245b9(slot) {
+function gadget_shock_field_is_inuse(slot) {
     return self gadgetisactive(slot);
 }
 
@@ -45,7 +45,7 @@ function function_c51245b9(slot) {
 // Params 1, eflags: 0x0
 // Checksum 0x494840f5, Offset: 0x428
 // Size: 0xc
-function function_578640dd(slot) {
+function gadget_shock_field_is_flickering(slot) {
     
 }
 
@@ -53,7 +53,7 @@ function function_578640dd(slot) {
 // Params 2, eflags: 0x0
 // Checksum 0x2d98975b, Offset: 0x440
 // Size: 0x14
-function function_6ee8cd88(slot, weapon) {
+function gadget_shock_field_on_flicker(slot, weapon) {
     
 }
 
@@ -61,7 +61,7 @@ function function_6ee8cd88(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x151b11a5, Offset: 0x460
 // Size: 0x34
-function function_87ef79df(slot, weapon) {
+function gadget_shock_field_on_give(slot, weapon) {
     self clientfield::set("shock_field", 0);
 }
 
@@ -69,7 +69,7 @@ function function_87ef79df(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x65653908, Offset: 0x4a0
 // Size: 0x34
-function function_7a6e5295(slot, weapon) {
+function gadget_shock_field_on_take(slot, weapon) {
     self clientfield::set("shock_field", 0);
 }
 
@@ -77,7 +77,7 @@ function function_7a6e5295(slot, weapon) {
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x4e0
 // Size: 0x4
-function function_8baeb8be() {
+function gadget_shock_field_on_connect() {
     
 }
 
@@ -85,9 +85,9 @@ function function_8baeb8be() {
 // Params 2, eflags: 0x0
 // Checksum 0x533b7172, Offset: 0x4f0
 // Size: 0x6c
-function function_be1dbd79(slot, weapon) {
+function gadget_shock_field_on(slot, weapon) {
     self gadgetsetactivatetime(slot, gettime());
-    self thread function_b7cb65ad(slot, weapon);
+    self thread shock_field_think(slot, weapon);
     self clientfield::set("shock_field", 1);
 }
 
@@ -95,8 +95,8 @@ function function_be1dbd79(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0xe0b3a60d, Offset: 0x568
 // Size: 0x44
-function function_44bc8785(slot, weapon) {
-    self notify(#"hash_1cfd23e2");
+function gadget_shock_field_off(slot, weapon) {
+    self notify(#"shock_field_off");
     self clientfield::set("shock_field", 0);
 }
 
@@ -104,13 +104,13 @@ function function_44bc8785(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x9790c27c, Offset: 0x5b8
 // Size: 0x2e6
-function function_b7cb65ad(slot, weapon) {
-    self endon(#"hash_1cfd23e2");
-    self notify(#"hash_a47188d4");
-    self endon(#"hash_a47188d4");
+function shock_field_think(slot, weapon) {
+    self endon(#"shock_field_off");
+    self notify(#"shock_field_on");
+    self endon(#"shock_field_on");
     while (true) {
         wait 0.25;
-        if (!self function_c51245b9(slot)) {
+        if (!self gadget_shock_field_is_inuse(slot)) {
             return;
         }
         entities = getdamageableentarray(self.origin, weapon.gadget_shockfield_radius);
@@ -129,12 +129,12 @@ function function_b7cb65ad(slot, weapon) {
                     entity dodamage(weapon.gadget_shockfield_damage, self.origin + (0, 0, 30), self, self, 0, "MOD_GRENADE_SPLASH");
                     entity setdoublejumpenergy(0);
                     entity resetdoublejumprechargetime();
-                    entity thread function_6fed7bc4(weapon);
-                    self thread function_9144a83();
-                    var_2b155dcc = 0.25;
+                    entity thread shock_field_zap_sound(weapon);
+                    self thread flicker_field_fx();
+                    shellshock_duration = 0.25;
                     if (entity util::mayapplyscreeneffect()) {
-                        var_2b155dcc = 0.5;
-                        entity shellshock("proximity_grenade", var_2b155dcc, 0);
+                        shellshock_duration = 0.5;
+                        entity shellshock("proximity_grenade", shellshock_duration, 0);
                     }
                 }
             }
@@ -146,15 +146,15 @@ function function_b7cb65ad(slot, weapon) {
 // Params 1, eflags: 0x0
 // Checksum 0x4b40287b, Offset: 0x8a8
 // Size: 0x78
-function function_6fed7bc4(weapon) {
-    if (isdefined(self.var_6fed7bc4) && self.var_6fed7bc4) {
+function shock_field_zap_sound(weapon) {
+    if (isdefined(self.shock_field_zap_sound) && self.shock_field_zap_sound) {
         return;
     }
-    self.var_6fed7bc4 = 1;
+    self.shock_field_zap_sound = 1;
     self playsound("wpn_taser_mine_zap");
     wait 1;
     if (isdefined(self)) {
-        self.var_6fed7bc4 = 0;
+        self.shock_field_zap_sound = 0;
     }
 }
 
@@ -162,10 +162,10 @@ function function_6fed7bc4(weapon) {
 // Params 0, eflags: 0x0
 // Checksum 0xf3eb016d, Offset: 0x928
 // Size: 0x94
-function function_9144a83() {
-    self endon(#"hash_1cfd23e2");
-    self notify(#"hash_9144a83");
-    self endon(#"hash_9144a83");
+function flicker_field_fx() {
+    self endon(#"shock_field_off");
+    self notify(#"flicker_field_fx");
+    self endon(#"flicker_field_fx");
     self clientfield::set("shock_field", 0);
     wait randomfloatrange(0.03, 0.23);
     if (isdefined(self)) {

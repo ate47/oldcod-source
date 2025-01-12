@@ -9,7 +9,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xfcd5757b, Offset: 0x1c8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("planner_squad", &plannersquad::__init__, undefined, undefined);
 }
 
@@ -216,7 +216,7 @@ function getblackboardattribute(squad, attribute) {
 // Params 1, eflags: 0x0
 // Checksum 0x362b9649, Offset: 0xda8
 // Size: 0x54
-function function_a0de8f40(squad) {
+function forcereplan(squad) {
     /#
         assert(isstruct(squad));
     #/

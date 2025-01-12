@@ -3,31 +3,31 @@
 #using scripts/core_common/ai/planner_squad_utility;
 #using scripts/core_common/ai/systems/planner;
 
-#namespace namespace_ff4ab724;
+#namespace plannergenericsquad;
 
-// Namespace namespace_ff4ab724/namespace_d8534916
+// Namespace plannergenericsquad/planner_generic_squad
 // Params 1, eflags: 0x0
 // Checksum 0xf8a2a867, Offset: 0x300
 // Size: 0x164
-function function_c55f60e5(parent) {
+function squadassaultstrategy(parent) {
     /#
         assert(isstruct(parent));
     #/
     sequence = planner::addsequence(parent);
     planner::addprecondition(sequence, "squadHasAttackObject");
     selector = planner::addselector(sequence);
-    var_7fdba5d2 = planner::addsequence(selector);
-    planner::addprecondition(var_7fdba5d2, "squadHasBlackboardValue", associativearray("name", "order", "value", "order_attack_rush"));
-    planner::addaction(var_7fdba5d2, "squadRushAttackObject");
-    var_7fdba5d2 = planner::addsequence(selector);
-    planner::addaction(var_7fdba5d2, "squadClearAreaToAttackObject");
+    sequenceinner = planner::addsequence(selector);
+    planner::addprecondition(sequenceinner, "squadHasBlackboardValue", associativearray("name", "order", "value", "order_attack_rush"));
+    planner::addaction(sequenceinner, "squadRushAttackObject");
+    sequenceinner = planner::addsequence(selector);
+    planner::addaction(sequenceinner, "squadClearAreaToAttackObject");
 }
 
-// Namespace namespace_ff4ab724/namespace_d8534916
+// Namespace plannergenericsquad/planner_generic_squad
 // Params 1, eflags: 0x0
 // Checksum 0xe0c6e3a9, Offset: 0x470
 // Size: 0x1c8
-function function_44b382a7(parent) {
+function squadseekammocache(parent) {
     /#
         assert(isstruct(parent));
     #/
@@ -43,11 +43,11 @@ function function_44b382a7(parent) {
     return sequence;
 }
 
-// Namespace namespace_ff4ab724/namespace_d8534916
+// Namespace plannergenericsquad/planner_generic_squad
 // Params 1, eflags: 0x0
 // Checksum 0x2fadf8e2, Offset: 0x640
 // Size: 0xa0
-function function_8d586a9e(parent) {
+function squaddefendstrategy(parent) {
     /#
         assert(isstruct(parent));
     #/
@@ -57,11 +57,11 @@ function function_8d586a9e(parent) {
     return sequence;
 }
 
-// Namespace namespace_ff4ab724/namespace_d8534916
+// Namespace plannergenericsquad/planner_generic_squad
 // Params 1, eflags: 0x0
 // Checksum 0x64df6d17, Offset: 0x6e8
 // Size: 0x130
-function function_a59be1a2(parent) {
+function squadescortstrategy(parent) {
     /#
         assert(isstruct(parent));
     #/
@@ -76,11 +76,11 @@ function function_a59be1a2(parent) {
     return sequence;
 }
 
-// Namespace namespace_ff4ab724/namespace_d8534916
+// Namespace plannergenericsquad/planner_generic_squad
 // Params 1, eflags: 0x0
 // Checksum 0x2dd80579, Offset: 0x820
 // Size: 0xa0
-function function_10272508(parent) {
+function squadforcegoalstrategy(parent) {
     /#
         assert(isstruct(parent));
     #/
@@ -90,11 +90,11 @@ function function_10272508(parent) {
     return sequence;
 }
 
-// Namespace namespace_ff4ab724/namespace_d8534916
+// Namespace plannergenericsquad/planner_generic_squad
 // Params 1, eflags: 0x0
 // Checksum 0x1cded93d, Offset: 0x8c8
 // Size: 0xa0
-function function_fe51b831(parent) {
+function squadmovetoobjectivestrategy(parent) {
     /#
         assert(isstruct(parent));
     #/

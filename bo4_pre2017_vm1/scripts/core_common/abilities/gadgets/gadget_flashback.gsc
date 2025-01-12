@@ -12,15 +12,15 @@
 
 #namespace flashback;
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 0, eflags: 0x2
 // Checksum 0x12b74f3c, Offset: 0x390
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_flashback", &__init__, undefined, undefined);
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 0, eflags: 0x0
 // Checksum 0xad0f5c52, Offset: 0x3d0
 // Size: 0x21c
@@ -28,81 +28,81 @@ function __init__() {
     clientfield::register("scriptmover", "flashback_trail_fx", 1, 1, "int");
     clientfield::register("playercorpse", "flashback_clone", 1, 1, "int");
     clientfield::register("allplayers", "flashback_activated", 1, 1, "int");
-    ability_player::register_gadget_activation_callbacks(16, &function_368b57d1, &function_c23cb11d);
-    ability_player::register_gadget_possession_callbacks(16, &function_42bd2787, &function_d5e07d1d);
-    ability_player::register_gadget_flicker_callbacks(16, &function_51535640);
-    ability_player::register_gadget_is_inuse_callbacks(16, &function_90fcd171);
-    ability_player::register_gadget_is_flickering_callbacks(16, &function_95ca4855);
-    ability_player::register_gadget_primed_callbacks(16, &function_c2d1f5c2);
-    callback::on_connect(&function_65109c96);
-    callback::on_spawned(&function_6bf3f470);
-    if (!isdefined(level.var_fa6a80b1)) {
-        level.var_fa6a80b1 = 27;
+    ability_player::register_gadget_activation_callbacks(16, &gadget_flashback_on, &gadget_flashback_off);
+    ability_player::register_gadget_possession_callbacks(16, &gadget_flashback_on_give, &gadget_flashback_on_take);
+    ability_player::register_gadget_flicker_callbacks(16, &gadget_flashback_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(16, &gadget_flashback_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(16, &gadget_flashback_is_flickering);
+    ability_player::register_gadget_primed_callbacks(16, &gadget_flashback_is_primed);
+    callback::on_connect(&gadget_flashback_on_connect);
+    callback::on_spawned(&gadget_flashback_spawned);
+    if (!isdefined(level.vsmgr_prio_overlay_flashback_warp)) {
+        level.vsmgr_prio_overlay_flashback_warp = 27;
     }
-    visionset_mgr::register_info("overlay", "flashback_warp", 1, level.var_fa6a80b1, 1, 1, &visionset_mgr::ramp_in_out_thread_per_player_death_shutdown, 0);
+    visionset_mgr::register_info("overlay", "flashback_warp", 1, level.vsmgr_prio_overlay_flashback_warp, 1, 1, &visionset_mgr::ramp_in_out_thread_per_player_death_shutdown, 0);
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 0, eflags: 0x0
 // Checksum 0x312c677b, Offset: 0x5f8
 // Size: 0x24
-function function_6bf3f470() {
+function gadget_flashback_spawned() {
     self clientfield::set("flashback_activated", 0);
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 1, eflags: 0x0
 // Checksum 0xabc4c4dd, Offset: 0x628
 // Size: 0x2a
-function function_90fcd171(slot) {
+function gadget_flashback_is_inuse(slot) {
     return self flagsys::get("gadget_flashback_on");
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 1, eflags: 0x0
 // Checksum 0x2fd63aeb, Offset: 0x660
 // Size: 0x22
-function function_95ca4855(slot) {
+function gadget_flashback_is_flickering(slot) {
     return self gadgetflickering(slot);
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 2, eflags: 0x0
 // Checksum 0x282fee35, Offset: 0x690
 // Size: 0x14
-function function_51535640(slot, weapon) {
+function gadget_flashback_on_flicker(slot, weapon) {
     
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 2, eflags: 0x0
 // Checksum 0x17144e5a, Offset: 0x6b0
 // Size: 0x14
-function function_42bd2787(slot, weapon) {
+function gadget_flashback_on_give(slot, weapon) {
     
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 2, eflags: 0x0
 // Checksum 0x55bf772a, Offset: 0x6d0
 // Size: 0x14
-function function_d5e07d1d(slot, weapon) {
+function gadget_flashback_on_take(slot, weapon) {
     
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x6f0
 // Size: 0x4
-function function_65109c96() {
+function gadget_flashback_on_connect() {
     
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 0, eflags: 0x0
 // Checksum 0x4b51cb7, Offset: 0x700
 // Size: 0x4c
-function function_dcca4d3b() {
+function clone_watch_death() {
     self endon(#"death");
     wait 1;
     self clientfield::set("flashback_clone", 0);
@@ -111,7 +111,7 @@ function function_dcca4d3b() {
 
 /#
 
-    // Namespace flashback/namespace_9334d6bb
+    // Namespace flashback/gadget_flashback
     // Params 3, eflags: 0x0
     // Checksum 0x8fa83d7a, Offset: 0x758
     // Size: 0x8c
@@ -128,18 +128,18 @@ function function_dcca4d3b() {
 
 #/
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 1, eflags: 0x0
 // Checksum 0xfec853a4, Offset: 0x7f0
 // Size: 0xca
-function function_1fce1f97(linkedgrenades) {
+function drop_unlinked_grenades(linkedgrenades) {
     waittillframeend();
     foreach (grenade in linkedgrenades) {
         grenade launch((randomfloatrange(-5, 5), randomfloatrange(-5, 5), 5));
     }
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 1, eflags: 0x0
 // Checksum 0xd151565, Offset: 0x8c8
 // Size: 0x18c
@@ -157,44 +157,44 @@ function unlink_grenades(oldpos) {
             }
         }
     }
-    thread function_1fce1f97(linkedgrenades);
+    thread drop_unlinked_grenades(linkedgrenades);
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 2, eflags: 0x0
 // Checksum 0x825c6020, Offset: 0xa60
 // Size: 0x26c
-function function_368b57d1(slot, weapon) {
+function gadget_flashback_on(slot, weapon) {
     self flagsys::set("gadget_flashback_on");
     self gadgetsetactivatetime(slot, gettime());
     visionset_mgr::activate("overlay", "flashback_warp", self, 0.8, 0.8);
-    self.var_ba21be83 = gettime();
+    self.flashbacktime = gettime();
     self notify(#"flashback");
     clone = self createflashbackclone();
-    clone thread function_dcca4d3b();
+    clone thread clone_watch_death();
     clone clientfield::set("flashback_clone", 1);
-    self thread function_3e517104();
+    self thread watchclientfields();
     oldpos = self gettagorigin("j_spineupper");
     offset = oldpos - self.origin;
     self unlink_grenades(oldpos);
     newpos = self flashbackstart(weapon) + offset;
     self notsolid();
     if (isdefined(newpos) && isdefined(oldpos)) {
-        self thread function_62618cfe(slot, weapon, oldpos, newpos);
-        function_7d14ae92(newpos, oldpos, 8);
-        function_7d14ae92(oldpos, newpos, 8);
+        self thread flashbacktrailfx(slot, weapon, oldpos, newpos);
+        flashbacktrailimpact(newpos, oldpos, 8);
+        flashbacktrailimpact(oldpos, newpos, 8);
         if (isdefined(level.playgadgetsuccess)) {
             self [[ level.playgadgetsuccess ]](weapon, "flashbackSuccessDelay");
         }
     }
-    self thread function_d0bbb73d(0.8);
+    self thread deactivateflashbackwarpaftertime(0.8);
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 0, eflags: 0x0
 // Checksum 0xd0af9ed8, Offset: 0xcd8
 // Size: 0x7c
-function function_3e517104() {
+function watchclientfields() {
     self endon(#"death");
     self endon(#"disconnect");
     util::wait_network_frame();
@@ -203,40 +203,40 @@ function function_3e517104() {
     self clientfield::set("flashback_activated", 0);
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 3, eflags: 0x0
 // Checksum 0x8d2f6edf, Offset: 0xd60
 // Size: 0xfc
-function function_7d14ae92(startpos, endpos, var_89ba3366) {
-    var_89ba3366--;
-    if (var_89ba3366 <= 0) {
+function flashbacktrailimpact(startpos, endpos, recursiondepth) {
+    recursiondepth--;
+    if (recursiondepth <= 0) {
         return;
     }
     trace = bullettrace(startpos, endpos, 0, self);
     if (trace["fraction"] < 1 && trace["normal"] != (0, 0, 0)) {
         playfx("player/fx_plyr_flashback_trail_impact", trace["position"], trace["normal"]);
-        var_dc42b02b = trace["position"] - trace["normal"];
+        newstartpos = trace["position"] - trace["normal"];
         /#
         #/
-        function_7d14ae92(var_dc42b02b, endpos, var_89ba3366);
+        flashbacktrailimpact(newstartpos, endpos, recursiondepth);
     }
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 1, eflags: 0x0
 // Checksum 0x352b76c5, Offset: 0xe68
 // Size: 0x4c
-function function_d0bbb73d(time) {
+function deactivateflashbackwarpaftertime(time) {
     self endon(#"disconnect");
     self waittilltimeout(time, "death");
     visionset_mgr::deactivate("overlay", "flashback_warp", self);
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 4, eflags: 0x0
 // Checksum 0x3f36b2ca, Offset: 0xec0
 // Size: 0x1ec
-function function_62618cfe(slot, weapon, oldpos, newpos) {
+function flashbacktrailfx(slot, weapon, oldpos, newpos) {
     dirvec = newpos - oldpos;
     if (dirvec == (0, 0, 0)) {
         dirvec = (0, 0, 1);
@@ -258,19 +258,19 @@ function function_62618cfe(slot, weapon, oldpos, newpos) {
     fxorg delete();
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 2, eflags: 0x0
 // Checksum 0xb6a104a4, Offset: 0x10b8
 // Size: 0x14
-function function_c2d1f5c2(slot, weapon) {
+function gadget_flashback_is_primed(slot, weapon) {
     
 }
 
-// Namespace flashback/namespace_9334d6bb
+// Namespace flashback/gadget_flashback
 // Params 2, eflags: 0x0
 // Checksum 0xfac92faa, Offset: 0x10d8
 // Size: 0x8c
-function function_c23cb11d(slot, weapon) {
+function gadget_flashback_off(slot, weapon) {
     self flagsys::clear("gadget_flashback_on");
     self solid();
     self flashbackfinish();

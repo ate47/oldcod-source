@@ -21,7 +21,7 @@ function register_status_effect(status_effect) {
 // Params 2, eflags: 0x0
 // Checksum 0x1cc5dbbf, Offset: 0x168
 // Size: 0x58
-function function_9acf95a1(status_effect, name) {
+function register_status_effect_name(status_effect, name) {
     register_status_effect(status_effect);
     if (isdefined(name)) {
         level._status_effects[status_effect].name = name;
@@ -32,7 +32,7 @@ function function_9acf95a1(status_effect, name) {
 // Params 2, eflags: 0x0
 // Checksum 0x66e679df, Offset: 0x1c8
 // Size: 0x68
-function function_96de5b5e(status_effect, baseduration) {
+function register_status_effect_base_duration(status_effect, baseduration) {
     register_status_effect(status_effect);
     if (isdefined(baseduration)) {
         level._status_effects[status_effect].baseduration = int(baseduration);
@@ -54,7 +54,7 @@ function register_status_effect_callback_apply(status_effect, apply_func) {
 // Params 1, eflags: 0x0
 // Checksum 0x8d2ab3c6, Offset: 0x298
 // Size: 0xcc
-function function_f5daed9(name) {
+function status_effect_get_index_for_name(name) {
     if (isdefined(level._status_effects)) {
         foreach (effect in level._status_effects) {
             if (isdefined(effect.name) && effect.name == name) {
@@ -85,7 +85,7 @@ function status_effect_apply(status_effect) {
 // Params 1, eflags: 0x0
 // Checksum 0x8f6fa76d, Offset: 0x458
 // Size: 0x34
-function function_24365fad(status_effect) {
+function status_effect_is_active(status_effect) {
     isactive = self isstatuseffectactive(status_effect);
     return isactive;
 }
@@ -103,7 +103,7 @@ function status_effect_get_duration(status_effect) {
 // Params 1, eflags: 0x0
 // Checksum 0xca505a70, Offset: 0x4d8
 // Size: 0x34
-function function_c9de0b56(status_effect) {
+function status_effect_get_starttime(status_effect) {
     starttime = self getstatuseffectstarttime(status_effect);
     return starttime;
 }

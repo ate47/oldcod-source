@@ -21,7 +21,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xd6ac7015, Offset: 0x500
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("barrier_builder", &__init__, undefined, undefined);
 }
 
@@ -104,7 +104,7 @@ function private function_10960bf9() {
 // Params 0, eflags: 0x0
 // Checksum 0xa8e807e0, Offset: 0x858
 // Size: 0xc2
-function function_3f7108c5() {
+function setup_deployable_barriers() {
     var_44ead27c = getentarray("deployable_barrier_controller", "classname");
     if (!isdefined(var_44ead27c)) {
         return;

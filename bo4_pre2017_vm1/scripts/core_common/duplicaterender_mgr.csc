@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x4a63016, Offset: 0x510
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("duplicate_render", &__init__, undefined, undefined);
 }
 
@@ -456,7 +456,7 @@ function set_item_friendly_equipment(localclientnum, on_off) {
 // Params 2, eflags: 0x0
 // Checksum 0xfe145e8a, Offset: 0x1fa8
 // Size: 0x3c
-function function_5ceb14b2(localclientnum, on_off) {
+function set_item_enemy_explosive(localclientnum, on_off) {
     self update_dr_flag(localclientnum, "enemyexplo", on_off);
 }
 
@@ -464,7 +464,7 @@ function function_5ceb14b2(localclientnum, on_off) {
 // Params 2, eflags: 0x0
 // Checksum 0x380cb9c3, Offset: 0x1ff0
 // Size: 0x3c
-function function_4e2867e3(localclientnum, on_off) {
+function set_item_friendly_explosive(localclientnum, on_off) {
     self update_dr_flag(localclientnum, "friendlyexplo", on_off);
 }
 
@@ -472,7 +472,7 @@ function function_4e2867e3(localclientnum, on_off) {
 // Params 2, eflags: 0x0
 // Checksum 0xaf63641e, Offset: 0x2038
 // Size: 0x3c
-function function_a28d1a5f(localclientnum, on_off) {
+function set_item_enemy_vehicle(localclientnum, on_off) {
     self update_dr_flag(localclientnum, "enemyvehicle", on_off);
 }
 
@@ -480,7 +480,7 @@ function function_a28d1a5f(localclientnum, on_off) {
 // Params 2, eflags: 0x0
 // Checksum 0x9357bc65, Offset: 0x2080
 // Size: 0x3c
-function function_48e05b4a(localclientnum, on_off) {
+function set_item_friendly_vehicle(localclientnum, on_off) {
     self update_dr_flag(localclientnum, "friendlyvehicle", on_off);
 }
 
@@ -524,7 +524,7 @@ function set_hacker_tool_breaching(localclientnum, on_off) {
     flags_changed = self set_dr_flag("hacker_tool_breaching", on_off);
     if (on_off) {
         flags_changed = self set_dr_flag("enemyvehicle", 0) || flags_changed;
-    } else if (isdefined(self.var_2c088b81) && self.var_2c088b81) {
+    } else if (isdefined(self.isenemyvehicle) && self.isenemyvehicle) {
         flags_changed = self set_dr_flag("enemyvehicle", 1) || flags_changed;
     }
     if (flags_changed) {

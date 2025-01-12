@@ -153,7 +153,7 @@ function enemyequip_changed(local_client_num, oldval, newval, bnewent, binitials
 // Size: 0x19c
 function updateenemyequipment(local_client_num, newval) {
     watcher = getlocalplayer(local_client_num);
-    friend = self util::function_f36b8920(local_client_num, 1);
+    friend = self util::friend_not_foe(local_client_num, 1);
     if (watcher hasperk(local_client_num, "specialty_showenemyequipment") || !friend && isdefined(watcher) && self.var_dbad997e === 1) {
         self duplicate_render::set_item_friendly_equipment(local_client_num, 0);
         self duplicate_render::set_item_enemy_equipment(local_client_num, newval);
@@ -254,7 +254,7 @@ function playflarefx(localclientnum) {
     if (!isdefined(self.equipmentenemyfx)) {
         self.equipmenttagfx = level._effect["powerLight"];
     }
-    if (self util::function_f36b8920(localclientnum, 1)) {
+    if (self util::friend_not_foe(localclientnum, 1)) {
         fx_handle = playfxontag(localclientnum, self.equipmentfriendfx, self, self.equipmenttagfx);
     } else {
         fx_handle = playfxontag(localclientnum, self.equipmentenemyfx, self, self.equipmenttagfx);

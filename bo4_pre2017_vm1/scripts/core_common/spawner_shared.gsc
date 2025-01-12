@@ -20,7 +20,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x438b0104, Offset: 0x558
 // Size: 0x3c
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("spawner", &__init__, &__main__, undefined);
 }
 
@@ -1938,8 +1938,8 @@ function spawn(b_force, str_targetname, v_origin, v_angles, bignorespawninglimit
             } else {
                 var_fee20837 = aimappingtableutility::getspawnerforai(self.spawnertype, self.team);
                 if (isdefined(var_fee20837)) {
-                    var_3dd72bdf = isassetloaded("aitype", var_fee20837);
-                    if (isdefined(var_3dd72bdf) && var_3dd72bdf) {
+                    isaitype = isassetloaded("aitype", var_fee20837);
+                    if (isdefined(isaitype) && isaitype) {
                         e_spawned = self spawnfromspawner(str_targetname, force_spawn, makeroom, infinitespawn, "actor_" + var_fee20837);
                     } else {
                         e_spawned = self spawnfromspawner(str_targetname, force_spawn, makeroom, infinitespawn, var_fee20837);

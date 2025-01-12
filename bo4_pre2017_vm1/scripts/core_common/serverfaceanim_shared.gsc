@@ -8,7 +8,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xa243d8d9, Offset: 0x1a0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("serverfaceanim", &__init__, undefined, undefined);
 }
 

@@ -15,6 +15,888 @@
 
 #namespace scene;
 
+// Namespace scene
+// Method(s) 23 Total 27
+class csceneobject : cscriptbundleobjectbase {
+
+    var _b_spawnonce_used;
+    var _e_array;
+    var _is_valid;
+    var _n_clientnum;
+    var _s;
+    var _str_name;
+    var var_190b1ea2;
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xb55560f1, Offset: 0x2248
+    // Size: 0xf4
+    function in_a_different_scene() {
+        if (isdefined(_n_clientnum)) {
+            if (isdefined(_e_array[_n_clientnum]) && isdefined(_e_array[_n_clientnum].current_scene) && _e_array[_n_clientnum].current_scene != var_190b1ea2._str_name) {
+                return true;
+            }
+        } else if (isdefined(_e_array[0]) && isdefined(_e_array[0].current_scene) && _e_array[0].current_scene != var_190b1ea2._str_name) {
+            return true;
+        }
+        return false;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x8c468133, Offset: 0x2220
+    // Size: 0x1e
+    function is_alive(clientnum) {
+        return isdefined(_e_array[clientnum]);
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x277b2ad5, Offset: 0x21f8
+    // Size: 0x1a
+    function has_init_state() {
+        return _s scene::_has_init_state();
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x8ce74330, Offset: 0x21c8
+    // Size: 0x24
+    function function_2f376105() {
+        [[ scene() ]]->function_2f376105();
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xcb54f67f, Offset: 0x2170
+    // Size: 0x50
+    function get_align_tag() {
+        if (isdefined(_s.aligntargettag)) {
+            return _s.aligntargettag;
+        }
+        return var_190b1ea2._s.aligntargettag;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 8, eflags: 0x0
+    // Checksum 0x87b4c8e, Offset: 0x1ea8
+    // Size: 0x2bc
+    function _play_anim(clientnum, animation, n_delay_min, n_delay_max, n_rate, n_blend, str_siege_shot, loop) {
+        if (!isdefined(n_delay_min)) {
+            n_delay_min = 0;
+        }
+        if (!isdefined(n_delay_max)) {
+            n_delay_max = 0;
+        }
+        if (!isdefined(n_rate)) {
+            n_rate = 1;
+        }
+        n_delay = n_delay_min;
+        if (n_delay_max > n_delay_min) {
+            n_delay = randomfloatrange(n_delay_min, n_delay_max);
+        }
+        if (n_delay > 0) {
+            flagsys::set("ready");
+            wait n_delay;
+            _spawn(clientnum);
+        } else {
+            _spawn(clientnum);
+        }
+        if (is_alive(clientnum)) {
+            _e_array[clientnum] show();
+            if (isdefined(_s.issiege) && _s.issiege) {
+                _e_array[clientnum] notify(#"end");
+                _e_array[clientnum] animation::play_siege(animation, str_siege_shot, n_rate, loop);
+            } else {
+                align = get_align_ent(clientnum);
+                tag = get_align_tag();
+                if (align == level) {
+                    align = (0, 0, 0);
+                    tag = (0, 0, 0);
+                }
+                _e_array[clientnum] animation::play(animation, align, tag, n_rate, n_blend);
+            }
+        } else {
+            /#
+                cscriptbundleobjectbase::log("<dev string:x5b>" + animation + "<dev string:x75>");
+            #/
+        }
+        _is_valid = is_alive(clientnum);
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x11ee59c8, Offset: 0x1d20
+    // Size: 0x17c
+    function _cleanup(clientnum) {
+        if (isdefined(_e_array[clientnum]) && isdefined(_e_array[clientnum].current_scene)) {
+            _e_array[clientnum] flagsys::clear(var_190b1ea2._str_name);
+            if (_e_array[clientnum].current_scene == var_190b1ea2._str_name) {
+                _e_array[clientnum] flagsys::clear("scene");
+                _e_array[clientnum].finished_scene = var_190b1ea2._str_name;
+                _e_array[clientnum].current_scene = undefined;
+            }
+        }
+        if (clientnum === _n_clientnum || clientnum == 0) {
+            if (isdefined(var_190b1ea2.scene_stopped) && isdefined(var_190b1ea2) && var_190b1ea2.scene_stopped) {
+                var_190b1ea2 = undefined;
+            }
+        }
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0xbb07bc38, Offset: 0x1ba0
+    // Size: 0x172
+    function _prepare(clientnum) {
+        if (!(isdefined(_s.issiege) && _s.issiege)) {
+            if (!_e_array[clientnum] hasanimtree()) {
+                _e_array[clientnum] useanimtree(#generic);
+            }
+        }
+        _e_array[clientnum].animname = _str_name;
+        _e_array[clientnum].anim_debug_name = _s.name;
+        _e_array[clientnum] flagsys::set("scene");
+        _e_array[clientnum] flagsys::set(var_190b1ea2._str_name);
+        _e_array[clientnum].current_scene = var_190b1ea2._str_name;
+        _e_array[clientnum].finished_scene = undefined;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 2, eflags: 0x0
+    // Checksum 0x80df1a75, Offset: 0x1780
+    // Size: 0x418
+    function _spawn(clientnum, b_hide) {
+        if (!isdefined(b_hide)) {
+            b_hide = 1;
+        }
+        if (!isdefined(_e_array[clientnum])) {
+            b_allows_multiple = [[ scene() ]]->allows_multiple();
+            if (cscriptbundleobjectbase::error(isdefined(_s.nospawn) && b_allows_multiple && _s.nospawn, "Scene that allow multiple instances must be allowed to spawn (uncheck 'Do Not Spawn').")) {
+                return;
+            }
+            _e_array[clientnum] = scene::get_existing_ent(clientnum, _str_name);
+            if (!isdefined(_e_array[clientnum]) && isdefined(_s.name) && !b_allows_multiple) {
+                _e_array[clientnum] = scene::get_existing_ent(clientnum, _s.name);
+            }
+            if (!isdefined(_e_array[clientnum]) && !(isdefined(_s.nospawn) && _s.nospawn) && !_b_spawnonce_used) {
+                _e_align = get_align_ent(clientnum);
+                _e_array[clientnum] = util::spawn_model(clientnum, _s.model, _e_align.origin, _e_align.angles);
+                if (isdefined(_e_array[clientnum])) {
+                    if (b_hide) {
+                        _e_array[clientnum] hide();
+                    }
+                    _e_array[clientnum].scene_spawned = var_190b1ea2._s.name;
+                    _e_array[clientnum].targetname = _s.name;
+                } else {
+                    cscriptbundleobjectbase::error(!(isdefined(_s.nospawn) && _s.nospawn), "No entity exists with matching name of scene object.");
+                }
+            }
+            if (isdefined(_s.var_884f63ad) && _s.var_884f63ad && _b_spawnonce_used) {
+                return;
+            }
+            if (!cscriptbundleobjectbase::error(!(isdefined(_s.nospawn) && _s.nospawn) && !isdefined(_e_array[clientnum]), "No entity exists with matching name of scene object. Make sure a model is specified if you want to spawn it.")) {
+                _prepare(clientnum);
+            }
+        }
+        if (isdefined(_e_array[clientnum])) {
+            flagsys::set("ready");
+            if (isdefined(_s.var_884f63ad) && _s.var_884f63ad) {
+                _b_spawnonce_used = 1;
+            }
+        }
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xd3cceecd, Offset: 0x1760
+    // Size: 0x16
+    function get_orig_name() {
+        return _s.name;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x7de43f6b, Offset: 0x1748
+    // Size: 0xe
+    function get_name() {
+        return _str_name;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xd7f1796c, Offset: 0x1608
+    // Size: 0x138
+    function _assign_unique_name() {
+        if ([[ scene() ]]->allows_multiple()) {
+            if (isdefined(_s.name)) {
+                _str_name = _s.name + "_gen" + level.var_7e438819;
+            } else {
+                _str_name = var_190b1ea2._str_name + "_noname" + level.var_7e438819;
+            }
+            level.var_7e438819++;
+            return;
+        }
+        if (isdefined(_s.name)) {
+            _str_name = _s.name;
+            return;
+        }
+        _str_name = var_190b1ea2._str_name + "_noname" + [[ scene() ]]->get_object_id();
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x1e37a949, Offset: 0x15f0
+    // Size: 0xe
+    function scene() {
+        return var_190b1ea2;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x11ed695c, Offset: 0x1488
+    // Size: 0x15c
+    function get_align_ent(clientnum) {
+        e_align = undefined;
+        if (isdefined(_s.aligntarget)) {
+            a_scene_ents = [[ var_190b1ea2 ]]->get_ents();
+            if (isdefined(a_scene_ents[clientnum][_s.aligntarget])) {
+                e_align = a_scene_ents[clientnum][_s.aligntarget];
+            } else {
+                e_align = scene::get_existing_ent(clientnum, _s.aligntarget);
+            }
+            cscriptbundleobjectbase::error(!isdefined(e_align), "Align target '" + (isdefined(_s.aligntarget) ? "" + _s.aligntarget : "") + "' doesn't exist for scene object.");
+        }
+        if (!isdefined(e_align)) {
+            e_align = [[ scene() ]]->get_align_ent(clientnum);
+        }
+        return e_align;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 2, eflags: 0x0
+    // Checksum 0x63725bef, Offset: 0x1338
+    // Size: 0x144
+    function finish_per_client(clientnum, b_clear) {
+        if (!isdefined(b_clear)) {
+            b_clear = 0;
+        }
+        if (!is_alive(clientnum)) {
+            _cleanup(clientnum);
+            _e_array[clientnum] = undefined;
+            _is_valid = 0;
+        }
+        flagsys::set("ready");
+        flagsys::set("done");
+        if (isdefined(_e_array[clientnum])) {
+            if (isdefined(_s.deletewhenfinished) && _s.deletewhenfinished || is_alive(clientnum) && b_clear) {
+                _e_array[clientnum] delete();
+            }
+        }
+        _cleanup(clientnum);
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0xbe2145b9, Offset: 0x1250
+    // Size: 0xdc
+    function finish(b_clear) {
+        if (!isdefined(b_clear)) {
+            b_clear = 0;
+        }
+        self notify(#"new_state");
+        if (isdefined(_n_clientnum)) {
+            finish_per_client(_n_clientnum, b_clear);
+            return;
+        }
+        for (clientnum = 1; clientnum < getmaxlocalclients(); clientnum++) {
+            if (isdefined(getlocalplayer(clientnum))) {
+                finish_per_client(clientnum, b_clear);
+            }
+        }
+        finish_per_client(0, b_clear);
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x44dd9950, Offset: 0x1028
+    // Size: 0x21c
+    function play_per_client(clientnum) {
+        self endon(#"new_state");
+        if (isdefined(_s.mainanim)) {
+            _play_anim(clientnum, _s.mainanim, _s.maindelaymin, _s.maindelaymax, 1, _s.mainblend, _s.mainshot);
+            flagsys::set("main_done");
+            if (is_alive(clientnum)) {
+                if (isdefined(_s.endanim)) {
+                    _play_anim(clientnum, _s.endanim, 0, 0, 1, undefined, _s.var_e78d2b94, 1);
+                    if (is_alive(clientnum)) {
+                        if (isdefined(_s.endanimloop)) {
+                            _play_anim(clientnum, _s.endanimloop, 0, 0, 1, undefined, _s.var_ffa32106, 1);
+                        }
+                    }
+                } else if (isdefined(_s.endanimloop)) {
+                    _play_anim(clientnum, _s.endanimloop, 0, 0, 1, undefined, _s.var_ffa32106, 1);
+                }
+            }
+        }
+        thread finish_per_client(clientnum);
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x99054d10, Offset: 0xef8
+    // Size: 0x124
+    function play() {
+        flagsys::clear("ready");
+        flagsys::clear("done");
+        flagsys::clear("main_done");
+        self notify(#"new_state");
+        self endon(#"new_state");
+        self notify(#"play");
+        waittillframeend();
+        if (isdefined(_n_clientnum)) {
+            play_per_client(_n_clientnum);
+            return;
+        }
+        for (clientnum = 1; clientnum < getmaxlocalclients(); clientnum++) {
+            if (isdefined(getlocalplayer(clientnum))) {
+                thread play_per_client(clientnum);
+            }
+        }
+        play_per_client(0);
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x667d6942, Offset: 0xc80
+    // Size: 0x26c
+    function initialize_per_client(clientnum) {
+        self endon(#"new_state");
+        if (isdefined(_s.firstframe) && _s.firstframe) {
+            if (!cscriptbundleobjectbase::error(!isdefined(_s.mainanim), "No animation defined for first frame.")) {
+                _play_anim(clientnum, _s.mainanim, 0, 0, 0, undefined, _s.mainshot);
+            }
+        } else if (isdefined(_s.initanim)) {
+            _play_anim(clientnum, _s.initanim, _s.initdelaymin, _s.initdelaymax, 1, undefined, _s.var_c30e56b);
+            if (is_alive(clientnum)) {
+                if (isdefined(_s.initanimloop)) {
+                    _play_anim(clientnum, _s.initanimloop, 0, 0, 1, undefined, _s.var_d25c4885, 1);
+                }
+            }
+        } else if (isdefined(_s.initanimloop)) {
+            _play_anim(clientnum, _s.initanimloop, _s.initdelaymin, _s.initdelaymax, 1, undefined, _s.var_d25c4885, 1);
+        } else {
+            flagsys::set("ready");
+        }
+        if (!_is_valid) {
+            flagsys::set("done");
+        }
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x94cd4c72, Offset: 0x950
+    // Size: 0x324
+    function initialize() {
+        if (isdefined(_s.spawnoninit) && _s.spawnoninit) {
+            if (isdefined(_n_clientnum)) {
+                _spawn(_n_clientnum, isdefined(_s.firstframe) && _s.firstframe || isdefined(_s.initanim) || isdefined(_s.initanimloop));
+            } else {
+                _spawn(0, isdefined(_s.firstframe) && _s.firstframe || isdefined(_s.initanim) || isdefined(_s.initanimloop));
+                for (clientnum = 1; clientnum < getmaxlocalclients(); clientnum++) {
+                    if (isdefined(getlocalplayer(clientnum))) {
+                        if (isdefined(_s.spawnoninit) && _s.spawnoninit) {
+                            _spawn(clientnum, isdefined(_s.firstframe) && _s.firstframe || isdefined(_s.initanim) || isdefined(_s.initanimloop));
+                        }
+                    }
+                }
+            }
+        }
+        flagsys::clear("ready");
+        flagsys::clear("done");
+        flagsys::clear("main_done");
+        self notify(#"new_state");
+        self endon(#"new_state");
+        self notify(#"init");
+        waittillframeend();
+        if (isdefined(_n_clientnum)) {
+            thread initialize_per_client(_n_clientnum);
+            return;
+        }
+        for (clientnum = 1; clientnum < getmaxlocalclients(); clientnum++) {
+            if (isdefined(getlocalplayer(clientnum))) {
+                thread initialize_per_client(clientnum);
+            }
+        }
+        initialize_per_client(0);
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 4, eflags: 0x0
+    // Checksum 0xbb83fed9, Offset: 0x8c8
+    // Size: 0x7e
+    function first_init(s_objdef, o_scene, e_ent, localclientnum) {
+        cscriptbundleobjectbase::init(s_objdef, o_scene, e_ent, localclientnum);
+        _assign_unique_name();
+        if (_e_array.size) {
+            _prepare(_n_clientnum);
+        }
+        return self;
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x854ad481, Offset: 0x8a8
+    // Size: 0x14
+    function __destructor() {
+        cscriptbundleobjectbase::__destructor();
+    }
+
+    // Namespace csceneobject/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x4edc402c, Offset: 0x870
+    // Size: 0x30
+    function __constructor() {
+        cscriptbundleobjectbase::__constructor();
+        _b_spawnonce_used = 0;
+        _is_valid = 1;
+    }
+
+}
+
+// Namespace scene
+// Method(s) 21 Total 29
+class cscene : cscriptbundlebase {
+
+    var _a_objects;
+    var _e_root;
+    var _n_object_id;
+    var _s;
+    var _str_mode;
+    var _str_name;
+    var _str_state;
+    var _testing;
+    var scene_stopped;
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x7d8d023d, Offset: 0x42d0
+    // Size: 0xe
+    function get_state() {
+        return _str_state;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x4171ef4c, Offset: 0x42b0
+    // Size: 0x14
+    function on_error() {
+        stop();
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xac85c776, Offset: 0x4198
+    // Size: 0x10c
+    function get_valid_objects() {
+        a_obj = [];
+        foreach (obj in _a_objects) {
+            if (obj._is_valid && ![[ obj ]]->in_a_different_scene()) {
+                if (!isdefined(a_obj)) {
+                    a_obj = [];
+                } else if (!isarray(a_obj)) {
+                    a_obj = array(a_obj);
+                }
+                a_obj[a_obj.size] = obj;
+            }
+        }
+        return a_obj;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xe40ef423, Offset: 0x4168
+    // Size: 0x24
+    function function_e8335960() {
+        array::flagsys_wait(_a_objects, "done");
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x4eaa52b6, Offset: 0x4128
+    // Size: 0x34
+    function function_2f376105() {
+        if (isdefined(_a_objects)) {
+            array::flagsys_wait(_a_objects, "ready");
+        }
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xc6bcbfae, Offset: 0x40f0
+    // Size: 0x2e
+    function is_looping() {
+        return isdefined(_s.looping) && _s.looping;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x1f9c55f4, Offset: 0x40e0
+    // Size: 0x8
+    function allows_multiple() {
+        return true;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x332ace49, Offset: 0x4050
+    // Size: 0x88
+    function get_align_ent(clientnum) {
+        e_align = _e_root;
+        if (isdefined(_s.aligntarget)) {
+            e_gdt_align = scene::get_existing_ent(clientnum, _s.aligntarget);
+            if (isdefined(e_gdt_align)) {
+                e_align = e_gdt_align;
+            }
+        }
+        return e_align;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x9eb3988d, Offset: 0x4038
+    // Size: 0xe
+    function get_root() {
+        return _e_root;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xd93a8fe2, Offset: 0x3e80
+    // Size: 0x1ae
+    function get_ents() {
+        a_ents = [];
+        for (clientnum = 0; clientnum < getmaxlocalclients(); clientnum++) {
+            if (isdefined(getlocalplayer(clientnum))) {
+                a_ents[clientnum] = [];
+                foreach (o_obj in _a_objects) {
+                    ent = [[ o_obj ]]->get_ent(clientnum);
+                    if (isdefined(o_obj._s.name)) {
+                        a_ents[clientnum][o_obj._s.name] = ent;
+                        continue;
+                    }
+                    if (!isdefined(a_ents)) {
+                        a_ents = [];
+                    } else if (!isarray(a_ents)) {
+                        a_ents = array(a_ents);
+                    }
+                    a_ents[a_ents.size] = ent;
+                }
+            }
+        }
+        return a_ents;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0xc4042a58, Offset: 0x3a80
+    // Size: 0x3f6
+    function _call_state_funcs(str_state) {
+        self endon(#"stopped");
+        function_2f376105();
+        if (str_state == "play") {
+            waittillframeend();
+        }
+        level notify(_str_name + "_" + str_state);
+        if (isdefined(level.scene_funcs) && isdefined(level.scene_funcs[_str_name]) && isdefined(level.scene_funcs[_str_name][str_state])) {
+            a_all_ents = get_ents();
+            foreach (a_ents in a_all_ents) {
+                foreach (handler in level.scene_funcs[_str_name][str_state]) {
+                    func = handler[0];
+                    args = handler[1];
+                    switch (args.size) {
+                    case 6:
+                        _e_root thread [[ func ]](a_ents, args[0], args[1], args[2], args[3], args[4], args[5]);
+                        break;
+                    case 5:
+                        _e_root thread [[ func ]](a_ents, args[0], args[1], args[2], args[3], args[4]);
+                        break;
+                    case 4:
+                        _e_root thread [[ func ]](a_ents, args[0], args[1], args[2], args[3]);
+                        break;
+                    case 3:
+                        _e_root thread [[ func ]](a_ents, args[0], args[1], args[2]);
+                        break;
+                    case 2:
+                        _e_root thread [[ func ]](a_ents, args[0], args[1]);
+                        break;
+                    case 1:
+                        _e_root thread [[ func ]](a_ents, args[0]);
+                        break;
+                    case 0:
+                        _e_root thread [[ func ]](a_ents);
+                        break;
+                    default:
+                        /#
+                            assertmsg("<dev string:x8a>");
+                        #/
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x8f80445a, Offset: 0x39c8
+    // Size: 0xae
+    function has_init_state() {
+        b_has_init_state = 0;
+        foreach (o_scene_object in _a_objects) {
+            if ([[ o_scene_object ]]->has_init_state()) {
+                b_has_init_state = 1;
+                break;
+            }
+        }
+        return b_has_init_state;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 2, eflags: 0x0
+    // Checksum 0x21cd6ba6, Offset: 0x36e8
+    // Size: 0x2d8
+    function stop(b_clear, b_finished) {
+        if (!isdefined(b_clear)) {
+            b_clear = 0;
+        }
+        if (!isdefined(b_finished)) {
+            b_finished = 0;
+        }
+        self notify(#"new_state");
+        level flagsys::clear(_str_name + "_playing");
+        level flagsys::clear(_str_name + "_initialized");
+        _str_state = "";
+        thread _call_state_funcs("stop");
+        scene_stopped = 1;
+        foreach (o_obj in _a_objects) {
+            if (isdefined(o_obj) && ![[ o_obj ]]->in_a_different_scene()) {
+                thread [[ o_obj ]]->finish(b_clear);
+            }
+        }
+        self notify(#"stopped", {#is_finished:b_finished});
+        if (isdefined(level.active_scenes[_str_name])) {
+            arrayremovevalue(level.active_scenes[_str_name], _e_root);
+            if (level.active_scenes[_str_name].size == 0) {
+                level.active_scenes[_str_name] = undefined;
+            }
+        }
+        if (isdefined(_e_root) && isdefined(_e_root.scenes)) {
+            arrayremovevalue(_e_root.scenes, self);
+            if (_e_root.scenes.size == 0) {
+                _e_root.scenes = undefined;
+            }
+            _e_root notify(#"scene_done", {#scenedef:_str_name});
+            _e_root.scene_played = 1;
+        }
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xf5be1a1b, Offset: 0x34e0
+    // Size: 0x1fc
+    function run_next() {
+        if (isdefined(_s.nextscenebundle) && _s.vmtype !== "both") {
+            waitresult = self waittill("stopped");
+            if (waitresult.is_finished) {
+                if (_s.scenetype == "fxanim" && _s.nextscenemode === "init") {
+                    if (!cscriptbundlebase::error(!has_init_state(), "Scene can't init next scene '" + _s.nextscenebundle + "' because it doesn't have an init state.")) {
+                        if (allows_multiple()) {
+                            _e_root thread scene::init(_s.nextscenebundle, get_ents());
+                        } else {
+                            _e_root thread scene::init(_s.nextscenebundle);
+                        }
+                    }
+                    return;
+                }
+                if (allows_multiple()) {
+                    _e_root thread scene::play(_s.nextscenebundle, get_ents());
+                    return;
+                }
+                _e_root thread scene::play(_s.nextscenebundle);
+            }
+        }
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 2, eflags: 0x0
+    // Checksum 0x302c7348, Offset: 0x3198
+    // Size: 0x33c
+    function play(b_testing, str_mode) {
+        if (!isdefined(b_testing)) {
+            b_testing = 0;
+        }
+        if (!isdefined(str_mode)) {
+            str_mode = "";
+        }
+        level endon(#"demo_jump");
+        self notify(#"new_state");
+        self endon(#"new_state");
+        _testing = b_testing;
+        _str_mode = str_mode;
+        if (get_valid_objects().size > 0) {
+            foreach (o_obj in _a_objects) {
+                thread [[ o_obj ]]->play();
+            }
+            level flagsys::set(_str_name + "_playing");
+            _str_state = "play";
+            function_2f376105();
+            thread _call_state_funcs("play");
+            function_e8335960();
+            array::flagsys_wait_any_flag(_a_objects, "done", "main_done");
+            if (isdefined(_e_root)) {
+                _e_root notify(#"scene_done", {#scenedef:_str_name});
+                thread _call_state_funcs("done");
+            }
+            array::flagsys_wait(_a_objects, "done");
+            if (is_looping() || _str_mode == "loop") {
+                if (has_init_state()) {
+                    level flagsys::clear(_str_name + "_playing");
+                    thread initialize();
+                } else {
+                    level flagsys::clear(_str_name + "_initialized");
+                    thread play(b_testing, str_mode);
+                }
+            } else {
+                thread run_next();
+                thread stop(0, 1);
+            }
+            return;
+        }
+        thread stop(0, 1);
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x1e26d206, Offset: 0x3170
+    // Size: 0x1a
+    function get_object_id() {
+        _n_object_id++;
+        return _n_object_id;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x7ac0818, Offset: 0x3010
+    // Size: 0x154
+    function initialize(b_playing) {
+        if (!isdefined(b_playing)) {
+            b_playing = 0;
+        }
+        self notify(#"new_state");
+        self endon(#"new_state");
+        if (get_valid_objects().size > 0) {
+            level flagsys::set(_str_name + "_initialized");
+            _str_state = "init";
+            foreach (o_obj in _a_objects) {
+                thread [[ o_obj ]]->initialize();
+            }
+            if (!b_playing) {
+                thread _call_state_funcs("init");
+            }
+        }
+        function_e8335960();
+        thread stop();
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xf171404e, Offset: 0x2e68
+    // Size: 0x19c
+    function get_valid_object_defs() {
+        a_obj_defs = [];
+        foreach (s_obj in _s.objects) {
+            if (_s.vmtype === "client" || s_obj.vmtype === "client") {
+                if (isdefined(s_obj.name) || isdefined(s_obj.model) || isdefined(s_obj.initanim) || isdefined(s_obj.mainanim)) {
+                    if (!(isdefined(s_obj.disabled) && s_obj.disabled)) {
+                        if (!isdefined(a_obj_defs)) {
+                            a_obj_defs = [];
+                        } else if (!isarray(a_obj_defs)) {
+                            a_obj_defs = array(a_obj_defs);
+                        }
+                        a_obj_defs[a_obj_defs.size] = s_obj;
+                    }
+                }
+            }
+        }
+        return a_obj_defs;
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 5, eflags: 0x0
+    // Checksum 0x72789b6, Offset: 0x2940
+    // Size: 0x51c
+    function init(str_scenedef, s_scenedef, e_align, a_ents, b_test_run) {
+        cscriptbundlebase::init(str_scenedef, s_scenedef, b_test_run);
+        if (!isdefined(a_ents)) {
+            a_ents = [];
+        } else if (!isarray(a_ents)) {
+            a_ents = array(a_ents);
+        }
+        if (!cscriptbundlebase::error(a_ents.size > _s.objects.size, "Trying to use more entities than scene supports.")) {
+            _e_root = e_align;
+            if (!isdefined(level.active_scenes[_str_name])) {
+                level.active_scenes[_str_name] = [];
+            } else if (!isarray(level.active_scenes[_str_name])) {
+                level.active_scenes[_str_name] = array(level.active_scenes[_str_name]);
+            }
+            level.active_scenes[_str_name][level.active_scenes[_str_name].size] = _e_root;
+            if (!isdefined(_e_root.scenes)) {
+                _e_root.scenes = [];
+            } else if (!isarray(_e_root.scenes)) {
+                _e_root.scenes = array(_e_root.scenes);
+            }
+            _e_root.scenes[_e_root.scenes.size] = self;
+            a_objs = get_valid_object_defs();
+            foreach (str_name, e_ent in arraycopy(a_ents)) {
+                foreach (i, s_obj in arraycopy(a_objs)) {
+                    if (s_obj.name === (isdefined(str_name) ? "" + str_name : "")) {
+                        [[ new csceneobject ]]->__constructor();
+                        cscriptbundlebase::add_object([[ s_obj ]]->first_init(self, e_ent, _e_root.localclientnum, <emptypos_prescriptcall>));
+                        arrayremoveindex(a_ents, str_name);
+                        arrayremoveindex(a_objs, i);
+                        break;
+                    }
+                }
+            }
+            foreach (s_obj in a_objs) {
+                [[ new csceneobject ]]->__constructor();
+                cscriptbundlebase::add_object([[ s_obj ]]->first_init(self, array::pop(a_ents), _e_root.localclientnum, <emptypos_prescriptcall>));
+            }
+            self thread initialize();
+        }
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xfc87c7e8, Offset: 0x2920
+    // Size: 0x14
+    function __destructor() {
+        cscriptbundlebase::__destructor();
+    }
+
+    // Namespace cscene/scene_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x5176775e, Offset: 0x28e8
+    // Size: 0x30
+    function __constructor() {
+        cscriptbundlebase::__constructor();
+        _n_object_id = 0;
+        _str_state = "";
+    }
+
+}
+
 // Namespace scene/scene_shared
 // Params 7, eflags: 0x0
 // Checksum 0xccbf18f1, Offset: 0x6b0
@@ -44,944 +926,6 @@ function player_scene_skip_completed(localclientnum, oldval, newval, bnewent, bi
     setdvar("r_makeDark_enable", 0);
 }
 
-#namespace csceneobject;
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x4edc402c, Offset: 0x870
-// Size: 0x30
-function __constructor() {
-    cscriptbundleobjectbase::__constructor();
-    self._b_spawnonce_used = 0;
-    self._is_valid = 1;
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x854ad481, Offset: 0x8a8
-// Size: 0x14
-function __destructor() {
-    cscriptbundleobjectbase::__destructor();
-}
-
-// Namespace csceneobject/scene_shared
-// Params 4, eflags: 0x0
-// Checksum 0xbb83fed9, Offset: 0x8c8
-// Size: 0x7e
-function first_init(s_objdef, o_scene, e_ent, localclientnum) {
-    cscriptbundleobjectbase::init(s_objdef, o_scene, e_ent, localclientnum);
-    _assign_unique_name();
-    if (self._e_array.size) {
-        _prepare(self._n_clientnum);
-    }
-    return self;
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x94cd4c72, Offset: 0x950
-// Size: 0x324
-function initialize() {
-    if (isdefined(self._s.spawnoninit) && self._s.spawnoninit) {
-        if (isdefined(self._n_clientnum)) {
-            _spawn(self._n_clientnum, isdefined(self._s.firstframe) && self._s.firstframe || isdefined(self._s.initanim) || isdefined(self._s.initanimloop));
-        } else {
-            _spawn(0, isdefined(self._s.firstframe) && self._s.firstframe || isdefined(self._s.initanim) || isdefined(self._s.initanimloop));
-            for (clientnum = 1; clientnum < getmaxlocalclients(); clientnum++) {
-                if (isdefined(getlocalplayer(clientnum))) {
-                    if (isdefined(self._s.spawnoninit) && self._s.spawnoninit) {
-                        _spawn(clientnum, isdefined(self._s.firstframe) && self._s.firstframe || isdefined(self._s.initanim) || isdefined(self._s.initanimloop));
-                    }
-                }
-            }
-        }
-    }
-    flagsys::clear("ready");
-    flagsys::clear("done");
-    flagsys::clear("main_done");
-    self notify(#"new_state");
-    self endon(#"new_state");
-    self notify(#"init");
-    waittillframeend();
-    if (isdefined(self._n_clientnum)) {
-        thread initialize_per_client(self._n_clientnum);
-        return;
-    }
-    for (clientnum = 1; clientnum < getmaxlocalclients(); clientnum++) {
-        if (isdefined(getlocalplayer(clientnum))) {
-            thread initialize_per_client(clientnum);
-        }
-    }
-    initialize_per_client(0);
-}
-
-// Namespace csceneobject/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0x667d6942, Offset: 0xc80
-// Size: 0x26c
-function initialize_per_client(clientnum) {
-    self endon(#"new_state");
-    if (isdefined(self._s.firstframe) && self._s.firstframe) {
-        if (!cscriptbundleobjectbase::error(!isdefined(self._s.mainanim), "No animation defined for first frame.")) {
-            _play_anim(clientnum, self._s.mainanim, 0, 0, 0, undefined, self._s.mainshot);
-        }
-    } else if (isdefined(self._s.initanim)) {
-        _play_anim(clientnum, self._s.initanim, self._s.initdelaymin, self._s.initdelaymax, 1, undefined, self._s.var_c30e56b);
-        if (is_alive(clientnum)) {
-            if (isdefined(self._s.initanimloop)) {
-                _play_anim(clientnum, self._s.initanimloop, 0, 0, 1, undefined, self._s.var_d25c4885, 1);
-            }
-        }
-    } else if (isdefined(self._s.initanimloop)) {
-        _play_anim(clientnum, self._s.initanimloop, self._s.initdelaymin, self._s.initdelaymax, 1, undefined, self._s.var_d25c4885, 1);
-    } else {
-        flagsys::set("ready");
-    }
-    if (!self._is_valid) {
-        flagsys::set("done");
-    }
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x99054d10, Offset: 0xef8
-// Size: 0x124
-function play() {
-    flagsys::clear("ready");
-    flagsys::clear("done");
-    flagsys::clear("main_done");
-    self notify(#"new_state");
-    self endon(#"new_state");
-    self notify(#"play");
-    waittillframeend();
-    if (isdefined(self._n_clientnum)) {
-        play_per_client(self._n_clientnum);
-        return;
-    }
-    for (clientnum = 1; clientnum < getmaxlocalclients(); clientnum++) {
-        if (isdefined(getlocalplayer(clientnum))) {
-            thread play_per_client(clientnum);
-        }
-    }
-    play_per_client(0);
-}
-
-// Namespace csceneobject/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0x44dd9950, Offset: 0x1028
-// Size: 0x21c
-function play_per_client(clientnum) {
-    self endon(#"new_state");
-    if (isdefined(self._s.mainanim)) {
-        _play_anim(clientnum, self._s.mainanim, self._s.maindelaymin, self._s.maindelaymax, 1, self._s.mainblend, self._s.mainshot);
-        flagsys::set("main_done");
-        if (is_alive(clientnum)) {
-            if (isdefined(self._s.endanim)) {
-                _play_anim(clientnum, self._s.endanim, 0, 0, 1, undefined, self._s.var_e78d2b94, 1);
-                if (is_alive(clientnum)) {
-                    if (isdefined(self._s.endanimloop)) {
-                        _play_anim(clientnum, self._s.endanimloop, 0, 0, 1, undefined, self._s.var_ffa32106, 1);
-                    }
-                }
-            } else if (isdefined(self._s.endanimloop)) {
-                _play_anim(clientnum, self._s.endanimloop, 0, 0, 1, undefined, self._s.var_ffa32106, 1);
-            }
-        }
-    }
-    thread finish_per_client(clientnum);
-}
-
-// Namespace csceneobject/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0xbe2145b9, Offset: 0x1250
-// Size: 0xdc
-function finish(b_clear) {
-    if (!isdefined(b_clear)) {
-        b_clear = 0;
-    }
-    self notify(#"new_state");
-    if (isdefined(self._n_clientnum)) {
-        finish_per_client(self._n_clientnum, b_clear);
-        return;
-    }
-    for (clientnum = 1; clientnum < getmaxlocalclients(); clientnum++) {
-        if (isdefined(getlocalplayer(clientnum))) {
-            finish_per_client(clientnum, b_clear);
-        }
-    }
-    finish_per_client(0, b_clear);
-}
-
-// Namespace csceneobject/scene_shared
-// Params 2, eflags: 0x0
-// Checksum 0x63725bef, Offset: 0x1338
-// Size: 0x144
-function finish_per_client(clientnum, b_clear) {
-    if (!isdefined(b_clear)) {
-        b_clear = 0;
-    }
-    if (!is_alive(clientnum)) {
-        _cleanup(clientnum);
-        self._e_array[clientnum] = undefined;
-        self._is_valid = 0;
-    }
-    flagsys::set("ready");
-    flagsys::set("done");
-    if (isdefined(self._e_array[clientnum])) {
-        if (isdefined(self._s.deletewhenfinished) && self._s.deletewhenfinished || is_alive(clientnum) && b_clear) {
-            self._e_array[clientnum] delete();
-        }
-    }
-    _cleanup(clientnum);
-}
-
-// Namespace csceneobject/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0x11ed695c, Offset: 0x1488
-// Size: 0x15c
-function get_align_ent(clientnum) {
-    e_align = undefined;
-    if (isdefined(self._s.aligntarget)) {
-        a_scene_ents = [[ self.var_190b1ea2 ]]->get_ents();
-        if (isdefined(a_scene_ents[clientnum][self._s.aligntarget])) {
-            e_align = a_scene_ents[clientnum][self._s.aligntarget];
-        } else {
-            e_align = scene::get_existing_ent(clientnum, self._s.aligntarget);
-        }
-        cscriptbundleobjectbase::error(!isdefined(e_align), "Align target '" + (isdefined(self._s.aligntarget) ? "" + self._s.aligntarget : "") + "' doesn't exist for scene object.");
-    }
-    if (!isdefined(e_align)) {
-        e_align = [[ scene() ]]->get_align_ent(clientnum);
-    }
-    return e_align;
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x1e37a949, Offset: 0x15f0
-// Size: 0xe
-function scene() {
-    return self.var_190b1ea2;
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xd7f1796c, Offset: 0x1608
-// Size: 0x138
-function _assign_unique_name() {
-    if ([[ scene() ]]->allows_multiple()) {
-        if (isdefined(self._s.name)) {
-            self._str_name = self._s.name + "_gen" + level.var_7e438819;
-        } else {
-            self._str_name = self.var_190b1ea2._str_name + "_noname" + level.var_7e438819;
-        }
-        level.var_7e438819++;
-        return;
-    }
-    if (isdefined(self._s.name)) {
-        self._str_name = self._s.name;
-        return;
-    }
-    self._str_name = self.var_190b1ea2._str_name + "_noname" + [[ scene() ]]->get_object_id();
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x7de43f6b, Offset: 0x1748
-// Size: 0xe
-function get_name() {
-    return self._str_name;
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xd3cceecd, Offset: 0x1760
-// Size: 0x16
-function get_orig_name() {
-    return self._s.name;
-}
-
-// Namespace csceneobject/scene_shared
-// Params 2, eflags: 0x0
-// Checksum 0x80df1a75, Offset: 0x1780
-// Size: 0x418
-function _spawn(clientnum, b_hide) {
-    if (!isdefined(b_hide)) {
-        b_hide = 1;
-    }
-    if (!isdefined(self._e_array[clientnum])) {
-        b_allows_multiple = [[ scene() ]]->allows_multiple();
-        if (cscriptbundleobjectbase::error(isdefined(self._s.nospawn) && b_allows_multiple && self._s.nospawn, "Scene that allow multiple instances must be allowed to spawn (uncheck 'Do Not Spawn').")) {
-            return;
-        }
-        self._e_array[clientnum] = scene::get_existing_ent(clientnum, self._str_name);
-        if (!isdefined(self._e_array[clientnum]) && isdefined(self._s.name) && !b_allows_multiple) {
-            self._e_array[clientnum] = scene::get_existing_ent(clientnum, self._s.name);
-        }
-        if (!isdefined(self._e_array[clientnum]) && !(isdefined(self._s.nospawn) && self._s.nospawn) && !self._b_spawnonce_used) {
-            _e_align = get_align_ent(clientnum);
-            self._e_array[clientnum] = util::spawn_model(clientnum, self._s.model, _e_align.origin, _e_align.angles);
-            if (isdefined(self._e_array[clientnum])) {
-                if (b_hide) {
-                    self._e_array[clientnum] hide();
-                }
-                self._e_array[clientnum].scene_spawned = self.var_190b1ea2._s.name;
-                self._e_array[clientnum].targetname = self._s.name;
-            } else {
-                cscriptbundleobjectbase::error(!(isdefined(self._s.nospawn) && self._s.nospawn), "No entity exists with matching name of scene object.");
-            }
-        }
-        if (isdefined(self._s.var_884f63ad) && self._s.var_884f63ad && self._b_spawnonce_used) {
-            return;
-        }
-        if (!cscriptbundleobjectbase::error(!(isdefined(self._s.nospawn) && self._s.nospawn) && !isdefined(self._e_array[clientnum]), "No entity exists with matching name of scene object. Make sure a model is specified if you want to spawn it.")) {
-            _prepare(clientnum);
-        }
-    }
-    if (isdefined(self._e_array[clientnum])) {
-        flagsys::set("ready");
-        if (isdefined(self._s.var_884f63ad) && self._s.var_884f63ad) {
-            self._b_spawnonce_used = 1;
-        }
-    }
-}
-
-// Namespace csceneobject/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0xbb07bc38, Offset: 0x1ba0
-// Size: 0x172
-function _prepare(clientnum) {
-    if (!(isdefined(self._s.issiege) && self._s.issiege)) {
-        if (!self._e_array[clientnum] hasanimtree()) {
-            self._e_array[clientnum] useanimtree(#generic);
-        }
-    }
-    self._e_array[clientnum].animname = self._str_name;
-    self._e_array[clientnum].anim_debug_name = self._s.name;
-    self._e_array[clientnum] flagsys::set("scene");
-    self._e_array[clientnum] flagsys::set(self.var_190b1ea2._str_name);
-    self._e_array[clientnum].current_scene = self.var_190b1ea2._str_name;
-    self._e_array[clientnum].finished_scene = undefined;
-}
-
-// Namespace csceneobject/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0x11ee59c8, Offset: 0x1d20
-// Size: 0x17c
-function _cleanup(clientnum) {
-    if (isdefined(self._e_array[clientnum]) && isdefined(self._e_array[clientnum].current_scene)) {
-        self._e_array[clientnum] flagsys::clear(self.var_190b1ea2._str_name);
-        if (self._e_array[clientnum].current_scene == self.var_190b1ea2._str_name) {
-            self._e_array[clientnum] flagsys::clear("scene");
-            self._e_array[clientnum].finished_scene = self.var_190b1ea2._str_name;
-            self._e_array[clientnum].current_scene = undefined;
-        }
-    }
-    if (clientnum === self._n_clientnum || clientnum == 0) {
-        if (isdefined(self.var_190b1ea2.scene_stopped) && isdefined(self.var_190b1ea2) && self.var_190b1ea2.scene_stopped) {
-            self.var_190b1ea2 = undefined;
-        }
-    }
-}
-
-// Namespace csceneobject/scene_shared
-// Params 8, eflags: 0x0
-// Checksum 0x87b4c8e, Offset: 0x1ea8
-// Size: 0x2bc
-function _play_anim(clientnum, animation, n_delay_min, n_delay_max, n_rate, n_blend, str_siege_shot, loop) {
-    if (!isdefined(n_delay_min)) {
-        n_delay_min = 0;
-    }
-    if (!isdefined(n_delay_max)) {
-        n_delay_max = 0;
-    }
-    if (!isdefined(n_rate)) {
-        n_rate = 1;
-    }
-    n_delay = n_delay_min;
-    if (n_delay_max > n_delay_min) {
-        n_delay = randomfloatrange(n_delay_min, n_delay_max);
-    }
-    if (n_delay > 0) {
-        flagsys::set("ready");
-        wait n_delay;
-        _spawn(clientnum);
-    } else {
-        _spawn(clientnum);
-    }
-    if (is_alive(clientnum)) {
-        self._e_array[clientnum] show();
-        if (isdefined(self._s.issiege) && self._s.issiege) {
-            self._e_array[clientnum] notify(#"end");
-            self._e_array[clientnum] animation::play_siege(animation, str_siege_shot, n_rate, loop);
-        } else {
-            align = get_align_ent(clientnum);
-            tag = get_align_tag();
-            if (align == level) {
-                align = (0, 0, 0);
-                tag = (0, 0, 0);
-            }
-            self._e_array[clientnum] animation::play(animation, align, tag, n_rate, n_blend);
-        }
-    } else {
-        /#
-            cscriptbundleobjectbase::log("<dev string:x5b>" + animation + "<dev string:x75>");
-        #/
-    }
-    self._is_valid = is_alive(clientnum);
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xcb54f67f, Offset: 0x2170
-// Size: 0x50
-function get_align_tag() {
-    if (isdefined(self._s.aligntargettag)) {
-        return self._s.aligntargettag;
-    }
-    return self.var_190b1ea2._s.aligntargettag;
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x8ce74330, Offset: 0x21c8
-// Size: 0x24
-function function_2f376105() {
-    [[ scene() ]]->function_2f376105();
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x277b2ad5, Offset: 0x21f8
-// Size: 0x1a
-function has_init_state() {
-    return self._s scene::_has_init_state();
-}
-
-// Namespace csceneobject/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0x8c468133, Offset: 0x2220
-// Size: 0x1e
-function is_alive(clientnum) {
-    return isdefined(self._e_array[clientnum]);
-}
-
-// Namespace csceneobject/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xb55560f1, Offset: 0x2248
-// Size: 0xf4
-function in_a_different_scene() {
-    if (isdefined(self._n_clientnum)) {
-        if (isdefined(self._e_array[self._n_clientnum]) && isdefined(self._e_array[self._n_clientnum].current_scene) && self._e_array[self._n_clientnum].current_scene != self.var_190b1ea2._str_name) {
-            return true;
-        }
-    } else if (isdefined(self._e_array[0]) && isdefined(self._e_array[0].current_scene) && self._e_array[0].current_scene != self.var_190b1ea2._str_name) {
-        return true;
-    }
-    return false;
-}
-
-#namespace scene;
-
-// Namespace scene/scene_shared
-// Params 0, eflags: 0x6
-// Checksum 0xea6be3fc, Offset: 0x2348
-// Size: 0x596
-function private autoexec csceneobject() {
-    classes.csceneobject[0] = spawnstruct();
-    classes.csceneobject[0].__vtable[964891661] = &cscriptbundleobjectbase::get_ent;
-    classes.csceneobject[0].__vtable[-32002227] = &cscriptbundleobjectbase::error;
-    classes.csceneobject[0].__vtable[1621988813] = &cscriptbundleobjectbase::log;
-    classes.csceneobject[0].__vtable[-1017222485] = &cscriptbundleobjectbase::init;
-    classes.csceneobject[0].__vtable[1606033458] = &cscriptbundleobjectbase::__destructor;
-    classes.csceneobject[0].__vtable[-1690805083] = &cscriptbundleobjectbase::__constructor;
-    classes.csceneobject[0].__vtable[-1004716425] = &csceneobject::in_a_different_scene;
-    classes.csceneobject[0].__vtable[-1924366689] = &csceneobject::is_alive;
-    classes.csceneobject[0].__vtable[1064337886] = &csceneobject::has_init_state;
-    classes.csceneobject[0].__vtable[792158469] = &csceneobject::function_2f376105;
-    classes.csceneobject[0].__vtable[-2100195004] = &csceneobject::get_align_tag;
-    classes.csceneobject[0].__vtable[-1706684566] = &csceneobject::_play_anim;
-    classes.csceneobject[0].__vtable[751796260] = &csceneobject::_cleanup;
-    classes.csceneobject[0].__vtable[-800750439] = &csceneobject::_prepare;
-    classes.csceneobject[0].__vtable[987150381] = &csceneobject::_spawn;
-    classes.csceneobject[0].__vtable[-1878563751] = &csceneobject::get_orig_name;
-    classes.csceneobject[0].__vtable[245263499] = &csceneobject::get_name;
-    classes.csceneobject[0].__vtable[737108631] = &csceneobject::_assign_unique_name;
-    classes.csceneobject[0].__vtable[214070679] = &csceneobject::scene;
-    classes.csceneobject[0].__vtable[1666938539] = &csceneobject::get_align_ent;
-    classes.csceneobject[0].__vtable[847716238] = &csceneobject::finish_per_client;
-    classes.csceneobject[0].__vtable[-1089329960] = &csceneobject::finish;
-    classes.csceneobject[0].__vtable[-1148721625] = &csceneobject::play_per_client;
-    classes.csceneobject[0].__vtable[1131512199] = &csceneobject::play;
-    classes.csceneobject[0].__vtable[-675334113] = &csceneobject::initialize_per_client;
-    classes.csceneobject[0].__vtable[-422924033] = &csceneobject::initialize;
-    classes.csceneobject[0].__vtable[-1191896790] = &csceneobject::first_init;
-    classes.csceneobject[0].__vtable[1606033458] = &csceneobject::__destructor;
-    classes.csceneobject[0].__vtable[-1690805083] = &csceneobject::__constructor;
-}
-
-#namespace cscene;
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x5176775e, Offset: 0x28e8
-// Size: 0x30
-function __constructor() {
-    cscriptbundlebase::__constructor();
-    self._n_object_id = 0;
-    self._str_state = "";
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xfc87c7e8, Offset: 0x2920
-// Size: 0x14
-function __destructor() {
-    cscriptbundlebase::__destructor();
-}
-
-// Namespace cscene/scene_shared
-// Params 5, eflags: 0x0
-// Checksum 0x72789b6, Offset: 0x2940
-// Size: 0x51c
-function init(str_scenedef, s_scenedef, e_align, a_ents, b_test_run) {
-    cscriptbundlebase::init(str_scenedef, s_scenedef, b_test_run);
-    if (!isdefined(a_ents)) {
-        a_ents = [];
-    } else if (!isarray(a_ents)) {
-        a_ents = array(a_ents);
-    }
-    if (!cscriptbundlebase::error(a_ents.size > self._s.objects.size, "Trying to use more entities than scene supports.")) {
-        self._e_root = e_align;
-        if (!isdefined(level.active_scenes[self._str_name])) {
-            level.active_scenes[self._str_name] = [];
-        } else if (!isarray(level.active_scenes[self._str_name])) {
-            level.active_scenes[self._str_name] = array(level.active_scenes[self._str_name]);
-        }
-        level.active_scenes[self._str_name][level.active_scenes[self._str_name].size] = self._e_root;
-        if (!isdefined(self._e_root.scenes)) {
-            self._e_root.scenes = [];
-        } else if (!isarray(self._e_root.scenes)) {
-            self._e_root.scenes = array(self._e_root.scenes);
-        }
-        self._e_root.scenes[self._e_root.scenes.size] = self;
-        a_objs = get_valid_object_defs();
-        foreach (str_name, e_ent in arraycopy(a_ents)) {
-            foreach (i, s_obj in arraycopy(a_objs)) {
-                if (s_obj.name === (isdefined(str_name) ? "" + str_name : "")) {
-                    [[ new csceneobject ]]->__constructor();
-                    cscriptbundlebase::add_object([[ s_obj ]]->first_init(self, e_ent, self._e_root.localclientnum, <emptypos_prescriptcall>));
-                    arrayremoveindex(a_ents, str_name);
-                    arrayremoveindex(a_objs, i);
-                    break;
-                }
-            }
-        }
-        foreach (s_obj in a_objs) {
-            [[ new csceneobject ]]->__constructor();
-            cscriptbundlebase::add_object([[ s_obj ]]->first_init(self, array::pop(a_ents), self._e_root.localclientnum, <emptypos_prescriptcall>));
-        }
-        self thread initialize();
-    }
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xf171404e, Offset: 0x2e68
-// Size: 0x19c
-function get_valid_object_defs() {
-    a_obj_defs = [];
-    foreach (s_obj in self._s.objects) {
-        if (self._s.vmtype === "client" || s_obj.vmtype === "client") {
-            if (isdefined(s_obj.name) || isdefined(s_obj.model) || isdefined(s_obj.initanim) || isdefined(s_obj.mainanim)) {
-                if (!(isdefined(s_obj.disabled) && s_obj.disabled)) {
-                    if (!isdefined(a_obj_defs)) {
-                        a_obj_defs = [];
-                    } else if (!isarray(a_obj_defs)) {
-                        a_obj_defs = array(a_obj_defs);
-                    }
-                    a_obj_defs[a_obj_defs.size] = s_obj;
-                }
-            }
-        }
-    }
-    return a_obj_defs;
-}
-
-// Namespace cscene/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0x7ac0818, Offset: 0x3010
-// Size: 0x154
-function initialize(b_playing) {
-    if (!isdefined(b_playing)) {
-        b_playing = 0;
-    }
-    self notify(#"new_state");
-    self endon(#"new_state");
-    if (get_valid_objects().size > 0) {
-        level flagsys::set(self._str_name + "_initialized");
-        self._str_state = "init";
-        foreach (o_obj in self._a_objects) {
-            thread [[ o_obj ]]->initialize();
-        }
-        if (!b_playing) {
-            thread _call_state_funcs("init");
-        }
-    }
-    function_e8335960();
-    thread stop();
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x1e26d206, Offset: 0x3170
-// Size: 0x1a
-function get_object_id() {
-    self._n_object_id++;
-    return self._n_object_id;
-}
-
-// Namespace cscene/scene_shared
-// Params 2, eflags: 0x0
-// Checksum 0x302c7348, Offset: 0x3198
-// Size: 0x33c
-function play(b_testing, str_mode) {
-    if (!isdefined(b_testing)) {
-        b_testing = 0;
-    }
-    if (!isdefined(str_mode)) {
-        str_mode = "";
-    }
-    level endon(#"demo_jump");
-    self notify(#"new_state");
-    self endon(#"new_state");
-    self._testing = b_testing;
-    self._str_mode = str_mode;
-    if (get_valid_objects().size > 0) {
-        foreach (o_obj in self._a_objects) {
-            thread [[ o_obj ]]->play();
-        }
-        level flagsys::set(self._str_name + "_playing");
-        self._str_state = "play";
-        function_2f376105();
-        thread _call_state_funcs("play");
-        function_e8335960();
-        array::flagsys_wait_any_flag(self._a_objects, "done", "main_done");
-        if (isdefined(self._e_root)) {
-            self._e_root notify(#"scene_done", {#scenedef:self._str_name});
-            thread _call_state_funcs("done");
-        }
-        array::flagsys_wait(self._a_objects, "done");
-        if (is_looping() || self._str_mode == "loop") {
-            if (has_init_state()) {
-                level flagsys::clear(self._str_name + "_playing");
-                thread initialize();
-            } else {
-                level flagsys::clear(self._str_name + "_initialized");
-                thread play(b_testing, str_mode);
-            }
-        } else {
-            thread run_next();
-            thread stop(0, 1);
-        }
-        return;
-    }
-    thread stop(0, 1);
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xf5be1a1b, Offset: 0x34e0
-// Size: 0x1fc
-function run_next() {
-    if (isdefined(self._s.nextscenebundle) && self._s.vmtype !== "both") {
-        waitresult = self waittill("stopped");
-        if (waitresult.is_finished) {
-            if (self._s.scenetype == "fxanim" && self._s.nextscenemode === "init") {
-                if (!cscriptbundlebase::error(!has_init_state(), "Scene can't init next scene '" + self._s.nextscenebundle + "' because it doesn't have an init state.")) {
-                    if (allows_multiple()) {
-                        self._e_root thread scene::init(self._s.nextscenebundle, get_ents());
-                    } else {
-                        self._e_root thread scene::init(self._s.nextscenebundle);
-                    }
-                }
-                return;
-            }
-            if (allows_multiple()) {
-                self._e_root thread scene::play(self._s.nextscenebundle, get_ents());
-                return;
-            }
-            self._e_root thread scene::play(self._s.nextscenebundle);
-        }
-    }
-}
-
-// Namespace cscene/scene_shared
-// Params 2, eflags: 0x0
-// Checksum 0x21cd6ba6, Offset: 0x36e8
-// Size: 0x2d8
-function stop(b_clear, b_finished) {
-    if (!isdefined(b_clear)) {
-        b_clear = 0;
-    }
-    if (!isdefined(b_finished)) {
-        b_finished = 0;
-    }
-    self notify(#"new_state");
-    level flagsys::clear(self._str_name + "_playing");
-    level flagsys::clear(self._str_name + "_initialized");
-    self._str_state = "";
-    thread _call_state_funcs("stop");
-    self.scene_stopped = 1;
-    foreach (o_obj in self._a_objects) {
-        if (isdefined(o_obj) && ![[ o_obj ]]->in_a_different_scene()) {
-            thread [[ o_obj ]]->finish(b_clear);
-        }
-    }
-    self notify(#"stopped", {#is_finished:b_finished});
-    if (isdefined(level.active_scenes[self._str_name])) {
-        arrayremovevalue(level.active_scenes[self._str_name], self._e_root);
-        if (level.active_scenes[self._str_name].size == 0) {
-            level.active_scenes[self._str_name] = undefined;
-        }
-    }
-    if (isdefined(self._e_root) && isdefined(self._e_root.scenes)) {
-        arrayremovevalue(self._e_root.scenes, self);
-        if (self._e_root.scenes.size == 0) {
-            self._e_root.scenes = undefined;
-        }
-        self._e_root notify(#"scene_done", {#scenedef:self._str_name});
-        self._e_root.scene_played = 1;
-    }
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x8f80445a, Offset: 0x39c8
-// Size: 0xae
-function has_init_state() {
-    b_has_init_state = 0;
-    foreach (o_scene_object in self._a_objects) {
-        if ([[ o_scene_object ]]->has_init_state()) {
-            b_has_init_state = 1;
-            break;
-        }
-    }
-    return b_has_init_state;
-}
-
-// Namespace cscene/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0xc4042a58, Offset: 0x3a80
-// Size: 0x3f6
-function _call_state_funcs(str_state) {
-    self endon(#"stopped");
-    function_2f376105();
-    if (str_state == "play") {
-        waittillframeend();
-    }
-    level notify(self._str_name + "_" + str_state);
-    if (isdefined(level.scene_funcs) && isdefined(level.scene_funcs[self._str_name]) && isdefined(level.scene_funcs[self._str_name][str_state])) {
-        a_all_ents = get_ents();
-        foreach (a_ents in a_all_ents) {
-            foreach (handler in level.scene_funcs[self._str_name][str_state]) {
-                func = handler[0];
-                args = handler[1];
-                switch (args.size) {
-                case 6:
-                    self._e_root thread [[ func ]](a_ents, args[0], args[1], args[2], args[3], args[4], args[5]);
-                    break;
-                case 5:
-                    self._e_root thread [[ func ]](a_ents, args[0], args[1], args[2], args[3], args[4]);
-                    break;
-                case 4:
-                    self._e_root thread [[ func ]](a_ents, args[0], args[1], args[2], args[3]);
-                    break;
-                case 3:
-                    self._e_root thread [[ func ]](a_ents, args[0], args[1], args[2]);
-                    break;
-                case 2:
-                    self._e_root thread [[ func ]](a_ents, args[0], args[1]);
-                    break;
-                case 1:
-                    self._e_root thread [[ func ]](a_ents, args[0]);
-                    break;
-                case 0:
-                    self._e_root thread [[ func ]](a_ents);
-                    break;
-                default:
-                    /#
-                        assertmsg("<dev string:x8a>");
-                    #/
-                    break;
-                }
-            }
-        }
-    }
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xd93a8fe2, Offset: 0x3e80
-// Size: 0x1ae
-function get_ents() {
-    a_ents = [];
-    for (clientnum = 0; clientnum < getmaxlocalclients(); clientnum++) {
-        if (isdefined(getlocalplayer(clientnum))) {
-            a_ents[clientnum] = [];
-            foreach (o_obj in self._a_objects) {
-                ent = [[ o_obj ]]->get_ent(clientnum);
-                if (isdefined(o_obj._s.name)) {
-                    a_ents[clientnum][o_obj._s.name] = ent;
-                    continue;
-                }
-                if (!isdefined(a_ents)) {
-                    a_ents = [];
-                } else if (!isarray(a_ents)) {
-                    a_ents = array(a_ents);
-                }
-                a_ents[a_ents.size] = ent;
-            }
-        }
-    }
-    return a_ents;
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x9eb3988d, Offset: 0x4038
-// Size: 0xe
-function get_root() {
-    return self._e_root;
-}
-
-// Namespace cscene/scene_shared
-// Params 1, eflags: 0x0
-// Checksum 0x332ace49, Offset: 0x4050
-// Size: 0x88
-function get_align_ent(clientnum) {
-    e_align = self._e_root;
-    if (isdefined(self._s.aligntarget)) {
-        e_gdt_align = scene::get_existing_ent(clientnum, self._s.aligntarget);
-        if (isdefined(e_gdt_align)) {
-            e_align = e_gdt_align;
-        }
-    }
-    return e_align;
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x1f9c55f4, Offset: 0x40e0
-// Size: 0x8
-function allows_multiple() {
-    return true;
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xc6bcbfae, Offset: 0x40f0
-// Size: 0x2e
-function is_looping() {
-    return isdefined(self._s.looping) && self._s.looping;
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x4eaa52b6, Offset: 0x4128
-// Size: 0x34
-function function_2f376105() {
-    if (isdefined(self._a_objects)) {
-        array::flagsys_wait(self._a_objects, "ready");
-    }
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xe40ef423, Offset: 0x4168
-// Size: 0x24
-function function_e8335960() {
-    array::flagsys_wait(self._a_objects, "done");
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0xac85c776, Offset: 0x4198
-// Size: 0x10c
-function get_valid_objects() {
-    a_obj = [];
-    foreach (obj in self._a_objects) {
-        if (obj._is_valid && ![[ obj ]]->in_a_different_scene()) {
-            if (!isdefined(a_obj)) {
-                a_obj = [];
-            } else if (!isarray(a_obj)) {
-                a_obj = array(a_obj);
-            }
-            a_obj[a_obj.size] = obj;
-        }
-    }
-    return a_obj;
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x4171ef4c, Offset: 0x42b0
-// Size: 0x14
-function on_error() {
-    stop();
-}
-
-// Namespace cscene/scene_shared
-// Params 0, eflags: 0x0
-// Checksum 0x7d8d023d, Offset: 0x42d0
-// Size: 0xe
-function get_state() {
-    return self._str_state;
-}
-
-#namespace scene;
-
-// Namespace scene/scene_shared
-// Params 0, eflags: 0x6
-// Checksum 0x6b9783c5, Offset: 0x42e8
-// Size: 0x656
-function private autoexec cscene() {
-    classes.cscene[0] = spawnstruct();
-    classes.cscene[0].__vtable[-32002227] = &cscriptbundlebase::error;
-    classes.cscene[0].__vtable[1621988813] = &cscriptbundlebase::log;
-    classes.cscene[0].__vtable[713694985] = &cscriptbundlebase::remove_object;
-    classes.cscene[0].__vtable[178798596] = &cscriptbundlebase::add_object;
-    classes.cscene[0].__vtable[1440274456] = &cscriptbundlebase::is_testing;
-    classes.cscene[0].__vtable[-512051494] = &cscriptbundlebase::get_objects;
-    classes.cscene[0].__vtable[575565049] = &cscriptbundlebase::get_vm;
-    classes.cscene[0].__vtable[1872615990] = &cscriptbundlebase::get_type;
-    classes.cscene[0].__vtable[-1017222485] = &cscriptbundlebase::init;
-    classes.cscene[0].__vtable[1606033458] = &cscriptbundlebase::__destructor;
-    classes.cscene[0].__vtable[-1690805083] = &cscriptbundlebase::__constructor;
-    classes.cscene[0].__vtable[-498584435] = &cscriptbundlebase::on_error;
-    classes.cscene[0].__vtable[1194857509] = &cscene::get_state;
-    classes.cscene[0].__vtable[-498584435] = &cscene::on_error;
-    classes.cscene[0].__vtable[-241958475] = &cscene::get_valid_objects;
-    classes.cscene[0].__vtable[-399287968] = &cscene::function_e8335960;
-    classes.cscene[0].__vtable[792158469] = &cscene::function_2f376105;
-    classes.cscene[0].__vtable[17277842] = &cscene::is_looping;
-    classes.cscene[0].__vtable[400356434] = &cscene::allows_multiple;
-    classes.cscene[0].__vtable[1666938539] = &cscene::get_align_ent;
-    classes.cscene[0].__vtable[1282680066] = &cscene::get_root;
-    classes.cscene[0].__vtable[64630156] = &cscene::get_ents;
-    classes.cscene[0].__vtable[415171386] = &cscene::_call_state_funcs;
-    classes.cscene[0].__vtable[1064337886] = &cscene::has_init_state;
-    classes.cscene[0].__vtable[-51025227] = &cscene::stop;
-    classes.cscene[0].__vtable[-1243624088] = &cscene::run_next;
-    classes.cscene[0].__vtable[1131512199] = &cscene::play;
-    classes.cscene[0].__vtable[-1443067443] = &cscene::get_object_id;
-    classes.cscene[0].__vtable[-422924033] = &cscene::initialize;
-    classes.cscene[0].__vtable[-794265383] = &cscene::get_valid_object_defs;
-    classes.cscene[0].__vtable[-1017222485] = &cscene::init;
-    classes.cscene[0].__vtable[1606033458] = &cscene::__destructor;
-    classes.cscene[0].__vtable[-1690805083] = &cscene::__constructor;
-}
-
 // Namespace scene/scene_shared
 // Params 2, eflags: 0x0
 // Checksum 0xe8cdbbfe, Offset: 0x4948
@@ -1004,7 +948,7 @@ function get_existing_ent(clientnum, str_name) {
 // Params 0, eflags: 0x2
 // Checksum 0x6414e9c9, Offset: 0x4a20
 // Size: 0x3c
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("scene", &__init__, &__main__, undefined);
 }
 

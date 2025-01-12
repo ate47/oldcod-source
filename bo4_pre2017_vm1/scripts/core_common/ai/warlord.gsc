@@ -26,7 +26,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x6a4c3d83, Offset: 0x7e0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("warlord", &__init__, undefined, undefined);
 }
 
@@ -804,21 +804,21 @@ function function_b65f3cc0() {
 // Checksum 0x6edcf5bc, Offset: 0x35e8
 // Size: 0x5c
 function function_afb9d85b() {
-    if (!isdefined(self.var_3ab5b78c)) {
-        self.var_3ab5b78c = missile_createrepulsorent(self, 40000, 256, 1);
+    if (!isdefined(self.missile_repulsor)) {
+        self.missile_repulsor = missile_createrepulsorent(self, 40000, 256, 1);
     }
-    self thread function_4d94f2a0();
+    self thread repulsor_fx();
 }
 
 // Namespace namespace_b4645fec/warlord
 // Params 0, eflags: 0x0
 // Checksum 0xec55572c, Offset: 0x3650
 // Size: 0x6c
-function function_dd8d3882() {
+function remove_repulsor() {
     self endon(#"death");
-    if (isdefined(self.var_3ab5b78c)) {
-        missile_deleteattractor(self.var_3ab5b78c);
-        self.var_3ab5b78c = undefined;
+    if (isdefined(self.missile_repulsor)) {
+        missile_deleteattractor(self.missile_repulsor);
+        self.missile_repulsor = undefined;
     }
     wait 0.5;
     if (isdefined(self)) {
@@ -830,7 +830,7 @@ function function_dd8d3882() {
 // Params 0, eflags: 0x0
 // Checksum 0xa383b5e3, Offset: 0x36c8
 // Size: 0xc6
-function function_4d94f2a0() {
+function repulsor_fx() {
     self endon(#"death");
     self endon(#"hash_85c65e4");
     while (true) {
@@ -838,7 +838,7 @@ function function_4d94f2a0() {
         playfxontag("vehicle/fx_quadtank_airburst", self, "tag_origin");
         playfxontag("vehicle/fx_quadtank_airburst_ground", self, "tag_origin");
         self playsound("wpn_trophy_alert");
-        self thread function_dd8d3882();
+        self thread remove_repulsor();
         self notify(#"hash_85c65e4");
     }
 }
@@ -847,12 +847,12 @@ function function_4d94f2a0() {
 // Params 0, eflags: 0x0
 // Checksum 0x760f0c0c, Offset: 0x3798
 // Size: 0x5c
-function function_8334ee5f() {
-    if (!isdefined(self.var_88858d28)) {
-        self.var_88858d28 = 0;
+function trigger_player_shock_fx() {
+    if (!isdefined(self._player_shock_fx_quadtank_melee)) {
+        self._player_shock_fx_quadtank_melee = 0;
     }
-    self.var_88858d28 = !self.var_88858d28;
-    self clientfield::set_to_player("player_shock_fx", self.var_88858d28);
+    self._player_shock_fx_quadtank_melee = !self._player_shock_fx_quadtank_melee;
+    self clientfield::set_to_player("player_shock_fx", self._player_shock_fx_quadtank_melee);
 }
 
 #namespace namespace_e585b400;

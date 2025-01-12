@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xcf6bbddb, Offset: 0x2d8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_shock_field", &__init__, undefined, undefined);
 }
 
@@ -25,8 +25,8 @@ function autoexec function_2dc19561() {
 // Checksum 0x73656d99, Offset: 0x318
 // Size: 0x5c
 function __init__() {
-    clientfield::register("allplayers", "shock_field", 1, 1, "int", &function_281e2b38, 0, 1);
-    level.var_a01dacf5 = [];
+    clientfield::register("allplayers", "shock_field", 1, 1, "int", &player_shock_changed, 0, 1);
+    level.shock_field_fx = [];
 }
 
 // Namespace gadget_shock_field/gadget_shock_field
@@ -38,30 +38,30 @@ function is_local_player(localclientnum) {
     if (!isdefined(player_view)) {
         return 0;
     }
-    var_2389f10a = self == player_view;
-    return var_2389f10a;
+    sameentity = self == player_view;
+    return sameentity;
 }
 
 // Namespace gadget_shock_field/gadget_shock_field
 // Params 7, eflags: 0x0
 // Checksum 0xb814661a, Offset: 0x3e0
 // Size: 0x16c
-function function_281e2b38(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+function player_shock_changed(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     entid = getlocalplayer(localclientnum) getentitynumber();
     if (newval) {
-        if (!isdefined(level.var_a01dacf5[entid])) {
+        if (!isdefined(level.shock_field_fx[entid])) {
             fx = "player/fx_plyr_shock_field";
             if (is_local_player(localclientnum)) {
                 fx = "player/fx_plyr_shock_field_1p";
             }
             tag = "j_spinelower";
-            level.var_a01dacf5[entid] = playfxontag(localclientnum, fx, self, tag);
+            level.shock_field_fx[entid] = playfxontag(localclientnum, fx, self, tag);
         }
         return;
     }
-    if (isdefined(level.var_a01dacf5[entid])) {
-        stopfx(localclientnum, level.var_a01dacf5[entid]);
-        level.var_a01dacf5[entid] = undefined;
+    if (isdefined(level.shock_field_fx[entid])) {
+        stopfx(localclientnum, level.shock_field_fx[entid]);
+        level.shock_field_fx[entid] = undefined;
     }
 }
 

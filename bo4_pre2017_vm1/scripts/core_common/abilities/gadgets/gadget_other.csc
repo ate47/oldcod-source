@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xd7960429, Offset: 0x268
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_other", &__init__, undefined, undefined);
 }
 

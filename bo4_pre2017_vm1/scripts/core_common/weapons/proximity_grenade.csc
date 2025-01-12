@@ -60,7 +60,7 @@ function watchforproximityexplosion() {
             explosionradius = weapon.explosionradius;
             if (distancesquared(localplayer.origin, position) < explosionradius * explosionradius) {
                 if (isdefined(owner_cent)) {
-                    if (owner_cent == localplayer || !owner_cent util::function_f36b8920(localclientnum, 1)) {
+                    if (owner_cent == localplayer || !owner_cent util::friend_not_foe(localclientnum, 1)) {
                         localplayer thread postfx::playpostfxbundle("pstfx_shock_charge");
                     }
                 }

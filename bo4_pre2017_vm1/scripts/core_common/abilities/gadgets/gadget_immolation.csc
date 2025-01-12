@@ -8,17 +8,17 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_acef958d;
+#namespace gadget_immolation;
 
-// Namespace namespace_acef958d/namespace_acef958d
+// Namespace gadget_immolation/gadget_immolation
 // Params 0, eflags: 0x2
 // Checksum 0xe28c92d6, Offset: 0x220
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_immolation", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_acef958d/namespace_acef958d
+// Namespace gadget_immolation/gadget_immolation
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x260
 // Size: 0x4

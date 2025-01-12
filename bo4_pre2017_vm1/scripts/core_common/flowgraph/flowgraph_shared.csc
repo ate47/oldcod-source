@@ -41,88 +41,88 @@ function notfunc(b_value) {
 // Params 2, eflags: 0x0
 // Checksum 0x6119768e, Offset: 0x260
 // Size: 0x1e
-function function_2bc960cb(var_c29abe6, var_e627317d) {
-    return var_c29abe6 < var_e627317d;
+function integerlessthan(i_a, i_b) {
+    return i_a < i_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0xcc11d9a8, Offset: 0x288
 // Size: 0x1e
-function function_c5f5b748(var_c29abe6, var_e627317d) {
-    return var_c29abe6 <= var_e627317d;
+function integerlessthanorequal(i_a, i_b) {
+    return i_a <= i_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0x9dcc3d61, Offset: 0x2b0
 // Size: 0x1e
-function function_2a13dfa4(var_c29abe6, var_e627317d) {
-    return var_c29abe6 > var_e627317d;
+function integergreaterthan(i_a, i_b) {
+    return i_a > i_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0x1954337d, Offset: 0x2d8
 // Size: 0x1e
-function function_c78a7551(var_c29abe6, var_e627317d) {
-    return var_c29abe6 >= var_e627317d;
+function integergreaterthanorequal(i_a, i_b) {
+    return i_a >= i_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0x2b87af61, Offset: 0x300
 // Size: 0x1e
-function function_f90e2387(var_c29abe6, var_e627317d) {
-    return var_c29abe6 == var_e627317d;
+function integersequals(i_a, i_b) {
+    return i_a == i_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0xa004e681, Offset: 0x328
 // Size: 0x1e
-function function_db6a78f(var_44ba5205, var_6abccc6e) {
-    return var_44ba5205 < var_6abccc6e;
+function floatlessthan(f_a, f_b) {
+    return f_a < f_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0x76625db9, Offset: 0x350
 // Size: 0x1e
-function function_9419bd04(var_44ba5205, var_6abccc6e) {
-    return var_44ba5205 <= var_6abccc6e;
+function floatlessthanorequal(f_a, f_b) {
+    return f_a <= f_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0xfeb8d188, Offset: 0x378
 // Size: 0x1e
-function function_770870f0(var_44ba5205, var_6abccc6e) {
-    return var_44ba5205 > var_6abccc6e;
+function floatgreaterthan(f_a, f_b) {
+    return f_a > f_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0x6665f43e, Offset: 0x3a0
 // Size: 0x1e
-function function_6ca950f5(var_44ba5205, var_6abccc6e) {
-    return var_44ba5205 >= var_6abccc6e;
+function floatgreaterthanorequal(f_a, f_b) {
+    return f_a >= f_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0x1cee003b, Offset: 0x3c8
 // Size: 0x1e
-function function_9909c210(var_44ba5205, var_6abccc6e) {
-    return var_44ba5205 == var_6abccc6e;
+function floatsequal(f_a, f_b) {
+    return f_a == f_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0xcaec4638, Offset: 0x3f0
 // Size: 0x1e
-function function_9f2f9603(var_e2ac95da, var_bcaa1b71) {
-    return var_e2ac95da == var_bcaa1b71;
+function stringsequal(str_a, str_b) {
+    return str_a == str_b;
 }
 
 #namespace flowgraph_loops;
@@ -407,15 +407,15 @@ function randomunitvector() {
 // Params 2, eflags: 0x0
 // Checksum 0xe292b02f, Offset: 0x1400
 // Size: 0x1e
-function function_d3ede5bc(var_a3382de1, var_76cb90f0) {
-    return var_a3382de1 * var_76cb90f0;
+function vectormultiply(v_vector, f_scalar) {
+    return v_vector * f_scalar;
 }
 
 // Namespace flowgraph_math/flowgraph_shared
 // Params 2, eflags: 0x0
 // Checksum 0x8afc8cc1, Offset: 0x1428
 // Size: 0x1e
-function function_ff878535(v_1, v_2) {
+function vectoradd(v_1, v_2) {
     return v_1 + v_2;
 }
 
@@ -423,7 +423,7 @@ function function_ff878535(v_1, v_2) {
 // Params 2, eflags: 0x0
 // Checksum 0xace93172, Offset: 0x1450
 // Size: 0x1e
-function function_a0502720(v_1, v_2) {
+function vectorsubtract(v_1, v_2) {
     return v_1 - v_2;
 }
 
@@ -431,7 +431,7 @@ function function_a0502720(v_1, v_2) {
 // Params 1, eflags: 0x0
 // Checksum 0x40921ebf, Offset: 0x1478
 // Size: 0x16
-function function_1bd4fffa(v) {
+function vectornegate(v) {
     return v * -1;
 }
 

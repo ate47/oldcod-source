@@ -10,7 +10,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x69bcfeb8, Offset: 0x210
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("influencers_shared", &__init__, undefined, undefined);
 }
 

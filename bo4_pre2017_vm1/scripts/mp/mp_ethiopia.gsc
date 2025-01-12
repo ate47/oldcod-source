@@ -8,15 +8,15 @@
 
 #namespace mp_ethiopia;
 
-// Namespace mp_ethiopia/level_init
+// Namespace mp_ethiopia/Level_Init
 // Params 1, eflags: 0x40
 // Checksum 0xaf2ce15d, Offset: 0x208
 // Size: 0x414
-function event_handler[level_init] main(eventstruct) {
+function event_handler[Level_Init] main(eventstruct) {
     precache();
     mp_ethiopia_fx::main();
     mp_ethiopia_sound::main();
-    level.var_7bb6ebae = &function_7bb6ebae;
+    level.add_raps_drop_locations = &add_raps_drop_locations;
     load::main();
     compass::setupminimap("compass_map_mp_ethiopia");
     spawncollision("collision_clip_256x256x256", "collider", (-129.888, -1884.61, 661.629), (0, -7, 0));
@@ -48,7 +48,7 @@ function precache() {
 // Params 1, eflags: 0x0
 // Checksum 0x48dc64bf, Offset: 0x638
 // Size: 0x1ac
-function function_7bb6ebae(&var_ef2e1e06) {
+function add_raps_drop_locations(&var_ef2e1e06) {
     if (!isdefined(var_ef2e1e06)) {
         var_ef2e1e06 = [];
     } else if (!isarray(var_ef2e1e06)) {

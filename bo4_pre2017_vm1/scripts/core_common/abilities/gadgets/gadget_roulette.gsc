@@ -16,44 +16,44 @@
 
 #namespace roulette;
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x2
 // Checksum 0xa5c6345c, Offset: 0x468
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_roulette", &__init__, undefined, undefined);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0xbf3c76f1, Offset: 0x4a8
 // Size: 0x328
 function __init__() {
     clientfield::register("toplayer", "roulette_state", 11000, 2, "int");
-    ability_player::register_gadget_activation_callbacks(43, &function_ca371720, &function_fc8f7639);
-    ability_player::register_gadget_possession_callbacks(43, &function_a55195e4, &function_e13e0d32);
-    ability_player::register_gadget_flicker_callbacks(43, &function_26221a8d);
-    ability_player::register_gadget_is_inuse_callbacks(43, &function_4cfa6fa0);
-    ability_player::register_gadget_ready_callbacks(43, &function_a3b109bf);
-    ability_player::register_gadget_is_flickering_callbacks(43, &function_327cbbe);
+    ability_player::register_gadget_activation_callbacks(43, &gadget_roulette_on_activate, &gadget_roulette_on_deactivate);
+    ability_player::register_gadget_possession_callbacks(43, &gadget_roulette_on_give, &gadget_roulette_on_take);
+    ability_player::register_gadget_flicker_callbacks(43, &gadget_roulette_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(43, &gadget_roulette_is_inuse);
+    ability_player::register_gadget_ready_callbacks(43, &gadget_roulette_is_ready);
+    ability_player::register_gadget_is_flickering_callbacks(43, &gadget_roulette_is_flickering);
     ability_player::register_gadget_should_notify(43, 0);
-    callback::on_connect(&function_1a90b6ab);
-    callback::on_spawned(&function_e25adb10);
+    callback::on_connect(&gadget_roulette_on_connect);
+    callback::on_spawned(&gadget_roulette_on_player_spawn);
     if (sessionmodeismultiplayergame()) {
-        level.var_645f7522 = [];
-        level.var_645f7522[0] = 0;
-        level.var_645f7522[1] = 0;
+        level.gadgetrouletteprobabilities = [];
+        level.gadgetrouletteprobabilities[0] = 0;
+        level.gadgetrouletteprobabilities[1] = 0;
         level.weaponnone = getweapon("none");
-        level.var_a7d38b50 = getweapon("gadget_roulette");
-        function_96a406d2("gadget_flashback", 1, 1);
-        function_96a406d2("gadget_combat_efficiency", 1, 1);
-        function_96a406d2("gadget_heat_wave", 1, 1);
-        function_96a406d2("gadget_vision_pulse", 1, 1);
-        function_96a406d2("gadget_speed_burst", 1, 1);
-        function_96a406d2("gadget_camo", 1, 1);
-        function_96a406d2("gadget_armor", 1, 1);
-        function_96a406d2("gadget_resurrect", 1, 1);
-        function_96a406d2("gadget_clone", 1, 1);
+        level.gadget_roulette = getweapon("gadget_roulette");
+        registergadgettype("gadget_flashback", 1, 1);
+        registergadgettype("gadget_combat_efficiency", 1, 1);
+        registergadgettype("gadget_heat_wave", 1, 1);
+        registergadgettype("gadget_vision_pulse", 1, 1);
+        registergadgettype("gadget_speed_burst", 1, 1);
+        registergadgettype("gadget_camo", 1, 1);
+        registergadgettype("gadget_armor", 1, 1);
+        registergadgettype("gadget_resurrect", 1, 1);
+        registergadgettype("gadget_clone", 1, 1);
     }
     /#
     #/
@@ -61,7 +61,7 @@ function __init__() {
 
 /#
 
-    // Namespace roulette/namespace_a7d38b50
+    // Namespace roulette/gadget_roulette
     // Params 0, eflags: 0x0
     // Checksum 0xb7a698de, Offset: 0x7d8
     // Size: 0x1c
@@ -73,46 +73,46 @@ function __init__() {
 
 #/
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 1, eflags: 0x0
 // Checksum 0x1d947320, Offset: 0x800
 // Size: 0x22
-function function_4cfa6fa0(slot) {
+function gadget_roulette_is_inuse(slot) {
     return self gadgetisactive(slot);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 1, eflags: 0x0
 // Checksum 0x7adeaa0, Offset: 0x830
 // Size: 0x22
-function function_327cbbe(slot) {
+function gadget_roulette_is_flickering(slot) {
     return self gadgetflickering(slot);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0x5233f3b2, Offset: 0x860
 // Size: 0x34
-function function_26221a8d(slot, weapon) {
-    self thread function_d54205c5(slot, weapon);
+function gadget_roulette_on_flicker(slot, weapon) {
+    self thread gadget_roulette_flicker(slot, weapon);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0xca6a535b, Offset: 0x8a0
 // Size: 0x54
-function function_a55195e4(slot, weapon) {
+function gadget_roulette_on_give(slot, weapon) {
     self clientfield::set_to_player("roulette_state", 0);
     if (sessionmodeismultiplayergame()) {
         self.isroulette = 1;
     }
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0xa622b834, Offset: 0x900
 // Size: 0x38
-function function_e13e0d32(slot, weapon) {
+function gadget_roulette_on_take(slot, weapon) {
     /#
         if (level.devgui_giving_abilities === 1) {
             self.isroulette = 0;
@@ -120,19 +120,19 @@ function function_e13e0d32(slot, weapon) {
     #/
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0xa1d05e, Offset: 0x940
 // Size: 0x14
-function function_1a90b6ab() {
-    function_7c7f99df();
+function gadget_roulette_on_connect() {
+    roulette_init_allow_spin();
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0x1bbf878d, Offset: 0x960
 // Size: 0x46
-function function_7c7f99df() {
+function roulette_init_allow_spin() {
     if (self.isroulette === 1) {
         if (!isdefined(self.pers[#"hash_9f129a92"])) {
             self.pers[#"hash_9f129a92"] = 1;
@@ -140,146 +140,146 @@ function function_7c7f99df() {
     }
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0xa6f9ae30, Offset: 0x9b0
 // Size: 0x14
-function function_e25adb10() {
-    function_7c7f99df();
+function gadget_roulette_on_player_spawn() {
+    roulette_init_allow_spin();
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x9d0
 // Size: 0x4
-function function_f0e244e5() {
+function watch_entity_shutdown() {
     
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0xe39ff1eb, Offset: 0x9e0
 // Size: 0x2c
-function function_ca371720(slot, weapon) {
-    function_41f588ae(weapon, 1);
+function gadget_roulette_on_activate(slot, weapon) {
+    gadget_roulette_give_earned_specialist(weapon, 1);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0xf3f5404, Offset: 0xa18
 // Size: 0x4c
-function function_a3b109bf(slot, weapon) {
+function gadget_roulette_is_ready(slot, weapon) {
     if (self gadgetisactive(slot)) {
         return;
     }
-    function_41f588ae(weapon, 0);
+    gadget_roulette_give_earned_specialist(weapon, 0);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0xcc8cee32, Offset: 0xa70
 // Size: 0x8c
-function function_41f588ae(weapon, playsound) {
-    self function_381f2fff(weapon, 1);
+function gadget_roulette_give_earned_specialist(weapon, playsound) {
+    self giverandomweapon(weapon, 1);
     if (playsound) {
         self playsoundtoplayer("mpl_bm_specialist_roulette", self);
     }
-    self thread function_1eb9e79f(weapon);
-    self thread function_e3065835(weapon);
+    self thread watchgadgetactivated(weapon);
+    self thread watchrespin(weapon);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 1, eflags: 0x0
 // Checksum 0x67ba0a46, Offset: 0xb08
 // Size: 0x5c
-function function_834ca490(duration) {
+function disable_hero_gadget_activation(duration) {
     self endon(#"death");
     self endon(#"disconnect");
-    self endon(#"hash_d1bf2e9");
+    self endon(#"roulette_respin_activate");
     self disableoffhandspecial();
     wait duration;
     self enableoffhandspecial();
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0xc564036a, Offset: 0xb70
 // Size: 0x54
-function function_921cfa96() {
-    self endon(#"hash_921cfa96");
+function watchRespinGadgetActivated() {
+    self endon(#"watchRespinGadgetActivated");
     self endon(#"death");
     self endon(#"disconnect");
     self waittill("hero_gadget_activated");
     self clientfield::set_to_player("roulette_state", 0);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 1, eflags: 0x0
 // Checksum 0x6d63a5b7, Offset: 0xbd0
 // Size: 0x1be
-function function_e3065835(weapon) {
+function watchrespin(weapon) {
     self endon(#"hero_gadget_activated");
-    self notify(#"hash_e3065835");
-    self endon(#"hash_e3065835");
+    self notify(#"watchrespin");
+    self endon(#"watchrespin");
     if (!isdefined(self.pers[#"hash_9f129a92"]) || self.pers[#"hash_9f129a92"] == 0) {
         return;
     }
-    self thread function_921cfa96();
+    self thread watchRespinGadgetActivated();
     self clientfield::set_to_player("roulette_state", 1);
     wait getdvarfloat("scr_roulette_pre_respin_wait_time", 1.3);
     while (true) {
         if (!isdefined(self)) {
             break;
         }
-        if (self function_81b15d4d()) {
+        if (self dpad_left_pressed()) {
             self.pers[#"hash_65987563"] = undefined;
-            self function_381f2fff(weapon, 0);
+            self giverandomweapon(weapon, 0);
             self.pers[#"hash_9f129a92"] = 0;
-            self notify(#"hash_921cfa96");
-            self notify(#"hash_d1bf2e9");
+            self notify(#"watchRespinGadgetActivated");
+            self notify(#"roulette_respin_activate");
             self clientfield::set_to_player("roulette_state", 2);
             self playsoundtoplayer("mpl_bm_specialist_roulette", self);
-            self thread function_9746c63b();
+            self thread reset_roulette_state_to_default();
             break;
         }
         waitframe(1);
     }
     if (isdefined(self)) {
-        self notify(#"hash_921cfa96");
+        self notify(#"watchRespinGadgetActivated");
     }
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0x5949c382, Offset: 0xd98
 // Size: 0x34
-function function_12fae26() {
-    self endon(#"hash_ab02b20c");
+function failsafe_reenable_offhand_special() {
+    self endon(#"end_failsafe_reenable_offhand_special");
     wait 3;
     if (isdefined(self)) {
         self enableoffhandspecial();
     }
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0xbcb22e88, Offset: 0xdd8
 // Size: 0x44
-function function_9746c63b() {
+function reset_roulette_state_to_default() {
     self endon(#"death");
     self endon(#"disconnect");
     wait 0.5;
     self clientfield::set_to_player("roulette_state", 0);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 1, eflags: 0x0
 // Checksum 0x49ab9798, Offset: 0xe28
 // Size: 0x9c
-function function_1eb9e79f(weapon) {
+function watchgadgetactivated(weapon) {
     self endon(#"death");
-    self notify(#"hash_1eb9e79f");
-    self endon(#"hash_1eb9e79f");
+    self notify(#"watchgadgetactivated");
+    self endon(#"watchgadgetactivated");
     self waittill("hero_gadget_activated");
     self.pers[#"hash_9f129a92"] = 1;
     if (isdefined(weapon) || weapon.name != "gadget_roulette") {
@@ -287,11 +287,11 @@ function function_1eb9e79f(weapon) {
     }
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0x1bab4cde, Offset: 0xed0
 // Size: 0x24e
-function function_381f2fff(weapon, var_beed3e44) {
+function giverandomweapon(weapon, isprimaryroll) {
     for (i = 0; i < 4; i++) {
         if (isdefined(self._gadgets_player[i])) {
             self takeweapon(self._gadgets_player[i]);
@@ -301,41 +301,41 @@ function function_381f2fff(weapon, var_beed3e44) {
     if (isdefined(self.pers[#"hash_65987563"])) {
         randomweapon = self.pers[#"hash_65987563"];
     } else if (isdefined(self.pers[#"hash_cbcfa831"]) || isdefined(self.pers[#"hash_cbcfa832"])) {
-        for (randomweapon = function_917fa966(var_beed3e44); isdefined(self.pers[#"hash_cbcfa832"]) && (randomweapon == self.pers[#"hash_cbcfa831"] || randomweapon == self.pers[#"hash_cbcfa832"]); randomweapon = function_917fa966(var_beed3e44)) {
+        for (randomweapon = getrandomgadget(isprimaryroll); isdefined(self.pers[#"hash_cbcfa832"]) && (randomweapon == self.pers[#"hash_cbcfa831"] || randomweapon == self.pers[#"hash_cbcfa832"]); randomweapon = getrandomgadget(isprimaryroll)) {
         }
     } else {
-        randomweapon = function_917fa966(var_beed3e44);
+        randomweapon = getrandomgadget(isprimaryroll);
     }
-    if (isdefined(level.playgadgetready) && !var_beed3e44) {
-        self thread [[ level.playgadgetready ]](randomweapon, !var_beed3e44);
+    if (isdefined(level.playgadgetready) && !isprimaryroll) {
+        self thread [[ level.playgadgetready ]](randomweapon, !isprimaryroll);
     }
-    self thread function_27bf03c4(weapon);
+    self thread gadget_roulette_on_deactivate_helper(weapon);
     self giveweapon(randomweapon);
     self.pers[#"hash_65987563"] = randomweapon;
     self.pers[#"hash_cbcfa832"] = self.pers[#"hash_cbcfa831"];
     self.pers[#"hash_cbcfa831"] = randomweapon;
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0x784f6867, Offset: 0x1128
 // Size: 0x2c
-function function_fc8f7639(slot, weapon) {
-    thread function_27bf03c4(weapon);
+function gadget_roulette_on_deactivate(slot, weapon) {
+    thread gadget_roulette_on_deactivate_helper(weapon);
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 1, eflags: 0x0
 // Checksum 0x7e8e539d, Offset: 0x1160
 // Size: 0x144
-function function_27bf03c4(weapon) {
-    self notify(#"hash_27bf03c4");
-    self endon(#"hash_27bf03c4");
+function gadget_roulette_on_deactivate_helper(weapon) {
+    self notify(#"gadget_roulette_on_deactivate_helper");
+    self endon(#"gadget_roulette_on_deactivate_helper");
     waitresult = self waittill("heroAbility_off");
-    var_9a1435cf = waitresult.weapon;
-    if (isdefined(var_9a1435cf) && var_9a1435cf.name == "gadget_speed_burst") {
+    weapon_off = waitresult.weapon;
+    if (isdefined(weapon_off) && weapon_off.name == "gadget_speed_burst") {
         waitresult = self waittill("heroAbility_off");
-        var_9a1435cf = waitresult.weapon;
+        weapon_off = waitresult.weapon;
     }
     for (i = 0; i < 4; i++) {
         if (isdefined(self) && isdefined(self._gadgets_player[i])) {
@@ -343,24 +343,24 @@ function function_27bf03c4(weapon) {
         }
     }
     if (isdefined(self)) {
-        self giveweapon(level.var_a7d38b50);
+        self giveweapon(level.gadget_roulette);
         self.pers[#"hash_65987563"] = undefined;
     }
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0x83d16b9f, Offset: 0x12b0
 // Size: 0x14
-function function_d54205c5(slot, weapon) {
+function gadget_roulette_flicker(slot, weapon) {
     
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 2, eflags: 0x0
 // Checksum 0x77b7b591, Offset: 0x12d0
 // Size: 0x9c
-function function_39b1b87b(status, time) {
+function set_gadget_status(status, time) {
     timestr = "";
     if (isdefined(time)) {
         timestr = "^3" + ", time: " + time;
@@ -370,59 +370,59 @@ function function_39b1b87b(status, time) {
     }
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 0, eflags: 0x0
 // Checksum 0x38d50f1f, Offset: 0x1378
 // Size: 0x1a
-function function_81b15d4d() {
+function dpad_left_pressed() {
     return self actionslotthreebuttonpressed();
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 1, eflags: 0x0
 // Checksum 0x4585123b, Offset: 0x13a0
 // Size: 0x172
-function function_917fa966(var_beed3e44) {
-    if (var_beed3e44) {
+function getrandomgadget(isprimaryroll) {
+    if (isprimaryroll) {
         category = 0;
-        var_ef0c7c51 = 0;
+        totalcategory = 0;
     } else {
         category = 1;
-        var_ef0c7c51 = 1;
+        totalcategory = 1;
     }
-    var_e11107cf = randomintrange(1, level.var_645f7522[var_ef0c7c51] + 1);
-    var_57988017 = getarraykeys(level.var_645f7522);
-    var_19a3ca3e = "";
-    foreach (gadget in var_57988017) {
-        var_e11107cf -= level.var_645f7522[gadget][category];
-        if (var_e11107cf <= 0) {
-            var_19a3ca3e = gadget;
+    randomgadgetnumber = randomintrange(1, level.gadgetrouletteprobabilities[totalcategory] + 1);
+    gadgetnames = getarraykeys(level.gadgetrouletteprobabilities);
+    selectedgadget = "";
+    foreach (gadget in gadgetnames) {
+        randomgadgetnumber -= level.gadgetrouletteprobabilities[gadget][category];
+        if (randomgadgetnumber <= 0) {
+            selectedgadget = gadget;
             break;
         }
     }
-    return var_19a3ca3e;
+    return selectedgadget;
 }
 
-// Namespace roulette/namespace_a7d38b50
+// Namespace roulette/gadget_roulette
 // Params 3, eflags: 0x0
 // Checksum 0xdd7c1197, Offset: 0x1520
 // Size: 0x146
-function function_96a406d2(var_edf36e37, var_86166a51, var_c730de85) {
-    gadgetweapon = getweapon(var_edf36e37);
+function registergadgettype(gadgetnamestring, primaryweight, secondaryweight) {
+    gadgetweapon = getweapon(gadgetnamestring);
     /#
         assert(isdefined(gadgetweapon));
     #/
     if (gadgetweapon == level.weaponnone) {
         /#
-            assertmsg(var_edf36e37 + "<dev string:x28>");
+            assertmsg(gadgetnamestring + "<dev string:x28>");
         #/
     }
-    if (!isdefined(level.var_645f7522[gadgetweapon])) {
-        level.var_645f7522[gadgetweapon] = [];
+    if (!isdefined(level.gadgetrouletteprobabilities[gadgetweapon])) {
+        level.gadgetrouletteprobabilities[gadgetweapon] = [];
     }
-    level.var_645f7522[gadgetweapon][0] = var_86166a51;
-    level.var_645f7522[gadgetweapon][1] = var_c730de85;
-    level.var_645f7522[0] = level.var_645f7522[0] + var_86166a51;
-    level.var_645f7522[1] = level.var_645f7522[1] + var_c730de85;
+    level.gadgetrouletteprobabilities[gadgetweapon][0] = primaryweight;
+    level.gadgetrouletteprobabilities[gadgetweapon][1] = secondaryweight;
+    level.gadgetrouletteprobabilities[0] = level.gadgetrouletteprobabilities[0] + primaryweight;
+    level.gadgetrouletteprobabilities[1] = level.gadgetrouletteprobabilities[1] + secondaryweight;
 }
 

@@ -17,7 +17,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x7b923e26, Offset: 0x3e8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("ability_player", &__init__, undefined, undefined);
 }
 
@@ -26,9 +26,9 @@ function autoexec function_2dc19561() {
 // Checksum 0x8fb0ce11, Offset: 0x428
 // Size: 0xd4
 function __init__() {
-    function_18f95194();
+    init_abilities();
     setup_clientfields();
-    level thread function_56806b7b();
+    level thread gadgets_wait_for_game_end();
     callback::on_connect(&on_player_connect);
     callback::on_spawned(&on_player_spawned);
     callback::on_disconnect(&on_player_disconnect);
@@ -44,7 +44,7 @@ function __init__() {
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x508
 // Size: 0x4
-function function_18f95194() {
+function init_abilities() {
     
 }
 
@@ -74,7 +74,7 @@ function on_player_connect() {
 // Checksum 0x48ae1140, Offset: 0x570
 // Size: 0x36
 function on_player_spawned() {
-    self thread function_35a6b583();
+    self thread gadgets_wait_for_death();
     self.heroabilityactivatetime = undefined;
     self.heroabilitydectivatetime = undefined;
     self.heroabilityactive = undefined;
@@ -132,7 +132,7 @@ function gadgets_save_power(game_ended) {
 // Params 0, eflags: 0x0
 // Checksum 0x7d7741f2, Offset: 0x790
 // Size: 0x5c
-function function_35a6b583() {
+function gadgets_wait_for_death() {
     self endon(#"disconnect");
     self.pers["held_gadgets_power"] = [];
     self waittill("death");
@@ -146,7 +146,7 @@ function function_35a6b583() {
 // Params 0, eflags: 0x0
 // Checksum 0xbe3caf1, Offset: 0x7f8
 // Size: 0xea
-function function_56806b7b() {
+function gadgets_wait_for_game_end() {
     level waittill("game_ended");
     players = getplayers();
     foreach (player in players) {
@@ -174,7 +174,7 @@ function script_set_cclass(cclass, save) {
 // Params 1, eflags: 0x0
 // Checksum 0x316eab9c, Offset: 0x920
 // Size: 0xc
-function function_51b42ee1(weapon) {
+function update_gadget(weapon) {
     
 }
 
@@ -503,9 +503,9 @@ function turn_gadget_off(slot, weapon) {
     if (weapon.gadget_type != 14) {
         if (self isempjammed() == 1) {
             self gadgettargetresult(0);
-            if (isdefined(level.var_3b36608e)) {
+            if (isdefined(level.callbackendherospecialistemp)) {
                 if (isdefined(weapon.gadget_turnoff_onempjammed) && weapon.gadget_turnoff_onempjammed == 1) {
-                    self thread [[ level.var_3b36608e ]]();
+                    self thread [[ level.callbackendherospecialistemp ]]();
                 }
             }
         }
@@ -513,7 +513,7 @@ function turn_gadget_off(slot, weapon) {
         self.heroabilityactive = undefined;
         self.heroability = weapon;
     }
-    self notify(#"heroability_off", {#weapon:weapon});
+    self notify(#"heroAbility_off", {#weapon:weapon});
     xuid = self getxuid();
     bbprint("mpheropowerevents", "spawnid %d gametime %d name %s powerstate %s playername %s xuid %s", getplayerspawnid(self), gettime(), self._gadgets_player[slot].name, "expired", self.name, xuid);
     if (isdefined(level.oldschool) && level.oldschool) {
@@ -538,7 +538,7 @@ function gadget_checkheroabilitykill(attacker) {
             }
             break;
         case #"gadget_camo":
-        case #"hash_9334d6bb":
+        case #"gadget_flashback":
         case #"gadget_resurrect":
             if (isdefined(attacker.heroabilitydectivatetime) && (isdefined(attacker.heroabilityactive) || attacker.heroabilitydectivatetime > gettime() - 6000)) {
                 heroabilitystat = 1;
@@ -615,10 +615,10 @@ function gadget_ready(slot, weapon) {
                     }
                 }
             }
-        } else if (isdefined(level.var_f543dad1)) {
-            var_c04d8f24 = tablelookuprownum(level.var_f543dad1, 4, self._gadgets_player[slot].name);
-            if (var_c04d8f24 > -1) {
-                index = int(tablelookupcolumnforrow(level.var_f543dad1, var_c04d8f24, 0));
+        } else if (isdefined(level.statstableid)) {
+            itemrow = tablelookuprownum(level.statstableid, 4, self._gadgets_player[slot].name);
+            if (itemrow > -1) {
+                index = int(tablelookupcolumnforrow(level.statstableid, itemrow, 0));
                 if (index != 0) {
                     self luinotifyevent(%hero_weapon_received, 1, index);
                     self luinotifyeventtospectators(%hero_weapon_received, 1, index);
@@ -753,20 +753,20 @@ function gadget_primed(slot, weapon) {
     // Size: 0x170
     function abilities_devgui_add_gadgets(add_cmd_with_root, pid, menu_index) {
         a_weapons = enumerateweapons("<dev string:xfb>");
-        var_5cea3801 = [];
+        a_hero = [];
         a_abilities = [];
         for (i = 0; i < a_weapons.size; i++) {
             if (a_weapons[i].isgadget) {
                 if (a_weapons[i].isheavyweapon) {
-                    arrayinsert(var_5cea3801, a_weapons[i], 0);
+                    arrayinsert(a_hero, a_weapons[i], 0);
                     continue;
                 }
                 arrayinsert(a_abilities, a_weapons[i], 0);
             }
         }
-        function_876574ac(add_cmd_with_root, pid, a_abilities, "<dev string:x102>", menu_index);
+        abilities_devgui_add_player_weapons(add_cmd_with_root, pid, a_abilities, "<dev string:x102>", menu_index);
         menu_index++;
-        function_876574ac(add_cmd_with_root, pid, var_5cea3801, "<dev string:x111>", menu_index);
+        abilities_devgui_add_player_weapons(add_cmd_with_root, pid, a_hero, "<dev string:x111>", menu_index);
         menu_index++;
         return menu_index;
     }
@@ -775,11 +775,11 @@ function gadget_primed(slot, weapon) {
     // Params 5, eflags: 0x0
     // Checksum 0xfa7e5de0, Offset: 0x3320
     // Size: 0xbe
-    function function_876574ac(root, pid, a_weapons, weapon_type, menu_index) {
+    function abilities_devgui_add_player_weapons(root, pid, a_weapons, weapon_type, menu_index) {
         if (isdefined(a_weapons)) {
             player_devgui_root = root + weapon_type + "<dev string:xa7>";
             for (i = 0; i < a_weapons.size; i++) {
-                function_79aa7c68(player_devgui_root, pid, a_weapons[i].name, i + 1);
+                abilities_devgui_add_player_weap_command(player_devgui_root, pid, a_weapons[i].name, i + 1);
             }
         }
     }
@@ -788,7 +788,7 @@ function gadget_primed(slot, weapon) {
     // Params 4, eflags: 0x0
     // Checksum 0x57882059, Offset: 0x33e8
     // Size: 0xac
-    function function_79aa7c68(root, pid, weap_name, cmdindex) {
+    function abilities_devgui_add_player_weap_command(root, pid, weap_name, cmdindex) {
         adddebugcommand(root + weap_name + "<dev string:xb1>" + "<dev string:x6e>" + "<dev string:xb9>" + pid + "<dev string:xbb>" + "<dev string:x3b>" + "<dev string:xb9>" + "<dev string:x11e>" + "<dev string:xbb>" + "<dev string:x55>" + "<dev string:xb9>" + weap_name + "<dev string:xc1>");
     }
 
@@ -796,7 +796,7 @@ function gadget_primed(slot, weapon) {
     // Params 4, eflags: 0x0
     // Checksum 0x92b79317, Offset: 0x34a0
     // Size: 0xac
-    function function_f568749a(root, pid, weap_name, cmdindex) {
+    function abilities_devgui_add_player_weap_command_max3(root, pid, weap_name, cmdindex) {
         adddebugcommand(root + weap_name + "<dev string:xb1>" + "<dev string:x6e>" + "<dev string:xb9>" + pid + "<dev string:xbb>" + "<dev string:x3b>" + "<dev string:xb9>" + "<dev string:x12b>" + "<dev string:xbb>" + "<dev string:x55>" + "<dev string:xb9>" + weap_name + "<dev string:xc1>");
     }
 
@@ -835,13 +835,13 @@ function gadget_primed(slot, weapon) {
                 abilities_devgui_handle_player_command(cmd, &abilities_devgui_give, arg);
                 break;
             case #"hash_2808c155":
-                abilities_devgui_handle_player_command(cmd, &function_4c4f2424, arg);
+                abilities_devgui_handle_player_command(cmd, &abilities_devgui_give_max3, arg);
                 break;
             case #"hash_e14e96e9":
-                abilities_devgui_handle_player_command(cmd, &function_4c4f2424, arg);
+                abilities_devgui_handle_player_command(cmd, &abilities_devgui_give_max3, arg);
                 break;
             case #"hash_7511152":
-                abilities_devgui_handle_player_command(cmd, &function_4c4f2424, arg);
+                abilities_devgui_handle_player_command(cmd, &abilities_devgui_give_max3, arg);
                 break;
             case #"":
                 break;
@@ -869,7 +869,7 @@ function gadget_primed(slot, weapon) {
         }
         self notify(#"gadget_devgui_give");
         self giveweapon(weapon);
-        self function_7059e3e7(weapon);
+        self abilities_devgui_bot_test(weapon);
         level.devgui_giving_abilities = undefined;
     }
 
@@ -877,17 +877,17 @@ function gadget_primed(slot, weapon) {
     // Params 1, eflags: 0x0
     // Checksum 0xe27bae28, Offset: 0x38e8
     // Size: 0x166
-    function function_4c4f2424(weapon_name) {
-        var_3dd06108 = min(3, 4);
+    function abilities_devgui_give_max3(weapon_name) {
+        maxheld = min(3, 4);
         level.devgui_giving_abilities = 1;
         current_count = 0;
-        for (i = 0; i < var_3dd06108; i++) {
+        for (i = 0; i < maxheld; i++) {
             if (isdefined(self._gadgets_player[i])) {
                 current_count++;
             }
         }
-        if (current_count == var_3dd06108) {
-            for (i = 0; i < var_3dd06108; i++) {
+        if (current_count == maxheld) {
+            for (i = 0; i < maxheld; i++) {
                 if (isdefined(self._gadgets_player[i])) {
                     self takeweapon(self._gadgets_player[i]);
                 }
@@ -896,7 +896,7 @@ function gadget_primed(slot, weapon) {
         weapon = getweapon(weapon_name);
         self notify(#"gadget_devgui_give");
         self giveweapon(weapon);
-        self function_7059e3e7(weapon);
+        self abilities_devgui_bot_test(weapon);
         level.devgui_giving_abilities = undefined;
     }
 
@@ -978,11 +978,11 @@ function gadget_primed(slot, weapon) {
     // Params 1, eflags: 0x0
     // Checksum 0xe60071a0, Offset: 0x3da8
     // Size: 0x84
-    function function_7059e3e7(weapon) {
+    function abilities_devgui_bot_test(weapon) {
         if (self isbot()) {
             slot = self gadgetgetslot(weapon);
             self gadgetpowerset(slot, 100);
-            self thread bot::function_cf8f9518(weapon);
+            self thread bot::activate_hero_gadget(weapon);
         }
     }
 

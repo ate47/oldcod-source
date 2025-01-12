@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xbccac3e7, Offset: 0x5d8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("raps", &__init__, undefined, undefined);
 }
 
@@ -781,8 +781,8 @@ function slow_raps(trigger) {
 // Checksum 0xe63ab989, Offset: 0x3c00
 // Size: 0xe4
 function force_get_enemies() {
-    if (isdefined(level.var_a5ae5b79)) {
-        return self [[ level.var_a5ae5b79 ]]();
+    if (isdefined(level.raps_force_get_enemies)) {
+        return self [[ level.raps_force_get_enemies ]]();
     }
     foreach (player in level.players) {
         if (self util::isenemyplayer(player) && !player.ignoreme) {

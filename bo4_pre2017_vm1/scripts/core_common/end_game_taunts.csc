@@ -17,7 +17,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xb1ba68cd, Offset: 0x1988
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("end_game_taunts", &__init__, undefined, undefined);
 }
 
@@ -124,9 +124,9 @@ function __init__() {
         tempmodel.angles = angles;
         tempmodel.showcaseweapon = showcaseweapon;
         tempmodel.bodymodel = getcharacterbodymodel(characterindex, 0, currentsessionmode());
-        tempmodel.var_f1a3fa15 = getcharacterhelmetmodel(characterindex, 0, currentsessionmode());
+        tempmodel.helmetmodel = getcharacterhelmetmodel(characterindex, 0, currentsessionmode());
         tempmodel setmodel(tempmodel.bodymodel);
-        tempmodel attach(tempmodel.var_f1a3fa15, "<dev string:x33>");
+        tempmodel attach(tempmodel.helmetmodel, "<dev string:x33>");
         tempmodel.var_957cc42 = getcharactermoderenderoptions(currentsessionmode());
         tempmodel.var_6f30937d = getcharacterbodyrenderoptions(characterindex, 0, 0, 0, 0);
         tempmodel.var_d44a8060 = getcharacterhelmetrenderoptions(characterindex, 0, 0, 0, 0);
@@ -838,7 +838,7 @@ function function_f39abb1e(localclientnum) {
 // Checksum 0x871e6763, Offset: 0x5520
 // Size: 0x14a
 function function_67866405(localclientnum, targetname) {
-    clone = self function_9d823940(localclientnum, targetname, self.origin, self.angles, self.bodymodel, self.var_f1a3fa15, self.var_957cc42, self.var_6f30937d, self.var_d44a8060);
+    clone = self function_9d823940(localclientnum, targetname, self.origin, self.angles, self.bodymodel, self.helmetmodel, self.var_957cc42, self.var_6f30937d, self.var_d44a8060);
     clone setscale(0);
     waitframe(1);
     clone hide();
@@ -857,24 +857,24 @@ function function_67866405(localclientnum, targetname) {
 // Size: 0x12a
 function function_802dd60f(localclientnum, targetname, origin, angles, var_c55b8047) {
     bodymodel = gettopplayersbodymodel(localclientnum, var_c55b8047);
-    var_f1a3fa15 = gettopplayershelmetmodel(localclientnum, var_c55b8047);
+    helmetmodel = gettopplayershelmetmodel(localclientnum, var_c55b8047);
     var_957cc42 = getcharactermoderenderoptions(currentsessionmode());
     var_6f30937d = gettopplayersbodyrenderoptions(localclientnum, var_c55b8047);
     var_d44a8060 = gettopplayershelmetrenderoptions(localclientnum, var_c55b8047);
-    return function_9d823940(localclientnum, targetname, origin, angles, bodymodel, var_f1a3fa15, var_957cc42, var_6f30937d, var_d44a8060);
+    return function_9d823940(localclientnum, targetname, origin, angles, bodymodel, helmetmodel, var_957cc42, var_6f30937d, var_d44a8060);
 }
 
 // Namespace end_game_taunts/end_game_taunts
 // Params 9, eflags: 0x0
 // Checksum 0x54085dc3, Offset: 0x57b0
 // Size: 0x158
-function function_9d823940(localclientnum, targetname, origin, angles, bodymodel, var_f1a3fa15, var_957cc42, var_6f30937d, var_d44a8060) {
+function function_9d823940(localclientnum, targetname, origin, angles, bodymodel, helmetmodel, var_957cc42, var_6f30937d, var_d44a8060) {
     model = spawn(localclientnum, origin, "script_model");
     model.angles = angles;
     model.targetname = targetname;
     model sethighdetail(1);
     model setmodel(bodymodel);
-    model attach(var_f1a3fa15, "");
+    model attach(helmetmodel, "");
     model setbodyrenderoptions(var_957cc42, var_6f30937d, var_d44a8060, var_d44a8060);
     model hide();
     model useanimtree(#all_player);

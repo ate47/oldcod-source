@@ -12,7 +12,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xa19b6725, Offset: 0x8b0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("rank", &__init__, undefined, undefined);
 }
 
@@ -429,11 +429,11 @@ function shouldkickbyrank() {
 // Params 0, eflags: 0x0
 // Checksum 0xb7e8b0b1, Offset: 0x2710
 // Size: 0x88
-function function_266f74f4() {
+function getcodpointsstat() {
     codpoints = self getdstat("playerstatslist", "CODPOINTS", "StatValue");
     var_7fbc8baf = function_35db3641(codpoints);
     if (codpoints > var_7fbc8baf) {
-        self function_81238668(var_7fbc8baf);
+        self setcodpointsstat(var_7fbc8baf);
     }
     return var_7fbc8baf;
 }
@@ -442,7 +442,7 @@ function function_266f74f4() {
 // Params 1, eflags: 0x0
 // Checksum 0xee5d27ce, Offset: 0x27a0
 // Size: 0x4c
-function function_81238668(codpoints) {
+function setcodpointsstat(codpoints) {
     self setdstat("PlayerStatsList", "CODPOINTS", "StatValue", function_35db3641(codpoints));
 }
 
@@ -475,7 +475,7 @@ function getarenapointsstat() {
 // Size: 0x6a4
 function on_player_connect() {
     self.pers["rankxp"] = self getrankxpstat();
-    self.pers["codpoints"] = self function_266f74f4();
+    self.pers["codpoints"] = self getcodpointsstat();
     self.pers["currencyspent"] = self getdstat("playerstatslist", "currencyspent", "StatValue");
     rankid = self getrankforxp(self getrankxp());
     self.pers["rank"] = rankid;
@@ -592,7 +592,7 @@ function function_cb1e9fe6(amount) {
         self.pers["summary"]["codpoints"] = self.pers["summary"]["codpoints"] + var_a7f48cf4 - self.pers["codpoints"];
     }
     self.pers["codpoints"] = var_a7f48cf4;
-    function_81238668(int(var_a7f48cf4));
+    setcodpointsstat(int(var_a7f48cf4));
 }
 
 // Namespace rank/rank_shared

@@ -316,9 +316,9 @@ function callback_vehiclekilled(einflictor, eattacker, idamage, smeansofdeath, w
             } else {
                 enemykilled_cooldown = "enemy_killed_vo_" + player.team;
                 if (level util::iscooldownready(enemykilled_cooldown)) {
-                    var_2f0ec686 = 1;
+                    dialog_flag_team = 1;
                     level util::cooldown(enemykilled_cooldown, 4);
-                    player dialog_shared::play_dialog("killenemy", var_2f0ec686);
+                    player dialog_shared::play_dialog("killenemy", dialog_flag_team);
                     level util::addcooldowntime(enemykilled_cooldown, 4);
                 }
             }

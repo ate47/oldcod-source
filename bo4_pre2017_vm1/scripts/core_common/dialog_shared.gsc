@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x7750c2f8, Offset: 0x10a8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("dialog_shared", &__init__, undefined, undefined);
 }
 
@@ -487,7 +487,7 @@ function say_kill_battle_chatter(attacker, weapon, victim, inflictor) {
                 attacker.speedburstkill = 1;
             }
         }
-    } else if (isdefined(attacker.var_9b8eaff2) && (attacker gadget_camo::function_6b246a0f() || attacker.var_9b8eaff2 + mpdialog_value("camoKillTime", 0) * 1000 >= gettime())) {
+    } else if (isdefined(attacker.gadget_camo_off_time) && (attacker gadget_camo::camo_is_inuse() || attacker.gadget_camo_off_time + mpdialog_value("camoKillTime", 0) * 1000 >= gettime())) {
         if (!(isdefined(attacker.playedgadgetsuccess) && attacker.playedgadgetsuccess)) {
             attacker thread play_gadget_success(getweapon("gadget_camo"), "enemyKillDelay", victim);
         }
@@ -975,7 +975,7 @@ function play_gadget_ready(weapon, userflip) {
     case #"hero_lightninggun_arc":
         dialogkey = "tempestWeaponReady";
         break;
-    case #"hash_9334d6bb":
+    case #"gadget_flashback":
         dialogkey = "glitchAbilityReady";
         break;
     case #"hero_pineapplegun":
@@ -1020,7 +1020,7 @@ function play_gadget_ready(weapon, userflip) {
     }
     if (!(isdefined(self.isthief) && self.isthief) && !(isdefined(self.isroulette) && self.isroulette)) {
         dialogflags = undefined;
-        if (self util::function_4f5dd9d2()) {
+        if (self util::is_companion()) {
             dialogflags = 1;
         }
         self thread play_dialog(dialogkey, dialogflags);
@@ -1105,7 +1105,7 @@ function play_gadget_activate(weapon) {
     case #"hero_lightninggun_arc":
         dialogkey = "tempestWeaponUse";
         break;
-    case #"hash_9334d6bb":
+    case #"gadget_flashback":
         dialogkey = "glitchAbilityUse";
         break;
     case #"hero_pineapplegun":
@@ -1148,7 +1148,7 @@ function play_gadget_activate(weapon) {
     default:
         return;
     }
-    if (self util::function_4f5dd9d2()) {
+    if (self util::is_companion()) {
         if (isdefined(dialogflags)) {
             dialogflags |= 1;
         } else {
@@ -1187,7 +1187,7 @@ function play_gadget_success(weapon, waitkey, victim) {
     case #"hero_lightninggun_arc":
         dialogkey = "tempestWeaponSuccess";
         break;
-    case #"hash_9334d6bb":
+    case #"gadget_flashback":
         dialogkey = "glitchAbilitySuccess";
         break;
     case #"hero_pineapplegun":

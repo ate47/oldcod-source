@@ -18,7 +18,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x238898aa, Offset: 0x590
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("vehicle_ai", &__init__, undefined, undefined);
 }
 
@@ -154,9 +154,9 @@ function __fire_for_rounds_internal(firecount, fireinterval, turretidx, target) 
     /#
         assert(isdefined(turretidx));
     #/
-    var_d10e198b = 1;
-    if (isdefined(target) && !isplayer(target) && isai(target) || isdefined(self.var_b027b297)) {
-        var_d10e198b = 2;
+    aifirechance = 1;
+    if (isdefined(target) && !isplayer(target) && isai(target) || isdefined(self.fire_half_blanks)) {
+        aifirechance = 2;
     }
     counter = 0;
     while (counter < firecount) {
@@ -166,8 +166,8 @@ function __fire_for_rounds_internal(firecount, fireinterval, turretidx, target) 
         }
         if (isdefined(target) && !isvec(target) && isdefined(target.attackeraccuracy) && target.attackeraccuracy == 0) {
             self fireturret(turretidx, 1);
-        } else if (var_d10e198b > 1) {
-            self fireturret(turretidx, counter % var_d10e198b);
+        } else if (aifirechance > 1) {
+            self fireturret(turretidx, counter % aifirechance);
         } else {
             self fireturret(turretidx);
         }
@@ -210,7 +210,7 @@ function setturrettarget(target, turretidx, offset) {
 // Params 2, eflags: 0x0
 // Checksum 0x5118522b, Offset: 0xfc0
 // Size: 0x34
-function fireturret(turretidx, var_2b904ac6) {
+function fireturret(turretidx, isfake) {
     self fireweapon(turretidx, undefined, undefined, self);
 }
 
@@ -1380,8 +1380,8 @@ function defaultstate_emped_enter(params) {
         self.abnormal_status = spawnstruct();
     }
     self.abnormal_status.emped = 1;
-    self.abnormal_status.attacker = params.var_6e0794d4[1];
-    self.abnormal_status.inflictor = params.var_6e0794d4[2];
+    self.abnormal_status.attacker = params.notify_param[1];
+    self.abnormal_status.inflictor = params.notify_param[2];
     self vehicle::toggle_emp_fx(1);
 }
 
@@ -1402,7 +1402,7 @@ function emp_startup_fx() {
 function defaultstate_emped_update(params) {
     self endon(#"death");
     self endon(#"change_state");
-    time = params.var_6e0794d4[0];
+    time = params.notify_param[0];
     /#
         assert(isdefined(time));
     #/
@@ -1566,14 +1566,14 @@ function canseeenemyfromposition(position, enemy, sight_check_height) {
 // Params 1, eflags: 0x0
 // Checksum 0x358f5a3, Offset: 0x58c8
 // Size: 0x81e
-function function_4796e657(sight_check_height) {
+function findnewposition(sight_check_height) {
     if (self.goalforced) {
         goalpos = getclosestpointonnavmesh(self.goalpos, self.radius * 2, self.radius);
         return goalpos;
     }
-    var_cae297db = 90;
+    point_spacing = 90;
     pixbeginevent("vehicle_ai_shared::FindNewPosition");
-    queryresult = positionquery_source_navigation(self.origin, 0, 2000, 300, var_cae297db, self, var_cae297db * 2);
+    queryresult = positionquery_source_navigation(self.origin, 0, 2000, 300, point_spacing, self, point_spacing * 2);
     pixendevent();
     positionquery_filter_random(queryresult, 0, 50);
     positionquery_filter_distancetogoal(queryresult, self);
@@ -1585,15 +1585,15 @@ function function_4796e657(sight_check_height) {
         positionquery_filter_sight(queryresult, self.enemy.origin, self geteye() - self.origin, self, 0, self.enemy);
         self positionquery_filter_engagementdist(queryresult, self.enemy, self.settings.engagementdistmin, self.settings.engagementdistmax);
         if (turret::has_turret(1)) {
-            var_7d8fdc18 = turret::get_target(1);
-            if (isdefined(var_7d8fdc18) && var_7d8fdc18 != self.enemy) {
-                positionquery_filter_sight(queryresult, var_7d8fdc18.origin, (0, 0, sight_check_height), self, 20, self, "sight2");
+            side_turret_enemy = turret::get_target(1);
+            if (isdefined(side_turret_enemy) && side_turret_enemy != self.enemy) {
+                positionquery_filter_sight(queryresult, side_turret_enemy.origin, (0, 0, sight_check_height), self, 20, self, "sight2");
             }
         }
         if (turret::has_turret(2)) {
-            var_7d8fdc18 = turret::get_target(2);
-            if (isdefined(var_7d8fdc18) && var_7d8fdc18 != self.enemy) {
-                positionquery_filter_sight(queryresult, var_7d8fdc18.origin, (0, 0, sight_check_height), self, 20, self, "sight3");
+            side_turret_enemy = turret::get_target(2);
+            if (isdefined(side_turret_enemy) && side_turret_enemy != self.enemy) {
+                positionquery_filter_sight(queryresult, side_turret_enemy.origin, (0, 0, sight_check_height), self, 20, self, "sight3");
             }
         }
         foreach (point in queryresult.data) {
@@ -1622,7 +1622,7 @@ function function_4796e657(sight_check_height) {
                 #/
                 point.score += 250;
             }
-            if (isdefined(point.var_ffab01e6) && point.var_ffab01e6) {
+            if (isdefined(point.sight2) && point.sight2) {
                 /#
                     if (!isdefined(point._scoredebug)) {
                         point._scoredebug = [];
@@ -1631,7 +1631,7 @@ function function_4796e657(sight_check_height) {
                 #/
                 point.score += 150;
             }
-            if (isdefined(point.var_25ad7c4f) && point.var_25ad7c4f) {
+            if (isdefined(point.sight3) && point.sight3) {
                 /#
                     if (!isdefined(point._scoredebug)) {
                         point._scoredebug = [];

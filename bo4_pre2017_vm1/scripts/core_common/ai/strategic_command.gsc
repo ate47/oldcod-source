@@ -9,7 +9,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xe742f8a0, Offset: 0x1f8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("strategic_command", &strategiccommandutility::__init__, undefined, undefined);
 }
 
@@ -75,7 +75,7 @@ function private _debuggameobjects() {
                         if (points.size <= 0) {
                             color = (1, 0, 0);
                         }
-                        var_6b2afd6c = "\n \n";
+                        spacer3d = "\n \n";
                         identifiertext = "identifier(";
                         if (isdefined(identifier)) {
                             identifiertext += identifier;
@@ -84,7 +84,7 @@ function private _debuggameobjects() {
                         tacpointtext = "tac_points(" + points.size + ") ";
                         origintext = "origin(" + int(origin[0]) + ", " + int(origin[1]) + ", " + int(origin[2]) + ") ";
                         /#
-                            record3dtext(identifiertext + var_6b2afd6c + tacpointtext + var_6b2afd6c + origintext, origin, color, "<dev string:x28>");
+                            record3dtext(identifiertext + spacer3d + tacpointtext + spacer3d + origintext, origin, color, "<dev string:x28>");
                             recordsphere(origin, 20, color);
                             sphere(origin, 20, color, 0, 0);
                             if (isdefined(gameobject.trigger.radius)) {

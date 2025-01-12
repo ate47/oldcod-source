@@ -11,7 +11,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x34a0b476, Offset: 0x208
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("status_effect_pulse", &__init__, undefined, undefined);
 }
 
@@ -21,8 +21,8 @@ function autoexec function_2dc19561() {
 // Size: 0xac
 function __init__() {
     status_effect::register_status_effect_callback_apply(7, &pulse_apply);
-    status_effect::function_9acf95a1(7, "pulse");
-    status_effect::function_96de5b5e(7, getscriptbundle("pulse").var_804bc9d5 * 1000);
+    status_effect::register_status_effect_name(7, "pulse");
+    status_effect::register_status_effect_base_duration(7, getscriptbundle("pulse").seduration * 1000);
     clientfield::register("toplayer", "pulsed", 1, 1, "int");
 }
 
@@ -31,41 +31,41 @@ function __init__() {
 // Checksum 0x51f4b857, Offset: 0x300
 // Size: 0x2ac
 function pulse_apply() {
-    self notify(#"hash_4a7ea32e");
-    self endon(#"hash_4a7ea32e");
+    self notify(#"applyPulse");
+    self endon(#"applyPulse");
     self endon(#"disconnect");
     self endon(#"death");
     waitframe(1);
     if (!(isdefined(self) && isalive(self))) {
         return;
     }
-    var_80616813 = status_effect::status_effect_get_duration(7);
-    if (isdefined(self.var_3d67a154)) {
-        var_adc41fb7 = self.var_3d67a154 - gettime();
-        if (var_adc41fb7 > var_80616813) {
-            self.pulseduration = var_adc41fb7;
+    currentpulseduration = status_effect::status_effect_get_duration(7);
+    if (isdefined(self.pulseendtime)) {
+        pulse_time_left_ms = self.pulseendtime - gettime();
+        if (pulse_time_left_ms > currentpulseduration) {
+            self.pulseduration = pulse_time_left_ms;
         } else {
-            self.pulseduration = var_80616813;
+            self.pulseduration = currentpulseduration;
         }
     } else {
-        self.pulseduration = var_80616813;
+        self.pulseduration = currentpulseduration;
     }
     self clientfield::set_to_player("pulsed", 1);
     self.pulsestarttime = gettime();
-    self.var_3d67a154 = self.pulsestarttime + self.pulseduration;
+    self.pulseendtime = self.pulsestarttime + self.pulseduration;
     shutdownpulserebootindicatormenu();
     pulserebootmenu = self openluimenu("EmpRebootIndicator");
-    self setluimenudata(pulserebootmenu, "endTime", int(self.var_3d67a154));
+    self setluimenudata(pulserebootmenu, "endTime", int(self.pulseendtime));
     self setluimenudata(pulserebootmenu, "startTime", int(self.pulsestarttime));
     self thread pulse_rumble_loop(0.75);
     self setempjammed(1);
-    self thread function_da95ce92();
-    self thread function_4347bd07();
+    self thread pulse_death_watcher();
+    self thread pulse_cleanse_watcher();
     if (self.pulseduration > 0) {
         wait self.pulseduration / 1000;
     }
     if (isdefined(self)) {
-        self notify(#"hash_d9732747");
+        self notify(#"pulseEnd");
         self pulse_end();
     }
 }
@@ -88,10 +88,10 @@ function private pulse_rumble_loop(duration) {
 // Params 0, eflags: 0x4
 // Checksum 0x15fcf7b8, Offset: 0x638
 // Size: 0x54
-function private function_da95ce92() {
-    self notify(#"hash_d496926e");
-    self endon(#"hash_d496926e");
-    self endon(#"hash_d9732747");
+function private pulse_death_watcher() {
+    self notify(#"pulseDeathWatcher");
+    self endon(#"pulseDeathWatcher");
+    self endon(#"pulseEnd");
     self waittill("death");
     if (isdefined(self)) {
         self pulse_end();
@@ -102,10 +102,10 @@ function private function_da95ce92() {
 // Params 0, eflags: 0x4
 // Checksum 0x108ced, Offset: 0x698
 // Size: 0x54
-function private function_4347bd07() {
-    self notify(#"hash_1cd27f29");
-    self endon(#"hash_1cd27f29");
-    self endon(#"hash_d9732747");
+function private pulse_cleanse_watcher() {
+    self notify(#"pulseCleanseWatcher");
+    self endon(#"pulseCleanseWatcher");
+    self endon(#"pulseEnd");
     self waittill("gadget_cleanse_on");
     if (isdefined(self)) {
         self pulse_end();

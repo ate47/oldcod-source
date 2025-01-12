@@ -12,7 +12,7 @@
 // Checksum 0xa9b5faa2, Offset: 0x230
 // Size: 0x24
 function init_shared() {
-    callback::function_367a33a8(&createballisticknifewatcher);
+    callback::add_weapon_watcher(&createballisticknifewatcher);
 }
 
 // Namespace ballistic_knife/ballistic_knife

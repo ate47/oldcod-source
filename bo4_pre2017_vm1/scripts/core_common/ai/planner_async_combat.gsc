@@ -5,41 +5,41 @@
 #using scripts/core_common/ai/planner_squad_utility;
 #using scripts/core_common/ai/systems/planner;
 
-#namespace namespace_b3fa10b5;
+#namespace plannerasynccombat;
 
-// Namespace namespace_b3fa10b5/namespace_97ddd82d
+// Namespace plannerasynccombat/planner_async_combat
 // Params 1, eflags: 0x4
 // Checksum 0x795be291, Offset: 0x1f0
 // Size: 0x138
 function private _createcommanderplanner(team) {
     planner = planner::createplanner("commanderAsyncCombat");
-    sequence = plannergenericcommander::function_96caab78(planner);
+    sequence = plannergenericcommander::commanderforcegoalstrategy(planner);
     planner::addgoto(sequence, planner);
-    sequence = plannergenericcommander::function_900bce7e(planner);
+    sequence = plannergenericcommander::commanderescortsquadstrategy(planner);
     planner::addgoto(sequence, planner);
-    sequence = plannergenericcommander::function_3eac1247(planner);
+    sequence = plannergenericcommander::commanderassaultsquadstrategy(planner);
     planner::addgoto(sequence, planner);
-    sequence = plannergenericcommander::function_823fd55f(planner);
+    sequence = plannergenericcommander::commanderwandersquadstrategy(planner);
     planner::addgoto(sequence, planner);
     planner::addaction(planner, "commanderEndPlan");
     return planner;
 }
 
-// Namespace namespace_b3fa10b5/namespace_97ddd82d
+// Namespace plannerasynccombat/planner_async_combat
 // Params 1, eflags: 0x4
 // Checksum 0xda52708d, Offset: 0x330
 // Size: 0xb8
 function private _createsquadplanner(team) {
     planner = planner::createplanner("squadAsyncCombat");
-    sequence = namespace_ff4ab724::function_44b382a7(planner);
-    sequence = namespace_ff4ab724::function_c55f60e5(planner);
-    sequence = namespace_ff4ab724::function_a59be1a2(planner);
-    sequence = namespace_ff4ab724::function_fe51b831(planner);
+    sequence = plannergenericsquad::squadseekammocache(planner);
+    sequence = plannergenericsquad::squadassaultstrategy(planner);
+    sequence = plannergenericsquad::squadescortstrategy(planner);
+    sequence = plannergenericsquad::squadmovetoobjectivestrategy(planner);
     planner::addaction(planner, "squadWander");
     return planner;
 }
 
-// Namespace namespace_b3fa10b5/namespace_97ddd82d
+// Namespace plannerasynccombat/planner_async_combat
 // Params 1, eflags: 0x0
 // Checksum 0x2d7d437e, Offset: 0x3f0
 // Size: 0x88

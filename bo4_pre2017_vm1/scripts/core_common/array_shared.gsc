@@ -653,7 +653,7 @@ function find(&array, ent) {
     // Params 3, eflags: 0x0
     // Checksum 0xf665f182, Offset: 0x22e8
     // Size: 0x3c
-    function function_b02c2d9b(org, &array, dist) {
+    function get_closest(org, &array, dist) {
         assert(0, "<dev string:x152>");
     }
 

@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xdadf75cb, Offset: 0x280
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_hero_weapon", &__init__, undefined, undefined);
 }
 
@@ -25,7 +25,7 @@ function autoexec function_2dc19561() {
 function __init__() {
     ability_player::register_gadget_activation_callbacks(14, &gadget_hero_weapon_on_activate, &gadget_hero_weapon_on_off);
     ability_player::register_gadget_possession_callbacks(14, &gadget_hero_weapon_on_give, &gadget_hero_weapon_on_take);
-    ability_player::register_gadget_flicker_callbacks(14, &function_967bd520);
+    ability_player::register_gadget_flicker_callbacks(14, &gadget_hero_weapon_on_flicker);
     ability_player::register_gadget_is_inuse_callbacks(14, &gadget_hero_weapon_is_inuse);
     ability_player::register_gadget_is_flickering_callbacks(14, &gadget_hero_weapon_is_flickering);
     ability_player::register_gadget_ready_callbacks(14, &gadget_hero_weapon_ready);
@@ -51,7 +51,7 @@ function gadget_hero_weapon_is_flickering(slot) {
 // Params 2, eflags: 0x0
 // Checksum 0x22314123, Offset: 0x410
 // Size: 0x14
-function function_967bd520(slot, weapon) {
+function gadget_hero_weapon_on_flicker(slot, weapon) {
     
 }
 
@@ -91,7 +91,7 @@ function gadget_hero_weapon_on_take(slot, weapon) {
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x5f0
 // Size: 0x4
-function function_fb88e576() {
+function gadget_hero_weapon_on_connect() {
     
 }
 
@@ -99,7 +99,7 @@ function function_fb88e576() {
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x600
 // Size: 0x4
-function function_c4a7cc89() {
+function gadget_hero_weapon_on_spawn() {
     
 }
 
@@ -155,7 +155,7 @@ function hero_give_ammo(slot, weapon) {
 // Size: 0x74
 function hero_handle_ammo_save(slot, weapon) {
     self thread hero_wait_for_out_of_ammo(slot, weapon);
-    self thread function_20226d3a(slot, weapon);
+    self thread hero_wait_for_game_end(slot, weapon);
     self thread hero_wait_for_death(slot, weapon);
 }
 
@@ -163,10 +163,10 @@ function hero_handle_ammo_save(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0xebab827f, Offset: 0x860
 // Size: 0x84
-function function_20226d3a(slot, weapon) {
+function hero_wait_for_game_end(slot, weapon) {
     self endon(#"disconnect");
-    self notify(#"hash_8e221e2c");
-    self endon(#"hash_8e221e2c");
+    self notify(#"hero_ongameend");
+    self endon(#"hero_ongameend");
     level waittill("game_ended");
     if (isalive(self)) {
         self hero_save_ammo(slot, weapon);

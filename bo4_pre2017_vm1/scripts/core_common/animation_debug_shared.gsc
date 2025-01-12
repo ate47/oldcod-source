@@ -122,7 +122,7 @@
         if (isvehicle(self)) {
             return "<dev string:x102>";
         }
-        if (self util::function_4f5dd9d2()) {
+        if (self util::is_companion()) {
             return "<dev string:x10c>";
         }
         return "<dev string:x118>" + self.classname + "<dev string:x11a>";

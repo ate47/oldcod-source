@@ -39,7 +39,7 @@ function init_shared() {
     /#
         level thread bouncingbettydvarupdate();
     #/
-    callback::function_367a33a8(&createbouncingbettywatcher);
+    callback::add_weapon_watcher(&createbouncingbettywatcher);
 }
 
 // Namespace bouncingbetty/bouncingbetty

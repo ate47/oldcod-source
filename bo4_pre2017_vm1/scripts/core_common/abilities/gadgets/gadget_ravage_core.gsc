@@ -8,103 +8,103 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_f83e6bba;
+#namespace gadget_ravage_core;
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 0, eflags: 0x2
 // Checksum 0x28801e5a, Offset: 0x230
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_ravage_core", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 0, eflags: 0x0
 // Checksum 0xcddfbb5c, Offset: 0x270
 // Size: 0xe4
 function __init__() {
-    ability_player::register_gadget_activation_callbacks(22, &function_272c182a, &function_38d64430);
-    ability_player::register_gadget_possession_callbacks(22, &function_5f263c7e, &function_5aa8d250);
-    ability_player::register_gadget_flicker_callbacks(22, &function_f2c75eb3);
-    ability_player::register_gadget_is_inuse_callbacks(22, &function_9b19b36a);
-    ability_player::register_gadget_is_flickering_callbacks(22, &function_7f87be84);
-    callback::on_connect(&function_882e77d5);
+    ability_player::register_gadget_activation_callbacks(22, &gadget_ravage_core_on, &gadget_ravage_core_off);
+    ability_player::register_gadget_possession_callbacks(22, &gadget_ravage_core_on_give, &gadget_ravage_core_on_take);
+    ability_player::register_gadget_flicker_callbacks(22, &gadget_ravage_core_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(22, &gadget_ravage_core_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(22, &gadget_ravage_core_is_flickering);
+    callback::on_connect(&gadget_ravage_core_on_connect);
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 1, eflags: 0x0
 // Checksum 0x5fd0f2, Offset: 0x360
 // Size: 0x2a
-function function_9b19b36a(slot) {
+function gadget_ravage_core_is_inuse(slot) {
     return self flagsys::get("gadget_ravage_core_on");
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 1, eflags: 0x0
 // Checksum 0x6dcbd8a0, Offset: 0x398
 // Size: 0x5c
-function function_7f87be84(slot) {
+function gadget_ravage_core_is_flickering(slot) {
     if (isdefined(level.cybercom) && isdefined(level.cybercom.ravage_core)) {
-        return self [[ level.cybercom.ravage_core.var_875da84b ]](slot);
+        return self [[ level.cybercom.ravage_core._is_flickering ]](slot);
     }
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 2, eflags: 0x0
 // Checksum 0x100c9e26, Offset: 0x400
 // Size: 0x68
-function function_f2c75eb3(slot, weapon) {
+function gadget_ravage_core_on_flicker(slot, weapon) {
     if (isdefined(level.cybercom) && isdefined(level.cybercom.ravage_core)) {
-        self [[ level.cybercom.ravage_core.var_8d01efb6 ]](slot, weapon);
+        self [[ level.cybercom.ravage_core._on_flicker ]](slot, weapon);
     }
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 2, eflags: 0x0
 // Checksum 0x7f536d29, Offset: 0x470
 // Size: 0x68
-function function_5f263c7e(slot, weapon) {
+function gadget_ravage_core_on_give(slot, weapon) {
     if (isdefined(level.cybercom) && isdefined(level.cybercom.ravage_core)) {
-        self [[ level.cybercom.ravage_core.var_bdb47551 ]](slot, weapon);
+        self [[ level.cybercom.ravage_core._on_give ]](slot, weapon);
     }
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 2, eflags: 0x0
 // Checksum 0xf32de9d0, Offset: 0x4e0
 // Size: 0x68
-function function_5aa8d250(slot, weapon) {
+function gadget_ravage_core_on_take(slot, weapon) {
     if (isdefined(level.cybercom) && isdefined(level.cybercom.ravage_core)) {
-        self [[ level.cybercom.ravage_core.var_39ea6a1b ]](slot, weapon);
+        self [[ level.cybercom.ravage_core._on_take ]](slot, weapon);
     }
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 0, eflags: 0x0
 // Checksum 0xf0a4da4b, Offset: 0x550
 // Size: 0x50
-function function_882e77d5() {
+function gadget_ravage_core_on_connect() {
     if (isdefined(level.cybercom) && isdefined(level.cybercom.ravage_core)) {
-        self [[ level.cybercom.ravage_core.var_5d2fec30 ]]();
+        self [[ level.cybercom.ravage_core._on_connect ]]();
     }
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 2, eflags: 0x0
 // Checksum 0x1ddf3d0d, Offset: 0x5a8
 // Size: 0x88
-function function_272c182a(slot, weapon) {
+function gadget_ravage_core_on(slot, weapon) {
     self flagsys::set("gadget_ravage_core_on");
     if (isdefined(level.cybercom) && isdefined(level.cybercom.ravage_core)) {
         self [[ level.cybercom.ravage_core._on ]](slot, weapon);
     }
 }
 
-// Namespace namespace_f83e6bba/namespace_f83e6bba
+// Namespace gadget_ravage_core/gadget_ravage_core
 // Params 2, eflags: 0x0
 // Checksum 0xe2671aff, Offset: 0x638
 // Size: 0x88
-function function_38d64430(slot, weapon) {
+function gadget_ravage_core_off(slot, weapon) {
     self flagsys::clear("gadget_ravage_core_on");
     if (isdefined(level.cybercom) && isdefined(level.cybercom.ravage_core)) {
         self [[ level.cybercom.ravage_core._off ]](slot, weapon);

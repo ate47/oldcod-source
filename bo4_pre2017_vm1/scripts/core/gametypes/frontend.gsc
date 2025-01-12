@@ -35,11 +35,11 @@ function callback_actorspawnedfrontend(spawner) {
     self thread spawner::spawn_think(spawner);
 }
 
-// Namespace frontend/gametype_init
+// Namespace frontend/GameType_Init
 // Params 1, eflags: 0x40
 // Checksum 0x1d018855, Offset: 0xa20
 // Size: 0x494
-function event_handler[gametype_init] main(eventstruct) {
+function event_handler[GameType_Init] main(eventstruct) {
     level.callbackstartgametype = &callback_void;
     level.callbackplayerconnect = &callback_playerconnect;
     level.callbackplayerdisconnect = &callback_void;

@@ -11,12 +11,12 @@
 
 #namespace mp_ethiopia;
 
-// Namespace mp_ethiopia/level_init
+// Namespace mp_ethiopia/Level_Init
 // Params 1, eflags: 0x40
 // Checksum 0xf2949e9f, Offset: 0x260
 // Size: 0x154
-function event_handler[level_init] main(eventstruct) {
-    level.var_7c4ff662 = "ui_cam_draft_common";
+function event_handler[Level_Init] main(eventstruct) {
+    level.draftxcamname = "ui_cam_draft_common";
     mp_ethiopia_fx::main();
     mp_ethiopia_sound::main();
     load::main();

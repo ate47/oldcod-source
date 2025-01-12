@@ -1414,7 +1414,7 @@ function function_242ea84e() {
 // Params 0, eflags: 0x0
 // Checksum 0xd95d6ab3, Offset: 0x4250
 // Size: 0x4a
-function function_1ef3d569() {
+function get_general_difficulty_level() {
     value = level.gameskill + level.players.size - 1;
     if (value < 0) {
         value = 0;

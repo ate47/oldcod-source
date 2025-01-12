@@ -8,7 +8,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x367c8b3f, Offset: 0x438
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_camo_render", &__init__, undefined, undefined);
 }
 
@@ -53,11 +53,11 @@ function doreveal(local_client_num, direction) {
     if (direction) {
         self duplicate_render::update_dr_flag(local_client_num, "hide_model", 0);
         self mapshaderconstant(local_client_num, 0, "scriptVector0", 0, 0, 0, 0);
-        var_b805d9b7 = 0;
+        model_hidden = 0;
         for (currentvalue = 0; currentvalue < 1; currentvalue += delta) {
             self mapshaderconstant(local_client_num, 0, "scriptVector0", currentvalue, 0, 0, 0);
-            if (currentvalue >= 0.5 && var_b805d9b7 == 0) {
-                var_b805d9b7 = 1;
+            if (currentvalue >= 0.5 && model_hidden == 0) {
+                model_hidden = 1;
                 self duplicate_render::update_dr_flag(local_client_num, "hide_model", 1);
             }
             waitframe(1);
@@ -70,12 +70,12 @@ function doreveal(local_client_num, direction) {
     }
     self duplicate_render::update_dr_flag(local_client_num, "hide_model", 1);
     self mapshaderconstant(local_client_num, 0, "scriptVector0", 1, 0, 0, 0);
-    var_b805d9b7 = 1;
+    model_hidden = 1;
     for (currentvalue = 1; currentvalue > 0; currentvalue -= delta) {
         self mapshaderconstant(local_client_num, 0, "scriptVector0", currentvalue, 0, 0, 0);
-        if (currentvalue < 0.5 && var_b805d9b7) {
+        if (currentvalue < 0.5 && model_hidden) {
             self duplicate_render::update_dr_flag(local_client_num, "hide_model", 0);
-            var_b805d9b7 = 0;
+            model_hidden = 0;
         }
         waitframe(1);
     }

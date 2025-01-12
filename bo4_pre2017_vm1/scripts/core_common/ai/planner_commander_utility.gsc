@@ -15,7 +15,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xe99cbebd, Offset: 0x1510
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("planner_commander_utility", &plannercommanderutility::__init__, undefined, undefined);
 }
 
@@ -94,7 +94,7 @@ function private __init__() {
     registerutilityapi("commanderScoreGameobjectPathing", &utilityscoregameobjectpathing);
     registerutilityapi("commanderScoreGameobjectPriority", &utilityscoregameobjectpriority);
     registerutilityapi("commanderScoreGameobjectsValidity", &utilityscoregameobjectsvalidity);
-    registerutilityapi("commanderScoreNoEscortOrGameobject", &function_7e56d88e);
+    registerutilityapi("commanderScoreNoEscortOrGameobject", &utilityscorenoescortorgameobject);
     registerutilityapi("commanderScoreProgressThrottling", &utilityscoreprogressthrottling);
     registerutilityapi("commanderScoreViableEscort", &utilityscoreviableescort);
     registerdaemonapi("daemonClients", &daemonupdateclients);
@@ -209,11 +209,11 @@ function private _calculateclosestgameobject(position, gameobjects) {
 // Params 1, eflags: 0x4
 // Checksum 0xe100940f, Offset: 0x2808
 // Size: 0xe8
-function private function_a7d6a672(team) {
+function private _calculateenemyteams(team) {
     enemyteams = [];
-    foreach (var_776aa7a3 in array("any", "allies", "axis", "team3")) {
-        if (var_776aa7a3 != team && var_776aa7a3 != "any") {
-            enemyteams[enemyteams.size] = var_776aa7a3;
+    foreach (individualteam in array("any", "allies", "axis", "team3")) {
+        if (individualteam != team && individualteam != "any") {
+            enemyteams[enemyteams.size] = individualteam;
         }
     }
     return enemyteams;
@@ -468,7 +468,7 @@ function private daemonupdateclients(commander) {
         cachedclient["escortMainguard"] = array();
         cachedclient["escortRearguard"] = array();
         cachedclient["escortVanguard"] = array();
-        if (client isbot() && !client util::function_4f5dd9d2()) {
+        if (client isbot() && !client util::is_companion()) {
             if (!isdefined(cachedclient["__unsafe__"])) {
                 cachedclient["__unsafe__"] = array();
             }
@@ -499,20 +499,20 @@ function private daemonupdategameobjects(commander) {
         foreach (excludename in excluded) {
             excludedmap[excludename] = 1;
         }
-        var_bddc4ae2 = blackboard::getstructblackboardattribute(commander, "gameobjects_force_attack");
-        var_1f2edf0 = array();
-        foreach (var_b1a0f6f in var_bddc4ae2) {
-            var_1f2edf0[var_b1a0f6f] = 1;
+        forceattack = blackboard::getstructblackboardattribute(commander, "gameobjects_force_attack");
+        forceattackmap = array();
+        foreach (forceattackname in forceattack) {
+            forceattackmap[forceattackname] = 1;
         }
-        var_40ce3b42 = blackboard::getstructblackboardattribute(commander, "gameobjects_force_defend");
-        var_617f93d0 = array();
-        foreach (var_91d337cf in var_40ce3b42) {
-            var_617f93d0[var_91d337cf] = 1;
+        forcedefend = blackboard::getstructblackboardattribute(commander, "gameobjects_force_defend");
+        forcedefendmap = array();
+        foreach (forcedefendname in forcedefend) {
+            forcedefendmap[forcedefendname] = 1;
         }
         team = blackboard::getstructblackboardattribute(commander, "team");
-        var_e78e64f1 = array();
-        var_e78e64f1["gameobjects_assault"] = array();
-        var_e78e64f1["gameobjects_defend"] = array();
+        gameobjecttypes = array();
+        gameobjecttypes["gameobjects_assault"] = array();
+        gameobjecttypes["gameobjects_defend"] = array();
         foreach (gameobject in level.a_gameobjects) {
             if (!isdefined(gameobject) || !isdefined(gameobject.trigger)) {
                 continue;
@@ -525,12 +525,12 @@ function private daemonupdategameobjects(commander) {
                 continue;
             }
             cachedgameobject = array();
-            if (isdefined(identifier) && (strategiccommandutility::canattackgameobject(team, gameobject) || isdefined(var_1f2edf0[identifier]))) {
-                assaultobjects = var_e78e64f1["gameobjects_assault"].size;
-                var_e78e64f1["gameobjects_assault"][assaultobjects] = cachedgameobject;
-            } else if (isdefined(identifier) && (strategiccommandutility::candefendgameobject(team, gameobject) || isdefined(var_617f93d0[identifier]))) {
-                defendobjects = var_e78e64f1["gameobjects_defend"].size;
-                var_e78e64f1["gameobjects_defend"][defendobjects] = cachedgameobject;
+            if (isdefined(identifier) && (strategiccommandutility::canattackgameobject(team, gameobject) || isdefined(forceattackmap[identifier]))) {
+                assaultobjects = gameobjecttypes["gameobjects_assault"].size;
+                gameobjecttypes["gameobjects_assault"][assaultobjects] = cachedgameobject;
+            } else if (isdefined(identifier) && (strategiccommandutility::candefendgameobject(team, gameobject) || isdefined(forcedefendmap[identifier]))) {
+                defendobjects = gameobjecttypes["gameobjects_defend"].size;
+                gameobjecttypes["gameobjects_defend"][defendobjects] = cachedgameobject;
             } else {
                 continue;
             }
@@ -553,8 +553,8 @@ function private daemonupdategameobjects(commander) {
             }
             cachedgameobject["__unsafe__"]["entity"] = gameobject.e_object;
         }
-        blackboard::setstructblackboardattribute(commander, "gameobjects_assault", var_e78e64f1["gameobjects_assault"]);
-        blackboard::setstructblackboardattribute(commander, "gameobjects_defend", var_e78e64f1["gameobjects_defend"]);
+        blackboard::setstructblackboardattribute(commander, "gameobjects_assault", gameobjecttypes["gameobjects_assault"]);
+        blackboard::setstructblackboardattribute(commander, "gameobjects_defend", gameobjecttypes["gameobjects_defend"]);
     }
 }
 
@@ -1896,7 +1896,7 @@ function private utilityscoregameobjectsvalidity(commander, squad, constants) {
 // Params 3, eflags: 0x4
 // Checksum 0x51028910, Offset: 0x9ff0
 // Size: 0x92
-function private function_7e56d88e(commander, squad, constants) {
+function private utilityscorenoescortorgameobject(commander, squad, constants) {
     escorts = plannersquadutility::getblackboardattribute(squad, "escorts");
     gameobjects = plannersquadutility::getblackboardattribute(squad, "gameobjects");
     if (!isdefined(escorts) && !isdefined(gameobjects)) {

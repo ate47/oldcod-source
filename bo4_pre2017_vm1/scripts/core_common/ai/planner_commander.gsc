@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xe65a803, Offset: 0x578
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("planner_commander", &plannercommander::__init__, undefined, undefined);
 }
 
@@ -26,10 +26,10 @@ function autoexec function_2dc19561() {
 // Size: 0x64
 function private __init__() {
     commanderinterface::registercommanderinterfaceattributes();
-    if (!isdefined(level.var_7b53700c)) {
+    if (!isdefined(level.daemon_throttle)) {
         [[ new throttle ]]->__constructor();
-        level.var_7b53700c = <error pop>;
-        [[ level.var_7b53700c ]]->initialize(1, 0.05);
+        level.daemon_throttle = <error pop>;
+        [[ level.daemon_throttle ]]->initialize(1, 0.05);
     }
 }
 
@@ -457,7 +457,7 @@ function private _reclaimescortparameters(commander, &blackboard) {
 // Params 2, eflags: 0x4
 // Checksum 0xbf1ed832, Offset: 0x2698
 // Size: 0x4bc
-function private function_80c2451d(commander, &blackboard) {
+function private _reclaimgameobjects(commander, &blackboard) {
     pixbeginevent("commanderReclaimGameobjects");
     aiprofile_beginentry("commanderReclaimGameobjects");
     /#
@@ -476,15 +476,15 @@ function private function_80c2451d(commander, &blackboard) {
                     gameobject = gameobjectentry["__unsafe__"]["object"];
                     if (isdefined(gameobject)) {
                         foreach (assaultobjectentry in assaultobjects) {
-                            var_67eeb975 = assaultobjectentry["__unsafe__"]["object"];
-                            if (var_67eeb975 === gameobject) {
+                            assaultgameobject = assaultobjectentry["__unsafe__"]["object"];
+                            if (assaultgameobject === gameobject) {
                                 assaultobjectentry["claimed"] = 1;
                             }
                         }
-                        foreach (var_8e13f77c in defendobjects) {
-                            var_b0ee46f2 = var_8e13f77c["__unsafe__"]["object"];
-                            if (var_b0ee46f2 === gameobject) {
-                                var_8e13f77c["claimed"] = 1;
+                        foreach (defendobjectentry in defendobjects) {
+                            defendgameobject = defendobjectentry["__unsafe__"]["object"];
+                            if (defendgameobject === gameobject) {
+                                defendobjectentry["claimed"] = 1;
                             }
                         }
                     }
@@ -540,7 +540,7 @@ function private _strategize(commander) {
     if (commander.cancel) {
         return;
     }
-    function_80c2451d(commander, blackboard);
+    _reclaimgameobjects(commander, blackboard);
     _reclaimescortparameters(commander, blackboard);
     if (commander.cancel) {
         return;
@@ -573,10 +573,10 @@ function private _updateblackboarddaemons(commander) {
                 daemonjob.lastupdatetime = time;
                 aiprofile_endentry();
                 pixendevent();
-                [[ level.var_7b53700c ]]->waitinqueue(commander);
+                [[ level.daemon_throttle ]]->waitinqueue(commander);
             }
         }
-        [[ level.var_7b53700c ]]->waitinqueue(commander);
+        [[ level.daemon_throttle ]]->waitinqueue(commander);
     }
 }
 
@@ -705,7 +705,7 @@ function createcommander(team, commanderplanner, squadplanner, commanderupdatera
 // Params 1, eflags: 0x0
 // Checksum 0xf18c39d9, Offset: 0x3550
 // Size: 0x64
-function function_a0de8f40(commander) {
+function forcereplan(commander) {
     /#
         assert(isstruct(commander));
     #/

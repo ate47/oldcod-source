@@ -501,7 +501,7 @@ function callback_weapon_damage(eattacker, einflictor, weapon, meansofdeath, dam
 // Params 1, eflags: 0x0
 // Checksum 0xcd0da979, Offset: 0x1420
 // Size: 0x4c
-function function_367a33a8(callback) {
+function add_weapon_watcher(callback) {
     if (!isdefined(level.var_1a51bc10)) {
         level.var_1a51bc10 = [];
     }
@@ -520,11 +520,11 @@ function function_25419ce() {
     }
 }
 
-// Namespace callback/gametype_start
+// Namespace callback/GameType_Start
 // Params 1, eflags: 0x40
 // Checksum 0xcb5f4257, Offset: 0x14e0
 // Size: 0x54
-function event_handler[gametype_start] codecallback_startgametype(eventstruct) {
+function event_handler[GameType_Start] codecallback_startgametype(eventstruct) {
     if (!isdefined(level.gametypestarted) || !level.gametypestarted) {
         [[ level.callbackstartgametype ]]();
         level.gametypestarted = 1;

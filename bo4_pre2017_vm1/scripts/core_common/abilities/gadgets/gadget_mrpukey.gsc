@@ -8,116 +8,116 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_d8cbbad5;
+#namespace gadget_mrpukey;
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 0, eflags: 0x2
 // Checksum 0x7cacf58, Offset: 0x220
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_mrpukey", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 0, eflags: 0x0
 // Checksum 0xfe4da15c, Offset: 0x260
 // Size: 0xe4
 function __init__() {
-    ability_player::register_gadget_activation_callbacks(38, &function_79fd7153, &function_a21f6e7);
-    ability_player::register_gadget_possession_callbacks(38, &function_70600839, &function_86cffd43);
-    ability_player::register_gadget_flicker_callbacks(38, &function_37c482e);
-    ability_player::register_gadget_is_inuse_callbacks(38, &function_ec5153d3);
-    ability_player::register_gadget_is_flickering_callbacks(38, &function_f1409fc3);
-    ability_player::register_gadget_primed_callbacks(38, &function_a05ccc6c);
+    ability_player::register_gadget_activation_callbacks(38, &gadget_mrpukey_on, &gadget_mrpukey_off);
+    ability_player::register_gadget_possession_callbacks(38, &gadget_mrpukey_on_give, &gadget_mrpukey_on_take);
+    ability_player::register_gadget_flicker_callbacks(38, &gadget_mrpukey_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(38, &gadget_mrpukey_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(38, &gadget_mrpukey_is_flickering);
+    ability_player::register_gadget_primed_callbacks(38, &gadget_mrpukey_is_primed);
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 1, eflags: 0x0
 // Checksum 0xbe096247, Offset: 0x350
 // Size: 0x2a
-function function_ec5153d3(slot) {
+function gadget_mrpukey_is_inuse(slot) {
     return self flagsys::get("gadget_mrpukey_on");
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 1, eflags: 0x0
 // Checksum 0xcfe60e0a, Offset: 0x388
 // Size: 0x5c
-function function_f1409fc3(slot) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_9b2c750e)) {
-        return self [[ level.cybercom.var_9b2c750e.var_875da84b ]](slot);
+function gadget_mrpukey_is_flickering(slot) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.mrpukey)) {
+        return self [[ level.cybercom.mrpukey._is_flickering ]](slot);
     }
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 2, eflags: 0x0
 // Checksum 0x9dc5b5be, Offset: 0x3f0
 // Size: 0x68
-function function_37c482e(slot, weapon) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_9b2c750e)) {
-        self [[ level.cybercom.var_9b2c750e.var_8d01efb6 ]](slot, weapon);
+function gadget_mrpukey_on_flicker(slot, weapon) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.mrpukey)) {
+        self [[ level.cybercom.mrpukey._on_flicker ]](slot, weapon);
     }
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 2, eflags: 0x0
 // Checksum 0x673ec75d, Offset: 0x460
 // Size: 0x68
-function function_70600839(slot, weapon) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_9b2c750e)) {
-        self [[ level.cybercom.var_9b2c750e.var_bdb47551 ]](slot, weapon);
+function gadget_mrpukey_on_give(slot, weapon) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.mrpukey)) {
+        self [[ level.cybercom.mrpukey._on_give ]](slot, weapon);
     }
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 2, eflags: 0x0
 // Checksum 0x6a1d9cba, Offset: 0x4d0
 // Size: 0x68
-function function_86cffd43(slot, weapon) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_9b2c750e)) {
-        self [[ level.cybercom.var_9b2c750e.var_39ea6a1b ]](slot, weapon);
+function gadget_mrpukey_on_take(slot, weapon) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.mrpukey)) {
+        self [[ level.cybercom.mrpukey._on_take ]](slot, weapon);
     }
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 0, eflags: 0x0
 // Checksum 0xb09d4ed7, Offset: 0x540
 // Size: 0x50
-function function_6f66c54a() {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_9b2c750e)) {
-        self [[ level.cybercom.var_9b2c750e.var_5d2fec30 ]]();
+function gadge_mrpukey_on_connect() {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.mrpukey)) {
+        self [[ level.cybercom.mrpukey._on_connect ]]();
     }
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 2, eflags: 0x0
 // Checksum 0x847992a4, Offset: 0x598
 // Size: 0x88
-function function_79fd7153(slot, weapon) {
+function gadget_mrpukey_on(slot, weapon) {
     self flagsys::set("gadget_mrpukey_on");
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_9b2c750e)) {
-        self [[ level.cybercom.var_9b2c750e._on ]](slot, weapon);
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.mrpukey)) {
+        self [[ level.cybercom.mrpukey._on ]](slot, weapon);
     }
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 2, eflags: 0x0
 // Checksum 0xebff9333, Offset: 0x628
 // Size: 0x88
-function function_a21f6e7(slot, weapon) {
+function gadget_mrpukey_off(slot, weapon) {
     self flagsys::clear("gadget_mrpukey_on");
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_9b2c750e)) {
-        self [[ level.cybercom.var_9b2c750e._off ]](slot, weapon);
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.mrpukey)) {
+        self [[ level.cybercom.mrpukey._off ]](slot, weapon);
     }
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 2, eflags: 0x0
 // Checksum 0x2c2b4601, Offset: 0x6b8
 // Size: 0x68
-function function_a05ccc6c(slot, weapon) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_9b2c750e)) {
-        self [[ level.cybercom.var_9b2c750e.var_4135a1c4 ]](slot, weapon);
+function gadget_mrpukey_is_primed(slot, weapon) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.mrpukey)) {
+        self [[ level.cybercom.mrpukey._is_primed ]](slot, weapon);
     }
 }
 

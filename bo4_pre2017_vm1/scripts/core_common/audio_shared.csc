@@ -13,7 +13,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x91c0b824, Offset: 0x858
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("audio", &__init__, undefined, undefined);
 }
 
@@ -1024,7 +1024,7 @@ function function_e1ab476f(localclientnum, oldval, newval, bnewent, binitialsnap
 // Params 4, eflags: 0x0
 // Checksum 0x5547ab09, Offset: 0x3ae0
 // Size: 0xc0
-function function_451c4dae(localclientnum, var_7f2a8cb, min, max) {
+function function_451c4dae(localclientnum, alais, min, max) {
     self endon(#"hash_2b4649a6");
     wait 0.5;
     if (isdefined(self) && isdefined(self.isinfected)) {
@@ -1032,7 +1032,7 @@ function function_451c4dae(localclientnum, var_7f2a8cb, min, max) {
             playsound(localclientnum, "vox_dying_infected_after", (0, 0, 0));
         }
         while (isdefined(self)) {
-            playsound(localclientnum, var_7f2a8cb, (0, 0, 0));
+            playsound(localclientnum, alais, (0, 0, 0));
             wait randomfloatrange(min, max);
         }
     }

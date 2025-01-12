@@ -53,7 +53,7 @@ function update_applied_aoe_fx(local_client_num, oldval, newval, bnewent, biniti
     if (newval != oldval) {
         local_player = getlocalplayer(local_client_num);
         if (self == local_player) {
-            self duplicate_render::update_dr_flag(local_client_num, fx_info.var_90b123a6, newval);
+            self duplicate_render::update_dr_flag(local_client_num, fx_info.dr_set, newval);
             if (newval) {
                 playfx(local_client_num, fx_info.fx_1p, self.origin);
             }
@@ -193,7 +193,7 @@ function private do_aoe_fx(local_client_num, center, yaw_count, pitch, clientfie
             if (lengthsquared(vectorcross(forward, normal)) == 0) {
                 forward = vectorcross(right, forward);
             }
-            fx = playfx(local_client_num, aoe_fx_info.var_abf50a5a, trace["position"], normal, forward);
+            fx = playfx(local_client_num, aoe_fx_info.distortion_volume_fx, trace["position"], normal, forward);
             if (!isdefined(self.aoe_fx_arrays[clientfield_name])) {
                 self.aoe_fx_arrays[clientfield_name] = [];
             } else if (!isarray(self.aoe_fx_arrays[clientfield_name])) {
@@ -210,7 +210,7 @@ function private do_aoe_fx(local_client_num, center, yaw_count, pitch, clientfie
             if (lengthsquared(vectorcross(forward, tracedir * -1)) == 0) {
                 forward = vectorcross(right, forward);
             }
-            fx = playfx(local_client_num, aoe_fx_info.var_5f066955, fx_position, tracedir * -1, forward);
+            fx = playfx(local_client_num, aoe_fx_info.distortion_volume_air_fx, fx_position, tracedir * -1, forward);
             if (!isdefined(self.aoe_fx_arrays[clientfield_name])) {
                 self.aoe_fx_arrays[clientfield_name] = [];
             } else if (!isarray(self.aoe_fx_arrays[clientfield_name])) {

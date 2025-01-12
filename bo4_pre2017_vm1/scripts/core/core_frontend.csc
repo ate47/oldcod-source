@@ -9,11 +9,11 @@
 
 #namespace core_frontend;
 
-// Namespace core_frontend/level_init
+// Namespace core_frontend/Level_Init
 // Params 1, eflags: 0x40
 // Checksum 0x762f9a9c, Offset: 0x1a0
 // Size: 0x44
-function event_handler[level_init] main(eventstruct) {
+function event_handler[Level_Init] main(eventstruct) {
     core_frontend_fx::main();
     core_frontend_sound::main();
     util::waitforclient(0);

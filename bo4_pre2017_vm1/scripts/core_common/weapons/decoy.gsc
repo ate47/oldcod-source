@@ -17,7 +17,7 @@ function init_shared() {
     level.var_69dcf9aa["semiauto"] = [];
     level.var_69dcf9aa["fullauto"][level.var_69dcf9aa["fullauto"].size] = getweapon("ar_accurate");
     level.var_69dcf9aa["semiauto"][level.var_69dcf9aa["semiauto"].size] = getweapon("pistol_standard");
-    callback::function_367a33a8(&function_590a0ae0);
+    callback::add_weapon_watcher(&function_590a0ae0);
 }
 
 // Namespace decoy/decoy

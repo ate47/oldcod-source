@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xcfa9242c, Offset: 0x280
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_combat_efficiency", &__init__, undefined, undefined);
 }
 

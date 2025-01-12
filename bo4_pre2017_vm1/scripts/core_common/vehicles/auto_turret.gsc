@@ -19,7 +19,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xbb12312e, Offset: 0x400
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("auto_turret", &__init__, undefined, undefined);
 }
 
@@ -28,14 +28,14 @@ function autoexec function_2dc19561() {
 // Checksum 0x186637e3, Offset: 0x440
 // Size: 0x2c
 function __init__() {
-    vehicle::add_main_callback("auto_turret", &function_a5dc0bd1);
+    vehicle::add_main_callback("auto_turret", &turret_initialze);
 }
 
 // Namespace auto_turret/auto_turret
 // Params 0, eflags: 0x0
 // Checksum 0x85dda804, Offset: 0x478
 // Size: 0x30c
-function function_a5dc0bd1() {
+function turret_initialze() {
     self.health = self.healthdefault;
     if (isdefined(self.scriptbundlesettings)) {
         self.settings = struct::get_script_bundle("vehiclecustomsettings", self.scriptbundlesettings);
@@ -328,8 +328,8 @@ function state_emped_enter(params) {
         self.abnormal_status = spawnstruct();
     }
     self.abnormal_status.emped = 1;
-    self.abnormal_status.attacker = params.var_6e0794d4[1];
-    self.abnormal_status.inflictor = params.var_6e0794d4[2];
+    self.abnormal_status.attacker = params.notify_param[1];
+    self.abnormal_status.inflictor = params.notify_param[2];
     self vehicle::toggle_emp_fx(1);
 }
 
@@ -340,7 +340,7 @@ function state_emped_enter(params) {
 function state_emped_update(params) {
     self endon(#"death");
     self endon(#"change_state");
-    time = params.var_6e0794d4[0];
+    time = params.notify_param[0];
     /#
         assert(isdefined(time));
     #/

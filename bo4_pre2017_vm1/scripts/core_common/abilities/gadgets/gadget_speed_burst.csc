@@ -15,7 +15,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xe0029c9, Offset: 0x280
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_speed_burst", &__init__, undefined, undefined);
 }
 
@@ -25,7 +25,7 @@ function autoexec function_2dc19561() {
 // Size: 0x94
 function __init__() {
     callback::on_localplayer_spawned(&on_localplayer_spawned);
-    clientfield::register("toplayer", "speed_burst", 1, 1, "int", &function_d6b43cb, 0, 1);
+    clientfield::register("toplayer", "speed_burst", 1, 1, "int", &player_speed_changed, 0, 1);
     visionset_mgr::register_visionset_info("speed_burst", 1, 9, undefined, "speed_burst_initialize");
 }
 
@@ -45,7 +45,7 @@ function on_localplayer_spawned(localclientnum) {
 // Params 7, eflags: 0x0
 // Checksum 0xab7ad98c, Offset: 0x3c0
 // Size: 0xbc
-function function_d6b43cb(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+function player_speed_changed(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     if (newval) {
         if (self == getlocalplayer(localclientnum)) {
             filter::enable_filter_speed_burst(self, 3);

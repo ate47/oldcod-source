@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x8a05b806, Offset: 0x220
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("replay_gun", &__init__, undefined, undefined);
 }
 
@@ -23,21 +23,21 @@ function autoexec function_2dc19561() {
 // Checksum 0x77ca5db8, Offset: 0x260
 // Size: 0x24
 function __init__() {
-    callback::on_spawned(&function_c0abd95b);
+    callback::on_spawned(&watch_for_replay_gun);
 }
 
 // Namespace replay_gun/replay_gun
 // Params 0, eflags: 0x0
 // Checksum 0x88f76736, Offset: 0x290
 // Size: 0xb0
-function function_c0abd95b() {
+function watch_for_replay_gun() {
     self endon(#"disconnect");
     self endon(#"death");
     self endon(#"spawned_player");
-    self endon(#"hash_23671b0c");
+    self endon(#"killReplayGunMonitor");
     while (true) {
         waitresult = self waittill("weapon_change_complete");
-        if (isdefined(waitresult.weapon.var_c426fec0) && waitresult.weapon.var_c426fec0) {
+        if (isdefined(waitresult.weapon.usespivottargeting) && waitresult.weapon.usespivottargeting) {
             self thread watch_lockon(waitresult.weapon);
         }
     }
@@ -57,7 +57,7 @@ function watch_lockon(weapon) {
         if (!isdefined(self.lockonentity)) {
             ads = self playerads() == 1;
             if (ads) {
-                target = self function_43c5e4e9(weapon);
+                target = self get_a_target(weapon);
                 if (is_valid_target(target)) {
                     self weaponlockfree();
                     self.lockonentity = target;
@@ -71,10 +71,10 @@ function watch_lockon(weapon) {
 // Params 1, eflags: 0x0
 // Checksum 0x7ef21edb, Offset: 0x440
 // Size: 0x2e2
-function function_43c5e4e9(weapon) {
+function get_a_target(weapon) {
     origin = self getweaponmuzzlepoint();
     forward = self getweaponforwarddir();
-    targets = self function_42a6831f();
+    targets = self get_potential_targets();
     if (!isdefined(targets)) {
         return undefined;
     }
@@ -94,9 +94,9 @@ function function_43c5e4e9(weapon) {
         if (!is_valid_target(testtarget)) {
             continue;
         }
-        testorigin = function_9a6421f8(testtarget);
-        var_58ef943 = distance(origin, testorigin);
-        if (var_58ef943 > weapon.lockonmaxrange || var_58ef943 < weapon.lockonminrange) {
+        testorigin = get_target_lock_on_origin(testtarget);
+        test_range = distance(origin, testorigin);
+        if (test_range > weapon.lockonmaxrange || test_range < weapon.lockonminrange) {
             continue;
         }
         normal = vectornormalize(testorigin - origin);
@@ -104,31 +104,31 @@ function function_43c5e4e9(weapon) {
         if (0 > dot) {
             continue;
         }
-        if (!self function_891f41a2(testorigin, weapon)) {
+        if (!self inside_screen_crosshair_radius(testorigin, weapon)) {
             continue;
         }
-        cansee = self function_e96cb1d5(testtarget, testorigin, origin, forward, var_58ef943);
+        cansee = self can_see_projected_crosshair(testtarget, testorigin, origin, forward, test_range);
         should_wait = 1;
         if (cansee) {
             validtargets[validtargets.size] = testtarget;
         }
     }
-    return function_c0064c09(validtargets);
+    return pick_a_target_from(validtargets);
 }
 
 // Namespace replay_gun/replay_gun
 // Params 0, eflags: 0x0
 // Checksum 0x1efe321f, Offset: 0x730
 // Size: 0x106
-function function_42a6831f() {
-    var_ce588222 = "axis";
+function get_potential_targets() {
+    str_opposite_team = "axis";
     if (self.team == "axis") {
-        var_ce588222 = "allies";
+        str_opposite_team = "allies";
     }
     potentialtargets = [];
-    var_4174f437 = getaiteamarray(var_ce588222);
-    if (var_4174f437.size > 0) {
-        potentialtargets = arraycombine(potentialtargets, var_4174f437, 1, 0);
+    aitargets = getaiteamarray(str_opposite_team);
+    if (aitargets.size > 0) {
+        potentialtargets = arraycombine(potentialtargets, aitargets, 1, 0);
     }
     playertargets = self getenemies();
     if (playertargets.size > 0) {
@@ -144,24 +144,24 @@ function function_42a6831f() {
 // Params 1, eflags: 0x0
 // Checksum 0xfff3acb5, Offset: 0x840
 // Size: 0x120
-function function_c0064c09(targets) {
+function pick_a_target_from(targets) {
     if (!isdefined(targets)) {
         return undefined;
     }
     besttarget = undefined;
-    var_3cc7953c = undefined;
+    besttargetdistancesquared = undefined;
     for (i = 0; i < targets.size; i++) {
         target = targets[i];
         if (is_valid_target(target)) {
-            var_a9b83e1e = distancesquared(self.origin, target.origin);
-            if (!isdefined(besttarget) || !isdefined(var_3cc7953c)) {
+            targetdistancesquared = distancesquared(self.origin, target.origin);
+            if (!isdefined(besttarget) || !isdefined(besttargetdistancesquared)) {
                 besttarget = target;
-                var_3cc7953c = var_a9b83e1e;
+                besttargetdistancesquared = targetdistancesquared;
                 continue;
             }
-            if (var_a9b83e1e < var_3cc7953c) {
+            if (targetdistancesquared < besttargetdistancesquared) {
                 besttarget = target;
-                var_3cc7953c = var_a9b83e1e;
+                besttargetdistancesquared = targetdistancesquared;
             }
         }
     }
@@ -180,14 +180,14 @@ function trace(from, to) {
 // Params 5, eflags: 0x0
 // Checksum 0xe23b5a02, Offset: 0x9b0
 // Size: 0xec
-function function_e96cb1d5(target, target_origin, player_origin, player_forward, distance) {
+function can_see_projected_crosshair(target, target_origin, player_origin, player_forward, distance) {
     crosshair = player_origin + player_forward * distance;
-    var_ab69552f = target trace(target_origin, crosshair);
-    if (distance2dsquared(crosshair, var_ab69552f) > 9) {
+    collided = target trace(target_origin, crosshair);
+    if (distance2dsquared(crosshair, collided) > 9) {
         return false;
     }
-    var_ab69552f = self trace(player_origin, crosshair);
-    if (distance2dsquared(crosshair, var_ab69552f) > 9) {
+    collided = self trace(player_origin, crosshair);
+    if (distance2dsquared(crosshair, collided) > 9) {
         return false;
     }
     return true;
@@ -205,25 +205,25 @@ function is_valid_target(ent) {
 // Params 2, eflags: 0x0
 // Checksum 0xc43cb479, Offset: 0xae0
 // Size: 0x4a
-function function_891f41a2(testorigin, weapon) {
+function inside_screen_crosshair_radius(testorigin, weapon) {
     radius = weapon.lockonscreenradius;
-    return self function_9814bbcd(testorigin, radius);
+    return self inside_screen_radius(testorigin, radius);
 }
 
 // Namespace replay_gun/replay_gun
 // Params 1, eflags: 0x0
 // Checksum 0xacc4ffff, Offset: 0xb38
 // Size: 0x4a
-function function_2718edba(targetorigin) {
+function inside_screen_lockon_radius(targetorigin) {
     radius = self getlockonradius();
-    return self function_9814bbcd(targetorigin, radius);
+    return self inside_screen_radius(targetorigin, radius);
 }
 
 // Namespace replay_gun/replay_gun
 // Params 2, eflags: 0x0
 // Checksum 0xf2d2f8a1, Offset: 0xb90
 // Size: 0x3a
-function function_9814bbcd(targetorigin, radius) {
+function inside_screen_radius(targetorigin, radius) {
     return target_originisincircle(targetorigin, self, 65, radius);
 }
 
@@ -231,7 +231,7 @@ function function_9814bbcd(targetorigin, radius) {
 // Params 1, eflags: 0x0
 // Checksum 0x2f8d3c6c, Offset: 0xbd8
 // Size: 0x22
-function function_9a6421f8(target) {
+function get_target_lock_on_origin(target) {
     return self getlockonorigin(target);
 }
 

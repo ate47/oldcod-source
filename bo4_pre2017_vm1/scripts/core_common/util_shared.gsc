@@ -17,7 +17,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x89539bc4, Offset: 0xb90
 // Size: 0x3c
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("util_shared", &__init__, &__main__, undefined);
 }
 
@@ -920,7 +920,7 @@ function resetusability() {
 // Params 0, eflags: 0x0
 // Checksum 0x49752321, Offset: 0x3398
 // Size: 0x44
-function function_f9e9f0f0() {
+function _disableweapon() {
     if (!isdefined(self.disabledweapon)) {
         self.disabledweapon = 0;
     }
@@ -932,7 +932,7 @@ function function_f9e9f0f0() {
 // Params 0, eflags: 0x0
 // Checksum 0xf9c429e, Offset: 0x33e8
 // Size: 0x44
-function function_ee182f5d() {
+function _enableweapon() {
     if (self.disabledweapon > 0) {
         self.disabledweapon--;
         if (!self.disabledweapon) {
@@ -945,7 +945,7 @@ function function_ee182f5d() {
 // Params 0, eflags: 0x0
 // Checksum 0x5752eb2f, Offset: 0x3438
 // Size: 0x10
-function function_31827fe8() {
+function isweaponenabled() {
     return !self.disabledweapon;
 }
 
@@ -1647,9 +1647,9 @@ function spawn_player_clone(player, animname) {
     if (isdefined(headmodel)) {
         playerclone attach(headmodel, "");
     }
-    var_f1a3fa15 = player getcharacterhelmetmodel();
-    if (isdefined(var_f1a3fa15)) {
-        playerclone attach(var_f1a3fa15, "");
+    helmetmodel = player getcharacterhelmetmodel();
+    if (isdefined(helmetmodel)) {
+        playerclone attach(helmetmodel, "");
     }
     var_6f30937d = player getcharacterbodyrenderoptions();
     playerclone setbodyrenderoptions(var_6f30937d, var_6f30937d, var_6f30937d);
@@ -2295,7 +2295,7 @@ function getweaponclass(weapon) {
     if (isdefined(level.weaponclassarray[weapon])) {
         return level.weaponclassarray[weapon];
     }
-    baseweaponparam = [[ level.var_2453cf4a ]](weapon);
+    baseweaponparam = [[ level.get_base_weapon_param ]](weapon);
     baseweaponindex = getbaseweaponitemindex(baseweaponparam);
     weaponclass = "";
     if (sessionmodeismultiplayergame()) {
@@ -2473,7 +2473,7 @@ function function_a791434c(var_6a1bc72e) {
 // Params 0, eflags: 0x0
 // Checksum 0x4b91b6a8, Offset: 0x7240
 // Size: 0x10a
-function function_1edbd8() {
+function get_all_alive_players_s() {
     var_93bfc6ee = spawn_array_struct();
     if (isdefined(level.aliveplayers)) {
         keys = getarraykeys(level.aliveplayers);
@@ -3835,7 +3835,7 @@ function function_12a66d92(str_team) {
 // Params 0, eflags: 0x0
 // Checksum 0x1977fc20, Offset: 0xb328
 // Size: 0x86
-function function_4f5dd9d2() {
+function is_companion() {
     if (!isplayer(self)) {
         return false;
     }
@@ -3855,11 +3855,11 @@ function function_4f5dd9d2() {
 // Size: 0x116
 function function_89423e7e(var_d06300f4) {
     var_a71713a9 = self;
-    if (isplayer(self) && !self function_4f5dd9d2()) {
+    if (isplayer(self) && !self is_companion()) {
         var_a71713a9 = self.companion;
     }
-    var_f4bbe3ff = var_a71713a9 getcharacterbodytype();
-    switch (var_f4bbe3ff) {
+    bodytypeindex = var_a71713a9 getcharacterbodytype();
+    switch (bodytypeindex) {
     case 2:
         return "Ruin";
     case 3:

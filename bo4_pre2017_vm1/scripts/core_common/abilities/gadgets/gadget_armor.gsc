@@ -17,7 +17,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x847c3042, Offset: 0x538
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_armor", &__init__, undefined, undefined);
 }
 
@@ -26,21 +26,21 @@ function autoexec function_2dc19561() {
 // Checksum 0xcbe04a93, Offset: 0x578
 // Size: 0x144
 function __init__() {
-    ability_player::register_gadget_activation_callbacks(4, &function_27d2ab93, &function_ef8f7527);
-    ability_player::register_gadget_possession_callbacks(4, &function_f593f079, &function_c03e583);
-    ability_player::register_gadget_flicker_callbacks(4, &function_9b27736e);
-    ability_player::register_gadget_is_inuse_callbacks(4, &function_24782613);
-    ability_player::register_gadget_is_flickering_callbacks(4, &function_e4e11f03);
+    ability_player::register_gadget_activation_callbacks(4, &gadget_armor_on, &gadget_armor_off);
+    ability_player::register_gadget_possession_callbacks(4, &gadget_armor_on_give, &gadget_armor_on_take);
+    ability_player::register_gadget_flicker_callbacks(4, &gadget_armor_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(4, &gadget_armor_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(4, &gadget_armor_is_flickering);
     clientfield::register("allplayers", "armor_status", 1, 5, "int");
     clientfield::register("toplayer", "player_damage_type", 1, 1, "int");
-    callback::on_connect(&function_362bc1a8);
+    callback::on_connect(&gadget_armor_on_connect);
 }
 
 // Namespace armor/gadget_armor
 // Params 1, eflags: 0x0
 // Checksum 0x4af22e65, Offset: 0x6c8
 // Size: 0x22
-function function_24782613(slot) {
+function gadget_armor_is_inuse(slot) {
     return self gadgetisactive(slot);
 }
 
@@ -48,7 +48,7 @@ function function_24782613(slot) {
 // Params 1, eflags: 0x0
 // Checksum 0x2f8cc9ac, Offset: 0x6f8
 // Size: 0x22
-function function_e4e11f03(slot) {
+function gadget_armor_is_flickering(slot) {
     return self gadgetflickering(slot);
 }
 
@@ -56,33 +56,33 @@ function function_e4e11f03(slot) {
 // Params 2, eflags: 0x0
 // Checksum 0x74a47136, Offset: 0x728
 // Size: 0x34
-function function_9b27736e(slot, weapon) {
-    self thread function_29961c34(slot, weapon);
+function gadget_armor_on_flicker(slot, weapon) {
+    self thread gadget_armor_flicker(slot, weapon);
 }
 
 // Namespace armor/gadget_armor
 // Params 2, eflags: 0x0
 // Checksum 0x5d517cce, Offset: 0x768
 // Size: 0x54
-function function_f593f079(slot, weapon) {
+function gadget_armor_on_give(slot, weapon) {
     self clientfield::set("armor_status", 0);
-    self.var_5f5848a3 = slot;
-    self.var_f3bad013 = weapon;
+    self._gadget_armor_slot = slot;
+    self._gadget_armor_weapon = weapon;
 }
 
 // Namespace armor/gadget_armor
 // Params 2, eflags: 0x0
 // Checksum 0x3eb57987, Offset: 0x7c8
 // Size: 0x34
-function function_c03e583(slot, weapon) {
-    self function_ef8f7527(slot, weapon);
+function gadget_armor_on_take(slot, weapon) {
+    self gadget_armor_off(slot, weapon);
 }
 
 // Namespace armor/gadget_armor
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x808
 // Size: 0x4
-function function_362bc1a8() {
+function gadget_armor_on_connect() {
     
 }
 
@@ -90,16 +90,16 @@ function function_362bc1a8() {
 // Params 2, eflags: 0x0
 // Checksum 0x255179c2, Offset: 0x818
 // Size: 0xfc
-function function_27d2ab93(slot, weapon) {
+function gadget_armor_on(slot, weapon) {
     if (isalive(self)) {
         self flagsys::set("gadget_armor_on");
         self.shock_onpain = 0;
-        self.var_442c2e3d = isdefined(weapon.gadget_max_hitpoints) && weapon.gadget_max_hitpoints > 0 ? weapon.gadget_max_hitpoints : undefined;
+        self.gadgethitpoints = isdefined(weapon.gadget_max_hitpoints) && weapon.gadget_max_hitpoints > 0 ? weapon.gadget_max_hitpoints : undefined;
         if (isdefined(self.overrideplayerdamage)) {
-            self.var_6b5f7ec4 = self.overrideplayerdamage;
+            self.originaloverrideplayerdamage = self.overrideplayerdamage;
         }
-        self.overrideplayerdamage = &function_37346b5a;
-        self thread function_98b378e(slot, weapon);
+        self.overrideplayerdamage = &armor_player_damage;
+        self thread gadget_armor_status(slot, weapon);
     }
 }
 
@@ -107,17 +107,17 @@ function function_27d2ab93(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0xff67efa2, Offset: 0x920
 // Size: 0x108
-function function_ef8f7527(slot, weapon) {
-    var_3ca1a1ad = flagsys::get("gadget_armor_on");
-    self notify(#"hash_ef8f7527");
+function gadget_armor_off(slot, weapon) {
+    armoron = flagsys::get("gadget_armor_on");
+    self notify(#"gadget_armor_off");
     self flagsys::clear("gadget_armor_on");
     self.shock_onpain = 1;
     self clientfield::set("armor_status", 0);
-    if (isdefined(self.var_6b5f7ec4)) {
-        self.overrideplayerdamage = self.var_6b5f7ec4;
-        self.var_6b5f7ec4 = undefined;
+    if (isdefined(self.originaloverrideplayerdamage)) {
+        self.overrideplayerdamage = self.originaloverrideplayerdamage;
+        self.originaloverrideplayerdamage = undefined;
     }
-    if (var_3ca1a1ad && isalive(self) && isdefined(level.playgadgetsuccess)) {
+    if (armoron && isalive(self) && isdefined(level.playgadgetsuccess)) {
         self [[ level.playgadgetsuccess ]](weapon);
     }
 }
@@ -126,16 +126,16 @@ function function_ef8f7527(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x6d0a669e, Offset: 0xa30
 // Size: 0xdc
-function function_29961c34(slot, weapon) {
+function gadget_armor_flicker(slot, weapon) {
     self endon(#"disconnect");
-    if (!self function_24782613(slot)) {
+    if (!self gadget_armor_is_inuse(slot)) {
         return;
     }
     eventtime = self._gadgets_player[slot].gadget_flickertime;
-    self function_39b1b87b("Flickering", eventtime);
+    self set_gadget_status("Flickering", eventtime);
     while (true) {
         if (!self gadgetflickering(slot)) {
-            self function_39b1b87b("Normal");
+            self set_gadget_status("Normal");
             return;
         }
         wait 0.5;
@@ -146,7 +146,7 @@ function function_29961c34(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x46a778f9, Offset: 0xb18
 // Size: 0x9c
-function function_39b1b87b(status, time) {
+function set_gadget_status(status, time) {
     timestr = "";
     if (isdefined(time)) {
         timestr = "^3" + ", time: " + time;
@@ -160,7 +160,7 @@ function function_39b1b87b(status, time) {
 // Params 1, eflags: 0x0
 // Checksum 0x8e0cdb95, Offset: 0xbc0
 // Size: 0x15a
-function function_46ec01fd(smeansofdeath) {
+function armor_damage_type_multiplier(smeansofdeath) {
     switch (smeansofdeath) {
     case #"mod_crush":
     case #"mod_drown":
@@ -194,7 +194,7 @@ function function_46ec01fd(smeansofdeath) {
 // Params 2, eflags: 0x0
 // Checksum 0xf4034ff0, Offset: 0xd28
 // Size: 0x8a
-function function_db3ccbce(weapon, smeansofdeath) {
+function armor_damage_mod_allowed(weapon, smeansofdeath) {
     switch (weapon.name) {
     case #"hero_lightninggun":
     case #"hero_lightninggun_arc":
@@ -236,11 +236,11 @@ function function_db3ccbce(weapon, smeansofdeath) {
 // Params 4, eflags: 0x0
 // Checksum 0x700954be, Offset: 0xe60
 // Size: 0x9c
-function function_4a835afe(eattacker, weapon, smeansofdeath, shitloc) {
+function armor_should_take_damage(eattacker, weapon, smeansofdeath, shitloc) {
     if (isdefined(eattacker) && !weaponobjects::friendlyfirecheck(self, eattacker)) {
         return false;
     }
-    if (!function_db3ccbce(weapon, smeansofdeath)) {
+    if (!armor_damage_mod_allowed(weapon, smeansofdeath)) {
         return false;
     }
     if (shitloc == "head" || isdefined(shitloc) && shitloc == "helmet") {
@@ -253,29 +253,29 @@ function function_4a835afe(eattacker, weapon, smeansofdeath, shitloc) {
 // Params 11, eflags: 0x0
 // Checksum 0x7fb60d25, Offset: 0xf08
 // Size: 0x2e0
-function function_37346b5a(einflictor, eattacker, idamage, idflags, smeansofdeath, weapon, vpoint, vdir, shitloc, modelindex, psoffsettime) {
+function armor_player_damage(einflictor, eattacker, idamage, idflags, smeansofdeath, weapon, vpoint, vdir, shitloc, modelindex, psoffsettime) {
     damage = idamage;
     self.power_armor_took_damage = 0;
-    if (self function_4a835afe(eattacker, weapon, smeansofdeath, shitloc) && isdefined(self.var_5f5848a3)) {
+    if (self armor_should_take_damage(eattacker, weapon, smeansofdeath, shitloc) && isdefined(self._gadget_armor_slot)) {
         self clientfield::set_to_player("player_damage_type", 1);
-        if (self function_24782613(self.var_5f5848a3)) {
-            armor_damage = damage * function_46ec01fd(smeansofdeath);
+        if (self gadget_armor_is_inuse(self._gadget_armor_slot)) {
+            armor_damage = damage * armor_damage_type_multiplier(smeansofdeath);
             damage = 0;
             if (armor_damage > 0) {
-                if (isdefined(self.var_442c2e3d)) {
-                    var_7f37e5f2 = self.var_442c2e3d;
+                if (isdefined(self.gadgethitpoints)) {
+                    hitpointsleft = self.gadgethitpoints;
                 } else {
-                    var_7f37e5f2 = self gadgetpowerchange(self.var_5f5848a3, 0);
+                    hitpointsleft = self gadgetpowerchange(self._gadget_armor_slot, 0);
                 }
                 if (weapon === level.weaponlightninggun || weapon === level.weaponlightninggunarc) {
-                    armor_damage = var_7f37e5f2;
-                } else if (var_7f37e5f2 < armor_damage) {
-                    damage = armor_damage - var_7f37e5f2;
+                    armor_damage = hitpointsleft;
+                } else if (hitpointsleft < armor_damage) {
+                    damage = armor_damage - hitpointsleft;
                 }
-                if (isdefined(self.var_442c2e3d)) {
-                    self function_edc0b538(armor_damage);
+                if (isdefined(self.gadgethitpoints)) {
+                    self hitpoints_loss_event(armor_damage);
                 } else {
-                    self ability_power::power_loss_event(self.var_5f5848a3, eattacker, armor_damage, "armor damage");
+                    self ability_power::power_loss_event(self._gadget_armor_slot, eattacker, armor_damage, "armor damage");
                 }
                 self.power_armor_took_damage = 1;
                 self.power_armor_last_took_damage_time = gettime();
@@ -294,9 +294,9 @@ function function_37346b5a(einflictor, eattacker, idamage, idflags, smeansofdeat
 // Params 1, eflags: 0x0
 // Checksum 0x2c228073, Offset: 0x11f0
 // Size: 0x34
-function function_edc0b538(val) {
+function hitpoints_loss_event(val) {
     if (val > 0) {
-        self.var_442c2e3d -= val;
+        self.gadgethitpoints -= val;
     }
 }
 
@@ -304,28 +304,28 @@ function function_edc0b538(val) {
 // Params 2, eflags: 0x0
 // Checksum 0x63768655, Offset: 0x1230
 // Size: 0x27c
-function function_98b378e(slot, weapon) {
+function gadget_armor_status(slot, weapon) {
     self endon(#"disconnect");
-    var_3eea3245 = isdefined(weapon.gadget_max_hitpoints) && weapon.gadget_max_hitpoints > 0 ? weapon.gadget_max_hitpoints : 100;
+    maxhitpoints = isdefined(weapon.gadget_max_hitpoints) && weapon.gadget_max_hitpoints > 0 ? weapon.gadget_max_hitpoints : 100;
     while (self flagsys::get("gadget_armor_on")) {
         if (self scene::is_igc_active()) {
             self gadgetdeactivate(slot, weapon);
             self gadgetpowerset(slot, 0);
             break;
         }
-        if (isdefined(self.var_442c2e3d) && self.var_442c2e3d <= 0) {
+        if (isdefined(self.gadgethitpoints) && self.gadgethitpoints <= 0) {
             self playsoundtoplayer("wpn_power_armor_destroyed_plr", self);
             self playsoundtoallbutplayer("wpn_power_armor_destroyed_npc", self);
             self gadgetdeactivate(slot, weapon);
             self gadgetpowerset(slot, 0);
             break;
         }
-        if (isdefined(self.var_442c2e3d)) {
-            var_73c6f93e = self.var_442c2e3d / var_3eea3245;
+        if (isdefined(self.gadgethitpoints)) {
+            hitpointsratio = self.gadgethitpoints / maxhitpoints;
         } else {
-            var_73c6f93e = self gadgetpowerchange(self.var_5f5848a3, 0) / var_3eea3245;
+            hitpointsratio = self gadgetpowerchange(self._gadget_armor_slot, 0) / maxhitpoints;
         }
-        stage = 1 + int(var_73c6f93e * 5);
+        stage = 1 + int(hitpointsratio * 5);
         if (stage > 5) {
             stage = 5;
         }

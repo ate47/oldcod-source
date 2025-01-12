@@ -6,45 +6,45 @@
 #using scripts/core_common/ai/systems/blackboard;
 #using scripts/core_common/ai/systems/planner;
 
-#namespace namespace_d5e43bbc;
+#namespace plannerconvoyairassault;
 
-// Namespace namespace_d5e43bbc/namespace_f631ab1d
+// Namespace plannerconvoyairassault/planner_convoy_air_assault
 // Params 1, eflags: 0x4
 // Checksum 0xcda7f1da, Offset: 0x310
 // Size: 0x138
 function private _createcommanderplanner(team) {
     planner = planner::createplanner("commanderSabotage");
-    sequence = plannergenericcommander::function_96caab78(planner);
+    sequence = plannergenericcommander::commanderforcegoalstrategy(planner);
     planner::addgoto(sequence, planner);
-    sequence = plannergenericcommander::function_3eac1247(planner);
+    sequence = plannergenericcommander::commanderassaultsquadstrategy(planner);
     planner::addgoto(sequence, planner);
-    sequence = plannergenericcommander::function_ec4dcfc2(planner);
+    sequence = plannergenericcommander::commanderdefendsquadstrategy(planner);
     planner::addgoto(sequence, planner);
-    sequence = plannergenericcommander::function_823fd55f(planner);
+    sequence = plannergenericcommander::commanderwandersquadstrategy(planner);
     planner::addgoto(sequence, planner);
     planner::addaction(planner, "commanderEndPlan");
     return planner;
 }
 
-// Namespace namespace_d5e43bbc/namespace_f631ab1d
+// Namespace plannerconvoyairassault/planner_convoy_air_assault
 // Params 1, eflags: 0x4
 // Checksum 0x98e920f3, Offset: 0x450
 // Size: 0xb8
 function private _createsquadplanner(team) {
     planner = planner::createplanner("squadSabotage");
-    sequence = namespace_ff4ab724::function_44b382a7(planner);
-    sequence = namespace_ff4ab724::function_c55f60e5(planner);
-    sequence = namespace_ff4ab724::function_8d586a9e(planner);
-    sequence = namespace_ff4ab724::function_fe51b831(planner);
+    sequence = plannergenericsquad::squadseekammocache(planner);
+    sequence = plannergenericsquad::squadassaultstrategy(planner);
+    sequence = plannergenericsquad::squaddefendstrategy(planner);
+    sequence = plannergenericsquad::squadmovetoobjectivestrategy(planner);
     planner::addaction(planner, "squadWander");
     return planner;
 }
 
-// Namespace namespace_d5e43bbc/namespace_f631ab1d
+// Namespace plannerconvoyairassault/planner_convoy_air_assault
 // Params 0, eflags: 0x0
 // Checksum 0xecaab8fc, Offset: 0x510
 // Size: 0x1a0
-function function_deecc0c0() {
+function createaxiscommander() {
     team = "axis";
     commander = plannercommanderutility::createcommander(team, _createcommanderplanner(team), _createsquadplanner(team));
     blackboard::setstructblackboardattribute(commander, "gameobjects_exclude", array("obstruction_1", "obstruction_2", "obstruction_3"));

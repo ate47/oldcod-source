@@ -18,7 +18,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xccf5889b, Offset: 0x570
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("killcam", &__init__, undefined, undefined);
 }
 
@@ -173,7 +173,7 @@ function final_killcam_waiter() {
 // Checksum 0x29153042, Offset: 0xea0
 // Size: 0xa4
 function post_round_final_killcam(winner, endreasontext) {
-    if (isdefined(level.var_77929119) && level.var_77929119) {
+    if (isdefined(level.sidebet) && level.sidebet) {
         return;
     }
     if (!level.finalkillcam) {

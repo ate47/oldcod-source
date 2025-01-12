@@ -62,7 +62,7 @@ function function_cd4ced7a(sweapon, smeansofdeath, shitloc) {
 // Params 0, eflags: 0x0
 // Checksum 0x435c3786, Offset: 0x330
 // Size: 0x96
-function function_4a66f284() {
+function cleanup_suicide_hud() {
     if (isdefined(self.suicideprompt)) {
         self.suicideprompt destroy();
         self.suicideprompt = undefined;
@@ -87,7 +87,7 @@ function function_9a3e66fc() {
     self endon(#"player_revived");
     self endon(#"bled_out");
     level waittill("game_ended", "stop_suicide_trigger");
-    self function_4a66f284();
+    self cleanup_suicide_hud();
 }
 
 // Namespace laststand/laststand_shared
@@ -98,7 +98,7 @@ function function_a5c40dbc() {
     self endon(#"disconnect");
     self endon(#"stop_revive_trigger");
     self waittill("bled_out", "player_revived", "fake_death");
-    self function_4a66f284();
+    self cleanup_suicide_hud();
 }
 
 // Namespace laststand/laststand_shared

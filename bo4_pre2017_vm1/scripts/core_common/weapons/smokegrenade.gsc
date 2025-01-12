@@ -117,7 +117,7 @@ function spawnsmokegrenadetrigger(duration) {
 // Params 0, eflags: 0x0
 // Checksum 0x513fdf11, Offset: 0x918
 // Size: 0x9c
-function function_c7ecc8f3() {
+function isinsmokegrenade() {
     foreach (trigger in level.smoke_grenade_triggers) {
         if (self istouching(trigger)) {
             return true;

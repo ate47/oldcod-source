@@ -8,533 +8,516 @@
 #using scripts/core_common/trigger_shared;
 #using scripts/core_common/util_shared;
 
-#namespace cdoor;
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xcd9fa1e3, Offset: 0x3f0
-// Size: 0x38
-function __constructor() {
-    self.m_n_trigger_height = 80;
-    self.var_b4d34742 = undefined;
-    self.m_door_open_delay_time = 0;
-    self.m_e_trigger_player = undefined;
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x95ed808b, Offset: 0x430
-// Size: 0x2c
-function __destructor() {
-    if (isdefined(self.m_e_trigger)) {
-        self.m_e_trigger delete();
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 4, eflags: 0x0
-// Checksum 0x12b66075, Offset: 0x468
-// Size: 0xac
-function init_door_model(e_or_str_model, connect_paths, v_origin, v_angles) {
-    if (isentity(e_or_str_model)) {
-        self.m_e_door = e_or_str_model;
-        return;
-    } else if (!isdefined(e_or_str_model)) {
-        e_or_str_model = "tag_origin";
-    }
-    self.m_e_door = util::spawn_model(e_or_str_model, v_origin, v_angles);
-    if (connect_paths) {
-        self.m_e_door disconnectpaths();
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x9b535892, Offset: 0x520
-// Size: 0xec
-function get_hack_pos() {
-    v_trigger_offset = self.m_s_bundle.v_trigger_offset;
-    v_pos = calculate_offset_position(self.m_e_door.origin, self.m_e_door.angles, v_trigger_offset);
-    v_pos = (v_pos[0], v_pos[1], v_pos[2] + 50);
-    if (isdefined(self.var_1484043e)) {
-        e_target = getent(self.var_1484043e, "targetname");
-        if (isdefined(e_target)) {
-            return e_target.origin;
-        }
-    }
-    return v_pos;
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x34f99a09, Offset: 0x618
-// Size: 0x7c
-function get_hack_angles() {
-    v_angles = self.m_e_door.angles;
-    if (isdefined(self.var_1484043e)) {
-        e_target = getent(self.var_1484043e, "targetname");
-        if (isdefined(e_target)) {
-            return e_target.angles;
-        }
-    }
-    return v_angles;
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xe914c9c8, Offset: 0x6a0
-// Size: 0x122
-function init_hint_trigger() {
-    if (self.m_s_bundle.door_unlock_method === "default" && !(isdefined(self.m_s_bundle.door_trigger_at_target) && self.m_s_bundle.door_trigger_at_target)) {
-        return;
-    }
-    if (self.m_s_bundle.door_unlock_method === "key") {
-        return;
-    }
-    v_offset = self.m_s_bundle.v_trigger_offset;
-    n_radius = self.m_s_bundle.door_trigger_radius;
-    v_pos = calculate_offset_position(self.m_e_door.origin, self.m_e_door.angles, v_offset);
-    v_pos = (v_pos[0], v_pos[1], v_pos[2] + 50);
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xa1926dbc, Offset: 0x7d0
-// Size: 0x34
-function lock() {
-    self flag::set("locked");
-    update_use_message();
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x9dfde2cb, Offset: 0x810
-// Size: 0x24
-function unlock() {
-    self flag::clear("locked");
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xbd7fdd13, Offset: 0x840
-// Size: 0x60
-function delete_door() {
-    self.m_e_door delete();
-    self.m_e_door = undefined;
-    if (isdefined(self.m_e_trigger)) {
-        self.m_e_trigger delete();
-        self.m_e_trigger = undefined;
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x9f453161, Offset: 0x8a8
-// Size: 0x24
-function open() {
-    self flag::set("open");
-}
-
-// Namespace cdoor/doors_shared
-// Params 1, eflags: 0x0
-// Checksum 0x11bc274e, Offset: 0x8d8
-// Size: 0x1c
-function set_player_who_opened(e_player) {
-    self.m_e_trigger_player = e_player;
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xfe44622a, Offset: 0x900
-// Size: 0x22
-function is_open() {
-    return self flag::get("open");
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xc1238647, Offset: 0x930
-// Size: 0x2c
-function remove_door_trigger() {
-    if (isdefined(self.m_e_trigger)) {
-        self.m_e_trigger delete();
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xdf3efe22, Offset: 0x968
-// Size: 0x42c
-function close_internal() {
-    self flag::clear("open");
-    set_script_flags(0);
-    self flag::set("animating");
-    self.m_e_door notify(#"door_closing");
-    if (isdefined(self.m_s_bundle.b_loop_sound) && self.m_s_bundle.b_loop_sound) {
-        self.m_e_door playsound(self.m_s_bundle.door_start_sound);
-        sndent = spawn("script_origin", self.m_e_door.origin);
-        sndent linkto(self.m_e_door);
-        sndent playloopsound(self.m_s_bundle.door_loop_sound, 1);
-    } else if (isdefined(self.m_s_bundle.door_stop_sound) && self.m_s_bundle.door_stop_sound != "") {
-        self.m_e_door playsound(self.m_s_bundle.door_stop_sound);
-    }
-    if (self.m_s_bundle.door_open_method == "slide") {
-        self.m_e_door moveto(self.m_v_close_pos, self.m_s_bundle.door_open_time);
-        self.m_e_door waittill("movedone");
-    } else if (self.m_s_bundle.door_open_method == "swing") {
-        angle = function_ad665f20();
-        v_angle = (self.m_e_door.angles[0], self.m_e_door.angles[1] - angle, self.m_e_door.angles[2]);
-        self.m_e_door rotateto(v_angle, self.m_s_bundle.door_open_time);
-        self.m_e_door waittill("rotatedone");
-    } else if (self.m_s_bundle.door_open_method == "animated") {
-        self.m_e_door scene::play(self.m_s_bundle.door_animated_close_bundle, self.m_e_door);
-    }
-    self.m_e_door notify(#"door_closed");
-    if (isdefined(self.m_n_door_connect_paths) && self.m_n_door_connect_paths) {
-        self.m_e_door disconnectpaths();
-    }
-    if (isdefined(self.m_s_bundle.b_loop_sound) && self.m_s_bundle.b_loop_sound) {
-        sndent delete();
-        self.m_e_door playsound(self.m_s_bundle.door_stop_sound);
-    }
-    flag::clear("animating");
-    update_use_message();
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x3d9d1532, Offset: 0xda0
-// Size: 0x24
-function close() {
-    self flag::clear("open");
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x4990da54, Offset: 0xdd0
-// Size: 0x40c
-function open_internal() {
-    self flag::set("animating");
-    self.m_e_door notify(#"door_opening");
-    if (isdefined(self.m_s_bundle.door_start_sound) && self.m_s_bundle.door_start_sound != "") {
-        self.m_e_door playsound(self.m_s_bundle.door_start_sound);
-    }
-    if (isdefined(self.m_s_bundle.b_loop_sound) && self.m_s_bundle.b_loop_sound) {
-        sndent = spawn("script_origin", self.m_e_door.origin);
-        sndent linkto(self.m_e_door);
-        sndent playloopsound(self.m_s_bundle.door_loop_sound, 1);
-    }
-    if (self.m_s_bundle.door_open_method == "slide") {
-        self.m_e_door moveto(self.m_v_open_pos, self.m_s_bundle.door_open_time);
-        self.m_e_door waittill("movedone");
-    } else if (self.m_s_bundle.door_open_method == "swing") {
-        angle = function_ad665f20();
-        v_angle = (self.m_e_door.angles[0], self.m_e_door.angles[1] + angle, self.m_e_door.angles[2]);
-        self.m_e_door rotateto(v_angle, self.m_s_bundle.door_open_time);
-        self.m_e_door waittill("rotatedone");
-    } else if (self.m_s_bundle.door_open_method == "animated") {
-        self.m_e_door scene::play(self.m_s_bundle.door_animated_open_bundle, self.m_e_door);
-    }
-    if (isdefined(self.m_n_door_connect_paths) && self.m_n_door_connect_paths) {
-        self.m_e_door connectpaths();
-    }
-    self.m_e_door notify(#"door_opened");
-    if (isdefined(self.m_s_bundle.b_loop_sound) && self.m_s_bundle.b_loop_sound) {
-        sndent delete();
-    }
-    if (isdefined(self.m_s_bundle.door_stop_sound) && self.m_s_bundle.door_stop_sound != "") {
-        self.m_e_door playsound(self.m_s_bundle.door_stop_sound);
-    }
-    flag::clear("animating");
-    set_script_flags(1);
-    update_use_message();
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x580aa507, Offset: 0x11e8
-// Size: 0x13a
-function update_use_message() {
-    if (!(isdefined(self.m_s_bundle.door_use_trigger) && self.m_s_bundle.door_use_trigger)) {
-        return;
-    }
-    if (self flag::get("open")) {
-        if (!(isdefined(self.m_s_bundle.door_closes) && self.m_s_bundle.door_closes)) {
-        }
-        return;
-    }
-    if (isdefined(self.m_s_bundle.door_open_message) && self.m_s_bundle.door_open_message != "") {
-        return;
-    }
-    if (isdefined(self.m_s_bundle.door_use_hold) && self.m_s_bundle.door_use_hold) {
-        return;
-    }
-    if (self.m_s_bundle.door_unlock_method === "key") {
-        return;
-    }
-    if (self flag::get("locked")) {
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x2d5a5b0c, Offset: 0x1330
-// Size: 0x250
-function run_lock_fx() {
-    if (!isdefined(self.m_s_bundle.door_locked_fx) && !isdefined(self.m_s_bundle.door_unlocked_fx)) {
-        return;
-    }
-    e_fx = undefined;
-    v_pos = get_hack_pos();
-    v_angles = get_hack_angles();
-    while (true) {
-        self flag::wait_till("locked");
-        if (isdefined(e_fx)) {
-            e_fx delete();
-            e_fx = undefined;
-        }
-        if (isdefined(self.m_s_bundle.door_locked_fx)) {
-            e_fx = spawn("script_model", v_pos);
-            e_fx setmodel("tag_origin");
-            e_fx.angles = v_angles;
-            playfxontag(self.m_s_bundle.door_locked_fx, e_fx, "tag_origin");
-        }
-        self flag::wait_till_clear("locked");
-        if (isdefined(e_fx)) {
-            e_fx delete();
-            e_fx = undefined;
-        }
-        if (isdefined(self.m_s_bundle.door_unlocked_fx)) {
-            e_fx = spawn("script_model", v_pos);
-            e_fx setmodel("tag_origin");
-            e_fx.angles = v_angles;
-            playfxontag(self.m_s_bundle.door_unlocked_fx, e_fx, "tag_origin");
-        }
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xc0b7f0ea, Offset: 0x1588
-// Size: 0x1a0
-function function_34d8f8a5() {
-    str_hint = "";
-    if (isdefined(self.m_s_bundle.door_trigger_at_target) && self.m_s_bundle.door_trigger_at_target) {
-        str_hint = "This door is controlled elsewhere";
-    } else if (self.m_s_bundle.door_unlock_method === "hack") {
-        str_hint = "This door is electronically locked";
-    }
-    while (true) {
-        self.var_133df857 sethintstring(str_hint);
-        if (isdefined(self.m_s_bundle.door_trigger_at_target) && self.m_s_bundle.door_trigger_at_target) {
-            self flag::wait_till("open");
-        } else {
-            self flag::wait_till_clear("locked");
-        }
-        self.var_133df857 sethintstring("");
-        if (isdefined(self.m_s_bundle.door_trigger_at_target) && self.m_s_bundle.door_trigger_at_target) {
-            self flag::wait_till_clear("open");
-            continue;
-        }
-        self flag::wait_till("locked");
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 2, eflags: 0x0
-// Checksum 0x93d14bfc, Offset: 0x1730
-// Size: 0x2f4
-function init_trigger(v_offset, n_radius) {
-    v_pos = calculate_offset_position(self.m_e_door.origin, self.m_e_door.angles, v_offset);
-    v_pos = (v_pos[0], v_pos[1], v_pos[2] + 50);
-    if (isdefined(self.m_s_bundle.door_trigger_at_target) && self.m_s_bundle.door_trigger_at_target && isdefined(self.var_1484043e)) {
-        e_target = getent(self.var_1484043e, "targetname");
-        if (isdefined(e_target)) {
-            if (e_target trigger::is_trigger_of_type("trigger_multiple", "trigger_radius", "trigger_box")) {
-                t_radius_or_multiple = e_target;
-            } else if (e_target trigger::is_trigger_of_type("trigger_use", "trigger_use_touch")) {
-                t_use = e_target;
-                self.m_s_bundle.door_use_trigger = 1;
-            }
-            v_pos = e_target.origin;
-        }
-    }
-    if (isdefined(self.m_s_bundle.door_use_trigger) && self.m_s_bundle.door_use_trigger) {
-        if (isdefined(t_use)) {
-            self.m_e_trigger = t_use;
-        } else {
-            self.m_e_trigger = spawn("trigger_radius_use", v_pos, 0, n_radius, self.m_n_trigger_height);
-        }
-        self.m_e_trigger triggerignoreteam();
-        self.m_e_trigger setvisibletoall();
-        self.m_e_trigger setteamfortrigger("none");
-        self.m_e_trigger usetriggerrequirelookat();
-        self.m_e_trigger setcursorhint("HINT_NOICON");
-        return;
-    }
-    if (isdefined(t_radius_or_multiple)) {
-        self.m_e_trigger = t_radius_or_multiple;
-        return;
-    }
-    self.m_e_trigger = spawn("trigger_radius", v_pos, 0, n_radius, self.m_n_trigger_height);
-}
-
-// Namespace cdoor/doors_shared
-// Params 1, eflags: 0x0
-// Checksum 0x6c6bbd22, Offset: 0x1a30
-// Size: 0xfa
-function set_script_flags(b_set) {
-    if (isdefined(self.var_d6ef8c9d)) {
-        a_flags = strtok(self.var_d6ef8c9d, ",");
-        foreach (str_flag in a_flags) {
-            if (b_set) {
-                level flag::set(str_flag);
-                continue;
-            }
-            level flag::clear(str_flag);
-        }
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 2, eflags: 0x0
-// Checksum 0x6ce30b75, Offset: 0x1b38
-// Size: 0x118
-function init_movement(str_slide_dir, n_slide_amount) {
-    if (self.m_s_bundle.door_open_method == "slide") {
-        switch (str_slide_dir) {
-        case #"x":
-            v_offset = (n_slide_amount, 0, 0);
-            break;
-        case #"y":
-            v_offset = (0, n_slide_amount, 0);
-            break;
-        case #"z":
-            v_offset = (0, 0, n_slide_amount);
-            break;
-        default:
-            v_offset = (0, 0, n_slide_amount);
-            break;
-        }
-        self.m_v_open_pos = calculate_offset_position(self.m_e_door.origin, self.m_e_door.angles, v_offset);
-        self.m_v_close_pos = self.m_e_door.origin;
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0x426635cf, Offset: 0x1c58
-// Size: 0xbe
-function init_player_spawns() {
-    if (isdefined(self.var_7e16e483)) {
-        a_structs = struct::get_array(self.var_7e16e483, "target");
-        foreach (struct in a_structs) {
-            struct.c_door = self;
-        }
-    }
-}
-
-// Namespace cdoor/doors_shared
-// Params 1, eflags: 0x0
-// Checksum 0x4559303c, Offset: 0x1d20
-// Size: 0x1c
-function set_door_paths(n_door_connect_paths) {
-    self.m_n_door_connect_paths = n_door_connect_paths;
-}
-
-// Namespace cdoor/doors_shared
-// Params 3, eflags: 0x0
-// Checksum 0x84bedc40, Offset: 0x1d48
-// Size: 0x118
-function calculate_offset_position(v_origin, v_angles, v_offset) {
-    v_pos = v_origin;
-    if (v_offset[0]) {
-        v_side = anglestoforward(v_angles);
-        v_pos += v_offset[0] * v_side;
-    }
-    if (v_offset[1]) {
-        v_dir = anglestoright(v_angles);
-        v_pos += v_offset[1] * v_dir;
-    }
-    if (v_offset[2]) {
-        v_up = anglestoup(v_angles);
-        v_pos += v_offset[2] * v_up;
-    }
-    return v_pos;
-}
-
-// Namespace cdoor/doors_shared
-// Params 1, eflags: 0x0
-// Checksum 0x2c320fe8, Offset: 0x1e68
-// Size: 0x1c
-function function_207f7798(angle) {
-    self.var_b4d34742 = angle;
-}
-
-// Namespace cdoor/doors_shared
-// Params 0, eflags: 0x0
-// Checksum 0xd5478332, Offset: 0x1e90
-// Size: 0x4c
-function function_ad665f20() {
-    if (isdefined(self.var_b4d34742)) {
-        angle = self.var_b4d34742;
-    } else {
-        angle = self.m_s_bundle.door_swing_angle;
-    }
-    return angle;
-}
-
-// Namespace cdoor/doors_shared
-// Params 1, eflags: 0x0
-// Checksum 0x773e467c, Offset: 0x1ee8
-// Size: 0x1c
-function function_4facda28(delay_time) {
-    self.m_door_open_delay_time = delay_time;
-}
-
 #namespace doors;
 
-// Namespace doors/doors_shared
-// Params 0, eflags: 0x6
-// Checksum 0xc13689ef, Offset: 0x1f10
-// Size: 0x566
-function private autoexec cdoor() {
-    classes.cdoor[0] = spawnstruct();
-    classes.cdoor[0].__vtable[1336728104] = &cdoor::function_4facda28;
-    classes.cdoor[0].__vtable[-1385799904] = &cdoor::function_ad665f20;
-    classes.cdoor[0].__vtable[545224600] = &cdoor::function_207f7798;
-    classes.cdoor[0].__vtable[-97650009] = &cdoor::calculate_offset_position;
-    classes.cdoor[0].__vtable[943284939] = &cdoor::set_door_paths;
-    classes.cdoor[0].__vtable[-558971920] = &cdoor::init_player_spawns;
-    classes.cdoor[0].__vtable[-1256085383] = &cdoor::init_movement;
-    classes.cdoor[0].__vtable[1189441475] = &cdoor::set_script_flags;
-    classes.cdoor[0].__vtable[1427073926] = &cdoor::init_trigger;
-    classes.cdoor[0].__vtable[886634661] = &cdoor::function_34d8f8a5;
-    classes.cdoor[0].__vtable[-1510748301] = &cdoor::run_lock_fx;
-    classes.cdoor[0].__vtable[-529998670] = &cdoor::update_use_message;
-    classes.cdoor[0].__vtable[-691551209] = &cdoor::open_internal;
-    classes.cdoor[0].__vtable[-1247479729] = &cdoor::close;
-    classes.cdoor[0].__vtable[-379193783] = &cdoor::close_internal;
-    classes.cdoor[0].__vtable[640018621] = &cdoor::remove_door_trigger;
-    classes.cdoor[0].__vtable[-1487639892] = &cdoor::is_open;
-    classes.cdoor[0].__vtable[1679031816] = &cdoor::set_player_who_opened;
-    classes.cdoor[0].__vtable[206324137] = &cdoor::open;
-    classes.cdoor[0].__vtable[423820431] = &cdoor::delete_door;
-    classes.cdoor[0].__vtable[1513534149] = &cdoor::unlock;
-    classes.cdoor[0].__vtable[6626168] = &cdoor::lock;
-    classes.cdoor[0].__vtable[-223333212] = &cdoor::init_hint_trigger;
-    classes.cdoor[0].__vtable[-696337716] = &cdoor::get_hack_angles;
-    classes.cdoor[0].__vtable[1794592682] = &cdoor::get_hack_pos;
-    classes.cdoor[0].__vtable[1417014256] = &cdoor::init_door_model;
-    classes.cdoor[0].__vtable[1606033458] = &cdoor::__destructor;
-    classes.cdoor[0].__vtable[-1690805083] = &cdoor::__constructor;
+// Namespace doors
+// Method(s) 28 Total 28
+class cdoor {
+
+    var m_door_open_delay_time;
+    var m_e_door;
+    var m_e_trigger;
+    var m_e_trigger_player;
+    var m_n_door_connect_paths;
+    var m_n_trigger_height;
+    var m_s_bundle;
+    var m_v_close_pos;
+    var m_v_open_pos;
+    var var_133df857;
+    var var_1484043e;
+    var var_7e16e483;
+    var var_b4d34742;
+    var var_d6ef8c9d;
+
+    // Namespace cdoor/doors_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x773e467c, Offset: 0x1ee8
+    // Size: 0x1c
+    function function_4facda28(delay_time) {
+        m_door_open_delay_time = delay_time;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xd5478332, Offset: 0x1e90
+    // Size: 0x4c
+    function function_ad665f20() {
+        if (isdefined(var_b4d34742)) {
+            angle = var_b4d34742;
+        } else {
+            angle = m_s_bundle.door_swing_angle;
+        }
+        return angle;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x2c320fe8, Offset: 0x1e68
+    // Size: 0x1c
+    function function_207f7798(angle) {
+        var_b4d34742 = angle;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 3, eflags: 0x0
+    // Checksum 0x84bedc40, Offset: 0x1d48
+    // Size: 0x118
+    function calculate_offset_position(v_origin, v_angles, v_offset) {
+        v_pos = v_origin;
+        if (v_offset[0]) {
+            v_side = anglestoforward(v_angles);
+            v_pos += v_offset[0] * v_side;
+        }
+        if (v_offset[1]) {
+            v_dir = anglestoright(v_angles);
+            v_pos += v_offset[1] * v_dir;
+        }
+        if (v_offset[2]) {
+            v_up = anglestoup(v_angles);
+            v_pos += v_offset[2] * v_up;
+        }
+        return v_pos;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x4559303c, Offset: 0x1d20
+    // Size: 0x1c
+    function set_door_paths(n_door_connect_paths) {
+        m_n_door_connect_paths = n_door_connect_paths;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x426635cf, Offset: 0x1c58
+    // Size: 0xbe
+    function init_player_spawns() {
+        if (isdefined(var_7e16e483)) {
+            a_structs = struct::get_array(var_7e16e483, "target");
+            foreach (struct in a_structs) {
+                struct.c_door = self;
+            }
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 2, eflags: 0x0
+    // Checksum 0x6ce30b75, Offset: 0x1b38
+    // Size: 0x118
+    function init_movement(str_slide_dir, n_slide_amount) {
+        if (m_s_bundle.door_open_method == "slide") {
+            switch (str_slide_dir) {
+            case #"x":
+                v_offset = (n_slide_amount, 0, 0);
+                break;
+            case #"y":
+                v_offset = (0, n_slide_amount, 0);
+                break;
+            case #"z":
+                v_offset = (0, 0, n_slide_amount);
+                break;
+            default:
+                v_offset = (0, 0, n_slide_amount);
+                break;
+            }
+            m_v_open_pos = calculate_offset_position(m_e_door.origin, m_e_door.angles, v_offset);
+            m_v_close_pos = m_e_door.origin;
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x6c6bbd22, Offset: 0x1a30
+    // Size: 0xfa
+    function set_script_flags(b_set) {
+        if (isdefined(var_d6ef8c9d)) {
+            a_flags = strtok(var_d6ef8c9d, ",");
+            foreach (str_flag in a_flags) {
+                if (b_set) {
+                    level flag::set(str_flag);
+                    continue;
+                }
+                level flag::clear(str_flag);
+            }
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 2, eflags: 0x0
+    // Checksum 0x93d14bfc, Offset: 0x1730
+    // Size: 0x2f4
+    function init_trigger(v_offset, n_radius) {
+        v_pos = calculate_offset_position(m_e_door.origin, m_e_door.angles, v_offset);
+        v_pos = (v_pos[0], v_pos[1], v_pos[2] + 50);
+        if (isdefined(m_s_bundle.door_trigger_at_target) && m_s_bundle.door_trigger_at_target && isdefined(var_1484043e)) {
+            e_target = getent(var_1484043e, "targetname");
+            if (isdefined(e_target)) {
+                if (e_target trigger::is_trigger_of_type("trigger_multiple", "trigger_radius", "trigger_box")) {
+                    t_radius_or_multiple = e_target;
+                } else if (e_target trigger::is_trigger_of_type("trigger_use", "trigger_use_touch")) {
+                    t_use = e_target;
+                    m_s_bundle.door_use_trigger = 1;
+                }
+                v_pos = e_target.origin;
+            }
+        }
+        if (isdefined(m_s_bundle.door_use_trigger) && m_s_bundle.door_use_trigger) {
+            if (isdefined(t_use)) {
+                m_e_trigger = t_use;
+            } else {
+                m_e_trigger = spawn("trigger_radius_use", v_pos, 0, n_radius, m_n_trigger_height);
+            }
+            m_e_trigger triggerignoreteam();
+            m_e_trigger setvisibletoall();
+            m_e_trigger setteamfortrigger("none");
+            m_e_trigger usetriggerrequirelookat();
+            m_e_trigger setcursorhint("HINT_NOICON");
+            return;
+        }
+        if (isdefined(t_radius_or_multiple)) {
+            m_e_trigger = t_radius_or_multiple;
+            return;
+        }
+        m_e_trigger = spawn("trigger_radius", v_pos, 0, n_radius, m_n_trigger_height);
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xc0b7f0ea, Offset: 0x1588
+    // Size: 0x1a0
+    function function_34d8f8a5() {
+        str_hint = "";
+        if (isdefined(m_s_bundle.door_trigger_at_target) && m_s_bundle.door_trigger_at_target) {
+            str_hint = "This door is controlled elsewhere";
+        } else if (m_s_bundle.door_unlock_method === "hack") {
+            str_hint = "This door is electronically locked";
+        }
+        while (true) {
+            var_133df857 sethintstring(str_hint);
+            if (isdefined(m_s_bundle.door_trigger_at_target) && m_s_bundle.door_trigger_at_target) {
+                self flag::wait_till("open");
+            } else {
+                self flag::wait_till_clear("locked");
+            }
+            var_133df857 sethintstring("");
+            if (isdefined(m_s_bundle.door_trigger_at_target) && m_s_bundle.door_trigger_at_target) {
+                self flag::wait_till_clear("open");
+                continue;
+            }
+            self flag::wait_till("locked");
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x2d5a5b0c, Offset: 0x1330
+    // Size: 0x250
+    function run_lock_fx() {
+        if (!isdefined(m_s_bundle.door_locked_fx) && !isdefined(m_s_bundle.door_unlocked_fx)) {
+            return;
+        }
+        e_fx = undefined;
+        v_pos = get_hack_pos();
+        v_angles = get_hack_angles();
+        while (true) {
+            self flag::wait_till("locked");
+            if (isdefined(e_fx)) {
+                e_fx delete();
+                e_fx = undefined;
+            }
+            if (isdefined(m_s_bundle.door_locked_fx)) {
+                e_fx = spawn("script_model", v_pos);
+                e_fx setmodel("tag_origin");
+                e_fx.angles = v_angles;
+                playfxontag(m_s_bundle.door_locked_fx, e_fx, "tag_origin");
+            }
+            self flag::wait_till_clear("locked");
+            if (isdefined(e_fx)) {
+                e_fx delete();
+                e_fx = undefined;
+            }
+            if (isdefined(m_s_bundle.door_unlocked_fx)) {
+                e_fx = spawn("script_model", v_pos);
+                e_fx setmodel("tag_origin");
+                e_fx.angles = v_angles;
+                playfxontag(m_s_bundle.door_unlocked_fx, e_fx, "tag_origin");
+            }
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x580aa507, Offset: 0x11e8
+    // Size: 0x13a
+    function update_use_message() {
+        if (!(isdefined(m_s_bundle.door_use_trigger) && m_s_bundle.door_use_trigger)) {
+            return;
+        }
+        if (self flag::get("open")) {
+            if (!(isdefined(m_s_bundle.door_closes) && m_s_bundle.door_closes)) {
+            }
+            return;
+        }
+        if (isdefined(m_s_bundle.door_open_message) && m_s_bundle.door_open_message != "") {
+            return;
+        }
+        if (isdefined(m_s_bundle.door_use_hold) && m_s_bundle.door_use_hold) {
+            return;
+        }
+        if (m_s_bundle.door_unlock_method === "key") {
+            return;
+        }
+        if (self flag::get("locked")) {
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x4990da54, Offset: 0xdd0
+    // Size: 0x40c
+    function open_internal() {
+        self flag::set("animating");
+        m_e_door notify(#"door_opening");
+        if (isdefined(m_s_bundle.door_start_sound) && m_s_bundle.door_start_sound != "") {
+            m_e_door playsound(m_s_bundle.door_start_sound);
+        }
+        if (isdefined(m_s_bundle.b_loop_sound) && m_s_bundle.b_loop_sound) {
+            sndent = spawn("script_origin", m_e_door.origin);
+            sndent linkto(m_e_door);
+            sndent playloopsound(m_s_bundle.door_loop_sound, 1);
+        }
+        if (m_s_bundle.door_open_method == "slide") {
+            m_e_door moveto(m_v_open_pos, m_s_bundle.door_open_time);
+            m_e_door waittill("movedone");
+        } else if (m_s_bundle.door_open_method == "swing") {
+            angle = function_ad665f20();
+            v_angle = (m_e_door.angles[0], m_e_door.angles[1] + angle, m_e_door.angles[2]);
+            m_e_door rotateto(v_angle, m_s_bundle.door_open_time);
+            m_e_door waittill("rotatedone");
+        } else if (m_s_bundle.door_open_method == "animated") {
+            m_e_door scene::play(m_s_bundle.door_animated_open_bundle, m_e_door);
+        }
+        if (isdefined(m_n_door_connect_paths) && m_n_door_connect_paths) {
+            m_e_door connectpaths();
+        }
+        m_e_door notify(#"door_opened");
+        if (isdefined(m_s_bundle.b_loop_sound) && m_s_bundle.b_loop_sound) {
+            sndent delete();
+        }
+        if (isdefined(m_s_bundle.door_stop_sound) && m_s_bundle.door_stop_sound != "") {
+            m_e_door playsound(m_s_bundle.door_stop_sound);
+        }
+        flag::clear("animating");
+        set_script_flags(1);
+        update_use_message();
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x3d9d1532, Offset: 0xda0
+    // Size: 0x24
+    function close() {
+        self flag::clear("open");
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xdf3efe22, Offset: 0x968
+    // Size: 0x42c
+    function close_internal() {
+        self flag::clear("open");
+        set_script_flags(0);
+        self flag::set("animating");
+        m_e_door notify(#"door_closing");
+        if (isdefined(m_s_bundle.b_loop_sound) && m_s_bundle.b_loop_sound) {
+            m_e_door playsound(m_s_bundle.door_start_sound);
+            sndent = spawn("script_origin", m_e_door.origin);
+            sndent linkto(m_e_door);
+            sndent playloopsound(m_s_bundle.door_loop_sound, 1);
+        } else if (isdefined(m_s_bundle.door_stop_sound) && m_s_bundle.door_stop_sound != "") {
+            m_e_door playsound(m_s_bundle.door_stop_sound);
+        }
+        if (m_s_bundle.door_open_method == "slide") {
+            m_e_door moveto(m_v_close_pos, m_s_bundle.door_open_time);
+            m_e_door waittill("movedone");
+        } else if (m_s_bundle.door_open_method == "swing") {
+            angle = function_ad665f20();
+            v_angle = (m_e_door.angles[0], m_e_door.angles[1] - angle, m_e_door.angles[2]);
+            m_e_door rotateto(v_angle, m_s_bundle.door_open_time);
+            m_e_door waittill("rotatedone");
+        } else if (m_s_bundle.door_open_method == "animated") {
+            m_e_door scene::play(m_s_bundle.door_animated_close_bundle, m_e_door);
+        }
+        m_e_door notify(#"door_closed");
+        if (isdefined(m_n_door_connect_paths) && m_n_door_connect_paths) {
+            m_e_door disconnectpaths();
+        }
+        if (isdefined(m_s_bundle.b_loop_sound) && m_s_bundle.b_loop_sound) {
+            sndent delete();
+            m_e_door playsound(m_s_bundle.door_stop_sound);
+        }
+        flag::clear("animating");
+        update_use_message();
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xc1238647, Offset: 0x930
+    // Size: 0x2c
+    function remove_door_trigger() {
+        if (isdefined(m_e_trigger)) {
+            m_e_trigger delete();
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xfe44622a, Offset: 0x900
+    // Size: 0x22
+    function is_open() {
+        return self flag::get("open");
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 1, eflags: 0x0
+    // Checksum 0x11bc274e, Offset: 0x8d8
+    // Size: 0x1c
+    function set_player_who_opened(e_player) {
+        m_e_trigger_player = e_player;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x9f453161, Offset: 0x8a8
+    // Size: 0x24
+    function open() {
+        self flag::set("open");
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xbd7fdd13, Offset: 0x840
+    // Size: 0x60
+    function delete_door() {
+        m_e_door delete();
+        m_e_door = undefined;
+        if (isdefined(m_e_trigger)) {
+            m_e_trigger delete();
+            m_e_trigger = undefined;
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x9dfde2cb, Offset: 0x810
+    // Size: 0x24
+    function unlock() {
+        self flag::clear("locked");
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xa1926dbc, Offset: 0x7d0
+    // Size: 0x34
+    function lock() {
+        self flag::set("locked");
+        update_use_message();
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xe914c9c8, Offset: 0x6a0
+    // Size: 0x122
+    function init_hint_trigger() {
+        if (m_s_bundle.door_unlock_method === "default" && !(isdefined(m_s_bundle.door_trigger_at_target) && m_s_bundle.door_trigger_at_target)) {
+            return;
+        }
+        if (m_s_bundle.door_unlock_method === "key") {
+            return;
+        }
+        v_offset = m_s_bundle.v_trigger_offset;
+        n_radius = m_s_bundle.door_trigger_radius;
+        v_pos = calculate_offset_position(m_e_door.origin, m_e_door.angles, v_offset);
+        v_pos = (v_pos[0], v_pos[1], v_pos[2] + 50);
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x34f99a09, Offset: 0x618
+    // Size: 0x7c
+    function get_hack_angles() {
+        v_angles = m_e_door.angles;
+        if (isdefined(var_1484043e)) {
+            e_target = getent(var_1484043e, "targetname");
+            if (isdefined(e_target)) {
+                return e_target.angles;
+            }
+        }
+        return v_angles;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x9b535892, Offset: 0x520
+    // Size: 0xec
+    function get_hack_pos() {
+        v_trigger_offset = m_s_bundle.v_trigger_offset;
+        v_pos = calculate_offset_position(m_e_door.origin, m_e_door.angles, v_trigger_offset);
+        v_pos = (v_pos[0], v_pos[1], v_pos[2] + 50);
+        if (isdefined(var_1484043e)) {
+            e_target = getent(var_1484043e, "targetname");
+            if (isdefined(e_target)) {
+                return e_target.origin;
+            }
+        }
+        return v_pos;
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 4, eflags: 0x0
+    // Checksum 0x12b66075, Offset: 0x468
+    // Size: 0xac
+    function init_door_model(e_or_str_model, connect_paths, v_origin, v_angles) {
+        if (isentity(e_or_str_model)) {
+            m_e_door = e_or_str_model;
+            return;
+        } else if (!isdefined(e_or_str_model)) {
+            e_or_str_model = "tag_origin";
+        }
+        m_e_door = util::spawn_model(e_or_str_model, v_origin, v_angles);
+        if (connect_paths) {
+            m_e_door disconnectpaths();
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0x95ed808b, Offset: 0x430
+    // Size: 0x2c
+    function __destructor() {
+        if (isdefined(m_e_trigger)) {
+            m_e_trigger delete();
+        }
+    }
+
+    // Namespace cdoor/doors_shared
+    // Params 0, eflags: 0x0
+    // Checksum 0xcd9fa1e3, Offset: 0x3f0
+    // Size: 0x38
+    function __constructor() {
+        m_n_trigger_height = 80;
+        var_b4d34742 = undefined;
+        m_door_open_delay_time = 0;
+        m_e_trigger_player = undefined;
+    }
+
 }
 
 // Namespace doors/doors_shared
 // Params 0, eflags: 0x2
 // Checksum 0xe04c0150, Offset: 0x2480
 // Size: 0x3c
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("doors", &__init__, &__main__, undefined);
 }
 

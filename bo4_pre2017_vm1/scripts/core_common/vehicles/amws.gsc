@@ -18,7 +18,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x9642d75e, Offset: 0x418
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("amws", &__init__, undefined, undefined);
 }
 
@@ -238,7 +238,7 @@ function state_stationary_update(params) {
                 if (distsqr < self.settings.engagementdistmax * 3 * self.settings.engagementdistmax * 3) {
                     self turretsettarget(0, self.enemy, (0, 0, -5));
                     self turretsettarget(1, self.enemy, (0, 0, -5));
-                    if (vehicle_ai::iscooldownready("rocket") && self.turretontarget && self.gib_rocket !== 1 && !(isdefined(self.var_de427842) && self.var_de427842)) {
+                    if (vehicle_ai::iscooldownready("rocket") && self.turretontarget && self.gib_rocket !== 1 && !(isdefined(self.amws_disable_rockets) && self.amws_disable_rockets)) {
                         self thread firerocketlauncher(self.enemy);
                         vehicle_ai::cooldown("rocket", self.settings.rocketcooldown);
                     }
@@ -463,7 +463,7 @@ function aim_and_fire_rocket_launcher(aim_time) {
     if (!self.turretontarget) {
         wait aim_time;
     }
-    if (isdefined(self.enemy) && self.turretontarget && !(isdefined(self.var_de427842) && self.var_de427842)) {
+    if (isdefined(self.enemy) && self.turretontarget && !(isdefined(self.amws_disable_rockets) && self.amws_disable_rockets)) {
         vehicle_ai::cooldown("rocket", self.settings.rocketcooldown);
         self thread firerocketlauncher(self.enemy);
     }

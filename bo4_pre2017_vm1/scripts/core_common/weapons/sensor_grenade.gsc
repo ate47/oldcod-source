@@ -18,7 +18,7 @@
 // Size: 0x44
 function init_shared() {
     level.var_a747f90a = &function_e9649fd8;
-    callback::function_367a33a8(&function_cb111d01);
+    callback::add_weapon_watcher(&function_cb111d01);
 }
 
 // Namespace sensor_grenade/sensor_grenade
@@ -49,8 +49,8 @@ function function_bdecb8fd(watcher, player) {
     self playloopsound("wpn_sensor_nade_lp");
     self hacker_tool::registerwithhackertool(level.equipmenthackertoolradius, level.equipmenthackertooltimems);
     player addweaponstat(self.weapon, "used", 1);
-    self thread function_5aadfa85(player);
-    self thread function_ab966fda(player);
+    self thread watchforstationary(player);
+    self thread watchforexplode(player);
     self thread function_f4ccbeb2(player);
 }
 
@@ -58,7 +58,7 @@ function function_bdecb8fd(watcher, player) {
 // Params 1, eflags: 0x0
 // Checksum 0x6e27b67, Offset: 0x5a8
 // Size: 0x6c
-function function_5aadfa85(owner) {
+function watchforstationary(owner) {
     self endon(#"death", #"hacked", #"explode");
     owner endon(#"death", #"disconnect");
     self waittill("stationary");
@@ -69,7 +69,7 @@ function function_5aadfa85(owner) {
 // Params 1, eflags: 0x0
 // Checksum 0x4a1a3e93, Offset: 0x620
 // Size: 0x7c
-function function_ab966fda(owner) {
+function watchforexplode(owner) {
     self endon(#"hacked", #"delete");
     owner endon(#"death", #"disconnect");
     waitresult = self waittill("explode");
@@ -91,7 +91,7 @@ function function_32b1b0c7(origin) {
                 if (distancesquared(player.origin, origin) < 562500) {
                     trace = bullettrace(origin, player.origin + (0, 0, 12), 0, player);
                     if (trace["fraction"] == 1) {
-                        self.owner function_eaae596a(player);
+                        self.owner tracksensorgrenadevictim(player);
                     }
                 }
             }
@@ -103,7 +103,7 @@ function function_32b1b0c7(origin) {
 // Params 1, eflags: 0x0
 // Checksum 0xb06d7a25, Offset: 0x898
 // Size: 0x62
-function function_eaae596a(victim) {
+function tracksensorgrenadevictim(victim) {
     if (!isdefined(self.sensorgrenadedata)) {
         self.sensorgrenadedata = [];
     }

@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xd618e6cf, Offset: 0x2a8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("popups", &__init__, undefined, undefined);
 }
 
@@ -121,8 +121,8 @@ function on_player_connect() {
     // Checksum 0xb01ec44a, Offset: 0x718
     // Size: 0x48
     function function_2358da67() {
-        if (!isdefined(level.var_f543dad1)) {
-            level.var_f543dad1 = tablelookupfindcoreasset(util::function_bc37a245());
+        if (!isdefined(level.statstableid)) {
+            level.statstableid = tablelookupfindcoreasset(util::function_bc37a245());
         }
     }
 
@@ -151,21 +151,21 @@ function on_player_connect() {
             return;
         }
         function_2358da67();
-        if (!isdefined(level.var_f543dad1)) {
+        if (!isdefined(level.statstableid)) {
             return;
         }
         for (i = 0; i < 1024; i++) {
-            var_c04d8f24 = tablelookuprownum(level.var_f543dad1, 0, i);
-            if (var_c04d8f24 > -1) {
-                group_s = tablelookupcolumnforrow(level.var_f543dad1, var_c04d8f24, 2);
+            itemrow = tablelookuprownum(level.statstableid, 0, i);
+            if (itemrow > -1) {
+                group_s = tablelookupcolumnforrow(level.statstableid, itemrow, 2);
                 if (issubstr(group_s, "<dev string:x102>") || group_s == "<dev string:x10a>") {
-                    reference_s = tablelookupcolumnforrow(level.var_f543dad1, var_c04d8f24, 4);
+                    reference_s = tablelookupcolumnforrow(level.statstableid, itemrow, 4);
                     if (reference_s != "<dev string:x10f>") {
                         weapon = getweapon(reference_s);
                         level.tbl_weaponids[i]["<dev string:x110>"] = reference_s;
                         level.tbl_weaponids[i]["<dev string:x11a>"] = group_s;
-                        level.tbl_weaponids[i]["<dev string:x120>"] = int(tablelookupcolumnforrow(level.var_f543dad1, var_c04d8f24, 5));
-                        level.tbl_weaponids[i]["<dev string:x126>"] = tablelookupcolumnforrow(level.var_f543dad1, var_c04d8f24, 8);
+                        level.tbl_weaponids[i]["<dev string:x120>"] = int(tablelookupcolumnforrow(level.statstableid, itemrow, 5));
+                        level.tbl_weaponids[i]["<dev string:x126>"] = tablelookupcolumnforrow(level.statstableid, itemrow, 8);
                     }
                 }
             }
@@ -652,7 +652,7 @@ function function_d3829eca() {
     }
     self.var_4c9e757e = [];
     self.var_f57b5d00 = [];
-    self.var_2611c2db = [];
+    self.wagernotifyqueue = [];
     while (!level.gameended) {
         if (self.var_f57b5d00.size == 0 && self.var_4c9e757e.size == 0) {
             self waittill("received award");

@@ -7,14 +7,14 @@
 
 #namespace mp_stronghold;
 
-// Namespace mp_stronghold/level_init
+// Namespace mp_stronghold/Level_Init
 // Params 1, eflags: 0x40
 // Checksum 0x18f83ef0, Offset: 0x1f0
 // Size: 0xb0
-function event_handler[level_init] main(eventstruct) {
-    level.var_7c4ff662 = "ui_cam_draft_common";
-    namespace_eade3e58::main();
-    namespace_5f813f0f::main();
+function event_handler[Level_Init] main(eventstruct) {
+    level.draftxcamname = "ui_cam_draft_common";
+    mp_stronghold_fx::main();
+    mp_stronghold_sound::main();
     load::main();
     level.domflagbasefxoverride = &dom_flag_base_fx_override;
     level.domflagcapfxoverride = &dom_flag_cap_fx_override;

@@ -21,7 +21,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x25846c86, Offset: 0x930
 // Size: 0x3c
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("vehicle_shared", &__init__, &__main__, undefined);
 }
 
@@ -1129,7 +1129,7 @@ function enable_turrets(veh) {
 // Checksum 0xd3fe63bc, Offset: 0x4c80
 // Size: 0x34
 function function_c130bd7b() {
-    self notify(#"hash_a2ded463");
+    self notify(#"kill_disconnect_paths_forever");
     self.disconnectpathonstop = 0;
     self thread _disconnect_paths_when_stopped();
 }
@@ -1148,7 +1148,7 @@ function _disconnect_paths_when_stopped() {
         return;
     }
     self endon(#"death");
-    self endon(#"hash_a2ded463");
+    self endon(#"kill_disconnect_paths_forever");
     wait 1;
     threshold = 3;
     while (isdefined(self)) {

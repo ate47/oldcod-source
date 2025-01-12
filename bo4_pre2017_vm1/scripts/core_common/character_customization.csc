@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x1beabc6f, Offset: 0x918
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("character_customization", &__init__, undefined, undefined);
 }
 
@@ -303,7 +303,7 @@ function function_5b80fae8(data_struct, mode, headindex) {
 // Size: 0x8c
 function function_5fa9d769(data_struct, mode, characterindex, var_bf37af0a, helmetcolors) {
     data_struct.var_bf37af0a = var_bf37af0a;
-    data_struct.var_f1a3fa15 = getcharacterhelmetmodel(characterindex, var_bf37af0a, mode);
+    data_struct.helmetmodel = getcharacterhelmetmodel(characterindex, var_bf37af0a, mode);
     if (isdefined(helmetcolors)) {
         function_f8e56a38(data_struct, helmetcolors);
     }
@@ -374,17 +374,17 @@ function function_f374c6fc(data_struct, mode, localclientnum, xuid, characterind
         data_struct.var_a7a58d47 = data_struct.var_8f9c1e31.name;
     }
     attachmentnames = [];
-    var_9853d5dd = [];
+    attachmentindices = [];
     tokenizedattachmentinfo = strtok(var_93ecb41d, ",");
     for (index = 0; index + 1 < tokenizedattachmentinfo.size; index += 2) {
         attachmentnames[attachmentnames.size] = tokenizedattachmentinfo[index];
-        var_9853d5dd[var_9853d5dd.size] = int(tokenizedattachmentinfo[index + 1]);
+        attachmentindices[attachmentindices.size] = int(tokenizedattachmentinfo[index + 1]);
     }
     for (index = tokenizedattachmentinfo.size; index + 1 < 16; index += 2) {
         attachmentnames[attachmentnames.size] = "none";
-        var_9853d5dd[var_9853d5dd.size] = 0;
+        attachmentindices[attachmentindices.size] = 0;
     }
-    data_struct.var_65ce895e = getattachmentcosmeticvariantindexes(data_struct.var_8f9c1e31, attachmentnames[0], var_9853d5dd[0], attachmentnames[1], var_9853d5dd[1], attachmentnames[2], var_9853d5dd[2], attachmentnames[3], var_9853d5dd[3], attachmentnames[4], var_9853d5dd[4], attachmentnames[5], var_9853d5dd[5], attachmentnames[6], var_9853d5dd[6], attachmentnames[7], var_9853d5dd[7]);
+    data_struct.acvi = getattachmentcosmeticvariantindexes(data_struct.var_8f9c1e31, attachmentnames[0], attachmentindices[0], attachmentnames[1], attachmentindices[1], attachmentnames[2], attachmentindices[2], attachmentnames[3], attachmentindices[3], attachmentnames[4], attachmentindices[4], attachmentnames[5], attachmentindices[5], attachmentnames[6], attachmentindices[6], attachmentnames[7], attachmentindices[7]);
     camoindex = 0;
     paintjobslot = 15;
     paintjobindex = 15;
@@ -437,7 +437,7 @@ function update(localclientnum, data_struct, params) {
     var_88932ad4 = "tag_origin";
     show_helmet = !isdefined(params) || data_struct.show_helmets && !(isdefined(params.hide_helmet) && params.hide_helmet);
     if (show_helmet) {
-        var_88932ad4 = data_struct.var_f1a3fa15;
+        var_88932ad4 = data_struct.helmetmodel;
     }
     update_model_attachment(localclientnum, data_struct, var_88932ad4, "helmet", undefined, undefined, 1);
     head_model = data_struct.headmodel;
@@ -450,7 +450,7 @@ function update(localclientnum, data_struct, params) {
     update_model_attachment(localclientnum, data_struct, head_model, "head", undefined, undefined, 1);
     changed = function_873d37c(localclientnum, data_struct, params);
     data_struct.charactermodel.bodymodel = data_struct.bodymodel;
-    data_struct.charactermodel.var_f1a3fa15 = data_struct.var_f1a3fa15;
+    data_struct.charactermodel.helmetmodel = data_struct.helmetmodel;
     data_struct.charactermodel.var_957cc42 = data_struct.var_b841ac58;
     data_struct.charactermodel.var_6f30937d = data_struct.var_d3b4ae4f;
     data_struct.charactermodel.var_d44a8060 = data_struct.var_a75d14ae;
@@ -847,11 +847,11 @@ function function_873d37c(localclientnum, data_struct, params) {
         if (isdefined(data_struct.attached_models["tag_weapon_left"]) && data_struct.charactermodel isattached(data_struct.attached_models["tag_weapon_left"], "tag_weapon_left")) {
             data_struct.charactermodel detach(data_struct.attached_models["tag_weapon_left"], "tag_weapon_left");
         }
-        data_struct.charactermodel attachweapon(data_struct.var_8f9c1e31, data_struct.weaponrenderoptions, data_struct.var_65ce895e);
+        data_struct.charactermodel attachweapon(data_struct.var_8f9c1e31, data_struct.weaponrenderoptions, data_struct.acvi);
         data_struct.charactermodel useweaponhidetags(data_struct.var_8f9c1e31);
         data_struct.charactermodel.showcaseweapon = data_struct.var_8f9c1e31;
         data_struct.charactermodel.var_7ff9e1d4 = data_struct.weaponrenderoptions;
-        data_struct.charactermodel.var_4b073b25 = data_struct.var_65ce895e;
+        data_struct.charactermodel.var_4b073b25 = data_struct.acvi;
     }
     return changed;
 }

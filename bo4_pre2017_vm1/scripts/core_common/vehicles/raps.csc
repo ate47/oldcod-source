@@ -37,7 +37,7 @@ function adjust_side_death_dir_if_trace_fail(origin, side_dir, fxlength, up_dir)
 // Size: 0x394
 function do_side_death_fx(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     self endon(#"death");
-    vehicle::function_b7c7870e(localclientnum);
+    vehicle::wait_for_dobj(localclientnum);
     radius = 1;
     fxlength = 40;
     fxtag = "tag_body";

@@ -15,7 +15,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xbd64584d, Offset: 0x5a0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("planner_squad_utility", &plannersquadutility::__init__, undefined, undefined);
 }
 
@@ -54,7 +54,7 @@ function private __init__() {
 // Checksum 0x71bf80a5, Offset: 0xa90
 // Size: 0x1b4
 function private _assigngameobject(bot, gameobject) {
-    if (isdefined(bot) && bot isbot() && isdefined(gameobject) && !bot.goalforced && bot bot::function_76ca6f40()) {
+    if (isdefined(bot) && bot isbot() && isdefined(gameobject) && !bot.goalforced && bot bot::get_commander()) {
         bot.goalradius = 512;
         if (isdefined(gameobject.e_object) && isvehicle(gameobject.e_object)) {
             bot setgoal(gameobject.e_object);
@@ -267,7 +267,7 @@ function private _paramshasbots(params) {
 // Checksum 0xaeab2c50, Offset: 0x1b60
 // Size: 0xcc
 function private _setgoalpoint(bot, point) {
-    if (isdefined(bot) && bot isbot() && isvec(point) && !bot.goalforced && bot bot::function_76ca6f40()) {
+    if (isdefined(bot) && bot isbot() && isvec(point) && !bot.goalforced && bot bot::get_commander()) {
         navmeshpoint = getclosestpointonnavmesh(point, 200);
         if (!isdefined(navmeshpoint)) {
             navmeshpoint = point;

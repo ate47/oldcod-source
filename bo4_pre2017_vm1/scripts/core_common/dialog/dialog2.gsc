@@ -11,7 +11,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x5486dc82, Offset: 0x238
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("dialog2", &__init__, undefined, undefined);
 }
 

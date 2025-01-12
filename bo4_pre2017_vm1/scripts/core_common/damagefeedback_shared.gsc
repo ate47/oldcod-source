@@ -12,7 +12,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xf69d14fa, Offset: 0x4d8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("damagefeedback", &__init__, undefined, undefined);
 }
 
@@ -142,7 +142,7 @@ function hit_alert_sfx_mp(mod, inflictor, perkfeedback, weapon, victim, psoffset
             case #"player":
                 if (isdefined(victim.isaiclone) && isdefined(victim) && victim.isaiclone) {
                     hitalias = "mpl_hit_alert_clone";
-                } else if (isdefined(victim) && isplayer(victim) && victim flagsys::get("gadget_armor_on") && armor::function_4a835afe(inflictor, weapon, mod, shitloc)) {
+                } else if (isdefined(victim) && isplayer(victim) && victim flagsys::get("gadget_armor_on") && armor::armor_should_take_damage(inflictor, weapon, mod, shitloc)) {
                     hitalias = "mpl_hit_alert_armor";
                 } else if (isdefined(victim) && isplayer(victim) && isdefined(victim.carryobject) && isdefined(victim.carryobject.hitsound) && isdefined(perkfeedback) && perkfeedback == "armor") {
                     hitalias = victim.carryobject.hitsound;

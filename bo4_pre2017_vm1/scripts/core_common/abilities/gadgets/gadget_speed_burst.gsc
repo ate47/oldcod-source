@@ -10,92 +10,92 @@
 #using scripts/core_common/util_shared;
 #using scripts/core_common/visionset_mgr_shared;
 
-#namespace namespace_3a292d50;
+#namespace speedburst;
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 0, eflags: 0x2
 // Checksum 0x28ca433c, Offset: 0x308
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_speed_burst", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 0, eflags: 0x0
 // Checksum 0x9b9c0e80, Offset: 0x348
 // Size: 0x17c
 function __init__() {
     clientfield::register("toplayer", "speed_burst", 1, 1, "int");
-    ability_player::register_gadget_activation_callbacks(13, &function_4471717e, &function_51b450f4);
-    ability_player::register_gadget_possession_callbacks(13, &function_41c1ea5a, &function_65a0fef4);
-    ability_player::register_gadget_flicker_callbacks(13, &function_70950c7);
-    ability_player::register_gadget_is_inuse_callbacks(13, &function_15880b4e);
-    ability_player::register_gadget_is_flickering_callbacks(13, &function_8386c640);
-    if (!isdefined(level.var_6a6f3b04)) {
-        level.var_6a6f3b04 = 60;
+    ability_player::register_gadget_activation_callbacks(13, &gadget_speed_burst_on, &gadget_speed_burst_off);
+    ability_player::register_gadget_possession_callbacks(13, &gadget_speed_burst_on_give, &gadget_speed_burst_on_take);
+    ability_player::register_gadget_flicker_callbacks(13, &gadget_speed_burst_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(13, &gadget_speed_burst_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(13, &gadget_speed_burst_is_flickering);
+    if (!isdefined(level.vsmgr_prio_visionset_speedburst)) {
+        level.vsmgr_prio_visionset_speedburst = 60;
     }
-    visionset_mgr::register_info("visionset", "speed_burst", 1, level.var_6a6f3b04, 9, 1, &visionset_mgr::ramp_in_out_thread_per_player_death_shutdown, 0);
-    callback::on_connect(&function_bfafa469);
+    visionset_mgr::register_info("visionset", "speed_burst", 1, level.vsmgr_prio_visionset_speedburst, 9, 1, &visionset_mgr::ramp_in_out_thread_per_player_death_shutdown, 0);
+    callback::on_connect(&gadget_speed_burst_on_connect);
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 1, eflags: 0x0
 // Checksum 0x1d4514f3, Offset: 0x4d0
 // Size: 0x2a
-function function_15880b4e(slot) {
+function gadget_speed_burst_is_inuse(slot) {
     return self flagsys::get("gadget_speed_burst_on");
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 1, eflags: 0x0
 // Checksum 0xccf21842, Offset: 0x508
 // Size: 0x22
-function function_8386c640(slot) {
+function gadget_speed_burst_is_flickering(slot) {
     return self gadgetflickering(slot);
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 2, eflags: 0x0
 // Checksum 0x494717df, Offset: 0x538
 // Size: 0x34
-function function_70950c7(slot, weapon) {
-    self thread function_5b8d7647(slot, weapon);
+function gadget_speed_burst_on_flicker(slot, weapon) {
+    self thread gadget_speed_burst_flicker(slot, weapon);
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 2, eflags: 0x0
 // Checksum 0x62bef57c, Offset: 0x578
 // Size: 0x7c
-function function_41c1ea5a(slot, weapon) {
-    if (isdefined(level.var_47a0942f)) {
-        self thread [[ level.var_47a0942f ]](slot, weapon);
+function gadget_speed_burst_on_give(slot, weapon) {
+    if (isdefined(level.func_custom_game_speed_burst)) {
+        self thread [[ level.func_custom_game_speed_burst ]](slot, weapon);
     }
     flagsys::set("speed_burst_on");
     self clientfield::set_to_player("speed_burst", 0);
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 2, eflags: 0x0
 // Checksum 0x23d5ae2d, Offset: 0x600
 // Size: 0x4c
-function function_65a0fef4(slot, weapon) {
+function gadget_speed_burst_on_take(slot, weapon) {
     flagsys::clear("speed_burst_on");
     self clientfield::set_to_player("speed_burst", 0);
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x658
 // Size: 0x4
-function function_bfafa469() {
+function gadget_speed_burst_on_connect() {
     
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 2, eflags: 0x0
 // Checksum 0xc49d549a, Offset: 0x668
 // Size: 0xcc
-function function_4471717e(slot, weapon) {
+function gadget_speed_burst_on(slot, weapon) {
     self flagsys::set("gadget_speed_burst_on");
     self gadgetsetactivatetime(slot, gettime());
     self clientfield::set_to_player("speed_burst", 1);
@@ -105,12 +105,12 @@ function function_4471717e(slot, weapon) {
     self.speedburstkill = 0;
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 2, eflags: 0x0
 // Checksum 0x877218a6, Offset: 0x740
 // Size: 0x100
-function function_51b450f4(slot, weapon) {
-    self notify(#"hash_51b450f4");
+function gadget_speed_burst_off(slot, weapon) {
+    self notify(#"gadget_speed_burst_off");
     self flagsys::clear("gadget_speed_burst_on");
     self clientfield::set_to_player("speed_burst", 0);
     self.speedburstlastontime = gettime();
@@ -125,31 +125,31 @@ function function_51b450f4(slot, weapon) {
     self.speedburstkill = 0;
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 2, eflags: 0x0
 // Checksum 0x8b3d36d, Offset: 0x848
 // Size: 0xdc
-function function_5b8d7647(slot, weapon) {
+function gadget_speed_burst_flicker(slot, weapon) {
     self endon(#"disconnect");
-    if (!self function_15880b4e(slot)) {
+    if (!self gadget_speed_burst_is_inuse(slot)) {
         return;
     }
     eventtime = self._gadgets_player[slot].gadget_flickertime;
-    self function_39b1b87b("Flickering", eventtime);
+    self set_gadget_status("Flickering", eventtime);
     while (true) {
         if (!self gadgetflickering(slot)) {
-            self function_39b1b87b("Normal");
+            self set_gadget_status("Normal");
             return;
         }
         wait 0.5;
     }
 }
 
-// Namespace namespace_3a292d50/gadget_speed_burst
+// Namespace speedburst/gadget_speed_burst
 // Params 2, eflags: 0x0
 // Checksum 0xa3b02d94, Offset: 0x930
 // Size: 0x9c
-function function_39b1b87b(status, time) {
+function set_gadget_status(status, time) {
     timestr = "";
     if (isdefined(time)) {
         timestr = "^3" + ", time: " + time;

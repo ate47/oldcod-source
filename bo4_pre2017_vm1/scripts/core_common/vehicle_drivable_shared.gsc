@@ -12,11 +12,11 @@
 
 #namespace vehicle;
 
-// Namespace vehicle/level_init
+// Namespace vehicle/Level_Init
 // Params 1, eflags: 0x40
 // Checksum 0x292ee4a4, Offset: 0x248
 // Size: 0x34
-function event_handler[level_init] main(eventstruct) {
+function event_handler[Level_Init] main(eventstruct) {
     add_main_callback("air_vehicle1", &air_vehicle1_initialize);
 }
 

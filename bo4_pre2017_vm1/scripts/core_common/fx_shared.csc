@@ -10,7 +10,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xead4e52b, Offset: 0x1f0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("fx", &__init__, undefined, undefined);
 }
 
@@ -294,7 +294,7 @@ function blinky_light(localclientnum, tagname, friendlyfx, enemyfx) {
             continue;
         }
         if (isdefined(self)) {
-            if (util::function_f36b8920(localclientnum)) {
+            if (util::friend_not_foe(localclientnum)) {
                 self.blinkylightfx = playfxontag(localclientnum, friendlyfx, self, self.lighttagname);
             } else {
                 self.blinkylightfx = playfxontag(localclientnum, enemyfx, self, self.lighttagname);

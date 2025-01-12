@@ -115,7 +115,7 @@ function addflyswatterstat(weapon, aircraft) {
 // Params 1, eflags: 0x0
 // Checksum 0x475cf93e, Offset: 0x1688
 // Size: 0x34
-function function_90c432bd(weapon) {
+function destroynonairscorestreak_poststatslock(weapon) {
     self addweaponstat(weapon, "destroyed_aircraft", 1);
 }
 
@@ -701,7 +701,7 @@ function getfinalkill(player) {
 // Params 1, eflags: 0x0
 // Checksum 0x9e3a7d11, Offset: 0x3230
 // Size: 0x94
-function function_ef81fd44(weapon) {
+function destroyrcbomb(weapon) {
     if (!isplayer(self)) {
         return;
     }
@@ -1481,13 +1481,13 @@ function playerkilled(einflictor, attacker, idamage, smeansofdeath, weapon, shit
     }
     data.victimweapon = data.victim.currentweapon;
     data.victimonground = data.victim isonground();
-    data.var_f67ec791 = data.victim iswallrunning();
+    data.victimwaswallrunning = data.victim iswallrunning();
     data.victimlaststunnedby = data.victim.laststunnedby;
-    data.var_b9995fb9 = data.victim isdoublejumping();
+    data.victimwasdoublejumping = data.victim isdoublejumping();
     data.victimcombatefficiencylastontime = data.victim.combatefficiencylastontime;
     data.victimspeedburstlastontime = data.victim.speedburstlastontime;
     data.victimcombatefficieny = data.victim ability_util::gadget_is_active(15);
-    data.var_8eff9c3 = data.victim.var_ba21be83;
+    data.victimflashbacktime = data.victim.flashbacktime;
     data.victimheroabilityactive = ability_player::gadget_checkheroabilitykill(data.victim);
     data.victimelectrifiedby = data.victim.electrifiedby;
     data.victimheroability = data.victim.heroability;
@@ -1495,13 +1495,13 @@ function playerkilled(einflictor, attacker, idamage, smeansofdeath, weapon, shit
     data.victimwaslungingwitharmblades = data.victim isgadgetmeleecharging();
     data.victimwasheatwavestunned = data.victim isheatwavestunned();
     data.victimpowerarmorlasttookdamagetime = data.victim.power_armor_last_took_damage_time;
-    data.var_3893310d = data.victim.heavyweaponkillsthisactivation;
+    data.victimheavyweaponkillsthisactivation = data.victim.heavyweaponkillsthisactivation;
     data.victimgadgetpower = data.victim gadgetpowerget(0);
     data.victimgadgetwasactivelastdamage = data.victim.gadget_was_active_last_damage;
     data.victimisthieforroulette = data.victim.isthief === 1 || data.victim.isroulette === 1;
     data.victimheroabilityname = data.victim.heroabilityname;
-    if (!isdefined(data.var_8eff9c3)) {
-        data.var_8eff9c3 = 0;
+    if (!isdefined(data.victimflashbacktime)) {
+        data.victimflashbacktime = 0;
     }
     if (!isdefined(data.victimcombatefficiencylastontime)) {
         data.victimcombatefficiencylastontime = 0;
@@ -1554,16 +1554,16 @@ function playerkilled(einflictor, attacker, idamage, smeansofdeath, weapon, shit
     if (isplayer(attacker)) {
         data.attackerorigin = data.attacker.origin;
         data.attackeronground = data.attacker isonground();
-        data.var_e4763e35 = data.attacker iswallrunning();
-        data.var_3828b415 = data.attacker isdoublejumping();
+        data.attackerwallrunning = data.attacker iswallrunning();
+        data.attackerdoublejumping = data.attacker isdoublejumping();
         data.attackertraversing = data.attacker istraversing();
         data.attackersliding = data.attacker issliding();
         data.attackerspeedburst = data.attacker ability_util::gadget_is_active(13);
-        data.var_dc7e5b14 = data.attacker.var_ba21be83;
+        data.attackerflashbacktime = data.attacker.flashbacktime;
         data.attackerheroabilityactive = ability_player::gadget_checkheroabilitykill(data.attacker);
         data.attackerheroability = data.attacker.heroability;
-        if (!isdefined(data.var_dc7e5b14)) {
-            data.var_dc7e5b14 = 0;
+        if (!isdefined(data.attackerflashbacktime)) {
+            data.attackerflashbacktime = 0;
         }
         data.attackervisionpulseactivatetime = attacker.visionpulseactivatetime;
         if (!isdefined(data.attackervisionpulseactivatetime)) {
@@ -1603,12 +1603,12 @@ function playerkilled(einflictor, attacker, idamage, smeansofdeath, weapon, shit
         data.var_b041219e = data.attacker.var_37509fac;
     } else {
         data.attackeronground = 0;
-        data.var_e4763e35 = 0;
-        data.var_3828b415 = 0;
+        data.attackerwallrunning = 0;
+        data.attackerdoublejumping = 0;
         data.attackertraversing = 0;
         data.attackersliding = 0;
         data.attackerspeedburst = 0;
-        data.var_dc7e5b14 = 0;
+        data.attackerflashbacktime = 0;
         data.attackervisionpulseactivatetime = 0;
         data.attackerwasflashed = 0;
         data.attackerwasconcussed = 0;

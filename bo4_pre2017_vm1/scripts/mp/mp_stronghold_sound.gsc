@@ -1,20 +1,20 @@
 #using scripts/core_common/struct;
 
-#namespace namespace_5f813f0f;
+#namespace mp_stronghold_sound;
 
-// Namespace namespace_5f813f0f/namespace_5f813f0f
+// Namespace mp_stronghold_sound/mp_stronghold_sound
 // Params 0, eflags: 0x0
 // Checksum 0x236f91bb, Offset: 0xc8
 // Size: 0x1c
 function main() {
-    level thread function_b6d60d2();
+    level thread snd_dmg_chant();
 }
 
-// Namespace namespace_5f813f0f/namespace_5f813f0f
+// Namespace mp_stronghold_sound/mp_stronghold_sound
 // Params 0, eflags: 0x0
 // Checksum 0x8e4e090b, Offset: 0xf0
 // Size: 0xa0
-function function_b6d60d2() {
+function snd_dmg_chant() {
     trigger = getent("snd_chant", "targetname");
     if (!isdefined(trigger)) {
         return;

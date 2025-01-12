@@ -10,9 +10,9 @@
 #using scripts/mp_common/killstreaks/supplydrop;
 #using scripts/mp_common/util;
 
-#namespace namespace_fd660bb1;
+#namespace mp_stronghold_doors;
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x16cfd93d, Offset: 0x400
 // Size: 0x1fc
@@ -21,27 +21,27 @@ function init() {
     if (!isdefined(doors) || doors.size == 0) {
         return;
     }
-    var_6001ee4a = getentarray("mp_stronghold_security_door_upper", "targetname");
+    uppers = getentarray("mp_stronghold_security_door_upper", "targetname");
     killtriggers = getentarray("mp_stronghold_killbrush", "targetname");
     /#
-        assert(var_6001ee4a.size == doors.size);
+        assert(uppers.size == doors.size);
     #/
     /#
         assert(killtriggers.size == killtriggers.size);
     #/
     foreach (door in doors) {
-        upper = function_b02c2d9b(door.origin, var_6001ee4a);
-        var_318c56b3 = function_b02c2d9b(door.origin, killtriggers);
-        level thread function_a9870442(door, upper, var_318c56b3);
+        upper = get_closest(door.origin, uppers);
+        killtrigger = get_closest(door.origin, killtriggers);
+        level thread setup_doors(door, upper, killtrigger);
     }
     level thread door_use_trigger();
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 3, eflags: 0x0
 // Checksum 0xfac36c55, Offset: 0x608
 // Size: 0x19c
-function function_a9870442(door, upper, trigger) {
+function setup_doors(door, upper, trigger) {
     door.upper = upper;
     door.kill_trigger = trigger;
     /#
@@ -50,52 +50,52 @@ function function_a9870442(door, upper, trigger) {
     door.kill_trigger enablelinkto();
     door.kill_trigger linkto(door);
     door.opened = 1;
-    door.var_ac9a7989 = door.origin;
-    door.var_e5d0c7af = 0;
-    door.var_c99bab0a = (door.origin[0], door.origin[1], door.origin[2] - 90);
-    door.var_6839fc52 = (door.origin[0], door.origin[1], door.origin[2] - 180);
+    door.origin_opened = door.origin;
+    door.force_open_time = 0;
+    door.origin_closed_half = (door.origin[0], door.origin[1], door.origin[2] - 90);
+    door.origin_closed = (door.origin[0], door.origin[1], door.origin[2] - 180);
     door thread door_think();
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x4a243ef7, Offset: 0x7b0
 // Size: 0xca
 function door_use_trigger() {
     use_triggers = getentarray("mp_stronghold_usetrigger", "targetname");
     foreach (use_trigger in use_triggers) {
-        use_trigger thread function_dc8340b();
-        use_trigger thread function_4b4db561();
+        use_trigger thread watchtriggerusage();
+        use_trigger thread watchtriggerenabledisable();
     }
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x387cdb84, Offset: 0x888
 // Size: 0x24
-function function_dc8340b() {
+function watchtriggerusage() {
     for (;;) {
         self waittill("trigger");
-        level notify(#"hash_40d64b76");
+        level notify(#"mp_stronghold_trigger_use");
     }
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x42090074, Offset: 0x8b8
 // Size: 0xc8
-function function_4b4db561() {
+function watchtriggerenabledisable() {
     hintstring = "";
     for (;;) {
         returnvar = level waittill("mp_stronghold_trigger_enable", "mp_stronghold_trigger_disable", "mp_stronghold_trigger_cooldown");
         switch (returnvar._notify) {
-        case #"hash_7ef557e4":
+        case #"mp_stronghold_trigger_enable":
             hintstring = "ENABLE";
             break;
-        case #"hash_6d6f0e1f":
+        case #"mp_stronghold_trigger_disable":
             hintstring = "DISABLE";
             break;
-        case #"hash_1ebb9c2":
+        case #"mp_stronghold_trigger_cooldown":
             hintstring = "COOLDOWN";
             break;
         }
@@ -103,7 +103,7 @@ function function_4b4db561() {
     }
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0xfbb8d75c, Offset: 0x988
 // Size: 0x140
@@ -114,32 +114,32 @@ function door_think() {
         wait 20;
         exploder::exploder("fx_switch_green");
         exploder::kill_exploder("fx_switch_red");
-        if (self function_1213d8bc()) {
-            level notify(#"hash_6d6f0e1f");
+        if (self door_should_open()) {
+            level notify(#"mp_stronghold_trigger_disable");
         } else {
-            level notify(#"hash_7ef557e4");
+            level notify(#"mp_stronghold_trigger_enable");
         }
         level waittill("mp_stronghold_trigger_use");
-        level notify(#"hash_1ebb9c2");
-        if (self function_1213d8bc()) {
+        level notify(#"mp_stronghold_trigger_cooldown");
+        if (self door_should_open()) {
             self thread door_open();
-            self function_8149b63b(0);
+            self security_door_drop_think(0);
             continue;
         }
         self thread door_close();
-        self function_8149b63b(1);
+        self security_door_drop_think(1);
     }
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x40e8ad7b, Offset: 0xad0
 // Size: 0x10
-function function_1213d8bc() {
+function door_should_open() {
     return !self.opened;
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x57cf1629, Offset: 0xae8
 // Size: 0xf4
@@ -147,17 +147,17 @@ function door_open() {
     if (self.opened) {
         return;
     }
-    dist = distance(self.var_6839fc52, self.origin);
+    dist = distance(self.origin_closed, self.origin);
     frac = dist / 180;
     halftime = 4.5;
-    self moveto(self.var_c99bab0a, halftime);
-    self.upper moveto(self.var_ac9a7989, halftime);
+    self moveto(self.origin_closed_half, halftime);
+    self.upper moveto(self.origin_opened, halftime);
     self waittill("movedone");
-    self moveto(self.var_ac9a7989, halftime);
+    self moveto(self.origin_opened, halftime);
     self.opened = 1;
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x68a3c2dd, Offset: 0xbe8
 // Size: 0xf0
@@ -165,25 +165,25 @@ function door_close() {
     if (!self.opened) {
         return;
     }
-    dist = distance(self.var_6839fc52, self.origin);
+    dist = distance(self.origin_closed, self.origin);
     frac = dist / 180;
     halftime = 4.5;
-    self moveto(self.var_c99bab0a, halftime);
+    self moveto(self.origin_closed_half, halftime);
     self waittill("movedone");
-    self moveto(self.var_6839fc52, halftime);
-    self.upper moveto(self.var_c99bab0a, halftime);
+    self moveto(self.origin_closed, halftime);
+    self.upper moveto(self.origin_closed_half, halftime);
     self.opened = 0;
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 1, eflags: 0x0
 // Checksum 0xa13ad14, Offset: 0xce0
 // Size: 0x650
-function function_8149b63b(var_6b9180f5) {
+function security_door_drop_think(killplayers) {
     self endon(#"movedone");
     self.disablefinalkillcam = 1;
     door = self;
-    var_cd78fc15 = 0;
+    corpse_delay = 0;
     for (;;) {
         wait 0.2;
         entities = getdamageableentarray(self.origin, 200);
@@ -236,17 +236,17 @@ function function_8149b63b(var_6b9180f5) {
                 }
                 continue;
             }
-            if (var_6b9180f5 == 0 && isplayer(entity)) {
+            if (killplayers == 0 && isplayer(entity)) {
                 continue;
             }
             entity dodamage(entity.health * 2, self.origin + (0, 0, 1), self, self, 0, "MOD_CRUSH");
             if (isplayer(entity)) {
-                var_cd78fc15 = gettime() + 1000;
+                corpse_delay = gettime() + 1000;
             }
         }
-        self function_efb0f9a4();
-        if (gettime() > var_cd78fc15) {
-            self function_dde749cf();
+        self destroy_supply_crates();
+        if (gettime() > corpse_delay) {
+            self destroy_corpses();
         }
         if (level.gametype == "ctf") {
             foreach (flag in level.flags) {
@@ -264,11 +264,11 @@ function function_8149b63b(var_6b9180f5) {
     }
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x187aeb64, Offset: 0x1338
 // Size: 0x162
-function function_efb0f9a4() {
+function destroy_supply_crates() {
     crates = getentarray("care_package", "script_noteworthy");
     foreach (crate in crates) {
         if (distancesquared(crate.origin, self.origin) < 40000) {
@@ -282,11 +282,11 @@ function function_efb0f9a4() {
     }
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 0, eflags: 0x0
 // Checksum 0x88817618, Offset: 0x14a8
 // Size: 0x9e
-function function_dde749cf() {
+function destroy_corpses() {
     corpses = getcorpsearray();
     for (i = 0; i < corpses.size; i++) {
         if (distancesquared(corpses[i].origin, self.origin) < 40000) {
@@ -295,11 +295,11 @@ function function_dde749cf() {
     }
 }
 
-// Namespace namespace_fd660bb1/namespace_fd660bb1
+// Namespace mp_stronghold_doors/mp_stronghold_doors
 // Params 2, eflags: 0x0
 // Checksum 0xa664136e, Offset: 0x1550
 // Size: 0xf2
-function function_b02c2d9b(org, array) {
+function get_closest(org, array) {
     dist = 9999999;
     distsq = dist * dist;
     if (array.size < 1) {

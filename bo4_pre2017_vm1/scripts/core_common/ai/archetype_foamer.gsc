@@ -20,77 +20,77 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_29fbc48b;
+#namespace archetype_foamer;
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 0, eflags: 0x2
 // Checksum 0x62b1a80d, Offset: 0x4b8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("foamer", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 0, eflags: 0x0
 // Checksum 0xf8098a75, Offset: 0x4f8
 // Size: 0x64
 function __init__() {
-    spawner::add_archetype_spawn_function("foamer", &function_7ea2832e);
-    spawner::add_archetype_spawn_function("foamer", &function_841d5f33);
-    namespace_62b8091c::function_108a2efe();
+    spawner::add_archetype_spawn_function("foamer", &foamerblackboardinit);
+    spawner::add_archetype_spawn_function("foamer", &foamerspawnsetup);
+    foamerinterface::registerfoamerinterfaceattributes();
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 0, eflags: 0x2
 // Checksum 0x273a39cd, Offset: 0x568
 // Size: 0xc4
 function autoexec registerbehaviorscriptfunctions() {
     /#
-        assert(isscriptfunctionptr(&function_1a8df668));
+        assert(isscriptfunctionptr(&foamerchoosebetterpositionservice));
     #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("foamerChooseBetterPositionService", &function_1a8df668);
+    behaviortreenetworkutility::registerbehaviortreescriptapi("foamerChooseBetterPositionService", &foamerchoosebetterpositionservice);
     /#
-        assert(isscriptfunctionptr(&function_7f1bda3c));
+        assert(isscriptfunctionptr(&foamerreaquireservice));
     #/
-    behaviortreenetworkutility::registerbehaviortreescriptapi("foamerReaquireService", &function_7f1bda3c);
+    behaviortreenetworkutility::registerbehaviortreescriptapi("foamerReaquireService", &foamerreaquireservice);
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 0, eflags: 0x0
 // Checksum 0xf95ff83b, Offset: 0x638
 // Size: 0x64
-function function_841d5f33() {
+function foamerspawnsetup() {
     self.ignorerunandgundist = 1;
     self.combatmode = "no_cover";
-    aiutility::addaioverridedamagecallback(self, &function_3b90a2d4);
-    aiutility::addaioverridekilledcallback(self, &function_2e82954);
+    aiutility::addaioverridedamagecallback(self, &foamerdamageoverride);
+    aiutility::addaioverridekilledcallback(self, &foamerkilledoverride);
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 0, eflags: 0x4
 // Checksum 0x6d551834, Offset: 0x6a8
 // Size: 0x64
-function private function_7ea2832e() {
+function private foamerblackboardinit() {
     blackboard::createblackboardforentity(self);
     ai::createinterfaceforentity(self);
-    self.___archetypeonanimscriptedcallback = &function_2678cb00;
-    self.___archetypeonbehavecallback = &function_8ca7159c;
+    self.___archetypeonanimscriptedcallback = &foameronanimscriptedcallback;
+    self.___archetypeonbehavecallback = &foameronbehavecallback;
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 1, eflags: 0x4
 // Checksum 0xc2205ad7, Offset: 0x718
 // Size: 0x34
-function private function_2678cb00(entity) {
+function private foameronanimscriptedcallback(entity) {
     entity.__blackboard = undefined;
-    entity function_7ea2832e();
+    entity foamerblackboardinit();
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 1, eflags: 0x4
 // Checksum 0x94fa609e, Offset: 0x758
 // Size: 0x434
-function private function_1a8df668(entity) {
+function private foamerchoosebetterpositionservice(entity) {
     if (!isdefined(entity.enemy)) {
         return false;
     }
@@ -112,8 +112,8 @@ function private function_1a8df668(entity) {
     if (dist > entity.engageminfalloffdist && dist <= entity.engagemaxfalloffdist) {
         iswithineffectiverangealready = 1;
     }
-    var_937ba832 = !isatscriptgoal || itsbeenawhile && !iswithineffectiverangealready || isinbadplace;
-    if (!var_937ba832) {
+    shouldfindbetterposition = !isatscriptgoal || itsbeenawhile && !iswithineffectiverangealready || isinbadplace;
+    if (!shouldfindbetterposition) {
         return false;
     }
     pixbeginevent("foamer_tacquery_combat");
@@ -141,11 +141,11 @@ function private function_1a8df668(entity) {
     return false;
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 1, eflags: 0x4
 // Checksum 0x8dbadd99, Offset: 0xb98
 // Size: 0x2e2
-function private function_7f1bda3c(entity) {
+function private foamerreaquireservice(entity) {
     if (!isdefined(entity.reacquire_state)) {
         entity.reacquire_state = 0;
     }
@@ -194,27 +194,27 @@ function private function_7f1bda3c(entity) {
     return false;
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 1, eflags: 0x4
 // Checksum 0xc88e551a, Offset: 0xe88
 // Size: 0xc
-function private function_8ca7159c(entity) {
+function private foameronbehavecallback(entity) {
     
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 15, eflags: 0x4
 // Checksum 0x3c827022, Offset: 0xea0
 // Size: 0x80
-function private function_3b90a2d4(einflictor, eattacker, idamage, idflags, smeansofdeath, weapon, vpoint, vdir, shitloc, vdamageorigin, timeoffset, boneindex, modelindex, surfacetype, surfacenormal) {
+function private foamerdamageoverride(einflictor, eattacker, idamage, idflags, smeansofdeath, weapon, vpoint, vdir, shitloc, vdamageorigin, timeoffset, boneindex, modelindex, surfacetype, surfacenormal) {
     return idamage;
 }
 
-// Namespace namespace_29fbc48b/namespace_29fbc48b
+// Namespace archetype_foamer/archetype_foamer
 // Params 8, eflags: 0x4
 // Checksum 0x3ed69f51, Offset: 0xf28
 // Size: 0x48
-function private function_2e82954(inflictor, attacker, damage, meansofdeath, weapon, dir, hitloc, offsettime) {
+function private foamerkilledoverride(inflictor, attacker, damage, meansofdeath, weapon, dir, hitloc, offsettime) {
     return damage;
 }
 

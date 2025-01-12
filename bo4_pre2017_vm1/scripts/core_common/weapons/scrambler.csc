@@ -285,7 +285,7 @@ function function_900e2038(localclientnum) {
             return 1;
         }
     #/
-    enemy = !util::function_f36b8920(localclientnum);
+    enemy = !util::friend_not_foe(localclientnum);
     return enemy;
 }
 

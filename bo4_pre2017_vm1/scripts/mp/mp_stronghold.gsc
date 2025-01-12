@@ -9,14 +9,14 @@
 
 #namespace mp_stronghold;
 
-// Namespace mp_stronghold/level_init
+// Namespace mp_stronghold/Level_Init
 // Params 1, eflags: 0x40
 // Checksum 0xce61552b, Offset: 0x230
 // Size: 0x3e4
-function event_handler[level_init] main(eventstruct) {
+function event_handler[Level_Init] main(eventstruct) {
     precache();
-    namespace_eade3e58::main();
-    namespace_5f813f0f::main();
+    mp_stronghold_fx::main();
+    mp_stronghold_sound::main();
     load::main();
     compass::setupminimap("compass_map_mp_stronghold");
     spawncollision("collision_clip_wall_128x128x10", "collider", (-1072.79, -2008.87, 259.646), (340, 278, 0));

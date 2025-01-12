@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x8e424ee7, Offset: 0x238
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_security_breach", &__init__, undefined, undefined);
 }
 
@@ -23,20 +23,20 @@ function autoexec function_2dc19561() {
 // Checksum 0xafbad60a, Offset: 0x278
 // Size: 0x104
 function __init__() {
-    ability_player::register_gadget_activation_callbacks(23, &function_c5d34eae, &function_ae24e944);
-    ability_player::register_gadget_possession_callbacks(23, &function_2f62c66a, &function_957ab904);
-    ability_player::register_gadget_flicker_callbacks(23, &function_612f0337);
-    ability_player::register_gadget_is_inuse_callbacks(23, &function_439b773e);
-    ability_player::register_gadget_is_flickering_callbacks(23, &function_aab070f0);
-    ability_player::register_gadget_primed_callbacks(23, &function_bbd467e7);
-    callback::on_connect(&function_3ee9b19);
+    ability_player::register_gadget_activation_callbacks(23, &gadget_security_breach_on, &gadget_security_breach_off);
+    ability_player::register_gadget_possession_callbacks(23, &gadget_security_breach_on_give, &gadget_security_breach_on_take);
+    ability_player::register_gadget_flicker_callbacks(23, &gadget_security_breach_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(23, &gadget_security_breach_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(23, &gadget_security_breach_is_flickering);
+    ability_player::register_gadget_primed_callbacks(23, &gadget_security_breach_is_primed);
+    callback::on_connect(&gadget_security_breach_on_connect);
 }
 
 // Namespace gadget_security_breach/gadget_security_breach
 // Params 1, eflags: 0x0
 // Checksum 0xb431001c, Offset: 0x388
 // Size: 0x2a
-function function_439b773e(slot) {
+function gadget_security_breach_is_inuse(slot) {
     return self flagsys::get("gadget_security_breach_on");
 }
 
@@ -44,9 +44,9 @@ function function_439b773e(slot) {
 // Params 1, eflags: 0x0
 // Checksum 0x9cfa19cc, Offset: 0x3c0
 // Size: 0x5c
-function function_aab070f0(slot) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_76af92c1)) {
-        return self [[ level.cybercom.var_76af92c1.var_875da84b ]](slot);
+function gadget_security_breach_is_flickering(slot) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.security_breach)) {
+        return self [[ level.cybercom.security_breach._is_flickering ]](slot);
     }
 }
 
@@ -54,9 +54,9 @@ function function_aab070f0(slot) {
 // Params 2, eflags: 0x0
 // Checksum 0x8245023b, Offset: 0x428
 // Size: 0x68
-function function_612f0337(slot, weapon) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_76af92c1)) {
-        self [[ level.cybercom.var_76af92c1.var_8d01efb6 ]](slot, weapon);
+function gadget_security_breach_on_flicker(slot, weapon) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.security_breach)) {
+        self [[ level.cybercom.security_breach._on_flicker ]](slot, weapon);
     }
 }
 
@@ -64,9 +64,9 @@ function function_612f0337(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0xfeccfd5f, Offset: 0x498
 // Size: 0x68
-function function_2f62c66a(slot, weapon) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_76af92c1)) {
-        return self [[ level.cybercom.var_76af92c1.var_bdb47551 ]](slot, weapon);
+function gadget_security_breach_on_give(slot, weapon) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.security_breach)) {
+        return self [[ level.cybercom.security_breach._on_give ]](slot, weapon);
     }
 }
 
@@ -74,9 +74,9 @@ function function_2f62c66a(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0xd1ba175c, Offset: 0x508
 // Size: 0x68
-function function_957ab904(slot, weapon) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_76af92c1)) {
-        return self [[ level.cybercom.var_76af92c1.var_39ea6a1b ]](slot, weapon);
+function gadget_security_breach_on_take(slot, weapon) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.security_breach)) {
+        return self [[ level.cybercom.security_breach._on_take ]](slot, weapon);
     }
 }
 
@@ -84,9 +84,9 @@ function function_957ab904(slot, weapon) {
 // Params 0, eflags: 0x0
 // Checksum 0xfe4c0f77, Offset: 0x578
 // Size: 0x50
-function function_3ee9b19() {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_76af92c1)) {
-        return self [[ level.cybercom.var_76af92c1.var_5d2fec30 ]]();
+function gadget_security_breach_on_connect() {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.security_breach)) {
+        return self [[ level.cybercom.security_breach._on_connect ]]();
     }
 }
 
@@ -94,10 +94,10 @@ function function_3ee9b19() {
 // Params 2, eflags: 0x0
 // Checksum 0xcc0f9272, Offset: 0x5d0
 // Size: 0x88
-function function_c5d34eae(slot, weapon) {
+function gadget_security_breach_on(slot, weapon) {
     self flagsys::set("gadget_security_breach_on");
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_76af92c1)) {
-        return self [[ level.cybercom.var_76af92c1._on ]](slot, weapon);
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.security_breach)) {
+        return self [[ level.cybercom.security_breach._on ]](slot, weapon);
     }
 }
 
@@ -105,10 +105,10 @@ function function_c5d34eae(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x1d8d65f5, Offset: 0x660
 // Size: 0x88
-function function_ae24e944(slot, weapon) {
+function gadget_security_breach_off(slot, weapon) {
     self flagsys::clear("gadget_security_breach_on");
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_76af92c1)) {
-        return self [[ level.cybercom.var_76af92c1._off ]](slot, weapon);
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.security_breach)) {
+        return self [[ level.cybercom.security_breach._off ]](slot, weapon);
     }
 }
 
@@ -116,9 +116,9 @@ function function_ae24e944(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0xf2d5e59e, Offset: 0x6f0
 // Size: 0x68
-function function_bbd467e7(slot, weapon) {
-    if (isdefined(level.cybercom) && isdefined(level.cybercom.var_76af92c1)) {
-        self [[ level.cybercom.var_76af92c1.var_4135a1c4 ]](slot, weapon);
+function gadget_security_breach_is_primed(slot, weapon) {
+    if (isdefined(level.cybercom) && isdefined(level.cybercom.security_breach)) {
+        self [[ level.cybercom.security_breach._is_primed ]](slot, weapon);
     }
 }
 

@@ -11,7 +11,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x6e1dad7f, Offset: 0x320
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("dialog_shared", &__init__, undefined, undefined);
 }
 

@@ -19,7 +19,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x403ba1d0, Offset: 0x460
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("wasp", &__init__, undefined, undefined);
 }
 
@@ -160,7 +160,7 @@ function state_emped_update(params) {
     waitframe(1);
     gravity = 400;
     self notify(#"end_nudge_collision");
-    empdowntime = params.var_6e0794d4[0];
+    empdowntime = params.notify_param[0];
     /#
         assert(isdefined(empdowntime));
     #/
@@ -1207,7 +1207,7 @@ function wasp_towers_on_load() {
     a_wasp_towers = getentarray("all_wasp_towers", "script_noteworthy");
     foreach (wasp_tower in a_wasp_towers) {
         if (isdefined(wasp_tower.script_init_wasp_tower_on_load) && wasp_tower.script_init_wasp_tower_on_load && !(isdefined(wasp_tower.b_wasp_tower_init) && wasp_tower.b_wasp_tower_init)) {
-            if (isdefined(wasp_tower.var_27253c8) && wasp_tower.var_27253c8) {
+            if (isdefined(wasp_tower.b_use_fake_models) && wasp_tower.b_use_fake_models) {
                 _wasp_tower_init(wasp_tower, undefined, 1);
                 continue;
             }
@@ -1224,7 +1224,7 @@ function wasp_tower_init(str_tower_targetnames, n_spawn_count) {
     a_sp_wasp_towers = getentarray(str_tower_targetnames, "targetname");
     foreach (wasp_tower in a_sp_wasp_towers) {
         if (!(isdefined(wasp_tower.script_init_wasp_tower_on_load) && wasp_tower.script_init_wasp_tower_on_load) && !(isdefined(wasp_tower.b_wasp_tower_init) && wasp_tower.b_wasp_tower_init)) {
-            if (isdefined(wasp_tower.var_27253c8) && wasp_tower.var_27253c8) {
+            if (isdefined(wasp_tower.b_use_fake_models) && wasp_tower.b_use_fake_models) {
                 _wasp_tower_init(wasp_tower, n_spawn_count, 1);
                 continue;
             }
@@ -1237,80 +1237,80 @@ function wasp_tower_init(str_tower_targetnames, n_spawn_count) {
 // Params 3, eflags: 0x4
 // Checksum 0x87f458fa, Offset: 0x5aa8
 // Size: 0x930
-function private _wasp_tower_init(wasp_tower, n_spawn_count, var_27253c8) {
-    if (!isdefined(var_27253c8)) {
-        var_27253c8 = 0;
+function private _wasp_tower_init(wasp_tower, n_spawn_count, b_use_fake_models) {
+    if (!isdefined(b_use_fake_models)) {
+        b_use_fake_models = 0;
     }
-    if (!(isdefined(wasp_tower.var_793b8a8f) && wasp_tower.var_793b8a8f)) {
+    if (!(isdefined(wasp_tower.script_spawner_wasp_tower) && wasp_tower.script_spawner_wasp_tower)) {
         return;
     }
     if (!isdefined(n_spawn_count)) {
         n_spawn_count = wasp_tower.script_wasp_tower_spawn_count;
     }
     wasp_tower.a_fxanims = struct::get_array(wasp_tower.target, "targetname");
-    a_wasps = wasp_tower_spawn(wasp_tower, n_spawn_count, var_27253c8);
+    a_wasps = wasp_tower_spawn(wasp_tower, n_spawn_count, b_use_fake_models);
     wasp_tower.a_wasps = a_wasps;
-    var_ccc5350c = wasp_tower.a_fxanims[0];
-    var_3ecca447 = wasp_tower.a_fxanims[1];
-    var_18ca29de = wasp_tower.a_fxanims[2];
-    var_5abdc5d1 = wasp_tower.a_fxanims[3];
-    var_ccc5350c.var_cb736209 = [];
-    var_3ecca447.var_cb736209 = [];
-    var_18ca29de.var_cb736209 = [];
-    var_5abdc5d1.var_cb736209 = [];
+    s_wasp_scene1 = wasp_tower.a_fxanims[0];
+    s_wasp_scene2 = wasp_tower.a_fxanims[1];
+    s_wasp_scene3 = wasp_tower.a_fxanims[2];
+    s_wasp_scene4 = wasp_tower.a_fxanims[3];
+    s_wasp_scene1.a_wasps_to_launch = [];
+    s_wasp_scene2.a_wasps_to_launch = [];
+    s_wasp_scene3.a_wasps_to_launch = [];
+    s_wasp_scene4.a_wasps_to_launch = [];
     switch (a_wasps.size) {
     case 1:
     case 2:
-        var_ccc5350c.var_cb736209 = a_wasps;
-        var_ccc5350c scene::init(var_ccc5350c.scriptbundlename, var_ccc5350c.var_cb736209);
+        s_wasp_scene1.a_wasps_to_launch = a_wasps;
+        s_wasp_scene1 scene::init(s_wasp_scene1.scriptbundlename, s_wasp_scene1.a_wasps_to_launch);
         break;
     case 3:
-        var_ccc5350c.var_cb736209 = array(a_wasps[0], a_wasps[1]);
-        var_3ecca447.var_cb736209 = array(a_wasps[2]);
-        var_ccc5350c scene::init(var_ccc5350c.scriptbundlename, var_ccc5350c.var_cb736209);
-        var_3ecca447 scene::init(var_3ecca447.scriptbundlename, var_3ecca447.var_cb736209);
+        s_wasp_scene1.a_wasps_to_launch = array(a_wasps[0], a_wasps[1]);
+        s_wasp_scene2.a_wasps_to_launch = array(a_wasps[2]);
+        s_wasp_scene1 scene::init(s_wasp_scene1.scriptbundlename, s_wasp_scene1.a_wasps_to_launch);
+        s_wasp_scene2 scene::init(s_wasp_scene2.scriptbundlename, s_wasp_scene2.a_wasps_to_launch);
         break;
     case 4:
-        var_ccc5350c.var_cb736209 = array(a_wasps[0], a_wasps[1]);
-        var_3ecca447.var_cb736209 = array(a_wasps[2], a_wasps[3]);
-        var_ccc5350c scene::init(var_ccc5350c.scriptbundlename, var_ccc5350c.var_cb736209);
-        var_3ecca447 scene::init(var_3ecca447.scriptbundlename, var_3ecca447.var_cb736209);
+        s_wasp_scene1.a_wasps_to_launch = array(a_wasps[0], a_wasps[1]);
+        s_wasp_scene2.a_wasps_to_launch = array(a_wasps[2], a_wasps[3]);
+        s_wasp_scene1 scene::init(s_wasp_scene1.scriptbundlename, s_wasp_scene1.a_wasps_to_launch);
+        s_wasp_scene2 scene::init(s_wasp_scene2.scriptbundlename, s_wasp_scene2.a_wasps_to_launch);
         break;
     case 5:
-        var_ccc5350c.var_cb736209 = array(a_wasps[0], a_wasps[1]);
-        var_3ecca447.var_cb736209 = array(a_wasps[2], a_wasps[3]);
-        var_18ca29de.var_cb736209 = array(a_wasps[4]);
-        var_ccc5350c scene::init(var_ccc5350c.scriptbundlename, var_ccc5350c.var_cb736209);
-        var_3ecca447 scene::init(var_3ecca447.scriptbundlename, var_3ecca447.var_cb736209);
-        var_18ca29de scene::init(var_18ca29de.scriptbundlename, var_18ca29de.var_cb736209);
+        s_wasp_scene1.a_wasps_to_launch = array(a_wasps[0], a_wasps[1]);
+        s_wasp_scene2.a_wasps_to_launch = array(a_wasps[2], a_wasps[3]);
+        s_wasp_scene3.a_wasps_to_launch = array(a_wasps[4]);
+        s_wasp_scene1 scene::init(s_wasp_scene1.scriptbundlename, s_wasp_scene1.a_wasps_to_launch);
+        s_wasp_scene2 scene::init(s_wasp_scene2.scriptbundlename, s_wasp_scene2.a_wasps_to_launch);
+        s_wasp_scene3 scene::init(s_wasp_scene3.scriptbundlename, s_wasp_scene3.a_wasps_to_launch);
         break;
     case 6:
-        var_ccc5350c.var_cb736209 = array(a_wasps[0], a_wasps[1]);
-        var_3ecca447.var_cb736209 = array(a_wasps[2], a_wasps[3]);
-        var_18ca29de.var_cb736209 = array(a_wasps[4], a_wasps[5]);
-        var_ccc5350c scene::init(var_ccc5350c.scriptbundlename, var_ccc5350c.var_cb736209);
-        var_3ecca447 scene::init(var_3ecca447.scriptbundlename, var_3ecca447.var_cb736209);
-        var_18ca29de scene::init(var_18ca29de.scriptbundlename, var_18ca29de.var_cb736209);
+        s_wasp_scene1.a_wasps_to_launch = array(a_wasps[0], a_wasps[1]);
+        s_wasp_scene2.a_wasps_to_launch = array(a_wasps[2], a_wasps[3]);
+        s_wasp_scene3.a_wasps_to_launch = array(a_wasps[4], a_wasps[5]);
+        s_wasp_scene1 scene::init(s_wasp_scene1.scriptbundlename, s_wasp_scene1.a_wasps_to_launch);
+        s_wasp_scene2 scene::init(s_wasp_scene2.scriptbundlename, s_wasp_scene2.a_wasps_to_launch);
+        s_wasp_scene3 scene::init(s_wasp_scene3.scriptbundlename, s_wasp_scene3.a_wasps_to_launch);
         break;
     case 7:
-        var_ccc5350c.var_cb736209 = array(a_wasps[0], a_wasps[1]);
-        var_3ecca447.var_cb736209 = array(a_wasps[2], a_wasps[3]);
-        var_18ca29de.var_cb736209 = array(a_wasps[4], a_wasps[5]);
-        var_5abdc5d1.var_cb736209 = array(a_wasps[6]);
-        var_ccc5350c scene::init(var_ccc5350c.scriptbundlename, var_ccc5350c.var_cb736209);
-        var_3ecca447 scene::init(var_3ecca447.scriptbundlename, var_3ecca447.var_cb736209);
-        var_18ca29de scene::init(var_18ca29de.scriptbundlename, var_18ca29de.var_cb736209);
-        var_5abdc5d1 scene::init(var_5abdc5d1.scriptbundlename, var_5abdc5d1.var_cb736209);
+        s_wasp_scene1.a_wasps_to_launch = array(a_wasps[0], a_wasps[1]);
+        s_wasp_scene2.a_wasps_to_launch = array(a_wasps[2], a_wasps[3]);
+        s_wasp_scene3.a_wasps_to_launch = array(a_wasps[4], a_wasps[5]);
+        s_wasp_scene4.a_wasps_to_launch = array(a_wasps[6]);
+        s_wasp_scene1 scene::init(s_wasp_scene1.scriptbundlename, s_wasp_scene1.a_wasps_to_launch);
+        s_wasp_scene2 scene::init(s_wasp_scene2.scriptbundlename, s_wasp_scene2.a_wasps_to_launch);
+        s_wasp_scene3 scene::init(s_wasp_scene3.scriptbundlename, s_wasp_scene3.a_wasps_to_launch);
+        s_wasp_scene4 scene::init(s_wasp_scene4.scriptbundlename, s_wasp_scene4.a_wasps_to_launch);
         break;
     case 8:
-        var_ccc5350c.var_cb736209 = array(a_wasps[0], a_wasps[1]);
-        var_3ecca447.var_cb736209 = array(a_wasps[2], a_wasps[3]);
-        var_18ca29de.var_cb736209 = array(a_wasps[4], a_wasps[5]);
-        var_5abdc5d1.var_cb736209 = array(a_wasps[6], a_wasps[7]);
-        var_ccc5350c scene::init(var_ccc5350c.scriptbundlename, var_ccc5350c.var_cb736209);
-        var_3ecca447 scene::init(var_3ecca447.scriptbundlename, var_3ecca447.var_cb736209);
-        var_18ca29de scene::init(var_18ca29de.scriptbundlename, var_18ca29de.var_cb736209);
-        var_5abdc5d1 scene::init(var_5abdc5d1.scriptbundlename, var_5abdc5d1.var_cb736209);
+        s_wasp_scene1.a_wasps_to_launch = array(a_wasps[0], a_wasps[1]);
+        s_wasp_scene2.a_wasps_to_launch = array(a_wasps[2], a_wasps[3]);
+        s_wasp_scene3.a_wasps_to_launch = array(a_wasps[4], a_wasps[5]);
+        s_wasp_scene4.a_wasps_to_launch = array(a_wasps[6], a_wasps[7]);
+        s_wasp_scene1 scene::init(s_wasp_scene1.scriptbundlename, s_wasp_scene1.a_wasps_to_launch);
+        s_wasp_scene2 scene::init(s_wasp_scene2.scriptbundlename, s_wasp_scene2.a_wasps_to_launch);
+        s_wasp_scene3 scene::init(s_wasp_scene3.scriptbundlename, s_wasp_scene3.a_wasps_to_launch);
+        s_wasp_scene4 scene::init(s_wasp_scene4.scriptbundlename, s_wasp_scene4.a_wasps_to_launch);
         break;
     default:
         /#
@@ -1325,20 +1325,20 @@ function private _wasp_tower_init(wasp_tower, n_spawn_count, var_27253c8) {
 // Params 3, eflags: 0x4
 // Checksum 0x1821d6a2, Offset: 0x63e0
 // Size: 0x208
-function private wasp_tower_spawn(sp_wasp, n_spawn_count, var_27253c8) {
-    if (!isdefined(var_27253c8)) {
-        var_27253c8 = 0;
+function private wasp_tower_spawn(sp_wasp, n_spawn_count, b_use_fake_models) {
+    if (!isdefined(b_use_fake_models)) {
+        b_use_fake_models = 0;
     }
     a_wasps = [];
     for (i = 0; i < n_spawn_count; i++) {
-        if (var_27253c8) {
-            var_da8d98bc = util::spawn_model(sp_wasp.model);
+        if (b_use_fake_models) {
+            mdl_wasp = util::spawn_model(sp_wasp.model);
             if (!isdefined(a_wasps)) {
                 a_wasps = [];
             } else if (!isarray(a_wasps)) {
                 a_wasps = array(a_wasps);
             }
-            a_wasps[a_wasps.size] = var_da8d98bc;
+            a_wasps[a_wasps.size] = mdl_wasp;
             continue;
         }
         vh_wasp = sp_wasp spawner::spawn(1);
@@ -1376,19 +1376,19 @@ function wasp_tower_launch(str_tower_targetnames, n_spawn_count) {
 // Size: 0x254
 function private _wasp_tower_launch(wasp_tower) {
     wasp_tower playsound("veh_wasp_tower_flaps");
-    if (isdefined(wasp_tower.var_27253c8) && wasp_tower.var_27253c8) {
-        var_5ddf5e7f = wasp_tower.a_wasps;
-        var_5ddf5e7f = array::remove_undefined(var_5ddf5e7f);
-        if (var_5ddf5e7f.size > 0) {
-            _wasp_tower_init(wasp_tower, var_5ddf5e7f.size, 0);
-            array::run_all(var_5ddf5e7f, &delete);
+    if (isdefined(wasp_tower.b_use_fake_models) && wasp_tower.b_use_fake_models) {
+        a_fake_wasps = wasp_tower.a_wasps;
+        a_fake_wasps = array::remove_undefined(a_fake_wasps);
+        if (a_fake_wasps.size > 0) {
+            _wasp_tower_init(wasp_tower, a_fake_wasps.size, 0);
+            array::run_all(a_fake_wasps, &delete);
         }
     }
     foreach (fxanim in wasp_tower.a_fxanims) {
-        fxanim.var_cb736209 = array::remove_undefined(fxanim.var_cb736209);
-        if (fxanim.var_cb736209.size) {
-            array::thread_all(fxanim.var_cb736209, &wasp_tower_wakeup);
-            fxanim thread scene::play(fxanim.scriptbundlename, fxanim.var_cb736209);
+        fxanim.a_wasps_to_launch = array::remove_undefined(fxanim.a_wasps_to_launch);
+        if (fxanim.a_wasps_to_launch.size) {
+            array::thread_all(fxanim.a_wasps_to_launch, &wasp_tower_wakeup);
+            fxanim thread scene::play(fxanim.scriptbundlename, fxanim.a_wasps_to_launch);
         }
         if (wasp_tower.script_wasp_tower_launch_delay_max > wasp_tower.script_wasp_tower_launch_delay_min) {
             n_delay = randomfloatrange(wasp_tower.script_wasp_tower_launch_delay_min, wasp_tower.script_wasp_tower_launch_delay_max);

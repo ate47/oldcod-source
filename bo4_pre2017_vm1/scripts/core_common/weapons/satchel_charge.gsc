@@ -15,7 +15,7 @@
 function init_shared() {
     level._effect["satchel_charge_enemy_light"] = "weapon/fx_c4_light_orng";
     level._effect["satchel_charge_friendly_light"] = "weapon/fx_c4_light_blue";
-    callback::function_367a33a8(&function_d7ed4157);
+    callback::add_weapon_watcher(&function_d7ed4157);
 }
 
 // Namespace satchel_charge/satchel_charge
@@ -39,7 +39,7 @@ function function_d7ed4157() {
     watcher.detonatestationary = 1;
     watcher.detonationdelay = getdvarfloat("scr_satchel_detonation_delay", 0);
     watcher.detonationsound = "wpn_claymore_alert";
-    watcher.var_1ef0506d = "uin_c4_enemy_detection_alert";
+    watcher.proximityalarmactivatesound = "uin_c4_enemy_detection_alert";
     watcher.immunespecialty = "specialty_immunetriggerc4";
 }
 

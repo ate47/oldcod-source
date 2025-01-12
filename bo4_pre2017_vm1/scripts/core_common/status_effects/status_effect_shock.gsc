@@ -11,7 +11,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x50f37c43, Offset: 0x230
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("status_effect_shock", &__init__, undefined, undefined);
 }
 
@@ -20,13 +20,13 @@ function autoexec function_2dc19561() {
 // Checksum 0x4a70ca8e, Offset: 0x270
 // Size: 0xf0
 function __init__() {
-    var_a6ad716d = getscriptbundle("shock");
+    shockbundle = getscriptbundle("shock");
     status_effect::register_status_effect_callback_apply(4, &shock_apply);
-    status_effect::function_9acf95a1(4, "shock");
-    status_effect::function_96de5b5e(4, var_a6ad716d.var_804bc9d5 * 1000);
+    status_effect::register_status_effect_name(4, "shock");
+    status_effect::register_status_effect_base_duration(4, shockbundle.seduration * 1000);
     clientfield::register("toplayer", "shocked", 1, 1, "int");
     if (!isdefined(level.shockduration)) {
-        level.shockduration = var_a6ad716d.var_804bc9d5;
+        level.shockduration = shockbundle.seduration;
     }
 }
 
@@ -35,36 +35,36 @@ function __init__() {
 // Checksum 0x7e81b59c, Offset: 0x368
 // Size: 0x1f4
 function shock_apply() {
-    self notify(#"hash_2df0f367");
-    self endon(#"hash_2df0f367");
+    self notify(#"applyShock");
+    self endon(#"applyShock");
     self endon(#"disconnect");
     self endon(#"death");
     waitframe(1);
     if (!(isdefined(self) && isalive(self))) {
         return;
     }
-    var_c7372192 = level.shockduration * 1000;
-    self.var_70237074 = status_effect::function_c9de0b56(4);
-    if (status_effect::function_24365fad(4)) {
-        var_fbdbcecc = self.var_70237074 + level.shockduration - gettime();
-        if (var_fbdbcecc > var_c7372192) {
-            self.shockduration = var_fbdbcecc;
+    currentshockduration = level.shockduration * 1000;
+    self.shockstarttime = status_effect::status_effect_get_starttime(4);
+    if (status_effect::status_effect_is_active(4)) {
+        shock_time_left_ms = self.shockstarttime + level.shockduration - gettime();
+        if (shock_time_left_ms > currentshockduration) {
+            self.shockduration = shock_time_left_ms;
         } else {
-            self.shockduration = var_c7372192;
+            self.shockduration = currentshockduration;
         }
     } else {
-        self.shockduration = var_c7372192;
+        self.shockduration = currentshockduration;
     }
     self clientfield::set_to_player("shocked", 1);
-    self.shockendtime = self.var_70237074 + self.shockduration;
-    self thread function_a00fc040();
-    self thread function_ce0ec213();
-    self thread function_593ff566();
+    self.shockendtime = self.shockstarttime + self.shockduration;
+    self thread shock_effect_loop();
+    self thread shock_death_watcher();
+    self thread shock_cleanse_watcher();
     if (self.shockduration > 0) {
         wait self.shockduration / 1000;
     }
     if (isdefined(self)) {
-        self notify(#"hash_253c19cc");
+        self notify(#"shockEnd");
         self shock_end();
     }
 }
@@ -73,10 +73,10 @@ function shock_apply() {
 // Params 0, eflags: 0x4
 // Checksum 0x208911d7, Offset: 0x568
 // Size: 0x54
-function private function_ce0ec213() {
-    self notify(#"hash_cfee3f7");
-    self endon(#"hash_cfee3f7");
-    self endon(#"hash_253c19cc");
+function private shock_death_watcher() {
+    self notify(#"shockDeathWatcher");
+    self endon(#"shockDeathWatcher");
+    self endon(#"shockEnd");
     self waittill("death");
     if (isdefined(self)) {
         self shock_end();
@@ -87,10 +87,10 @@ function private function_ce0ec213() {
 // Params 0, eflags: 0x4
 // Checksum 0xe65c51a4, Offset: 0x5c8
 // Size: 0x54
-function private function_593ff566() {
-    self notify(#"hash_7ba0b40");
-    self endon(#"hash_7ba0b40");
-    self endon(#"hash_253c19cc");
+function private shock_cleanse_watcher() {
+    self notify(#"shockCleanseWatcher");
+    self endon(#"shockCleanseWatcher");
+    self endon(#"shockEnd");
     self waittill("gadget_cleanse_on");
     if (isdefined(self)) {
         self shock_end();
@@ -107,7 +107,7 @@ function shock_end() {
         self setlowready(0);
         self util::freeze_player_controls(0);
         self stoprumble("proximity_grenade");
-        self notify(#"hash_253c19cc");
+        self notify(#"shockEnd");
     }
 }
 
@@ -115,10 +115,10 @@ function shock_end() {
 // Params 0, eflags: 0x0
 // Checksum 0x2546e4b3, Offset: 0x6c0
 // Size: 0xce
-function function_a00fc040() {
-    self notify(#"hash_357a6230");
-    self endon(#"hash_357a6230");
-    self endon(#"hash_253c19cc");
+function shock_effect_loop() {
+    self notify(#"shockEffectLoop");
+    self endon(#"shockEffectLoop");
+    self endon(#"shockEnd");
     self setlowready(1);
     self util::freeze_player_controls(1);
     self thread shock_rumble_loop(self.shockduration / 1000);
@@ -136,7 +136,7 @@ function function_a00fc040() {
 function private shock_rumble_loop(duration) {
     self notify(#"shock_rumble_loop");
     self endon(#"shock_rumble_loop");
-    self endon(#"hash_253c19cc");
+    self endon(#"shockEnd");
     goaltime = gettime() + duration * 1000;
     while (gettime() < goaltime) {
         self playrumbleonentity("proximity_grenade");

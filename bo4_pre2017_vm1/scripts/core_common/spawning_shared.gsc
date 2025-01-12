@@ -17,7 +17,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x623c8fa8, Offset: 0x490
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("spawning_shared", &__init__, undefined, undefined);
 }
 
@@ -126,8 +126,8 @@ function on_player_killed() {
 function private init_spawn_system() {
     level.spawnsystem = spawnstruct();
     spawnsystem = level.spawnsystem;
-    if (!isdefined(spawnsystem.var_23df778)) {
-        spawnsystem.var_23df778 = 1;
+    if (!isdefined(spawnsystem.sideswitching)) {
+        spawnsystem.sideswitching = 1;
     }
     spawnsystem.objective_facing_bonus = 0;
     spawnsystem.ispawn_teammask = [];
@@ -311,7 +311,7 @@ function onspawnplayer(predictedspawn) {
         }
         if (level.teambased) {
             spawnteam = self.pers["team"];
-            if (game.switchedsides && level.spawnsystem.var_23df778) {
+            if (game.switchedsides && level.spawnsystem.sideswitching) {
                 spawnteam = util::getotherteam(spawnteam);
             }
             spawnpoint = get_spawnpoint_random(level.spawn_start[spawnteam], predictedspawn);
@@ -364,7 +364,7 @@ function private getspawnpoint(player_entity, predictedspawn) {
         point_team = "free";
         influencer_team = "free";
     }
-    if (level.teambased && isdefined(game.switchedsides) && game.switchedsides && level.spawnsystem.var_23df778) {
+    if (level.teambased && isdefined(game.switchedsides) && game.switchedsides && level.spawnsystem.sideswitching) {
         point_team = util::getotherteam(point_team);
     }
     use_fallback_points = 0;
@@ -655,7 +655,7 @@ function private update_explored_spawn_points_for_team(team, explored_radius_sq)
                 if (!isdefined(player)) {
                     continue;
                 }
-                if (player util::function_4f5dd9d2()) {
+                if (player util::is_companion()) {
                     continue;
                 }
                 if (!should_update_exploration_for_player(spawnpoint, player)) {
@@ -1152,7 +1152,7 @@ function move_spawn_point(targetname, start_point, new_point, new_angles) {
 // Params 1, eflags: 0x0
 // Checksum 0xf26bf691, Offset: 0x4718
 // Size: 0x1c
-function function_5dfe159a(callbackfunc) {
+function setgamemodepopulatespawnlistcallback(callbackfunc) {
     level.var_bef1a9a4 = callbackfunc;
 }
 

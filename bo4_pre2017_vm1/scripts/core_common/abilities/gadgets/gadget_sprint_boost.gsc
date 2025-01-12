@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x347dc69a, Offset: 0x318
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_sprint_boost", &__init__, undefined, undefined);
 }
 
@@ -25,23 +25,23 @@ function autoexec function_2dc19561() {
 // Checksum 0x2ceb1f4b, Offset: 0x358
 // Size: 0x194
 function __init__() {
-    ability_player::register_gadget_activation_callbacks(53, &function_27a1e5b0, &function_af7059fe);
-    ability_player::register_gadget_possession_callbacks(53, &function_519579ec, &function_7a819c9a);
-    ability_player::register_gadget_flicker_callbacks(53, &function_69b08fe5);
-    ability_player::register_gadget_is_inuse_callbacks(53, &function_24d6ac18);
-    ability_player::register_gadget_is_flickering_callbacks(53, &function_ddcf0e56);
+    ability_player::register_gadget_activation_callbacks(53, &gadget_sprint_boost_on, &gadget_sprint_boost_off);
+    ability_player::register_gadget_possession_callbacks(53, &gadget_sprint_boost_on_give, &gadget_sprint_boost_on_take);
+    ability_player::register_gadget_flicker_callbacks(53, &gadget_sprint_boost_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(53, &gadget_sprint_boost_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(53, &gadget_sprint_boost_is_flickering);
     clientfield::register("scriptmover", "sprint_boost_aoe_fx", 1, 1, "int");
     clientfield::register("allplayers", "sprint_boost", 1, 1, "int");
     clientfield::register("toplayer", "gadget_sprint_boost_on", 1, 1, "int");
-    callback::on_connect(&function_7c063fc3);
-    callback::on_spawned(&function_3fcdc188);
+    callback::on_connect(&gadget_sprint_boost_on_connect);
+    callback::on_spawned(&gadget_sprint_boost_on_player_spawn);
 }
 
 // Namespace gadget_sprint_boost/gadget_sprint_boost
 // Params 1, eflags: 0x0
 // Checksum 0xe4d82198, Offset: 0x4f8
 // Size: 0x2a
-function function_24d6ac18(slot) {
+function gadget_sprint_boost_is_inuse(slot) {
     return self flagsys::get("gadget_sprint_boost_on");
 }
 
@@ -49,7 +49,7 @@ function function_24d6ac18(slot) {
 // Params 1, eflags: 0x0
 // Checksum 0x70f04f56, Offset: 0x530
 // Size: 0x22
-function function_ddcf0e56(slot) {
+function gadget_sprint_boost_is_flickering(slot) {
     return self gadgetflickering(slot);
 }
 
@@ -57,15 +57,15 @@ function function_ddcf0e56(slot) {
 // Params 2, eflags: 0x0
 // Checksum 0xa90c2ac1, Offset: 0x560
 // Size: 0x34
-function function_69b08fe5(slot, weapon) {
-    self thread function_49a2835d(slot, weapon);
+function gadget_sprint_boost_on_flicker(slot, weapon) {
+    self thread gadget_sprint_boost_flicker(slot, weapon);
 }
 
 // Namespace gadget_sprint_boost/gadget_sprint_boost
 // Params 2, eflags: 0x0
 // Checksum 0x9f6500bb, Offset: 0x5a0
 // Size: 0x14
-function function_519579ec(slot, weapon) {
+function gadget_sprint_boost_on_give(slot, weapon) {
     
 }
 
@@ -73,7 +73,7 @@ function function_519579ec(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0xf574d016, Offset: 0x5c0
 // Size: 0x14
-function function_7a819c9a(slot, weapon) {
+function gadget_sprint_boost_on_take(slot, weapon) {
     
 }
 
@@ -81,7 +81,7 @@ function function_7a819c9a(slot, weapon) {
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x5e0
 // Size: 0x4
-function function_7c063fc3() {
+function gadget_sprint_boost_on_connect() {
     
 }
 
@@ -89,7 +89,7 @@ function function_7c063fc3() {
 // Params 0, eflags: 0x0
 // Checksum 0xd398b06d, Offset: 0x5f0
 // Size: 0x24
-function function_3fcdc188() {
+function gadget_sprint_boost_on_player_spawn() {
     self clientfield::set("sprint_boost", 0);
 }
 
@@ -97,10 +97,10 @@ function function_3fcdc188() {
 // Params 2, eflags: 0x0
 // Checksum 0xf8477e65, Offset: 0x620
 // Size: 0x94
-function function_27a1e5b0(slot, weapon) {
-    self thread function_ea0c66cc(slot, weapon);
+function gadget_sprint_boost_on(slot, weapon) {
+    self thread sprint_boost_aoe_think(slot, weapon);
     self flagsys::set("gadget_sprint_boost_on");
-    self thread function_de8c04d(slot, weapon);
+    self thread gadget_sprint_boost_start(slot, weapon);
     self clientfield::set_to_player("gadget_sprint_boost_on", 1);
 }
 
@@ -108,12 +108,12 @@ function function_27a1e5b0(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x5f739728, Offset: 0x6c0
 // Size: 0x90
-function function_af7059fe(slot, weapon) {
+function gadget_sprint_boost_off(slot, weapon) {
     wait 1.5;
-    self function_b647942a(slot, weapon);
-    if (isdefined(self.var_fdc803e6) && self.var_fdc803e6.size > 0) {
-        function_15e582e5(slot, weapon, self.var_fdc803e6);
-        self.var_fdc803e6 = [];
+    self gadget_sprint_boost_off_player(slot, weapon);
+    if (isdefined(self.sprint_boost_players) && self.sprint_boost_players.size > 0) {
+        gadget_sprint_boost_off_players(slot, weapon, self.sprint_boost_players);
+        self.sprint_boost_players = [];
     }
 }
 
@@ -121,7 +121,7 @@ function function_af7059fe(slot, weapon) {
 // Params 3, eflags: 0x0
 // Checksum 0xb1840ecf, Offset: 0x758
 // Size: 0xda
-function function_15e582e5(slot, weapon, players) {
+function gadget_sprint_boost_off_players(slot, weapon, players) {
     foreach (player in players) {
         if (!isdefined(player)) {
             continue;
@@ -137,7 +137,7 @@ function function_15e582e5(slot, weapon, players) {
 // Params 2, eflags: 0x0
 // Checksum 0x2ffe5c43, Offset: 0x840
 // Size: 0x54
-function function_b647942a(slot, weapon) {
+function gadget_sprint_boost_off_player(slot, weapon) {
     self flagsys::clear("gadget_sprint_boost_on");
     self clientfield::set_to_player("gadget_sprint_boost_on", 0);
 }
@@ -146,9 +146,9 @@ function function_b647942a(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x542ab431, Offset: 0x8a0
 // Size: 0x3a
-function function_de8c04d(slot, weapon) {
+function gadget_sprint_boost_start(slot, weapon) {
     self gadgetsetactivatetime(slot, gettime());
-    self notify(#"hash_27a1e5b0");
+    self notify(#"gadget_sprint_boost_on");
 }
 
 // Namespace gadget_sprint_boost/gadget_sprint_boost
@@ -180,7 +180,7 @@ function wait_until_is_done(slot, timepulse) {
 // Params 2, eflags: 0x0
 // Checksum 0x18aa45f1, Offset: 0xa10
 // Size: 0x20
-function function_49a2835d(slot, weapon) {
+function gadget_sprint_boost_flicker(slot, weapon) {
     self endon(#"disconnect");
 }
 
@@ -188,7 +188,7 @@ function function_49a2835d(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x4156ff73, Offset: 0xa38
 // Size: 0x14
-function function_759f976(status, time) {
+function set_gadget_sprint_boost_status(status, time) {
     
 }
 
@@ -196,45 +196,45 @@ function function_759f976(status, time) {
 // Params 2, eflags: 0x0
 // Checksum 0x9489de1e, Offset: 0xa58
 // Size: 0xae
-function function_ea0c66cc(slot, weapon) {
+function sprint_boost_aoe_think(slot, weapon) {
     self endon(#"disconnect");
-    self notify(#"hash_ea0c66cc");
-    self endon(#"hash_ea0c66cc");
+    self notify(#"sprint_boost_aoe_think");
+    self endon(#"sprint_boost_aoe_think");
     self.heroabilityactive = 1;
-    var_b23522c9 = function_97b01aa3(weapon);
-    self thread ability_util::aoe_friendlies(weapon, var_b23522c9);
+    sprint_boost_aoe = sprint_boost_aoe_setup(weapon);
+    self thread ability_util::aoe_friendlies(weapon, sprint_boost_aoe);
     wait 0.25;
     self.heroabilityactive = 0;
-    self notify(#"hash_7b4aab3d");
+    self notify(#"sprint_boost_aoe_think_finished");
 }
 
 // Namespace gadget_sprint_boost/gadget_sprint_boost
 // Params 1, eflags: 0x0
 // Checksum 0x24d318b5, Offset: 0xb10
 // Size: 0x1b8
-function function_97b01aa3(weapon) {
-    var_b23522c9 = spawnstruct();
-    var_b23522c9.radius = weapon.sprintboostradius;
-    var_b23522c9.origin = self geteye();
-    var_b23522c9.direction = anglestoforward(self getplayerangles());
-    var_b23522c9.up = anglestoup(self getplayerangles());
-    var_b23522c9.fxorg = function_df5c8ee(var_b23522c9.origin, var_b23522c9.direction);
-    var_b23522c9.aoe_think_singleton_event = "sprint_boost_aoe_think";
-    var_b23522c9.duration = 250;
-    var_b23522c9.var_758d399e = 500;
-    var_b23522c9.check_reapply_time_func = &function_d0024e78;
-    var_b23522c9.can_apply_aoe_func = &function_67872ad3;
-    var_b23522c9.apply_aoe_func = &function_868a9a2;
-    var_b23522c9.var_e91f5742 = &function_99e4c060;
-    var_b23522c9.max_applies_per_frame = 1;
-    return var_b23522c9;
+function sprint_boost_aoe_setup(weapon) {
+    sprint_boost_aoe = spawnstruct();
+    sprint_boost_aoe.radius = weapon.sprintboostradius;
+    sprint_boost_aoe.origin = self geteye();
+    sprint_boost_aoe.direction = anglestoforward(self getplayerangles());
+    sprint_boost_aoe.up = anglestoup(self getplayerangles());
+    sprint_boost_aoe.fxorg = sprint_boost_aoe_fx(sprint_boost_aoe.origin, sprint_boost_aoe.direction);
+    sprint_boost_aoe.aoe_think_singleton_event = "sprint_boost_aoe_think";
+    sprint_boost_aoe.duration = 250;
+    sprint_boost_aoe.reapply_time = 500;
+    sprint_boost_aoe.check_reapply_time_func = &sprint_boost_check_reapply_time;
+    sprint_boost_aoe.can_apply_aoe_func = &can_apply_sprint_boost_aoe;
+    sprint_boost_aoe.apply_aoe_func = &apply_sprint_boost_aoe;
+    sprint_boost_aoe.try_apply_aoe_func = &try_apply_sprint_boost_aoe;
+    sprint_boost_aoe.max_applies_per_frame = 1;
+    return sprint_boost_aoe;
 }
 
 // Namespace gadget_sprint_boost/gadget_sprint_boost
 // Params 2, eflags: 0x0
 // Checksum 0xb8059ae6, Offset: 0xcd0
 // Size: 0x150
-function function_df5c8ee(origin, direction) {
+function sprint_boost_aoe_fx(origin, direction) {
     if (direction == (0, 0, 0)) {
         direction = (0, 0, 1);
     }
@@ -246,7 +246,7 @@ function function_df5c8ee(origin, direction) {
     fxorg setmodel("tag_origin");
     fxorg clientfield::set("sprint_boost_aoe_fx", 1);
     fxorg.hitsomething = 0;
-    self thread function_d18ef40b(fxorg, direction);
+    self thread sprint_boost_aoe_fx_cleanup(fxorg, direction);
     return fxorg;
 }
 
@@ -254,7 +254,7 @@ function function_df5c8ee(origin, direction) {
 // Params 2, eflags: 0x0
 // Checksum 0x5bef88f0, Offset: 0xe28
 // Size: 0x84
-function function_d18ef40b(fxorg, direction) {
+function sprint_boost_aoe_fx_cleanup(fxorg, direction) {
     self waittill("sprint_boost_aoe_think", "sprint_boost_aoe_think_finished");
     if (isdefined(fxorg)) {
         fxorg stoploopsound();
@@ -267,7 +267,7 @@ function function_d18ef40b(fxorg, direction) {
 // Params 3, eflags: 0x0
 // Checksum 0x69a6f55c, Offset: 0xeb8
 // Size: 0x74
-function function_3ba3d3fd(weapon, friendly, var_b23522c9) {
+function sprint_boost_friendly(weapon, friendly, sprint_boost_aoe) {
     duration = weapon.sprintboostduration;
     self thread apply_sprint_boost(duration);
     self clientfield::set("sprint_boost", 1);
@@ -277,8 +277,8 @@ function function_3ba3d3fd(weapon, friendly, var_b23522c9) {
 // Params 3, eflags: 0x0
 // Checksum 0x7e03e147, Offset: 0xf38
 // Size: 0x46
-function function_67872ad3(entity, weapon, var_b23522c9) {
-    if (!ability_util::aoe_trace_entity(entity, var_b23522c9, 50)) {
+function can_apply_sprint_boost_aoe(entity, weapon, sprint_boost_aoe) {
+    if (!ability_util::aoe_trace_entity(entity, sprint_boost_aoe, 50)) {
         return false;
     }
     return true;
@@ -288,35 +288,35 @@ function function_67872ad3(entity, weapon, var_b23522c9) {
 // Params 1, eflags: 0x0
 // Checksum 0x47cc563e, Offset: 0xf88
 // Size: 0x3e
-function function_d0024e78(aoe) {
-    return isdefined(self.var_af3943a5) && self.var_af3943a5 + aoe.var_758d399e + 1 > gettime();
+function sprint_boost_check_reapply_time(aoe) {
+    return isdefined(self.sprint_boost_applied_time) && self.sprint_boost_applied_time + aoe.reapply_time + 1 > gettime();
 }
 
 // Namespace gadget_sprint_boost/gadget_sprint_boost
 // Params 3, eflags: 0x0
 // Checksum 0xbf635a5, Offset: 0xfd0
 // Size: 0xca
-function function_868a9a2(player, weapon, aoe) {
-    player function_3ba3d3fd(weapon, aoe);
-    player.var_af3943a5 = gettime();
-    if (!isdefined(self.var_fdc803e6)) {
-        self.var_fdc803e6 = [];
-    } else if (!isarray(self.var_fdc803e6)) {
-        self.var_fdc803e6 = array(self.var_fdc803e6);
+function apply_sprint_boost_aoe(player, weapon, aoe) {
+    player sprint_boost_friendly(weapon, aoe);
+    player.sprint_boost_applied_time = gettime();
+    if (!isdefined(self.sprint_boost_players)) {
+        self.sprint_boost_players = [];
+    } else if (!isarray(self.sprint_boost_players)) {
+        self.sprint_boost_players = array(self.sprint_boost_players);
     }
-    self.var_fdc803e6[self.var_fdc803e6.size] = player;
+    self.sprint_boost_players[self.sprint_boost_players.size] = player;
 }
 
 // Namespace gadget_sprint_boost/gadget_sprint_boost
 // Params 3, eflags: 0x0
 // Checksum 0x5ee5cbe0, Offset: 0x10a8
 // Size: 0x74
-function function_99e4c060(player, weapon, aoe) {
-    if (player function_d0024e78(aoe)) {
+function try_apply_sprint_boost_aoe(player, weapon, aoe) {
+    if (player sprint_boost_check_reapply_time(aoe)) {
         return;
     }
-    if (function_67872ad3(player, weapon, aoe)) {
-        function_868a9a2(player, weapon, aoe);
+    if (can_apply_sprint_boost_aoe(player, weapon, aoe)) {
+        apply_sprint_boost_aoe(player, weapon, aoe);
     }
 }
 

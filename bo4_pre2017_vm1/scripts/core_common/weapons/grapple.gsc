@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xd1df8c2e, Offset: 0x280
 // Size: 0x3c
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("grapple", &__init__, &__main__, undefined);
 }
 
@@ -83,7 +83,7 @@ function player_spawned() {
 // Checksum 0xefc57e8a, Offset: 0x578
 // Size: 0x102
 function function_80c05bda() {
-    self endon(#"disconnect", #"death", #"spawned_player", #"hash_23671b0c");
+    self endon(#"disconnect", #"death", #"spawned_player", #"killReplayGunMonitor");
     self thread function_c83c076b("weapon_switch_started", "grapple_weapon_change");
     self thread function_c83c076b("weapon_change_complete", "grapple_weapon_change");
     while (true) {
@@ -113,7 +113,7 @@ function watch_lockon(weapon) {
     while (true) {
         waitframe(1);
         if (!self isgrappling()) {
-            target = self function_43c5e4e9(weapon);
+            target = self get_a_target(weapon);
             if (!self isgrappling() && !(target === self.lockonentity)) {
                 self weaponlocknoclearance(!(target === self.dummy_target));
                 self.lockonentity = target;
@@ -162,7 +162,7 @@ function function_4f0d1ede(weapon) {
                     self weaponlocktargettooclose(0);
                     continue;
                 }
-                testorigin = function_9a6421f8(self.lockonentity);
+                testorigin = get_target_lock_on_origin(self.lockonentity);
                 if (!self function_2aaab717(testorigin, weapon, 0)) {
                     self weaponlocktargettooclose(1);
                     continue;
@@ -202,7 +202,7 @@ function function_b0a2c4bd(origin, forward, weapon) {
 // Params 1, eflags: 0x0
 // Checksum 0xeef3df70, Offset: 0xb70
 // Size: 0x3d4
-function function_43c5e4e9(weapon) {
+function get_a_target(weapon) {
     origin = self geteye();
     forward = self getweaponforwarddir();
     targets = getgrappletargetarray();
@@ -230,9 +230,9 @@ function function_43c5e4e9(weapon) {
         if (!is_valid_target(testtarget)) {
             continue;
         }
-        testorigin = function_9a6421f8(testtarget);
-        var_58ef943 = distance(origin, testorigin);
-        if (var_58ef943 > weapon.lockonmaxrange || var_58ef943 < weapon.lockonminrange) {
+        testorigin = get_target_lock_on_origin(testtarget);
+        test_range = distance(origin, testorigin);
+        if (test_range > weapon.lockonmaxrange || test_range < weapon.lockonminrange) {
             continue;
         }
         normal = vectornormalize(testorigin - origin);
@@ -249,7 +249,7 @@ function function_43c5e4e9(weapon) {
             validtargets[validtargets.size] = testtarget;
         }
     }
-    best = function_c0064c09(validtargets, origin, forward, weapon.lockonminrange, weapon.lockonmaxrange);
+    best = pick_a_target_from(validtargets, origin, forward, weapon.lockonminrange, weapon.lockonmaxrange);
     if (isdefined(level.var_46473359) && level.var_46473359) {
         if (!isdefined(best) || best === self.dummy_target) {
             best = function_b0a2c4bd(origin, forward, weapon);
@@ -296,7 +296,7 @@ function function_461aeeba(target, origin, forward, var_f2af12bd, max_range) {
         return 0;
     }
     if (is_valid_target(target)) {
-        testorigin = function_9a6421f8(target);
+        testorigin = get_target_lock_on_origin(target);
         normal = vectornormalize(testorigin - origin);
         dot = vectordot(forward, normal);
         targetdistance = distance(self.origin, testorigin);
@@ -311,7 +311,7 @@ function function_461aeeba(target, origin, forward, var_f2af12bd, max_range) {
 // Params 5, eflags: 0x0
 // Checksum 0x17819857, Offset: 0x11b8
 // Size: 0x140
-function function_c0064c09(targets, origin, forward, var_f2af12bd, max_range) {
+function pick_a_target_from(targets, origin, forward, var_f2af12bd, max_range) {
     if (!isdefined(targets)) {
         return undefined;
     }
@@ -351,12 +351,12 @@ function trace(from, to, target) {
 function can_see(target, target_origin, player_origin, player_forward, distance) {
     start = player_origin + player_forward * distance;
     end = target_origin - player_forward * distance;
-    var_ab69552f = self trace(start, end, target);
-    if (distance2dsquared(end, var_ab69552f) > 9) {
+    collided = self trace(start, end, target);
+    if (distance2dsquared(end, collided) > 9) {
         /#
             if (getdvarint("<dev string:x28>")) {
-                line(start, var_ab69552f, (0, 0, 1), 1, 0, 50);
-                line(var_ab69552f, end, (1, 0, 0), 1, 0, 50);
+                line(start, collided, (0, 0, 1), 1, 0, 50);
+                line(collided, end, (1, 0, 0), 1, 0, 50);
             }
         #/
         return false;
@@ -403,25 +403,25 @@ function function_2aaab717(testorigin, weapon, newtarget) {
 // Params 2, eflags: 0x0
 // Checksum 0x474893ae, Offset: 0x1670
 // Size: 0x4a
-function function_891f41a2(testorigin, weapon) {
+function inside_screen_crosshair_radius(testorigin, weapon) {
     radius = weapon.lockonscreenradius;
-    return self function_9814bbcd(testorigin, radius);
+    return self inside_screen_radius(testorigin, radius);
 }
 
 // Namespace grapple/grapple
 // Params 1, eflags: 0x0
 // Checksum 0x9d3c1df4, Offset: 0x16c8
 // Size: 0x4a
-function function_2718edba(targetorigin) {
+function inside_screen_lockon_radius(targetorigin) {
     radius = self getlockonradius();
-    return self function_9814bbcd(targetorigin, radius);
+    return self inside_screen_radius(targetorigin, radius);
 }
 
 // Namespace grapple/grapple
 // Params 2, eflags: 0x0
 // Checksum 0xfe1d6b9e, Offset: 0x1720
 // Size: 0x3a
-function function_9814bbcd(targetorigin, radius) {
+function inside_screen_radius(targetorigin, radius) {
     return target_originisincircle(targetorigin, self, 65, radius);
 }
 
@@ -429,7 +429,7 @@ function function_9814bbcd(targetorigin, radius) {
 // Params 1, eflags: 0x0
 // Checksum 0x7170712b, Offset: 0x1768
 // Size: 0x22
-function function_9a6421f8(target) {
+function get_target_lock_on_origin(target) {
     return self getlockonorigin(target);
 }
 

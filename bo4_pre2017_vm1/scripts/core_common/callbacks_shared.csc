@@ -369,11 +369,11 @@ function event_handler[gametype_precache] codecallback_precachegametype(eventstr
     }
 }
 
-// Namespace callback/gametype_start
+// Namespace callback/GameType_Start
 // Params 1, eflags: 0x40
 // Checksum 0xa1a83fc6, Offset: 0x11a0
 // Size: 0x64
-function event_handler[gametype_start] codecallback_startgametype(eventstruct) {
+function event_handler[GameType_Start] codecallback_startgametype(eventstruct) {
     if (!isdefined(level.gametypestarted) || isdefined(level.callbackstartgametype) && !level.gametypestarted) {
         [[ level.callbackstartgametype ]]();
         level.gametypestarted = 1;

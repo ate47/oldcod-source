@@ -552,7 +552,7 @@ function push_front(&array, val) {
 // Params 3, eflags: 0x0
 // Checksum 0x7b59d249, Offset: 0x2158
 // Size: 0x4c
-function function_b02c2d9b(org, &array, dist) {
+function get_closest(org, &array, dist) {
     if (!isdefined(dist)) {
         dist = undefined;
     }
@@ -595,7 +595,7 @@ function fartherfunc(dist1, dist2) {
 // Checksum 0x86290fdc, Offset: 0x2258
 // Size: 0xdc
 function get_all_farthest(org, &array, excluders, max) {
-    sorted_array = function_b02c2d9b(org, array, excluders);
+    sorted_array = get_closest(org, array, excluders);
     if (isdefined(max)) {
         temp_array = [];
         for (i = 0; i < sorted_array.size; i++) {

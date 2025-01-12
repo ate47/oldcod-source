@@ -140,7 +140,7 @@ function on_player_spawned() {
         self createhatchetwatcher();
         self function_1a67071e();
         self createtactinsertwatcher();
-        self namespace_5cffdc90::function_2347c7c7();
+        self hive_gun::function_2347c7c7();
         self setupretrievablewatcher();
         self thread watchweaponobjectusage();
         self.var_5607d0a8 = 1;
@@ -1160,7 +1160,7 @@ function createproximityweaponobjectwatcher(weaponname, ownerteam) {
 // Params 2, eflags: 0x0
 // Checksum 0x1971acd1, Offset: 0x4aa0
 // Size: 0x254
-function function_a4eee8b2(watcher, owner) {
+function commononspawnuseweaponobject(watcher, owner) {
     level endon(#"game_ended");
     self endon(#"death");
     self endon(#"hacked");
@@ -1256,8 +1256,8 @@ function proximityalarmloop(watcher, owner) {
             self proximityalarmactivate(0, watcher);
         } else if (alarmstatus == "on" && (alarmstatus != alarmstatusold || !isdefined(self.owner.var_697efff3))) {
             if (alarmstatus == "on") {
-                if (alarmstatusold == "off" && isdefined(watcher) && isdefined(watcher.var_1ef0506d)) {
-                    playsoundatposition(watcher.var_1ef0506d, self.origin + (0, 0, 32));
+                if (alarmstatusold == "off" && isdefined(watcher) && isdefined(watcher.proximityalarmactivatesound)) {
+                    playsoundatposition(watcher.proximityalarmactivatesound, self.origin + (0, 0, 32));
                 }
                 self proximityalarmactivate(1, watcher);
             } else {
@@ -1344,7 +1344,7 @@ function commononspawnuseweaponobjectproximityalarm(watcher, owner) {
 // Checksum 0x665be76e, Offset: 0x5620
 // Size: 0x54
 function onspawnuseweaponobject(watcher, owner) {
-    self thread function_a4eee8b2(watcher, owner);
+    self thread commononspawnuseweaponobject(watcher, owner);
     self thread commononspawnuseweaponobjectproximityalarm(watcher, owner);
 }
 
@@ -1354,7 +1354,7 @@ function onspawnuseweaponobject(watcher, owner) {
 // Size: 0xb4
 function onspawnproximityweaponobject(watcher, owner) {
     self.protected_entities = [];
-    self thread function_a4eee8b2(watcher, owner);
+    self thread commononspawnuseweaponobject(watcher, owner);
     if (isdefined(level._proximityweaponobjectdetonation_override)) {
         self thread [[ level._proximityweaponobjectdetonation_override ]](watcher);
     } else {

@@ -11,7 +11,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xe2a9962b, Offset: 0x398
 // Size: 0x2c
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("blood", undefined, &__postload_init__, undefined);
 }
 

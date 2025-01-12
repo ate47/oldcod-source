@@ -18,7 +18,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x65871f73, Offset: 0x300
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("values", &__init__, undefined, undefined);
 }
 

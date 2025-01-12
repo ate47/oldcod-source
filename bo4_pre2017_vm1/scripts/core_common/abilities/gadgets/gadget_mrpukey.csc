@@ -8,17 +8,17 @@
 #using scripts/core_common/system_shared;
 #using scripts/core_common/util_shared;
 
-#namespace namespace_d8cbbad5;
+#namespace gadget_mrpukey;
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 0, eflags: 0x2
 // Checksum 0xa8ea3b28, Offset: 0x218
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_mrpukey", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_d8cbbad5/namespace_d8cbbad5
+// Namespace gadget_mrpukey/gadget_mrpukey
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x258
 // Size: 0x4

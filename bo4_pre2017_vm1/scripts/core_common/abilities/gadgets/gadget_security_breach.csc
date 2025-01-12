@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xa0b4b3d0, Offset: 0x228
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_security_breach", &__init__, undefined, undefined);
 }
 

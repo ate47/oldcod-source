@@ -14,7 +14,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x6ddc96e6, Offset: 0x298
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_combat_efficiency", &__init__, undefined, undefined);
 }
 
@@ -24,8 +24,8 @@ function autoexec function_2dc19561() {
 // Size: 0xe4
 function __init__() {
     ability_player::register_gadget_activation_callbacks(15, &gadget_combat_efficiency_on_activate, &gadget_combat_efficiency_on_off);
-    ability_player::register_gadget_possession_callbacks(15, &function_ce638c14, &function_c4a4c062);
-    ability_player::register_gadget_flicker_callbacks(15, &function_1fb7ea1d);
+    ability_player::register_gadget_possession_callbacks(15, &gadget_combat_efficiency_on_give, &gadget_combat_efficiency_on_take);
+    ability_player::register_gadget_flicker_callbacks(15, &gadget_combat_efficiency_on_flicker);
     ability_player::register_gadget_is_inuse_callbacks(15, &gadget_combat_efficiency_is_inuse);
     ability_player::register_gadget_is_flickering_callbacks(15, &gadget_combat_efficiency_is_flickering);
     ability_player::register_gadget_ready_callbacks(15, &gadget_combat_efficiency_ready);
@@ -51,7 +51,7 @@ function gadget_combat_efficiency_is_flickering(slot) {
 // Params 2, eflags: 0x0
 // Checksum 0x9bceb172, Offset: 0x428
 // Size: 0x14
-function function_1fb7ea1d(slot, weapon) {
+function gadget_combat_efficiency_on_flicker(slot, weapon) {
     
 }
 
@@ -59,7 +59,7 @@ function function_1fb7ea1d(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x41eb8afa, Offset: 0x448
 // Size: 0x14
-function function_ce638c14(slot, weapon) {
+function gadget_combat_efficiency_on_give(slot, weapon) {
     
 }
 
@@ -67,7 +67,7 @@ function function_ce638c14(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x2d23b8c0, Offset: 0x468
 // Size: 0x14
-function function_c4a4c062(slot, weapon) {
+function gadget_combat_efficiency_on_take(slot, weapon) {
     
 }
 
@@ -75,7 +75,7 @@ function function_c4a4c062(slot, weapon) {
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x488
 // Size: 0x4
-function function_4efdcefb() {
+function gadget_combat_efficiency_on_connect() {
     
 }
 
@@ -83,7 +83,7 @@ function function_4efdcefb() {
 // Params 0, eflags: 0x0
 // Checksum 0x1ea70214, Offset: 0x498
 // Size: 0x10
-function function_66bfd148() {
+function gadget_combat_efficiency_on_spawn() {
     self.combatefficiencylastontime = 0;
 }
 

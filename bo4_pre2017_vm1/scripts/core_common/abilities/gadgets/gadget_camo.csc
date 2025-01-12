@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0xce2f3d93, Offset: 0x2f8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_camo", &__init__, undefined, undefined);
 }
 
@@ -25,18 +25,18 @@ function autoexec function_2dc19561() {
 // Checksum 0x4759628d, Offset: 0x338
 // Size: 0x4c
 function __init__() {
-    clientfield::register("allplayers", "camo_shader", 1, 3, "int", &function_f532bd65, 0, 1);
+    clientfield::register("allplayers", "camo_shader", 1, 3, "int", &ent_camo_material_callback, 0, 1);
 }
 
 // Namespace gadget_camo/gadget_camo
 // Params 7, eflags: 0x0
 // Checksum 0x466f9809, Offset: 0x390
 // Size: 0x274
-function function_f532bd65(local_client_num, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
+function ent_camo_material_callback(local_client_num, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
     if (oldval == newval && oldval == 0 && !bwastimejump) {
         return;
     }
-    flags_changed = self duplicate_render::set_dr_flag_not_array("gadget_camo_friend", util::function_f36b8920(local_client_num, 1));
+    flags_changed = self duplicate_render::set_dr_flag_not_array("gadget_camo_friend", util::friend_not_foe(local_client_num, 1));
     flags_changed |= self duplicate_render::set_dr_flag_not_array("gadget_camo_flicker", newval == 2);
     flags_changed |= self duplicate_render::set_dr_flag_not_array("gadget_camo_break", newval == 3);
     flags_changed |= self duplicate_render::set_dr_flag_not_array("gadget_camo_reveal", newval != oldval);

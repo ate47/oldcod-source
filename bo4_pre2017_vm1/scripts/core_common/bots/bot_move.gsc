@@ -8,43 +8,43 @@
 #using scripts/core_common/util_shared;
 #using scripts/core_common/utility_eval;
 
-#namespace namespace_d9f95110;
+#namespace bot_move;
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x2
 // Checksum 0x7003da83, Offset: 0x2a0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("bot_move", &__init__, undefined, undefined);
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x284e2927, Offset: 0x2e0
 // Size: 0xa4
 function __init__() {
-    level.var_7c7d578b = [];
-    function_9eedbbca("default", &sprint, &walk, &function_957a877c);
-    function_9eedbbca("companion", &sprint, &walk, &function_957a877c);
+    level.botstancetables = [];
+    register_bot_stance_table("default", &sprint, &walk, &cover_node_stance);
+    register_bot_stance_table("companion", &sprint, &walk, &cover_node_stance);
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 4, eflags: 0x0
 // Checksum 0xd7667fe1, Offset: 0x390
 // Size: 0x92
-function function_9eedbbca(name, var_21f0f22, var_d7983787, var_628c53c5) {
+function register_bot_stance_table(name, notingoalfunc, ingoalfunc, atpositionfunc) {
     table = spawnstruct();
-    table.var_21f0f22 = var_21f0f22;
-    table.var_d7983787 = var_d7983787;
-    table.var_628c53c5 = var_628c53c5;
-    level.var_7c7d578b[name] = table;
+    table.notingoalfunc = notingoalfunc;
+    table.ingoalfunc = ingoalfunc;
+    table.atpositionfunc = atpositionfunc;
+    level.botstancetables[name] = table;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 3, eflags: 0x0
 // Checksum 0x2d7471a, Offset: 0x430
 // Size: 0x212
-function function_2ea4aef7(var_5650366c, var_aeda73e, var_3150b3e) {
+function priority_update_position(pathablequery, usequery, touchquery) {
     if (self.goalforced) {
         /#
             self record_text("<dev string:x28>", (0, 1, 1));
@@ -52,73 +52,73 @@ function function_2ea4aef7(var_5650366c, var_aeda73e, var_3150b3e) {
         self.overridepos = undefined;
         return 1;
     }
-    center = self function_3ea3eeba();
+    center = self get_priority_center();
     if (!isdefined(center)) {
         return 0;
     }
-    fillpos = self get_pathable_point(var_5650366c, center, (0, 1, 1));
+    fillpos = self get_pathable_point(pathablequery, center, (0, 1, 1));
     if (!isdefined(fillpos)) {
         return 0;
     }
     centerpos = center.origin;
-    var_b23bef1e = undefined;
-    var_a925cc7a = self function_6e40efe0(centerpos, var_b23bef1e);
+    fwdpos = undefined;
+    sidepos = self get_side_pos(centerpos, fwdpos);
     enemy = self get_enemy();
     /#
         recordline(centerpos, self.origin, (0, 1, 1), "<dev string:x49>", self);
-        self function_57994579(center, fillpos, centerpos, var_b23bef1e, var_a925cc7a, enemy);
+        self record_parameters(center, fillpos, centerpos, fwdpos, sidepos, enemy);
     #/
-    var_d6e8de62 = function_30950e6a(center, var_aeda73e, var_3150b3e);
-    return self function_14ea14e0(var_d6e8de62, center, fillpos, centerpos, var_b23bef1e, var_a925cc7a, enemy, (0, 1, 1));
+    queryname = pick_priority_center_query(center, usequery, touchquery);
+    return self pick_tactical_position(queryname, center, fillpos, centerpos, fwdpos, sidepos, enemy, (0, 1, 1));
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x6d8d14de, Offset: 0x650
 // Size: 0xb2
-function function_3ea3eeba() {
-    center = self function_3fe05b06();
+function get_priority_center() {
+    center = self get_assigned_objective_center();
     if (isdefined(center)) {
         return center;
     }
-    center = self function_8fdebdaa();
+    center = self get_protectent_objective_center();
     if (isdefined(center)) {
         return center;
     }
-    center = self function_7394ab3e();
+    center = self get_protectent_revive_center();
     if (isdefined(center)) {
         return center;
     }
-    center = self function_dfb9a0e7();
+    center = self get_friendly_revive_center();
     if (isdefined(center)) {
         return center;
     }
     return undefined;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0xfefceeb7, Offset: 0x710
 // Size: 0xaa
-function function_3fe05b06() {
+function get_assigned_objective_center() {
     if (self laststand::player_is_in_laststand()) {
         return;
     }
-    objective = self bot::function_12ce9d6f();
+    objective = self bot::get_objective();
     if (!isdefined(objective)) {
         return undefined;
     }
     /#
         self record_text("<dev string:x52>", (0, 1, 1));
     #/
-    return self function_2741a3fe(objective.trigger, (0, 1, 1));
+    return self get_trigger_center(objective.trigger, (0, 1, 1));
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x4a2531f2, Offset: 0x7c8
 // Size: 0x1cc
-function function_8fdebdaa() {
+function get_protectent_objective_center() {
     if (self laststand::player_is_in_laststand()) {
         return;
     }
@@ -132,16 +132,16 @@ function function_8fdebdaa() {
         /#
             self record_text("<dev string:x71>", (0, 1, 1));
         #/
-        return self function_2741a3fe(objective.trigger, (0, 1, 1));
+        return self get_trigger_center(objective.trigger, (0, 1, 1));
     }
     return undefined;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0xac09a94c, Offset: 0x9a0
 // Size: 0x102
-function function_7394ab3e() {
+function get_protectent_revive_center() {
     if (self laststand::player_is_in_laststand()) {
         return;
     }
@@ -152,14 +152,14 @@ function function_7394ab3e() {
         self record_text("<dev string:xa3>", (0, 1, 1));
     #/
     self bot::set_revive_target(self.protectent);
-    return self function_2741a3fe(self.protectent.revivetrigger, (0, 1, 1));
+    return self get_trigger_center(self.protectent.revivetrigger, (0, 1, 1));
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x64e6ebae, Offset: 0xab0
 // Size: 0x3ae
-function function_dfb9a0e7() {
+function get_friendly_revive_center() {
     if (self laststand::player_is_in_laststand()) {
         return;
     }
@@ -181,9 +181,9 @@ function function_dfb9a0e7() {
             if (!otherplayer isbot() || otherplayer.team != self.team || otherplayer == player || otherplayer laststand::player_is_in_laststand()) {
                 continue;
             }
-            var_ab5142b9 = otherplayer bot::get_revive_target();
-            if (isdefined(var_ab5142b9)) {
-                if (player == var_ab5142b9) {
+            otherrevivetarget = otherplayer bot::get_revive_target();
+            if (isdefined(otherrevivetarget)) {
+                if (player == otherrevivetarget) {
                     break;
                 }
                 continue;
@@ -192,7 +192,7 @@ function function_dfb9a0e7() {
                 pixendevent();
                 aiprofile_endentry();
                 self bot::set_revive_target(player);
-                return self function_2741a3fe(player.revivetrigger, (0, 1, 1));
+                return self get_trigger_center(player.revivetrigger, (0, 1, 1));
             }
             break;
         }
@@ -202,11 +202,11 @@ function function_dfb9a0e7() {
     return undefined;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 2, eflags: 0x0
 // Checksum 0xd0b4272e, Offset: 0xe68
 // Size: 0x190
-function function_2741a3fe(trigger, debugcolor) {
+function get_trigger_center(trigger, debugcolor) {
     if (!issubstr(trigger.classname, "radius")) {
         return trigger;
     }
@@ -225,26 +225,26 @@ function function_2741a3fe(trigger, debugcolor) {
     return trigger;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 3, eflags: 0x0
 // Checksum 0xe55a3648, Offset: 0x1000
 // Size: 0x70
-function function_30950e6a(center, var_aeda73e, var_3150b3e) {
+function pick_priority_center_query(center, usequery, touchquery) {
     if (!isentity(center)) {
-        return var_aeda73e;
+        return usequery;
     }
     if (issubstr(center.classname, "use")) {
-        return var_aeda73e;
+        return usequery;
     }
-    return var_3150b3e;
+    return touchquery;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 3, eflags: 0x0
 // Checksum 0xbf0d5f7c, Offset: 0x1078
 // Size: 0x212
-function function_53b0caa0(var_5650366c, var_d6e8de62, var_8a136cb0) {
-    if (!isdefined(var_d6e8de62) && !isdefined(var_8a136cb0)) {
+function update_position(pathablequery, queryname, fallbackqueryname) {
+    if (!isdefined(queryname) && !isdefined(fallbackqueryname)) {
         /#
             self record_text("<dev string:xd9>", (0, 1, 0));
         #/
@@ -254,24 +254,24 @@ function function_53b0caa0(var_5650366c, var_d6e8de62, var_8a136cb0) {
         self record_text("<dev string:xf0>", (0, 1, 0));
     #/
     center = self get_goal_center((0, 1, 0));
-    fillpos = self get_pathable_point(var_5650366c, center, (0, 1, 0));
+    fillpos = self get_pathable_point(pathablequery, center, (0, 1, 0));
     if (!isdefined(fillpos)) {
         return 0;
     }
     centerpos = center.origin;
-    var_b23bef1e = self function_c28bf13a();
-    var_a925cc7a = self function_6e40efe0(centerpos, var_b23bef1e);
+    fwdpos = self get_goal_fwd_pos();
+    sidepos = self get_side_pos(centerpos, fwdpos);
     enemy = self get_enemy();
     /#
-        self function_57994579(center, fillpos, centerpos, var_b23bef1e, var_a925cc7a, enemy);
+        self record_parameters(center, fillpos, centerpos, fwdpos, sidepos, enemy);
     #/
-    if (self function_14ea14e0(var_d6e8de62, center, fillpos, centerpos, var_b23bef1e, var_a925cc7a, enemy, (0, 1, 0))) {
+    if (self pick_tactical_position(queryname, center, fillpos, centerpos, fwdpos, sidepos, enemy, (0, 1, 0))) {
         return 1;
     }
-    return self function_14ea14e0(var_8a136cb0, center, fillpos, centerpos, var_b23bef1e, var_a925cc7a, enemy, (0, 1, 0));
+    return self pick_tactical_position(fallbackqueryname, center, fillpos, centerpos, fwdpos, sidepos, enemy, (0, 1, 0));
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 1, eflags: 0x0
 // Checksum 0x4d377175, Offset: 0x1298
 // Size: 0x198
@@ -291,38 +291,38 @@ function get_goal_center(debugcolor) {
     return center;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x61b63986, Offset: 0x1438
 // Size: 0x72
-function function_c28bf13a() {
+function get_goal_fwd_pos() {
     if (isdefined(self.goalent)) {
         fwd = anglestoforward(self.goalent.angles) * 50;
-        var_b23bef1e = self.goalent.origin + fwd;
-        return var_b23bef1e;
+        fwdpos = self.goalent.origin + fwd;
+        return fwdpos;
     }
     return undefined;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 2, eflags: 0x0
 // Checksum 0x8c885778, Offset: 0x14b8
 // Size: 0xea
-function function_6e40efe0(pos, var_b23bef1e) {
-    if (!isdefined(var_b23bef1e)) {
+function get_side_pos(pos, fwdpos) {
+    if (!isdefined(fwdpos)) {
         return undefined;
     }
-    var_13f655e5 = var_b23bef1e - pos;
+    fwddir = fwdpos - pos;
     selfdir = self.origin - pos;
     selfdir = (selfdir[0], selfdir[1], 0);
-    var_dff3a439 = vectorprojection(selfdir, var_13f655e5);
-    var_1f16c011 = selfdir - var_dff3a439;
-    var_1f16c011 = vectornormalize(var_1f16c011);
-    var_a925cc7a = pos + var_1f16c011 * 50;
-    return var_a925cc7a;
+    fwdproj = vectorprojection(selfdir, fwddir);
+    sidedir = selfdir - fwdproj;
+    sidedir = vectornormalize(sidedir);
+    sidepos = pos + sidedir * 50;
+    return sidepos;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x4090f5d7, Offset: 0x15b0
 // Size: 0xe
@@ -330,27 +330,27 @@ function get_enemy() {
     return self.enemy;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 8, eflags: 0x0
 // Checksum 0xe9bf9d54, Offset: 0x15c8
 // Size: 0x3ae
-function function_14ea14e0(var_d6e8de62, center, fillpos, centerpos, var_b23bef1e, var_a925cc7a, enemy, debugcolor) {
-    if (!isdefined(var_d6e8de62)) {
+function pick_tactical_position(queryname, center, fillpos, centerpos, fwdpos, sidepos, enemy, debugcolor) {
+    if (!isdefined(queryname)) {
         return false;
     }
     pixbeginevent("bot_pick_tactical_position");
     aiprofile_beginentry("bot_pick_tactical_position");
-    tacpoints = tacticalquery(var_d6e8de62, center, fillpos, centerpos, isdefined(var_b23bef1e) ? var_b23bef1e : centerpos, isdefined(var_a925cc7a) ? var_a925cc7a : centerpos, isdefined(enemy) ? enemy : centerpos, self);
+    tacpoints = tacticalquery(queryname, center, fillpos, centerpos, isdefined(fwdpos) ? fwdpos : centerpos, isdefined(sidepos) ? sidepos : centerpos, isdefined(enemy) ? enemy : centerpos, self);
     pixendevent();
     aiprofile_endentry();
     if (tacpoints.size <= 0) {
         /#
-            self record_text("<dev string:x101>" + var_d6e8de62 + "<dev string:x105>", debugcolor);
+            self record_text("<dev string:x101>" + queryname + "<dev string:x105>", debugcolor);
         #/
         return false;
     }
     /#
-        self record_text("<dev string:x101>" + var_d6e8de62 + "<dev string:x117>" + tacpoints.size + "<dev string:x11a>", debugcolor);
+        self record_text("<dev string:x101>" + queryname + "<dev string:x117>" + tacpoints.size + "<dev string:x11a>", debugcolor);
     #/
     pickedpoint = undefined;
     foreach (tacpoint in tacpoints) {
@@ -381,17 +381,17 @@ function function_14ea14e0(var_d6e8de62, center, fillpos, centerpos, var_b23bef1
     return true;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 3, eflags: 0x0
 // Checksum 0xec3b2b8b, Offset: 0x1980
 // Size: 0x334
-function get_pathable_point(var_d6e8de62, center, debugcolor) {
-    if (!isdefined(var_d6e8de62)) {
+function get_pathable_point(queryname, center, debugcolor) {
+    if (!isdefined(queryname)) {
         return undefined;
     }
     pixbeginevent("bot_get_pathable_point");
     aiprofile_beginentry("bot_get_pathable_point");
-    tacpoints = tacticalquery(var_d6e8de62, center);
+    tacpoints = tacticalquery(queryname, center);
     if (tacpoints.size <= 0) {
         pixendevent();
         aiprofile_endentry();
@@ -430,7 +430,7 @@ function get_pathable_point(var_d6e8de62, center, debugcolor) {
 
 /#
 
-    // Namespace namespace_d9f95110/namespace_d9f95110
+    // Namespace bot_move/bot_move
     // Params 2, eflags: 0x0
     // Checksum 0x6fcf7353, Offset: 0x1cc0
     // Size: 0x64
@@ -440,21 +440,21 @@ function get_pathable_point(var_d6e8de62, center, debugcolor) {
         }
     }
 
-    // Namespace namespace_d9f95110/namespace_d9f95110
+    // Namespace bot_move/bot_move
     // Params 6, eflags: 0x0
     // Checksum 0x55039a22, Offset: 0x1d30
     // Size: 0x1dc
-    function function_57994579(center, fillpos, centerpos, var_b23bef1e, var_a925cc7a, enemy) {
+    function record_parameters(center, fillpos, centerpos, fwdpos, sidepos, enemy) {
         if (self bot::should_record("<dev string:xca>")) {
             recordline(fillpos, fillpos + (0, 0, 100), (1, 0, 1), "<dev string:x49>", self);
             recordstar(fillpos, (0, 1, 1), "<dev string:x49>", self);
-            if (isdefined(var_b23bef1e)) {
-                recordline(centerpos, var_b23bef1e, (0, 0, 1), "<dev string:x49>", self);
-                recordstar(var_b23bef1e, (0, 0, 1), "<dev string:x49>", self);
+            if (isdefined(fwdpos)) {
+                recordline(centerpos, fwdpos, (0, 0, 1), "<dev string:x49>", self);
+                recordstar(fwdpos, (0, 0, 1), "<dev string:x49>", self);
             }
-            if (isdefined(var_a925cc7a)) {
-                recordline(centerpos, var_a925cc7a, (1, 0, 1), "<dev string:x49>", self);
-                recordstar(var_a925cc7a, (1, 0, 1), "<dev string:x49>", self);
+            if (isdefined(sidepos)) {
+                recordline(centerpos, sidepos, (1, 0, 1), "<dev string:x49>", self);
+                recordstar(sidepos, (1, 0, 1), "<dev string:x49>", self);
             }
             if (isdefined(enemy)) {
                 enemypos = isentity(enemy) ? enemy.origin : enemy;
@@ -466,73 +466,73 @@ function get_pathable_point(var_d6e8de62, center, debugcolor) {
 
 #/
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x101e005e, Offset: 0x1f18
 // Size: 0x64
-function function_80f06707() {
+function start_handling_events() {
     self thread handle_path_success();
     self thread handle_path_failed();
     self thread handle_goal_reached();
     self thread handle_goal_changed();
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0xb677e892, Offset: 0x1f88
 // Size: 0x12
-function function_39041145() {
-    self notify(#"hash_f47db3f7");
+function stop_handling_events() {
+    self notify(#"bot_move_stop");
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x64a3e562, Offset: 0x1fa8
 // Size: 0x58
 function handle_path_success() {
     self endon(#"death");
-    self endon(#"hash_f47db3f7");
+    self endon(#"bot_move_stop");
     level endon(#"game_ended");
     while (true) {
         self waittill("bot_path_success");
-        self function_3d54f865();
+        self update_stance();
     }
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x8786c9ab, Offset: 0x2008
 // Size: 0x46
 function handle_path_failed() {
     self endon(#"death");
-    self endon(#"hash_f47db3f7");
+    self endon(#"bot_move_stop");
     level endon(#"game_ended");
     while (true) {
         self waittill("bot_path_failed");
     }
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x88819be3, Offset: 0x2058
 // Size: 0x58
 function handle_goal_reached() {
     self endon(#"death");
-    self endon(#"hash_f47db3f7");
+    self endon(#"bot_move_stop");
     level endon(#"game_ended");
     while (true) {
         self waittill("bot_goal_reached");
-        self function_3d54f865();
+        self update_stance();
     }
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x482032, Offset: 0x20b8
 // Size: 0x5a
 function handle_goal_changed() {
     self endon(#"death");
-    self endon(#"hash_f47db3f7");
+    self endon(#"bot_move_stop");
     level endon(#"game_ended");
     while (true) {
         self waittill("goal_changed");
@@ -542,42 +542,42 @@ function handle_goal_changed() {
     }
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x7e6c090b, Offset: 0x2120
 // Size: 0xec
-function function_3d54f865() {
-    name = self bot::function_fab42cc7();
-    stance = level.var_7c7d578b[name];
+function update_stance() {
+    name = self bot::get_stance_table_name();
+    stance = level.botstancetables[name];
     if (!self isingoal(self.origin)) {
-        self [[ stance.var_21f0f22 ]]();
+        self [[ stance.notingoalfunc ]]();
         return;
     }
     if (self haspath()) {
-        self [[ stance.var_d7983787 ]]();
+        self [[ stance.ingoalfunc ]]();
         return;
     }
     node = self bot::get_position_node();
-    self [[ stance.var_628c53c5 ]](node);
+    self [[ stance.atpositionfunc ]](node);
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 3, eflags: 0x0
 // Checksum 0xdefc3ca8, Offset: 0x2218
 // Size: 0x78
-function function_dd550d46(var_e94ccbe0, var_d65c492d, var_dd259df) {
+function create_bot_stance(notingoal, ingoal, atposition) {
     stance = spawnstruct();
-    stance.var_e94ccbe0 = var_e94ccbe0;
-    stance.var_d65c492d = var_d65c492d;
-    stance.var_dd259df = var_dd259df;
+    stance.notingoal = notingoal;
+    stance.ingoal = ingoal;
+    stance.atposition = atposition;
     return stance;
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 1, eflags: 0x0
 // Checksum 0x9ec2ce4, Offset: 0x2298
 // Size: 0xe4
-function function_957a877c(node) {
+function cover_node_stance(node) {
     if (!isdefined(node)) {
         self walk();
         return;
@@ -597,7 +597,7 @@ function function_957a877c(node) {
     self walk();
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0xd1dfa213, Offset: 0x2388
 // Size: 0x4c
@@ -607,7 +607,7 @@ function sprint() {
     self botreleasebutton(8);
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0xa4ae61a5, Offset: 0x23e0
 // Size: 0x4c
@@ -617,7 +617,7 @@ function walk() {
     self botreleasebutton(8);
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0x1996b284, Offset: 0x2438
 // Size: 0x4c
@@ -627,7 +627,7 @@ function crouch() {
     self botreleasebutton(8);
 }
 
-// Namespace namespace_d9f95110/namespace_d9f95110
+// Namespace bot_move/bot_move
 // Params 0, eflags: 0x0
 // Checksum 0xcd5ff56d, Offset: 0x2490
 // Size: 0x4c

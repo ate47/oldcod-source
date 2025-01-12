@@ -34,7 +34,7 @@ function gadget_slot_for_type(type) {
 // Params 0, eflags: 0x0
 // Checksum 0xd0b5a7a8, Offset: 0x258
 // Size: 0x1a
-function function_7bf047db() {
+function gadget_is_camo_suit_on() {
     return gadget_is_active(2);
 }
 
@@ -65,7 +65,7 @@ function gadget_combat_efficiency_power_drain(score) {
 // Params 0, eflags: 0x0
 // Checksum 0x62a673b6, Offset: 0x350
 // Size: 0x66
-function function_625fb64c() {
+function gadget_is_camo_suit_flickering() {
     slot = self gadget_slot_for_type(2);
     if (slot >= 0 && slot < 4) {
         if (self ability_player::gadget_is_flickering(slot)) {
@@ -79,7 +79,7 @@ function function_625fb64c() {
 // Params 0, eflags: 0x0
 // Checksum 0x8c5dad1a, Offset: 0x3c0
 // Size: 0x1a
-function function_db4e8ae0() {
+function gadget_is_escort_drone_on() {
     return gadget_is_active(5);
 }
 
@@ -88,8 +88,8 @@ function function_db4e8ae0() {
 // Checksum 0x9477bb3e, Offset: 0x3e8
 // Size: 0x96
 function is_weapon_gadget(weapon) {
-    foreach (var_493ae09d, var_1ca59e0d in level._gadgets_level) {
-        if (var_493ae09d == weapon) {
+    foreach (gadget_key, gadget_val in level._gadgets_level) {
+        if (gadget_key == weapon) {
             return true;
         }
     }
@@ -112,7 +112,7 @@ function gadget_power_reset(gadgetweapon) {
 // Params 1, eflags: 0x0
 // Checksum 0x10495d4d, Offset: 0x518
 // Size: 0x7c
-function function_aa8c40c1(gadgetweapon) {
+function gadget_power_full(gadgetweapon) {
     slot = self gadgetgetslot(gadgetweapon);
     if (slot >= 0 && slot < 4) {
         self gadgetpowerset(slot, 100);

@@ -16,7 +16,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x2c57c275, Offset: 0x370
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_vision_pulse", &__init__, undefined, undefined);
 }
 
@@ -26,11 +26,11 @@ function autoexec function_2dc19561() {
 // Size: 0x19c
 function __init__() {
     ability_player::register_gadget_activation_callbacks(6, &gadget_vision_pulse_on, &gadget_vision_pulse_off);
-    ability_player::register_gadget_possession_callbacks(6, &function_97e4169e, &function_bfa5bd70);
+    ability_player::register_gadget_possession_callbacks(6, &gadget_vision_pulse_on_give, &gadget_vision_pulse_on_take);
     ability_player::register_gadget_flicker_callbacks(6, &gadget_vision_pulse_on_flicker);
     ability_player::register_gadget_is_inuse_callbacks(6, &gadget_vision_pulse_is_inuse);
     ability_player::register_gadget_is_flickering_callbacks(6, &gadget_vision_pulse_is_flickering);
-    callback::on_connect(&function_e8ada75);
+    callback::on_connect(&gadget_vision_pulse_on_connect);
     callback::on_spawned(&gadget_vision_pulse_on_spawn);
     clientfield::register("toplayer", "vision_pulse_active", 1, 1, "int");
     if (!isdefined(level.vsmgr_prio_visionset_visionpulse)) {
@@ -67,7 +67,7 @@ function gadget_vision_pulse_on_flicker(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0xa36290c1, Offset: 0x600
 // Size: 0x14
-function function_97e4169e(slot, weapon) {
+function gadget_vision_pulse_on_give(slot, weapon) {
     
 }
 
@@ -75,7 +75,7 @@ function function_97e4169e(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x8a40fee, Offset: 0x620
 // Size: 0x14
-function function_bfa5bd70(slot, weapon) {
+function gadget_vision_pulse_on_take(slot, weapon) {
     
 }
 
@@ -83,7 +83,7 @@ function function_bfa5bd70(slot, weapon) {
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x640
 // Size: 0x4
-function function_e8ada75() {
+function gadget_vision_pulse_on_connect() {
     
 }
 
@@ -198,7 +198,7 @@ function gadget_vision_pulse_start(slot, weapon) {
     self.visionpulsespottedenemy = [];
     self.visionpulsespottedenemytime = gettime();
     for (i = 0; i < visionpulsearray.size; i++) {
-        if (visionpulsearray[i] gadget_camo::function_6b246a0f() == 0) {
+        if (visionpulsearray[i] gadget_camo::camo_is_inuse() == 0) {
             self.visionpulsearray[self.visionpulsearray.size] = visionpulsearray[i];
             self.visionpulseoriginarray[self.visionpulseoriginarray.size] = visionpulsearray[i].origin;
             if (isalive(visionpulsearray[i]) && visionpulsearray[i].team != self.team) {

@@ -10,7 +10,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x4f4c45c9, Offset: 0x1b8
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("status_effect_pulse", &__init__, undefined, undefined);
 }
 

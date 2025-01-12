@@ -15,7 +15,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x7d3bc6b6, Offset: 0x368
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("repulsor", &__init__, undefined, undefined);
 }
 
@@ -32,7 +32,7 @@ function guard(target) {
 // Checksum 0x1ac666f4, Offset: 0x3d8
 // Size: 0x5c
 function __init__() {
-    vehicle::add_main_callback("repulsor", &function_1f003b2c);
+    vehicle::add_main_callback("repulsor", &repulsor_initialize);
     clientfield::register("vehicle", "pulse_fx", 1, 1, "counter");
 }
 
@@ -40,7 +40,7 @@ function __init__() {
 // Params 0, eflags: 0x0
 // Checksum 0x38885d40, Offset: 0x440
 // Size: 0x20c
-function function_1f003b2c() {
+function repulsor_initialize() {
     self useanimtree(#generic);
     self.health = self.healthdefault;
     self vehicle::friendly_fire_shield();
@@ -65,7 +65,7 @@ function function_1f003b2c() {
         [[ level.vehicle_initializer_cb ]](self);
     }
     self.lastdamagetime = 0;
-    function_d8a5e619();
+    enable_repulsor();
     defaultrole();
 }
 
@@ -86,7 +86,7 @@ function defaultrole() {
 // Size: 0x3dc
 function state_death_update(params) {
     self endon(#"death");
-    function_dd8d3882();
+    remove_repulsor();
     if (isarray(self.followers)) {
         foreach (follower in self.followers) {
             if (isdefined(follower)) {
@@ -210,7 +210,7 @@ function get_guard_points(owner) {
 // Params 0, eflags: 0x0
 // Checksum 0xe8badf21, Offset: 0xfa0
 // Size: 0x15e
-function function_dbe26b0() {
+function update_guard_target() {
     if (isalive(self.host)) {
         return;
     }
@@ -276,7 +276,7 @@ function state_guard_update(params) {
     pointindex = 0;
     stuckcount = 0;
     while (true) {
-        function_dbe26b0();
+        update_guard_target();
         if (!isalive(self.host)) {
             wait 0.5;
             continue;
@@ -331,23 +331,23 @@ function state_guard_update(params) {
                 }
             }
         }
-        var_5d2d35ad = undefined;
+        airfollowingposition = undefined;
         if (onnavvolume) {
             self.vehaircraftcollisionenabled = 1;
-            var_5d2d35ad = self vehicle_ai::getairfollowingposition(1);
+            airfollowingposition = self vehicle_ai::getairfollowingposition(1);
         }
-        if (isdefined(var_5d2d35ad)) {
+        if (isdefined(airfollowingposition)) {
             if (vehicle_ai::timesince(self.lastdamagetime) < 1.5) {
-                if (!isdefined(self.var_4923c36b)) {
-                    self.var_4923c36b = math::point_on_sphere_even_distribution(100, randomint(80), 100);
+                if (!isdefined(self.evasiveoffset)) {
+                    self.evasiveoffset = math::point_on_sphere_even_distribution(100, randomint(80), 100);
                 }
-                self.current_pathto_pos = self getclosestpointonnavvolume(var_5d2d35ad + 100 * self.var_4923c36b, 60);
+                self.current_pathto_pos = self getclosestpointonnavvolume(airfollowingposition + 100 * self.evasiveoffset, 60);
                 if (!isdefined(self.current_pathto_pos)) {
-                    self.current_pathto_pos = var_5d2d35ad;
+                    self.current_pathto_pos = airfollowingposition;
                 }
             } else {
-                self.var_4923c36b = undefined;
-                self.current_pathto_pos = var_5d2d35ad;
+                self.evasiveoffset = undefined;
+                self.current_pathto_pos = airfollowingposition;
             }
         }
         if (isdefined(self.current_pathto_pos)) {
@@ -408,14 +408,14 @@ function path_update_interrupt() {
 // Params 0, eflags: 0x0
 // Checksum 0x343fe9e, Offset: 0x1a88
 // Size: 0xf8
-function function_4d94f2a0() {
-    self notify(#"hash_d27732d2");
-    self endon(#"hash_d27732d2");
+function repulsor_fx() {
+    self notify(#"end_repulsor_fx");
+    self endon(#"end_repulsor_fx");
     self endon(#"death");
     while (true) {
         self waittill("projectile_applyattractor", "play_meleefx");
         if (vehicle_ai::iscooldownready("repulsorfx_interval")) {
-            playfxontag(self.settings.var_27def451, self, "tag_origin");
+            playfxontag(self.settings.trophyrepulsefx, self, "tag_origin");
             self clientfield::increment("pulse_fx", 1);
             vehicle_ai::cooldown("repulsorfx_interval", 0.5);
             self playsound("wpn_quadtank_shield_impact");
@@ -427,23 +427,23 @@ function function_4d94f2a0() {
 // Params 0, eflags: 0x0
 // Checksum 0x62c1759d, Offset: 0x1b88
 // Size: 0x64
-function function_d8a5e619() {
-    if (!isdefined(self.var_3ab5b78c)) {
-        self.var_3ab5b78c = missile_createrepulsorent(self, 40000, self.settings.var_316e3dc7, 1);
+function enable_repulsor() {
+    if (!isdefined(self.missile_repulsor)) {
+        self.missile_repulsor = missile_createrepulsorent(self, 40000, self.settings.trophysystemrange, 1);
     }
-    self thread function_4d94f2a0();
+    self thread repulsor_fx();
 }
 
 // Namespace repulsor/repulsor
 // Params 0, eflags: 0x0
 // Checksum 0x154aa8c4, Offset: 0x1bf8
 // Size: 0x42
-function function_dd8d3882() {
-    if (isdefined(self.var_3ab5b78c)) {
-        missile_deleteattractor(self.var_3ab5b78c);
-        self.var_3ab5b78c = undefined;
+function remove_repulsor() {
+    if (isdefined(self.missile_repulsor)) {
+        missile_deleteattractor(self.missile_repulsor);
+        self.missile_repulsor = undefined;
     }
-    self notify(#"hash_d27732d2");
+    self notify(#"end_repulsor_fx");
 }
 
 // Namespace repulsor/repulsor

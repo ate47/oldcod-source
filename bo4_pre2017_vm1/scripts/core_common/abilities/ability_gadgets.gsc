@@ -8,7 +8,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x9ad28ce2, Offset: 0x120
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("ability_gadgets", &__init__, undefined, undefined);
 }
 
@@ -63,22 +63,22 @@ function on_player_spawned() {
     
 }
 
-// Namespace ability_gadgets/gadget_give
+// Namespace ability_gadgets/Gadget_Give
 // Params 1, eflags: 0x40
 // Checksum 0xce96d407, Offset: 0x2a0
 // Size: 0x84
-function event_handler[gadget_give] gadget_give_callback(eventstruct) {
+function event_handler[Gadget_Give] gadget_give_callback(eventstruct) {
     /#
         eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x47>");
     #/
     eventstruct.entity ability_player::give_gadget(eventstruct.slot, eventstruct.weapon);
 }
 
-// Namespace ability_gadgets/gadget_take
+// Namespace ability_gadgets/Gadget_Take
 // Params 1, eflags: 0x40
 // Checksum 0x20a18f54, Offset: 0x330
 // Size: 0x84
-function event_handler[gadget_take] gadget_take_callback(eventstruct) {
+function event_handler[Gadget_Take] gadget_take_callback(eventstruct) {
     /#
         eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x51>");
     #/
@@ -107,22 +107,22 @@ function event_handler[gadget_ready] gadget_ready_callback(eventstruct) {
     eventstruct.entity ability_player::gadget_ready(eventstruct.slot, eventstruct.weapon);
 }
 
-// Namespace ability_gadgets/gadget_on
+// Namespace ability_gadgets/Gadget_On
 // Params 1, eflags: 0x40
 // Checksum 0x43dc5b8f, Offset: 0x4e0
 // Size: 0x84
-function event_handler[gadget_on] gadget_on_callback(eventstruct) {
+function event_handler[Gadget_On] gadget_on_callback(eventstruct) {
     /#
         eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x72>");
     #/
     eventstruct.entity ability_player::turn_gadget_on(eventstruct.slot, eventstruct.weapon);
 }
 
-// Namespace ability_gadgets/gadget_off
+// Namespace ability_gadgets/Gadget_Off
 // Params 1, eflags: 0x40
 // Checksum 0xca0f1428, Offset: 0x570
 // Size: 0x84
-function event_handler[gadget_off] gadget_off_callback(eventstruct) {
+function event_handler[Gadget_Off] gadget_off_callback(eventstruct) {
     /#
         eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x7a>");
     #/

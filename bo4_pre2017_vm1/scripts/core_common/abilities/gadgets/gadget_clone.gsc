@@ -23,7 +23,7 @@
 // Params 0, eflags: 0x2
 // Checksum 0x7b0a69cf, Offset: 0x5c0
 // Size: 0x34
-function autoexec function_2dc19561() {
+function autoexec __init__sytem__() {
     system::register("gadget_clone", &__init__, undefined, undefined);
 }
 
@@ -32,23 +32,23 @@ function autoexec function_2dc19561() {
 // Checksum 0x97ec1431, Offset: 0x600
 // Size: 0x184
 function __init__() {
-    ability_player::register_gadget_activation_callbacks(42, &function_33fadcbd, &function_e4fe20c9);
-    ability_player::register_gadget_possession_callbacks(42, &function_a3f945fb, &function_a0ce69d9);
-    ability_player::register_gadget_flicker_callbacks(42, &function_7f1c395c);
-    ability_player::register_gadget_is_inuse_callbacks(42, &function_2dc12c1d);
-    ability_player::register_gadget_is_flickering_callbacks(42, &function_e014cba9);
-    callback::on_connect(&function_b05b9d52);
+    ability_player::register_gadget_activation_callbacks(42, &gadget_clone_on, &gadget_clone_off);
+    ability_player::register_gadget_possession_callbacks(42, &gadget_clone_on_give, &gadget_clone_on_take);
+    ability_player::register_gadget_flicker_callbacks(42, &gadget_clone_on_flicker);
+    ability_player::register_gadget_is_inuse_callbacks(42, &gadget_clone_is_inuse);
+    ability_player::register_gadget_is_flickering_callbacks(42, &gadget_clone_is_flickering);
+    callback::on_connect(&gadget_clone_on_connect);
     clientfield::register("actor", "clone_activated", 1, 1, "int");
     clientfield::register("actor", "clone_damaged", 1, 1, "int");
     clientfield::register("allplayers", "clone_activated", 1, 1, "int");
-    level.var_344bec77 = [];
+    level._clone = [];
 }
 
 // Namespace gadget_clone/gadget_clone
 // Params 1, eflags: 0x0
 // Checksum 0xc8782bd4, Offset: 0x790
 // Size: 0x22
-function function_2dc12c1d(slot) {
+function gadget_clone_is_inuse(slot) {
     return self gadgetisactive(slot);
 }
 
@@ -56,7 +56,7 @@ function function_2dc12c1d(slot) {
 // Params 1, eflags: 0x0
 // Checksum 0x945c7428, Offset: 0x7c0
 // Size: 0x22
-function function_e014cba9(slot) {
+function gadget_clone_is_flickering(slot) {
     return self gadgetflickering(slot);
 }
 
@@ -64,7 +64,7 @@ function function_e014cba9(slot) {
 // Params 2, eflags: 0x0
 // Checksum 0xe78d73b2, Offset: 0x7f0
 // Size: 0x14
-function function_7f1c395c(slot, weapon) {
+function gadget_clone_on_flicker(slot, weapon) {
     
 }
 
@@ -72,7 +72,7 @@ function function_7f1c395c(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x1c5058f, Offset: 0x810
 // Size: 0x14
-function function_a3f945fb(slot, weapon) {
+function gadget_clone_on_give(slot, weapon) {
     
 }
 
@@ -80,7 +80,7 @@ function function_a3f945fb(slot, weapon) {
 // Params 2, eflags: 0x0
 // Checksum 0x1e8f5ba, Offset: 0x830
 // Size: 0x14
-function function_a0ce69d9(slot, weapon) {
+function gadget_clone_on_take(slot, weapon) {
     
 }
 
@@ -88,7 +88,7 @@ function function_a0ce69d9(slot, weapon) {
 // Params 0, eflags: 0x0
 // Checksum 0x80f724d1, Offset: 0x850
 // Size: 0x4
-function function_b05b9d52() {
+function gadget_clone_on_connect() {
     
 }
 
@@ -96,9 +96,9 @@ function function_b05b9d52() {
 // Params 1, eflags: 0x0
 // Checksum 0x2ac7b0f9, Offset: 0x860
 // Size: 0xb2
-function function_758b65c7(player) {
-    if (isdefined(player.var_344bec77)) {
-        foreach (clone in player.var_344bec77) {
+function killclones(player) {
+    if (isdefined(player._clone)) {
+        foreach (clone in player._clone) {
             if (isdefined(clone)) {
                 clone notify(#"clone_shutdown");
             }
@@ -119,7 +119,7 @@ function is_jumping() {
 // Params 3, eflags: 0x0
 // Checksum 0x3acb78e6, Offset: 0x958
 // Size: 0x458
-function function_cc23883e(origin, angles, var_9b74dfd5) {
+function calculatespawnorigin(origin, angles, clonedistance) {
     player = self;
     startangles = [];
     testangles = [];
@@ -137,40 +137,40 @@ function function_cc23883e(origin, angles, var_9b74dfd5) {
     testangles[11] = (0, 180, 0);
     validspawns = spawnstruct();
     validpositions = [];
-    var_1af83dc1 = [];
-    var_65919fef = [];
-    var_65919fef[0] = 5;
-    var_65919fef[1] = 0;
+    validangles = [];
+    zoffests = [];
+    zoffests[0] = 5;
+    zoffests[1] = 0;
     if (player is_jumping()) {
-        var_65919fef[2] = -5;
+        zoffests[2] = -5;
     }
-    foreach (var_93742eb4 in var_65919fef) {
+    foreach (zoff in zoffests) {
         for (i = 0; i < testangles.size; i++) {
             startangles[i] = (0, angles[1], 0);
-            startpoint = origin + vectorscale(anglestoforward(startangles[i] + testangles[i]), var_9b74dfd5);
-            startpoint += (0, 0, var_93742eb4);
+            startpoint = origin + vectorscale(anglestoforward(startangles[i] + testangles[i]), clonedistance);
+            startpoint += (0, 0, zoff);
             if (playerpositionvalidignoreent(startpoint, self)) {
-                var_eac6c670 = getclosestpointonnavmesh(startpoint, 500);
-                if (isdefined(var_eac6c670)) {
-                    startpoint = var_eac6c670;
+                closestnavmeshpoint = getclosestpointonnavmesh(startpoint, 500);
+                if (isdefined(closestnavmeshpoint)) {
+                    startpoint = closestnavmeshpoint;
                     trace = groundtrace(startpoint + (0, 0, 24), startpoint - (0, 0, 24), 0, 0, 0);
                     if (isdefined(trace["position"])) {
                         startpoint = trace["position"];
                     }
                 }
                 validpositions[validpositions.size] = startpoint;
-                var_1af83dc1[var_1af83dc1.size] = startangles[i] + testangles[i];
-                if (var_1af83dc1.size == 3) {
+                validangles[validangles.size] = startangles[i] + testangles[i];
+                if (validangles.size == 3) {
                     break;
                 }
             }
         }
-        if (var_1af83dc1.size == 3) {
+        if (validangles.size == 3) {
             break;
         }
     }
     validspawns.validpositions = validpositions;
-    validspawns.var_1af83dc1 = var_1af83dc1;
+    validspawns.validangles = validangles;
     return validspawns;
 }
 
@@ -178,20 +178,20 @@ function function_cc23883e(origin, angles, var_9b74dfd5) {
 // Params 1, eflags: 0x0
 // Checksum 0x17638810, Offset: 0xdb8
 // Size: 0xd4
-function function_f07af5b9(clone) {
-    var_c2a5460c = 0;
+function insertclone(clone) {
+    insertedclone = 0;
     for (i = 0; i < 20; i++) {
-        if (!isdefined(level.var_344bec77[i])) {
-            level.var_344bec77[i] = clone;
-            var_c2a5460c = 1;
+        if (!isdefined(level._clone[i])) {
+            level._clone[i] = clone;
+            insertedclone = 1;
             /#
-                println("<dev string:x28>" + i + "<dev string:x3c>" + level.var_344bec77.size);
+                println("<dev string:x28>" + i + "<dev string:x3c>" + level._clone.size);
             #/
             break;
         }
     }
     /#
-        assert(var_c2a5460c);
+        assert(insertedclone);
     #/
 }
 
@@ -199,13 +199,13 @@ function function_f07af5b9(clone) {
 // Params 1, eflags: 0x0
 // Checksum 0x773d0ec9, Offset: 0xe98
 // Size: 0xd2
-function function_d1901738(clone) {
+function removeclone(clone) {
     for (i = 0; i < 20; i++) {
-        if (isdefined(level.var_344bec77[i]) && level.var_344bec77[i] == clone) {
-            level.var_344bec77[i] = undefined;
-            array::remove_undefined(level.var_344bec77);
+        if (isdefined(level._clone[i]) && level._clone[i] == clone) {
+            level._clone[i] = undefined;
+            array::remove_undefined(level._clone);
             /#
-                println("<dev string:x4e>" + i + "<dev string:x3c>" + level.var_344bec77.size);
+                println("<dev string:x4e>" + i + "<dev string:x3c>" + level._clone.size);
             #/
             break;
         }
@@ -216,72 +216,72 @@ function function_d1901738(clone) {
 // Params 0, eflags: 0x0
 // Checksum 0x2d15d9ab, Offset: 0xf78
 // Size: 0x1a4
-function function_270d5923() {
+function removeoldestclone() {
     /#
-        assert(level.var_344bec77.size == 20);
+        assert(level._clone.size == 20);
     #/
-    var_bfc60b37 = undefined;
+    oldestclone = undefined;
     for (i = 0; i < 20; i++) {
-        if (!isdefined(var_bfc60b37) && isdefined(level.var_344bec77[i])) {
-            var_bfc60b37 = level.var_344bec77[i];
+        if (!isdefined(oldestclone) && isdefined(level._clone[i])) {
+            oldestclone = level._clone[i];
             oldestindex = i;
             continue;
         }
-        if (isdefined(level.var_344bec77[i]) && level.var_344bec77[i].spawntime < var_bfc60b37.spawntime) {
-            var_bfc60b37 = level.var_344bec77[i];
+        if (isdefined(level._clone[i]) && level._clone[i].spawntime < oldestclone.spawntime) {
+            oldestclone = level._clone[i];
             oldestindex = i;
         }
     }
     /#
-        println("<dev string:x67>" + i + "<dev string:x3c>" + level.var_344bec77.size);
+        println("<dev string:x67>" + i + "<dev string:x3c>" + level._clone.size);
     #/
-    level.var_344bec77[oldestindex] notify(#"clone_shutdown");
-    level.var_344bec77[oldestindex] = undefined;
-    array::remove_undefined(level.var_344bec77);
+    level._clone[oldestindex] notify(#"clone_shutdown");
+    level._clone[oldestindex] = undefined;
+    array::remove_undefined(level._clone);
 }
 
 // Namespace gadget_clone/gadget_clone
 // Params 0, eflags: 0x0
 // Checksum 0x615f88f7, Offset: 0x1128
 // Size: 0x4a4
-function function_aeb6047c() {
+function spawnclones() {
     self endon(#"death");
-    self function_758b65c7(self);
-    self.var_344bec77 = [];
+    self killclones(self);
+    self._clone = [];
     velocity = self getvelocity();
     velocity += (0, 0, velocity[2] * -1);
     velocity = vectornormalize(velocity);
     origin = self.origin + velocity * 17 + vectorscale(anglestoforward(self getangles()), 17);
-    validspawns = function_cc23883e(origin, self getangles(), 60);
+    validspawns = calculatespawnorigin(origin, self getangles(), 60);
     if (validspawns.validpositions.size < 3) {
-        var_fe7719fa = function_cc23883e(origin, self getangles(), 180);
-        for (index = 0; index < var_fe7719fa.validpositions.size && validspawns.validpositions.size < 3; index++) {
-            validspawns.validpositions[validspawns.validpositions.size] = var_fe7719fa.validpositions[index];
-            validspawns.var_1af83dc1[validspawns.var_1af83dc1.size] = var_fe7719fa.var_1af83dc1[index];
+        validextendedspawns = calculatespawnorigin(origin, self getangles(), 180);
+        for (index = 0; index < validextendedspawns.validpositions.size && validspawns.validpositions.size < 3; index++) {
+            validspawns.validpositions[validspawns.validpositions.size] = validextendedspawns.validpositions[index];
+            validspawns.validangles[validspawns.validangles.size] = validextendedspawns.validangles[index];
         }
     }
     for (i = 0; i < validspawns.validpositions.size; i++) {
         traveldistance = distance(validspawns.validpositions[i], self.origin);
         validspawns.spawntimes[i] = traveldistance / 800;
-        self thread function_c030222c(validspawns.validpositions[i], validspawns.spawntimes[i]);
+        self thread _cloneorbfx(validspawns.validpositions[i], validspawns.spawntimes[i]);
     }
     for (i = 0; i < validspawns.validpositions.size; i++) {
-        if (level.var_344bec77.size < 20) {
+        if (level._clone.size < 20) {
         } else {
-            function_270d5923();
+            removeoldestclone();
         }
-        clone = spawnactor("spawner_bo3_human_male_reaper_mp", validspawns.validpositions[i], validspawns.var_1af83dc1[i], "", 1);
+        clone = spawnactor("spawner_bo3_human_male_reaper_mp", validspawns.validpositions[i], validspawns.validangles[i], "", 1);
         /#
             recordcircle(validspawns.validpositions[i], 2, (1, 0.5, 0), "<dev string:x96>", clone);
         #/
-        function_27c360b(clone, self, anglestoforward(validspawns.var_1af83dc1[i]), validspawns.spawntimes[i]);
-        self.var_344bec77[self.var_344bec77.size] = clone;
-        function_f07af5b9(clone);
+        _configureclone(clone, self, anglestoforward(validspawns.validangles[i]), validspawns.spawntimes[i]);
+        self._clone[self._clone.size] = clone;
+        insertclone(clone);
         waitframe(1);
     }
-    self notify(#"hash_bc9b8fc");
+    self notify(#"reveal_clone");
     if (self oob::isoutofbounds()) {
-        function_e4fe20c9(self, undefined);
+        gadget_clone_off(self, undefined);
     }
 }
 
@@ -289,12 +289,12 @@ function function_aeb6047c() {
 // Params 2, eflags: 0x0
 // Checksum 0x6febce47, Offset: 0x15d8
 // Size: 0xd4
-function function_33fadcbd(slot, weapon) {
+function gadget_clone_on(slot, weapon) {
     self clientfield::set("clone_activated", 1);
     self flagsys::set("clone_activated");
     fx = playfx("player/fx_plyr_clone_reaper_appear", self.origin, anglestoforward(self getangles()));
     fx.team = self.team;
-    thread function_aeb6047c();
+    thread spawnclones();
 }
 
 // Namespace gadget_clone/gadget_clone
@@ -354,14 +354,14 @@ function private _updateclonepathing() {
 // Params 2, eflags: 0x0
 // Checksum 0x9f83dfb5, Offset: 0x1a88
 // Size: 0x13c
-function function_c030222c(endpos, traveltime) {
+function _cloneorbfx(endpos, traveltime) {
     spawnpos = self gettagorigin("j_spine4");
     fxorg = spawn("script_model", spawnpos);
     fxorg setmodel("tag_origin");
     fx = playfxontag("player/fx_plyr_clone_reaper_orb", fxorg, "tag_origin");
     fx.team = self.team;
-    var_9a1cf5dc = endpos + (0, 0, 35);
-    fxorg moveto(var_9a1cf5dc, traveltime);
+    fxendpos = endpos + (0, 0, 35);
+    fxorg moveto(fxendpos, traveltime);
     self waittilltimeout(traveltime, "death", "disconnect");
     fxorg delete();
 }
@@ -370,7 +370,7 @@ function function_c030222c(endpos, traveltime) {
 // Params 2, eflags: 0x4
 // Checksum 0xc473bea7, Offset: 0x1bd0
 // Size: 0x16c
-function private function_d0fe4d5e(clone, player) {
+function private _clonecopyplayerlook(clone, player) {
     if (getdvarint("tu1_gadgetCloneCopyLook", 1)) {
         if (isplayer(player) && isai(clone)) {
             bodymodel = player getcharacterbodymodel();
@@ -384,9 +384,9 @@ function private function_d0fe4d5e(clone, player) {
                 }
                 clone attach(headmodel);
             }
-            var_f1a3fa15 = player getcharacterhelmetmodel();
-            if (isdefined(var_f1a3fa15)) {
-                clone attach(var_f1a3fa15);
+            helmetmodel = player getcharacterhelmetmodel();
+            if (isdefined(helmetmodel)) {
+                clone attach(helmetmodel);
             }
         }
     }
@@ -396,7 +396,7 @@ function private function_d0fe4d5e(clone, player) {
 // Params 4, eflags: 0x4
 // Checksum 0x7978bd15, Offset: 0x1d48
 // Size: 0x4b4
-function private function_27c360b(clone, player, forward, spawntime) {
+function private _configureclone(clone, player, forward, spawntime) {
     clone.isaiclone = 1;
     clone.propername = "";
     clone.ignoretriggerdamage = 1;
@@ -415,13 +415,13 @@ function private function_27c360b(clone, player, forward, spawntime) {
     clone setavoidancemask("avoid none");
     clone asmsetanimationrate(randomfloatrange(0.98, 1.02));
     clone setclone();
-    clone function_d0fe4d5e(clone, player);
-    clone function_4cb878d3(player);
-    clone thread function_f8ba2c36();
-    clone thread function_9ce27da7(player);
-    clone thread function_92432cce();
-    clone thread function_bdb5ec20();
-    clone thread function_8783f9e4();
+    clone _clonecopyplayerlook(clone, player);
+    clone _cloneselectweapon(player);
+    clone thread _clonewatchdeath();
+    clone thread _clonewatchownerdisconnect(player);
+    clone thread _clonewatchshutdown();
+    clone thread _clonefakefire();
+    clone thread _clonebreakglass();
     clone._goal_center_point = forward * 1000 + clone.origin;
     clone._goal_center_point = getclosestpointonnavmesh(clone._goal_center_point, 600);
     queryresult = undefined;
@@ -439,7 +439,7 @@ function private function_27c360b(clone, player, forward, spawntime) {
     }
     clone thread _updateclonepathing();
     clone ghost();
-    clone thread function_6e8f41cb(spawntime);
+    clone thread _show(spawntime);
     _configurecloneteam(clone, player, 0);
 }
 
@@ -447,7 +447,7 @@ function private function_27c360b(clone, player, forward, spawntime) {
 // Params 0, eflags: 0x4
 // Checksum 0x123b79a4, Offset: 0x2208
 // Size: 0x74
-function private function_d3a63808() {
+function private _playdematerialization() {
     if (isdefined(self)) {
         fx = playfx("player/fx_plyr_clone_vanish", self.origin);
         fx.team = self.team;
@@ -459,12 +459,12 @@ function private function_d3a63808() {
 // Params 0, eflags: 0x4
 // Checksum 0x4172d281, Offset: 0x2288
 // Size: 0x74
-function private function_f8ba2c36() {
+function private _clonewatchdeath() {
     self waittill("death");
     if (isdefined(self)) {
         self stoploopsound();
-        self function_d3a63808();
-        function_d1901738(self);
+        self _playdematerialization();
+        removeclone(self);
         self delete();
     }
 }
@@ -488,7 +488,7 @@ function private _configurecloneteam(clone, player, ishacked) {
 // Params 1, eflags: 0x4
 // Checksum 0x3c312586, Offset: 0x23f0
 // Size: 0xdc
-function private function_6e8f41cb(spawntime) {
+function private _show(spawntime) {
     self endon(#"death");
     wait spawntime;
     self show();
@@ -502,11 +502,11 @@ function private function_6e8f41cb(spawntime) {
 // Params 2, eflags: 0x0
 // Checksum 0xc9eaa44d, Offset: 0x24d8
 // Size: 0xd0
-function function_e4fe20c9(slot, weapon) {
+function gadget_clone_off(slot, weapon) {
     self clientfield::set("clone_activated", 0);
     self flagsys::clear("clone_activated");
-    self function_758b65c7(self);
-    self function_d3a63808();
+    self killclones(self);
+    self _playdematerialization();
     if (isalive(self) && isdefined(level.playgadgetsuccess)) {
         self [[ level.playgadgetsuccess ]](weapon, "cloneSuccessDelay");
     }
@@ -516,7 +516,7 @@ function function_e4fe20c9(slot, weapon) {
 // Params 0, eflags: 0x4
 // Checksum 0xa8d104ee, Offset: 0x25b0
 // Size: 0x64
-function private function_faa3553c() {
+function private _clonedamaged() {
     self endon(#"death");
     self clientfield::set("clone_damaged", 1);
     util::wait_network_frame();
@@ -527,7 +527,7 @@ function private function_faa3553c() {
 // Params 3, eflags: 0x0
 // Checksum 0xa3d83e4e, Offset: 0x2620
 // Size: 0xc4
-function function_3722ecc9(clone, attacker, weapon) {
+function processclonescoreevent(clone, attacker, weapon) {
     if (isdefined(attacker) && isplayer(attacker)) {
         if (!level.teambased || clone.team != attacker.pers["team"]) {
             if (isdefined(clone.isaiclone) && clone.isaiclone) {
@@ -542,18 +542,18 @@ function function_3722ecc9(clone, attacker, weapon) {
 // Checksum 0xc323d43b, Offset: 0x26f0
 // Size: 0x19e
 function clonedamageoverride(einflictor, eattacker, idamage, idflags, smeansofdeath, weapon, vpoint, vdir, shitloc, vdamageorigin, timeoffset, boneindex, modelindex, surfacetype, surfacenormal) {
-    self thread function_faa3553c();
+    self thread _clonedamaged();
     if (weapon.isemp && smeansofdeath == "MOD_GRENADE_SPLASH") {
-        function_3722ecc9(self, eattacker, weapon);
+        processclonescoreevent(self, eattacker, weapon);
         self notify(#"clone_shutdown");
     }
     if (isdefined(level.weaponlightninggun) && weapon == level.weaponlightninggun) {
-        function_3722ecc9(self, eattacker, weapon);
+        processclonescoreevent(self, eattacker, weapon);
         self notify(#"clone_shutdown");
     }
     supplydrop = getweapon("supplydrop");
     if (isdefined(supplydrop) && supplydrop == weapon) {
-        function_3722ecc9(self, eattacker, weapon);
+        processclonescoreevent(self, eattacker, weapon);
         self notify(#"clone_shutdown");
     }
     return idamage;
@@ -563,10 +563,10 @@ function clonedamageoverride(einflictor, eattacker, idamage, idflags, smeansofde
 // Params 1, eflags: 0x0
 // Checksum 0xda1ba64e, Offset: 0x2898
 // Size: 0x84
-function function_9ce27da7(player) {
+function _clonewatchownerdisconnect(player) {
     clone = self;
-    clone notify(#"hash_7ae6d388");
-    clone endon(#"hash_7ae6d388");
+    clone notify(#"WatchCloneOwnerDisconnect");
+    clone endon(#"WatchCloneOwnerDisconnect");
     clone endon(#"clone_shutdown");
     player waittill("joined_team", "disconnect", "joined_spectators");
     if (isdefined(clone)) {
@@ -578,17 +578,17 @@ function function_9ce27da7(player) {
 // Params 0, eflags: 0x0
 // Checksum 0x6d90fb7, Offset: 0x2928
 // Size: 0xb4
-function function_92432cce() {
+function _clonewatchshutdown() {
     clone = self;
     clone waittill("clone_shutdown");
-    function_d1901738(clone);
+    removeclone(clone);
     if (isdefined(clone)) {
         if (!level.gameended) {
             clone kill();
             return;
         }
         clone stoploopsound();
-        self function_d3a63808();
+        self _playdematerialization();
         clone hide();
     }
 }
@@ -597,7 +597,7 @@ function function_92432cce() {
 // Params 0, eflags: 0x0
 // Checksum 0xba7f2e5b, Offset: 0x29e8
 // Size: 0x60
-function function_8783f9e4() {
+function _clonebreakglass() {
     clone = self;
     clone endon(#"clone_shutdown");
     clone endon(#"death");
@@ -611,7 +611,7 @@ function function_8783f9e4() {
 // Params 0, eflags: 0x0
 // Checksum 0x2fd2cdc4, Offset: 0x2a50
 // Size: 0x258
-function function_bdb5ec20() {
+function _clonefakefire() {
     clone = self;
     clone endon(#"clone_shutdown");
     clone endon(#"death");
@@ -641,17 +641,17 @@ function function_bdb5ec20() {
 // Params 1, eflags: 0x0
 // Checksum 0x7df81f8e, Offset: 0x2cb0
 // Size: 0x168
-function function_4cb878d3(player) {
+function _cloneselectweapon(player) {
     clone = self;
-    items = function_d935b10c(player);
+    items = _clonebuilditemlist(player);
     playerweapon = player getcurrentweapon();
     ball = getweapon("ball");
     if (isdefined(playerweapon) && isdefined(ball) && playerweapon == ball) {
         weapon = ball;
-    } else if (isdefined(playerweapon.worldmodel) && function_3898b1bf(playerweapon, items["primary"])) {
+    } else if (isdefined(playerweapon.worldmodel) && _testplayerweapon(playerweapon, items["primary"])) {
         weapon = playerweapon;
     } else {
-        weapon = function_ae40491f(player);
+        weapon = _chooseweapon(player);
     }
     if (isdefined(weapon)) {
         clone shared::placeweaponon(weapon, "right");
@@ -663,7 +663,7 @@ function function_4cb878d3(player) {
 // Params 1, eflags: 0x0
 // Checksum 0xad069777, Offset: 0x2e20
 // Size: 0x308
-function function_d935b10c(player) {
+function _clonebuilditemlist(player) {
     pixbeginevent("clone_build_item_list");
     items = [];
     for (i = 0; i < 1024; i++) {
@@ -687,21 +687,21 @@ function function_d935b10c(player) {
             }
             continue;
         }
-        row = tablelookuprownum(level.var_f543dad1, 0, i);
+        row = tablelookuprownum(level.statstableid, 0, i);
         if (row > -1) {
-            slot = tablelookupcolumnforrow(level.var_f543dad1, row, 13);
+            slot = tablelookupcolumnforrow(level.statstableid, row, 13);
             if (slot == "") {
                 continue;
             }
-            number = int(tablelookupcolumnforrow(level.var_f543dad1, row, 0));
+            number = int(tablelookupcolumnforrow(level.statstableid, row, 0));
             if (player isitemlocked(number)) {
                 continue;
             }
-            allocation = int(tablelookupcolumnforrow(level.var_f543dad1, row, 12));
+            allocation = int(tablelookupcolumnforrow(level.statstableid, row, 12));
             if (allocation < 0) {
                 continue;
             }
-            name = tablelookupcolumnforrow(level.var_f543dad1, row, 3);
+            name = tablelookupcolumnforrow(level.statstableid, row, 3);
             if (!isdefined(items[slot])) {
                 items[slot] = [];
             }
@@ -716,7 +716,7 @@ function function_d935b10c(player) {
 // Params 1, eflags: 0x4
 // Checksum 0x1f88826b, Offset: 0x3130
 // Size: 0xae
-function private function_ae40491f(player) {
+function private _chooseweapon(player) {
     classnum = randomint(10);
     for (i = 0; i < 10; i++) {
         weapon = player getloadoutweapon((i + classnum) % 10, "primary");
@@ -731,7 +731,7 @@ function private function_ae40491f(player) {
 // Params 2, eflags: 0x4
 // Checksum 0x142a90a0, Offset: 0x31e8
 // Size: 0x9e
-function private function_3898b1bf(playerweapon, items) {
+function private _testplayerweapon(playerweapon, items) {
     if (!isdefined(items) || !items.size || !isdefined(playerweapon)) {
         return false;
     }

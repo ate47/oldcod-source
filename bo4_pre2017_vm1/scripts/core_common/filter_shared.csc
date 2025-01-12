@@ -924,7 +924,7 @@ function disable_filter_speed_burst(player, filterid) {
 // Params 1, eflags: 0x0
 // Checksum 0x44b8acd1, Offset: 0x3040
 // Size: 0x4c
-function function_1f1af853(player) {
+function init_filter_overdrive(player) {
     init_filter_indices();
     if (sessionmodeiscampaigngame()) {
         map_material_helper(player, "generic_filter_overdrive_cp");
@@ -935,7 +935,7 @@ function function_1f1af853(player) {
 // Params 2, eflags: 0x0
 // Checksum 0xcf97db6, Offset: 0x3098
 // Size: 0x74
-function function_46839542(player, filterid) {
+function enable_filter_overdrive(player, filterid) {
     setfilterpassmaterial(player.localclientnum, filterid, 0, mapped_material_id("generic_filter_overdrive_cp"));
     setfilterpassenabled(player.localclientnum, filterid, 0, 1);
 }
@@ -952,7 +952,7 @@ function function_4c32b68f(player, filterid, constantindex, amount) {
 // Params 2, eflags: 0x0
 // Checksum 0x6cc0cf5, Offset: 0x3178
 // Size: 0x3c
-function function_d17703cb(player, filterid) {
+function disable_filter_overdrive(player, filterid) {
     setfilterpassenabled(player.localclientnum, filterid, 0, 0);
 }
 
@@ -969,7 +969,7 @@ function function_1b1d6213(localclientnum) {
 // Params 2, eflags: 0x0
 // Checksum 0x6c066db7, Offset: 0x3208
 // Size: 0x6c
-function function_2c78ed36(localclientnum, filterid) {
+function enable_filter_frost(localclientnum, filterid) {
     setfilterpassmaterial(localclientnum, filterid, 0, mapped_material_id("generic_filter_frost"));
     setfilterpassenabled(localclientnum, filterid, 0, 1, 0, 1);
 }
@@ -978,7 +978,7 @@ function function_2c78ed36(localclientnum, filterid) {
 // Params 3, eflags: 0x0
 // Checksum 0x8b0e6499, Offset: 0x3280
 // Size: 0x3c
-function function_3ca70cf0(localclientnum, filterid, amount) {
+function set_filter_frost_layer_one(localclientnum, filterid, amount) {
     setfilterpassconstant(localclientnum, filterid, 0, 0, amount);
 }
 
@@ -986,7 +986,7 @@ function function_3ca70cf0(localclientnum, filterid, amount) {
 // Params 3, eflags: 0x0
 // Checksum 0x46603e5d, Offset: 0x32c8
 // Size: 0x44
-function function_55d6d5f2(localclientnum, filterid, amount) {
+function set_filter_frost_layer_two(localclientnum, filterid, amount) {
     setfilterpassconstant(localclientnum, filterid, 0, 1, amount);
 }
 
@@ -994,7 +994,7 @@ function function_55d6d5f2(localclientnum, filterid, amount) {
 // Params 3, eflags: 0x0
 // Checksum 0x91044552, Offset: 0x3318
 // Size: 0x44
-function function_c5f718d7(localclientnum, filterid, direction) {
+function set_filter_frost_reveal_direction(localclientnum, filterid, direction) {
     setfilterpassconstant(localclientnum, filterid, 0, 2, direction);
 }
 
@@ -1002,7 +1002,7 @@ function function_c5f718d7(localclientnum, filterid, direction) {
 // Params 2, eflags: 0x0
 // Checksum 0xc0dec7f8, Offset: 0x3368
 // Size: 0x34
-function function_acba895b(localclientnum, filterid) {
+function disable_filter_frost(localclientnum, filterid) {
     setfilterpassenabled(localclientnum, filterid, 0, 0);
 }
 
@@ -1010,7 +1010,7 @@ function function_acba895b(localclientnum, filterid) {
 // Params 1, eflags: 0x0
 // Checksum 0x789ff76a, Offset: 0x33a8
 // Size: 0x3c
-function function_1d7f017d(localclientnum) {
+function init_filter_vision_pulse(localclientnum) {
     init_filter_indices();
     map_material_helper_by_localclientnum(localclientnum, "generic_filter_vision_pulse");
 }
@@ -1019,7 +1019,7 @@ function function_1d7f017d(localclientnum) {
 // Params 2, eflags: 0x0
 // Checksum 0x8b5b4846, Offset: 0x33f0
 // Size: 0x84
-function function_c4f1d452(localclientnum, filterid) {
+function enable_filter_vision_pulse(localclientnum, filterid) {
     map_material_if_undefined(localclientnum, "generic_filter_vision_pulse");
     setfilterpassmaterial(localclientnum, filterid, 0, mapped_material_id("generic_filter_vision_pulse"));
     setfilterpassenabled(localclientnum, filterid, 0, 1);
@@ -1029,7 +1029,7 @@ function function_c4f1d452(localclientnum, filterid) {
 // Params 4, eflags: 0x0
 // Checksum 0xb37a85d5, Offset: 0x3480
 // Size: 0x4c
-function function_7fe7fc80(localclientnum, filterid, var_17e8cbc5, value) {
+function set_filter_vision_pulse_constant(localclientnum, filterid, var_17e8cbc5, value) {
     setfilterpassconstant(localclientnum, filterid, 0, var_17e8cbc5, value);
 }
 
@@ -1037,7 +1037,7 @@ function function_7fe7fc80(localclientnum, filterid, var_17e8cbc5, value) {
 // Params 2, eflags: 0x0
 // Checksum 0xfba84fe5, Offset: 0x34d8
 // Size: 0x34
-function function_3255f545(localclientnum, filterid) {
+function disable_filter_vision_pulse(localclientnum, filterid) {
     setfilterpassenabled(localclientnum, filterid, 0, 0);
 }
 
