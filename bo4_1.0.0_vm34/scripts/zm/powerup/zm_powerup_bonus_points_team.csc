@@ -1,0 +1,23 @@
+#using scripts\core_common\struct;
+#using scripts\core_common\system_shared;
+#using scripts\zm_common\zm_powerups;
+
+#namespace zm_powerup_bonus_points_team;
+
+// Namespace zm_powerup_bonus_points_team/zm_powerup_bonus_points_team
+// Params 0, eflags: 0x2
+// Checksum 0xcaea0918, Offset: 0x98
+// Size: 0x3c
+function autoexec __init__system__() {
+    system::register(#"zm_powerup_bonus_points_team", &__init__, undefined, undefined);
+}
+
+// Namespace zm_powerup_bonus_points_team/zm_powerup_bonus_points_team
+// Params 0, eflags: 0x0
+// Checksum 0xa13176df, Offset: 0xe0
+// Size: 0x34
+function __init__() {
+    zm_powerups::include_zombie_powerup("bonus_points_team");
+    zm_powerups::add_zombie_powerup("bonus_points_team");
+}
+
