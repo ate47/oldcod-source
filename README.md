@@ -8,6 +8,7 @@ Yes, I know that for some the code after the preprocessor is available. But this
 
 | Directory           | Rev\* | Platform | Description                         |
 |---------------------|-----|----------|-------------------------------------|
+| `bo3_vm1b`          | T1B | PC       | 1B remnant from Black Ops 3         |
 | `bo4_pre2017_vm31`  | T31 | PS4      | Pre version of Black Ops 4          |
 | `bo4_1.0.0_vm34`    | T34 | PS4      | 1.0.0 version of Black Ops 4        |
 | `bocw_pre2020_vm37` | T37 | PC/bnet  | Pre version of Black Ops Cold War   |
