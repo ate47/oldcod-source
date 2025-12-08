@@ -9,39 +9,48 @@
 // Params 0, eflags: 0x6
 // Checksum 0x9d138d5d, Offset: 0x80
 // Size: 0x3c
-function private autoexec __init__system__() {
-    system::register(#"globallogic_player", &function_70a657d8, undefined, undefined, undefined);
+function private autoexec __init__system__()
+{
+    system::register( #"globallogic_player", &preinit, undefined, undefined, undefined );
 }
 
 // Namespace globallogic_player/globallogic_player
-// Params 0, eflags: 0x5 linked
+// Params 0, eflags: 0x4
 // Checksum 0x42749, Offset: 0xc8
 // Size: 0x3c
-function private function_70a657d8() {
+function private preinit()
+{
     level.var_aadc08f8 = &function_4b7bb02c;
-    callback::on_disconnect(&on_player_disconnect);
+    callback::on_disconnect( &on_player_disconnect );
 }
 
 // Namespace globallogic_player/globallogic_player
-// Params 1, eflags: 0x1 linked
+// Params 1
 // Checksum 0xe8bdf2f6, Offset: 0x110
-// Size: 0x4e
-function function_4b7bb02c(weapon) {
-    if (!killstreaks::is_killstreak_weapon(weapon)) {
+// Size: 0x4e, Type: bool
+function function_4b7bb02c( weapon )
+{
+    if ( !killstreaks::is_killstreak_weapon( weapon ) )
+    {
         return true;
     }
-    if (killstreaks::is_killstreak_weapon_assist_allowed(weapon)) {
+    
+    if ( killstreaks::is_killstreak_weapon_assist_allowed( weapon ) )
+    {
         return true;
     }
+    
     return false;
 }
 
 // Namespace globallogic_player/globallogic_player
-// Params 0, eflags: 0x1 linked
+// Params 0
 // Checksum 0x2b7e0c0b, Offset: 0x168
 // Size: 0x2c
-function on_player_disconnect() {
-    if (sessionmodeismultiplayergame()) {
+function on_player_disconnect()
+{
+    if ( sessionmodeismultiplayergame() )
+    {
         uploadstats();
     }
 }

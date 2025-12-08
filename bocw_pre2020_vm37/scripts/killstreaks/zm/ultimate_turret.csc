@@ -9,17 +9,19 @@
 // Params 0, eflags: 0x6
 // Checksum 0xc7f04f58, Offset: 0xa8
 // Size: 0x44
-function private autoexec __init__system__() {
-    system::register(#"ultimate_turret", &function_70a657d8, undefined, undefined, #"killstreaks");
+function private autoexec __init__system__()
+{
+    system::register( #"ultimate_turret", &preinit, undefined, undefined, #"killstreaks" );
 }
 
 // Namespace ultimate_turret/ultimate_turret
-// Params 0, eflags: 0x5 linked
+// Params 0, eflags: 0x4
 // Checksum 0x14513e95, Offset: 0xf8
 // Size: 0x4c
-function private function_70a657d8() {
+function private preinit()
+{
     init_shared();
-    bundle = getscriptbundle("killstreak_ultimate_turret_zm");
-    killstreak_vehicle::init_killstreak(bundle);
+    bundle = getscriptbundle( "killstreak_ultimate_turret_zm" );
+    killstreak_vehicle::init_killstreak( bundle );
 }
 

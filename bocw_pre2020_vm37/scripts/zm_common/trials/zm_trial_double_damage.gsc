@@ -11,26 +11,31 @@
 // Params 0, eflags: 0x6
 // Checksum 0x9cd4cdf2, Offset: 0x90
 // Size: 0x3c
-function private autoexec __init__system__() {
-    system::register(#"zm_trial_double_damage", &function_70a657d8, undefined, undefined, undefined);
+function private autoexec __init__system__()
+{
+    system::register( #"zm_trial_double_damage", &preinit, undefined, undefined, undefined );
 }
 
 // Namespace zm_trial_double_damage/zm_trial_double_damage
 // Params 0, eflags: 0x4
 // Checksum 0xbcdf9d70, Offset: 0xd8
 // Size: 0x5c
-function private function_70a657d8() {
-    if (!zm_trial::is_trial_mode()) {
+function private preinit()
+{
+    if ( !zm_trial::is_trial_mode() )
+    {
         return;
     }
-    zm_trial::register_challenge(#"double_damage", &on_begin, &on_end);
+    
+    zm_trial::register_challenge( #"double_damage", &on_begin, &on_end );
 }
 
 // Namespace zm_trial_double_damage/zm_trial_double_damage
 // Params 0, eflags: 0x4
 // Checksum 0x5be49d6, Offset: 0x140
 // Size: 0x84
-function private on_begin() {
+function private on_begin()
+{
     self.var_42fe565a = level.var_c739ead9;
     self.var_c98099cd = level.var_cfbc34ae;
     self.var_3ab281b2 = level.var_5a59b382;
@@ -45,7 +50,8 @@ function private on_begin() {
 // Params 1, eflags: 0x4
 // Checksum 0xe1a9bd3d, Offset: 0x1d0
 // Size: 0x4c
-function private on_end(*round_reset) {
+function private on_end( *round_reset )
+{
     level.var_c739ead9 = self.var_42fe565a;
     level.var_cfbc34ae = self.var_c98099cd;
     level.var_5a59b382 = self.var_3ab281b2;
@@ -53,11 +59,12 @@ function private on_end(*round_reset) {
 }
 
 // Namespace zm_trial_double_damage/zm_trial_double_damage
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x353645c9, Offset: 0x228
-// Size: 0x32
-function is_active() {
-    challenge = zm_trial::function_a36e8c38(#"double_damage");
-    return isdefined(challenge);
+// Size: 0x32, Type: bool
+function is_active()
+{
+    challenge = zm_trial::function_a36e8c38( #"double_damage" );
+    return isdefined( challenge );
 }
 

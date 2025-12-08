@@ -1,0 +1,84 @@
+#using script_18bc13f07baf161a;
+#using script_24879e3929b5b5e9;
+#using script_31b23f5316d1b26d;
+#using script_38635d174016f682;
+#using script_4fc0ca879f81e0dc;
+#using script_64e5d3ad71ce8140;
+#using script_66548bb129ab65aa;
+#using script_67049b48b589d81;
+#using script_aa59671292d1c87;
+#using script_ec3113f01f76388;
+#using scripts\core_common\callbacks_shared;
+#using scripts\core_common\clientfield_shared;
+#using scripts\core_common\system_shared;
+#using scripts\core_common\util_shared;
+
+#namespace namespace_981c1f3c;
+
+// Namespace namespace_981c1f3c/namespace_981c1f3c
+// Params 0
+// Checksum 0xb5eb177a, Offset: 0x178
+// Size: 0x144
+function init()
+{
+    clientfield::register( "world", "world_dungeon_set", 1, 8, "int", &function_10d7a147, 0, 0 );
+    clientfield::register( "world", "world_dungeon_build", 1, 1, "counter", &function_74359dc, 0, 0 );
+    clientfield::register( "world", "world_dungeon_destroy", 1, 1, "counter", &function_3d1b6aa8, 0, 0 );
+    namespace_c9c45ed8::init();
+    namespace_5849a337::init();
+    namespace_22574328::init();
+    namespace_40bb01c9::init();
+    namespace_1dc364c0::init();
+    level.var_3dd67d2d = &function_c153f40;
+}
+
+// Namespace namespace_981c1f3c/namespace_981c1f3c
+// Params 7
+// Checksum 0xeec79cd6, Offset: 0x2c8
+// Size: 0xac
+function function_3d1b6aa8( *localclientnum, *oldval, *newval, *bnewent, *binitialsnap, *fieldname, *bwastimejump )
+{
+    if ( !isdefined( level.doa.var_5d21548e ) )
+    {
+        return;
+    }
+    
+    namespace_1e25ad94::debugmsg( "Destroying Dungeon! Index: " + level.doa.var_5d21548e );
+    level.doa.var_182fb75a = undefined;
+    level thread namespace_95fdc800::function_b1989480();
+}
+
+// Namespace namespace_981c1f3c/namespace_981c1f3c
+// Params 7
+// Checksum 0xfd3ba65f, Offset: 0x380
+// Size: 0x72
+function function_10d7a147( *localclientnum, *oldval, newval, *bnewent, *binitialsnap, *fieldname, *bwastimejump )
+{
+    namespace_1e25ad94::debugmsg( "Setting a new Dungeon! Index: " + bwastimejump );
+    level.doa.var_5d21548e = bwastimejump;
+}
+
+// Namespace namespace_981c1f3c/namespace_981c1f3c
+// Params 7
+// Checksum 0x500e8737, Offset: 0x400
+// Size: 0xbc
+function function_74359dc( *localclientnum, *oldval, *newval, *bnewent, *binitialsnap, *fieldname, *bwastimejump )
+{
+    level notify( #"hash_60c11a94a9191bb8" );
+    level.doa.var_182fb75a = level.doa.var_5d21548e;
+    namespace_95fdc800::function_d6e32b1b();
+    namespace_95fdc800::function_1bce4bde( level.doa.dungeons[ level.doa.var_5d21548e ].name );
+}
+
+// Namespace namespace_981c1f3c/namespace_981c1f3c
+// Params 0
+// Checksum 0x1ae25377, Offset: 0x4c8
+// Size: 0x34
+function function_c153f40()
+{
+    if ( isdefined( level.doa.var_a7ccb320 ) )
+    {
+        [[ level.doa.var_a7ccb320 ]]();
+    }
+}
+

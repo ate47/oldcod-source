@@ -8,7 +8,8 @@
 // Params 1, eflags: 0x40
 // Checksum 0xd2b973f2, Offset: 0x78
 // Size: 0x2c
-function event_handler[gametype_init] main(*eventstruct) {
+function event_handler[gametype_init] main( *eventstruct )
+{
     namespace_17baa64d::init();
     dogtags::init();
 }

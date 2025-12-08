@@ -4,12 +4,13 @@
 #namespace weapons;
 
 // Namespace weapons/weapons
-// Params 0, eflags: 0x1 linked
+// Params 0
 // Checksum 0x55ff7136, Offset: 0xa0
 // Size: 0x8c
-function init_shared() {
-    level.weaponnone = getweapon(#"none");
-    clientfield::register_clientuimodel("hudItems.pickupHintWeaponIndex", #"hash_6f4b11a0bee9b73d", #"pickuphintweaponindex", 1, 10, "int", undefined, 0, 0);
+function init_shared()
+{
+    level.weaponnone = getweapon( #"none" );
+    clientfield::register_clientuimodel( "hudItems.pickupHintWeaponIndex", #"hud_items", #"pickuphintweaponindex", 1, 10, "int", undefined, 0, 0 );
     namespace_daf1661f::init();
 }
 

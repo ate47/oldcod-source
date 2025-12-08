@@ -4,10 +4,11 @@
 #namespace catalystinterface;
 
 // Namespace catalystinterface/archetype_catalyst_interface
-// Params 0, eflags: 0x1 linked
+// Params 0
 // Checksum 0xe5d27a09, Offset: 0x88
 // Size: 0x6c
-function registercatalystinterfaceattributes() {
-    ai::registermatchedinterface(#"catalyst", #"gravity", "normal", array("low", "normal"), &zombiebehavior::function_db26137a);
+function registercatalystinterfaceattributes()
+{
+    ai::registermatchedinterface( #"catalyst", #"gravity", "normal", array( "low", "normal" ), &zombiebehavior::zombiegravity );
 }
 

@@ -1,0 +1,1170 @@
+#using script_35ae72be7b4fec10;
+#using script_3626f1b2cf51a99c;
+#using scripts\core_common\array_shared;
+#using scripts\core_common\math_shared;
+#using scripts\core_common\struct;
+#using scripts\core_common\util_shared;
+#using scripts\cp_common\objectives;
+#using scripts\cp_common\objectives_ui;
+#using scripts\cp_common\ui\prompts;
+
+#namespace interactive_map;
+
+// Namespace interactive_map/interactive_map
+// Params 10
+// Checksum 0x407cdc28, Offset: 0x260
+// Size: 0x5e4
+function open( var_738a6265, top_left, bottom_right, var_879505e1 = 1, var_ff0f9714 = 1, map_x, map_y, map_width, map_height, var_7ec0800f )
+{
+    if ( !scripted_widgets::exists( #"interactive_map" ) )
+    {
+        player = getplayers()[ 0 ];
+        player actions::function_6c59e78f( 0 );
+        scripted_widgets::create( #"interactive_map", var_738a6265 );
+        scripted_widgets::function_28027c42( #"interactive_map", [ #"interactive_map", #"hint_tutorial", #"hash_72cc4740fa4d3da3" ] );
+        
+        if ( !isdefined( top_left ) )
+        {
+            top_left = getent( "interactive_map_top_left", "targetname" );
+            
+            if ( !isdefined( top_left ) )
+            {
+                top_left = struct::get( "interactive_map_top_left", "targetname" );
+            }
+        }
+        
+        if ( !isdefined( bottom_right ) )
+        {
+            bottom_right = getent( "interactive_map_bottom_right", "targetname" );
+            
+            if ( !isdefined( bottom_right ) )
+            {
+                bottom_right = struct::get( "interactive_map_bottom_right", "targetname" );
+            }
+        }
+        
+        if ( isdefined( map_x ) )
+        {
+            scripted_widgets::set_x( #"interactive_map", map_x );
+        }
+        
+        if ( isdefined( map_y ) )
+        {
+            scripted_widgets::set_y( #"interactive_map", map_y );
+        }
+        
+        if ( isdefined( map_width ) )
+        {
+            scripted_widgets::set_width( #"interactive_map", map_width );
+        }
+        
+        if ( isdefined( map_height ) )
+        {
+            scripted_widgets::set_height( #"interactive_map", map_height );
+        }
+        
+        if ( is_true( var_7ec0800f ) && isentity( top_left ) && isentity( bottom_right ) )
+        {
+            scripted_widgets::function_9ade1d9b( #"interactive_map", "topLeftEntNum", top_left getentitynumber() );
+            scripted_widgets::function_9ade1d9b( #"interactive_map", "bottomRightEntNum", bottom_right getentitynumber() );
+        }
+        
+        x_axis = anglestoright( top_left.angles ) * -1;
+        y_axis = anglestoforward( top_left.angles );
+        var_2a5cff6e = bottom_right.origin - top_left.origin;
+        width = vectordot( var_2a5cff6e, x_axis );
+        height = vectordot( var_2a5cff6e, y_axis );
+        
+        if ( !isdefined( level.interactive_map ) )
+        {
+            level.interactive_map = {};
+        }
+        
+        level.interactive_map.dims = { #top_left:top_left.origin, #width:width, #height:height, #x_axis:x_axis, #y_axis:y_axis };
+        
+        if ( !isdefined( level.interactive_map.objects ) )
+        {
+            level.interactive_map.objects = [];
+        }
+        
+        if ( !isdefined( level.interactive_map.hotspots ) )
+        {
+            level.interactive_map.hotspots = [];
+        }
+        
+        function_9af7280f( level.interactive_map.objects );
+        function_59b2a130( level.interactive_map.hotspots );
+        function_9af7280f( getentarray( "interactive_map_object", "script_noteworthy" ) );
+        function_59b2a130( getentarray( "interactive_map_hotspot", "script_noteworthy" ) );
+        
+        if ( is_true( var_879505e1 ) )
+        {
+            function_879505e1( var_ff0f9714 );
+        }
+        
+        return;
+    }
+    
+    assertmsg( "<dev string:x38>" );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0x4c0f010b, Offset: 0x850
+// Size: 0x3c
+function function_e0cc3b71( name, value )
+{
+    scripted_widgets::function_9ade1d9b( #"interactive_map", name, value );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 3
+// Checksum 0x27ea839c, Offset: 0x898
+// Size: 0x24c
+function function_879505e1( var_ff0f9714 = 1, var_509b0860 = #"hash_780067c4596705d7", var_74ac68df = #"hash_71f8107215effa5b" )
+{
+    assert( scripted_widgets::exists( #"interactive_map" ), "<dev string:x8f>" );
+    function_23036faa( #"cursor", "uid", #"cursor" );
+    function_23036faa( #"cursor", "widgetName", var_509b0860 );
+    function_23036faa( #"cursor", "cursorImage", var_74ac68df );
+    function_23036faa( #"cursor", "animTime", 50 );
+    scripted_widgets::function_9ade1d9b( #"interactive_map", "cursor" + "." + "update", 1, 1, 0, 0, 1 );
+    function_41d66375( #"cursor", "descriptionList" );
+    function_41d66375( #"cursor", "interactionList" );
+    function_8b43da33();
+    function_e4d34e68( 0 );
+    prompts::function_e79f51ec( #"cursor" );
+    thread update_cursor( var_ff0f9714 );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0xc06e9751, Offset: 0xaf0
+// Size: 0x3e
+function function_50121b9( position )
+{
+    if ( !isdefined( level.interactive_map ) )
+    {
+        level.interactive_map = {};
+    }
+    
+    level.interactive_map.var_87c49d20 = position;
+}
+
+// Namespace interactive_map/interactive_map
+// Params 4
+// Checksum 0xb26d6b09, Offset: 0xb38
+// Size: 0x3b6
+function function_9e8d4999( title = #"", descriptions, interactions, object )
+{
+    if ( !isdefined( descriptions ) )
+    {
+        descriptions = [];
+    }
+    else if ( !isarray( descriptions ) )
+    {
+        descriptions = array( descriptions );
+    }
+    
+    if ( !isdefined( interactions ) )
+    {
+        interactions = [];
+    }
+    else if ( !isarray( interactions ) )
+    {
+        interactions = array( interactions );
+    }
+    
+    function_23036faa( #"cursor", "title", title );
+    
+    foreach ( index, description in descriptions )
+    {
+        function_39d12272( #"cursor", index, "text", description, "descriptionList" );
+    }
+    
+    if ( isdefined( level.interactive_map.var_2c15274b.descriptions ) )
+    {
+        for ( index = descriptions.size; index < level.interactive_map.var_2c15274b.descriptions.size ; index++ )
+        {
+            function_dcedf7f( #"cursor", index, "descriptionList" );
+        }
+    }
+    
+    var_fadf668d = 0;
+    player = getplayers()[ 0 ];
+    player prompts::remove_group( #"cursor" );
+    
+    foreach ( prompt, interaction in interactions )
+    {
+        player prompts::function_c97a48c7( prompt, interaction );
+        var_fadf668d = 1;
+    }
+    
+    if ( var_fadf668d )
+    {
+        player prompts::function_46f198( #"interactive_map", "cursor" + "." + "mapObjects" + "." + #"cursor" + "." + "interactionList" );
+    }
+    
+    level.interactive_map.var_2c15274b = { #title:title, #descriptions:descriptions, #interactions:interactions, #object:object };
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0xb0ad1ba5, Offset: 0xef8
+// Size: 0x44
+function function_e4d34e68( state = 0 )
+{
+    function_23036faa( #"cursor", "state", state );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0
+// Checksum 0xbc779561, Offset: 0xf48
+// Size: 0x146
+function function_8b43da33()
+{
+    function_23036faa( #"cursor", "title", #"" );
+    
+    if ( isdefined( level.interactive_map.var_2c15274b ) )
+    {
+        foreach ( index, description in level.interactive_map.var_2c15274b.descriptions )
+        {
+            function_dcedf7f( #"cursor", index, "descriptionList" );
+        }
+        
+        getplayers()[ 0 ] prompts::remove_group( #"cursor" );
+        level.interactive_map.var_2c15274b = undefined;
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0
+// Checksum 0x47e4f66a, Offset: 0x1098
+// Size: 0x116
+function function_2fb5abd8()
+{
+    level notify( #"remove_map_cursor" );
+    getplayers()[ 0 ] prompts::remove_group( #"cursor" );
+    function_23036faa( #"cursor", "widgetName", #"" );
+    scripted_widgets::function_9ade1d9b( #"interactive_map", "cursor" + "." + "update", 1, 1, 0, 0, 1 );
+    scripted_widgets::function_43525bc6( #"interactive_map", #"cursor", 1 );
+    level.interactive_map.var_2c15274b = undefined;
+}
+
+// Namespace interactive_map/interactive_map
+// Params 6
+// Checksum 0xa73014f, Offset: 0x11b8
+// Size: 0x444
+function add_object( uid, image = #"uie_map_lubyanka_marker_waypoint", update_angles, angle_offset, title, scale )
+{
+    if ( !isdefined( self.interactive_map ) )
+    {
+        self.interactive_map = {};
+    }
+    
+    if ( !isdefined( uid ) )
+    {
+        uid = self.interactive_map.uid;
+    }
+    
+    if ( !isdefined( update_angles ) )
+    {
+        update_angles = self.interactive_map.update_angles;
+    }
+    
+    if ( !isdefined( angle_offset ) )
+    {
+        angle_offset = self.interactive_map.angle_offset;
+    }
+    
+    if ( !isdefined( title ) )
+    {
+        title = self.interactive_map.title;
+    }
+    
+    if ( !isdefined( scale ) )
+    {
+        scale = self.interactive_map.scale;
+    }
+    
+    if ( !isdefined( uid ) && isentity( self ) )
+    {
+        uid = self getentitynumber();
+    }
+    
+    if ( !isdefined( uid ) )
+    {
+        return;
+    }
+    
+    level.interactive_map.objects[ uid ] = self;
+    
+    if ( isdefined( self.interactive_map.image ) && image == #"uie_map_lubyanka_marker_waypoint" )
+    {
+        image = self.interactive_map.image;
+    }
+    
+    self.interactive_map.uid = uid;
+    self.interactive_map.image = image;
+    self.interactive_map.update_angles = update_angles;
+    self.interactive_map.angle_offset = angle_offset;
+    self.interactive_map.title = title;
+    self.interactive_map.scale = scale;
+    
+    if ( !scripted_widgets::exists( #"interactive_map" ) )
+    {
+        return;
+    }
+    
+    function_db6cb581( uid, #"hash_21fb68e196ffe610" );
+    function_d0243e5b( uid, "image", image );
+    function_d0243e5b( uid, "x", 0.5 );
+    function_d0243e5b( uid, "y", 0.5 );
+    
+    if ( is_true( update_angles ) )
+    {
+        function_d0243e5b( uid, "angle", 0 );
+    }
+    
+    if ( isdefined( title ) )
+    {
+        function_d0243e5b( uid, "title", title );
+    }
+    
+    if ( isdefined( scale ) )
+    {
+        function_d0243e5b( uid, "scale", scale );
+    }
+    
+    function_d0243e5b( uid, "flags", 0 );
+    function_d0243e5b( uid, "state", 0 );
+    
+    if ( isdefined( self.var_62d718e2 ) )
+    {
+        foreach ( var_55633c65 in self.var_62d718e2 )
+        {
+            function_d0243e5b( uid, var_55633c65.name, var_55633c65.cur_value );
+        }
+    }
+    
+    self thread function_9dfe141f( uid, update_angles, angle_offset );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0x6bb08e7b, Offset: 0x1608
+// Size: 0x54
+function function_d76aae9f( uid, state )
+{
+    if ( isdefined( level.interactive_map.objects[ uid ] ) )
+    {
+        function_d0243e5b( uid, "state", state );
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0x30b78caa, Offset: 0x1668
+// Size: 0x15c
+function function_c8d8772e( uid, flags )
+{
+    if ( isdefined( level.interactive_map.objects[ uid ] ) )
+    {
+        if ( !isdefined( flags ) )
+        {
+            flags = [];
+        }
+        else if ( !isarray( flags ) )
+        {
+            flags = array( flags );
+        }
+        
+        var_c2e076fc = 0;
+        
+        foreach ( flag in flags )
+        {
+            var_c2e076fc |= 1 << flag;
+        }
+        
+        var_b89f8baa = function_dbf83dc4( uid, "flags" );
+        
+        if ( isdefined( var_b89f8baa ) )
+        {
+            var_c2e076fc |= var_b89f8baa;
+        }
+        
+        function_d0243e5b( uid, "flags", var_c2e076fc );
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0x4dda1edc, Offset: 0x17d0
+// Size: 0x158
+function function_cc611397( uid, flags )
+{
+    if ( isdefined( level.interactive_map.objects[ uid ] ) )
+    {
+        var_c2e076fc = 0;
+        var_b89f8baa = isdefined( function_dbf83dc4( uid, "flags" ) ) ? function_dbf83dc4( uid, "flags" ) : 0;
+        var_c2e076fc = var_b89f8baa;
+        
+        if ( !isdefined( flags ) )
+        {
+            flags = [];
+        }
+        else if ( !isarray( flags ) )
+        {
+            flags = array( flags );
+        }
+        
+        foreach ( flag in flags )
+        {
+            var_c2e076fc &= ~( 1 << flag );
+        }
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0xa6794d02, Offset: 0x1930
+// Size: 0xb4
+function remove_object( uid )
+{
+    if ( isdefined( level.interactive_map.objects[ uid ] ) )
+    {
+        level.interactive_map.objects[ uid ] notify( #"hash_7c1f9e1214f47b4e" );
+        
+        if ( scripted_widgets::exists( #"interactive_map" ) )
+        {
+            function_455d4424( uid );
+        }
+        
+        arrayremoveindex( level.interactive_map.objects, uid, 1 );
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0
+// Checksum 0x3418743c, Offset: 0x19f0
+// Size: 0x102
+function function_87f0056b()
+{
+    if ( scripted_widgets::exists( #"interactive_map" ) )
+    {
+        foreach ( uid, object in level.interactive_map.objects )
+        {
+            level.interactive_map.objects[ uid ] notify( #"hash_7c1f9e1214f47b4e" );
+            function_455d4424( uid );
+        }
+    }
+    
+    if ( isdefined( level.interactive_map.objects ) )
+    {
+        level.interactive_map.objects = [];
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 3
+// Checksum 0xb73b93a2, Offset: 0x1b00
+// Size: 0x64
+function function_d0243e5b( uid, name, value )
+{
+    scripted_widgets::set_data( #"interactive_map", "mapObjects" + "." + uid + "." + name, value );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0x260f00ba, Offset: 0x1b70
+// Size: 0x5c
+function function_dbf83dc4( uid, name )
+{
+    scripted_widgets::get_data( #"interactive_map", "mapObjects" + "." + uid + "." + name );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0x3cd15e1b, Offset: 0x1bd8
+// Size: 0x34
+function function_68ec091e( uid, scale )
+{
+    function_d0243e5b( uid, "scale", scale );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 3
+// Checksum 0xa519b24e, Offset: 0x1c18
+// Size: 0x74
+function function_23036faa( uid, name, value )
+{
+    scripted_widgets::function_9ade1d9b( #"interactive_map", "cursor" + "." + "mapObjects" + "." + uid + "." + name, value );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0x3003967f, Offset: 0x1c98
+// Size: 0x6c
+function function_fce63823( uid, name )
+{
+    scripted_widgets::function_f7c4c669( #"interactive_map", "cursor" + "." + "mapObjects" + "." + uid + "." + name );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0xdb905edf, Offset: 0x1d10
+// Size: 0x34
+function function_835fb58e( scale )
+{
+    function_23036faa( #"cursor", "scale", scale );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0x2bc40646, Offset: 0x1d50
+// Size: 0x6c
+function function_41d66375( uid, list_name )
+{
+    scripted_widgets::function_330981ed( #"interactive_map", "cursor" + "." + "mapObjects" + "." + uid + "." + list_name );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 5
+// Checksum 0xa69a8a94, Offset: 0x1dc8
+// Size: 0x8c
+function function_39d12272( uid, index, name, value, list_name )
+{
+    scripted_widgets::function_f2a9266( #"interactive_map", index, name, value, "cursor" + "." + "mapObjects" + "." + uid + "." + list_name );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 3
+// Checksum 0xc9b55278, Offset: 0x1e60
+// Size: 0x7c
+function function_dcedf7f( uid, index, list_name )
+{
+    scripted_widgets::function_7239e030( #"interactive_map", index, "cursor" + "." + "mapObjects" + "." + uid + "." + list_name );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 3
+// Checksum 0xf38e6b0a, Offset: 0x1ee8
+// Size: 0x6a, Type: bool
+function function_7793b318( uid, index, list_name )
+{
+    return scripted_widgets::function_cd59371c( uid, index, "cursor" + "." + "mapObjects" + "." + uid + "." + list_name );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0x80398069, Offset: 0x1f60
+// Size: 0xc0
+function function_9af7280f( objects )
+{
+    foreach ( uid, object in objects )
+    {
+        if ( ishash( uid ) )
+        {
+            object add_object( uid );
+            continue;
+        }
+        
+        object add_object();
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0
+// Checksum 0x449e6f64, Offset: 0x2028
+// Size: 0xf0
+function function_6385c805()
+{
+    array::add( level.interactive_map.hotspots, self, 0 );
+    
+    if ( scripted_widgets::exists( #"interactive_map" ) && isdefined( self.var_62d718e2 ) )
+    {
+        foreach ( var_55633c65 in self.var_62d718e2 )
+        {
+            function_e0cc3b71( var_55633c65.name, var_55633c65.cur_value );
+        }
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0x6757e2ab, Offset: 0x2120
+// Size: 0x90
+function function_59b2a130( triggers )
+{
+    foreach ( trigger in triggers )
+    {
+        trigger function_6385c805();
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0
+// Checksum 0x1aaee1f3, Offset: 0x21b8
+// Size: 0x2c
+function function_5a9ea417()
+{
+    arrayremovevalue( level.interactive_map.hotspots, self );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0
+// Checksum 0xd3022e32, Offset: 0x21f0
+// Size: 0x2e
+function function_b2ece0a3()
+{
+    if ( isdefined( level.interactive_map.hotspots ) )
+    {
+        level.interactive_map.hotspots = [];
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 4
+// Checksum 0xb214cd3c, Offset: 0x2228
+// Size: 0xb4
+function function_9bc3d847( event, name, value, cur_value )
+{
+    if ( !isdefined( self.var_62d718e2 ) )
+    {
+        self.var_62d718e2 = [];
+    }
+    else if ( !isarray( self.var_62d718e2 ) )
+    {
+        self.var_62d718e2 = array( self.var_62d718e2 );
+    }
+    
+    self.var_62d718e2[ event ] = { #name:name, #value:value, #cur_value:cur_value };
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0xdc28ca7, Offset: 0x22e8
+// Size: 0xf4
+function function_4692570b( event, value )
+{
+    if ( isdefined( self.var_62d718e2[ event ] ) )
+    {
+        self.var_62d718e2[ event ].cur_value = value;
+        
+        if ( scripted_widgets::exists( #"interactive_map" ) )
+        {
+            if ( isdefined( self.interactive_map.uid ) )
+            {
+                function_d0243e5b( self.interactive_map.uid, self.var_62d718e2[ event ].name, self.var_62d718e2[ event ].cur_value );
+                return;
+            }
+            
+            function_e0cc3b71( self.var_62d718e2[ event ].name, self.var_62d718e2[ event ].cur_value );
+        }
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0xcfabf00f, Offset: 0x23e8
+// Size: 0x74
+function function_bd9c894c( description )
+{
+    if ( !isdefined( self.var_94ca2a30 ) )
+    {
+        self.var_94ca2a30 = [];
+    }
+    else if ( !isarray( self.var_94ca2a30 ) )
+    {
+        self.var_94ca2a30 = array( self.var_94ca2a30 );
+    }
+    
+    self.var_94ca2a30[ self.var_94ca2a30.size ] = description;
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0xf7bd7324, Offset: 0x2468
+// Size: 0x34
+function function_e2b5e638( description )
+{
+    if ( isdefined( self.var_94ca2a30 ) )
+    {
+        arrayremovevalue( self.var_94ca2a30, description, 0 );
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2
+// Checksum 0xcee6486, Offset: 0x24a8
+// Size: 0x144
+function function_b5c2702b( prompt, prompt_struct )
+{
+    prompt_struct = structcopy( prompt_struct );
+    
+    if ( !isdefined( prompt_struct.groups ) )
+    {
+        prompt_struct.groups = [];
+    }
+    else if ( !isarray( prompt_struct.groups ) )
+    {
+        prompt_struct.groups = array( prompt_struct.groups );
+    }
+    
+    if ( !isinarray( prompt_struct.groups, #"cursor" ) )
+    {
+        prompt_struct.groups[ prompt_struct.groups.size ] = #"cursor";
+    }
+    
+    if ( !isdefined( self.var_174e0272 ) )
+    {
+        self.var_174e0272 = [];
+    }
+    else if ( !isarray( self.var_174e0272 ) )
+    {
+        self.var_174e0272 = array( self.var_174e0272 );
+    }
+    
+    prompt_struct.var_1df3804c = self;
+    self.var_174e0272[ prompt ] = prompt_struct;
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0xcddbe810, Offset: 0x25f8
+// Size: 0x3c
+function function_4b1a5235( prompt )
+{
+    if ( isdefined( self.var_174e0272 ) )
+    {
+        arrayremoveindex( self.var_174e0272, prompt, 1 );
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0x8175abee, Offset: 0x2640
+// Size: 0x16c
+function close( cleanup )
+{
+    level notify( #"close_interactive_map" );
+    player = getplayers()[ 0 ];
+    player prompts::remove_group( #"cursor" );
+    prompts::function_398ab9eb();
+    scripted_widgets::function_9ade1d9b( #"interactive_map", "cursor.update", 0, 1 );
+    scripted_widgets::set_data( #"interactive_map", "update", 0, 1 );
+    scripted_widgets::remove( #"interactive_map" );
+    scripted_widgets::function_4279fd02( #"interactive_map" );
+    
+    if ( is_true( cleanup ) )
+    {
+        level.interactive_map = undefined;
+    }
+    else
+    {
+        level.interactive_map.dims = undefined;
+    }
+    
+    player actions::function_6c59e78f( 1 );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1
+// Checksum 0x5cd113d1, Offset: 0x27b8
+// Size: 0x3b4
+function function_fabe437a( prompt_struct )
+{
+    waypoint = level.interactive_map.var_2c15274b.object;
+    
+    if ( isdefined( waypoint.target ) )
+    {
+        if ( isstring( waypoint.target ) )
+        {
+            if ( isdefined( getent( waypoint.target, "targetname" ) ) )
+            {
+                waypoint = getent( waypoint.target, "targetname" );
+            }
+            else if ( isdefined( struct::get( waypoint.target, "targetname" ) ) )
+            {
+                waypoint = struct::get( waypoint.target, "targetname" );
+            }
+        }
+        else if ( isstruct( waypoint.target ) || isentity( waypoint.target ) )
+        {
+            waypoint = waypoint.target;
+        }
+    }
+    
+    objectives::remove( #"map_waypoint" );
+    
+    if ( level.interactive_map.objects[ #"map_waypoint" ] === waypoint )
+    {
+        remove_object( #"map_waypoint" );
+        return;
+    }
+    
+    objectives::goto( #"map_waypoint", waypoint.origin, undefined, 0, 0 );
+    
+    if ( isdefined( self.var_d9b5c896 ) )
+    {
+        thread objectives_ui::function_49dec5b( #"map_waypoint", undefined, self.var_d9b5c896 );
+    }
+    
+    if ( isdefined( level.interactive_map.objects[ #"map_waypoint" ] ) )
+    {
+        level.interactive_map.objects[ #"map_waypoint" ] notify( #"hash_7c1f9e1214f47b4e" );
+        level.interactive_map.objects[ #"map_waypoint" ] = waypoint;
+        waypoint thread function_9dfe141f( #"map_waypoint" );
+        function_d0243e5b( #"map_waypoint", "image", isdefined( waypoint.interactive_map.image ) ? waypoint.interactive_map.image : #"uie_map_lubyanka_marker_waypoint" );
+    }
+    else
+    {
+        waypoint add_object( #"map_waypoint", isdefined( waypoint.interactive_map.image ) ? waypoint.interactive_map.image : #"uie_map_lubyanka_marker_waypoint", 0 );
+    }
+    
+    thread function_5cab7397();
+    prompt_struct.player thread objectives_ui::show_objectives();
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0, eflags: 0x4
+// Checksum 0x76638b5c, Offset: 0x2b78
+// Size: 0x9c
+function private function_5cab7397()
+{
+    level notify( "7d6e51749c8e9e4e" );
+    level endon( #"close_interactive_map", "67654d36c6edcf61", #"hash_64a3b02565bdf75f" );
+    level waittill( #"hash_5644658da7c85062" );
+    objectives::remove( #"map_waypoint" );
+    remove_object( #"map_waypoint" );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 2, eflags: 0x4
+// Checksum 0x11d56830, Offset: 0x2c20
+// Size: 0x7c
+function private function_db6cb581( uid, widget_name = #"hash_21fb68e196ffe610" )
+{
+    function_d0243e5b( uid, "uid", uid );
+    function_d0243e5b( uid, "widgetName", widget_name );
+    thread function_fa8087e3();
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1, eflags: 0x4
+// Checksum 0xbfd029e2, Offset: 0x2ca8
+// Size: 0xec
+function private function_455d4424( uid )
+{
+    if ( level.interactive_map.cursor_object === self || level.interactive_map.cursor_hotspot === self )
+    {
+        level.interactive_map.cursor_object = undefined;
+        level.interactive_map.cursor_hotspot = undefined;
+        function_8b43da33();
+    }
+    
+    function_d0243e5b( uid, "widgetName", #"" );
+    scripted_widgets::clear_data( #"interactive_map", "mapObjects" + "." + uid, 1 );
+    thread function_fa8087e3();
+}
+
+// Namespace interactive_map/interactive_map
+// Params 3, eflags: 0x4
+// Checksum 0xc0f385c0, Offset: 0x2da0
+// Size: 0x266
+function private function_9dfe141f( uid, update_angles, angle_offset = 0 )
+{
+    level endon( #"close_interactive_map", #"hash_64a3b02565bdf75f" );
+    self endon( #"death", #"hash_7c1f9e1214f47b4e" );
+    self thread function_8e91c74c( uid );
+    
+    while ( true )
+    {
+        pos = self.origin;
+        angles = self.angles;
+        
+        if ( isentity( self ) )
+        {
+            pos += rotatepoint( self getboundsmidpoint(), angles );
+        }
+        
+        map_pos = pos - level.interactive_map.dims.top_left;
+        self.var_2ac0bdff = ( vectordot( map_pos, level.interactive_map.dims.x_axis ) / level.interactive_map.dims.width, vectordot( map_pos, level.interactive_map.dims.y_axis ) / level.interactive_map.dims.height, 0 );
+        function_d0243e5b( uid, "x", self.var_2ac0bdff[ 0 ] );
+        function_d0243e5b( uid, "y", self.var_2ac0bdff[ 1 ] );
+        
+        if ( is_true( update_angles ) )
+        {
+            function_d0243e5b( uid, "angle", angles[ 1 ] + angle_offset );
+        }
+        
+        waitframe( 1 );
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1, eflags: 0x4
+// Checksum 0xaedfead4, Offset: 0x3010
+// Size: 0x6c
+function private function_8e91c74c( uid )
+{
+    level endon( #"close_interactive_map", #"hash_64a3b02565bdf75f" );
+    self endon( #"hash_7c1f9e1214f47b4e" );
+    self waittill( #"death" );
+    thread remove_object( uid );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1, eflags: 0x4
+// Checksum 0xc2c95682, Offset: 0x3088
+// Size: 0x736
+function private update_cursor( var_ff0f9714 )
+{
+    level endon( #"remove_map_cursor", #"close_interactive_map", #"hash_64a3b02565bdf75f" );
+    player = getplayers()[ 0 ];
+    player endon( #"death" );
+    level.interactive_map.cursor_object = undefined;
+    level.interactive_map.cursor_hotspot = undefined;
+    level.interactive_map.var_1cd32747 = ( 0.5, 0.5, 0 );
+    cursor_object = undefined;
+    
+    if ( isdefined( level.interactive_map.var_87c49d20 ) )
+    {
+        cursor_delta = level.interactive_map.var_87c49d20 - level.interactive_map.dims.top_left;
+        level.interactive_map.var_1cd32747 = ( vectordot( cursor_delta, level.interactive_map.dims.x_axis ) / level.interactive_map.dims.width, vectordot( cursor_delta, level.interactive_map.dims.y_axis ) / level.interactive_map.dims.height, 0 );
+    }
+    
+    ratio = abs( level.interactive_map.dims.width / level.interactive_map.dims.height );
+    max_speed = ( 1 / max( 1, ratio ), 1 * min( 1, ratio ), 0 );
+    var_8bc122e4 = ratio <= 1 ? var_ff0f9714 : var_ff0f9714 + ( 1 - var_ff0f9714 ) / ratio;
+    var_de194793 = ratio >= 1 ? var_ff0f9714 : var_ff0f9714 + ( 1 - var_ff0f9714 ) / ratio;
+    min_x = 1 - var_8bc122e4;
+    max_x = var_8bc122e4;
+    min_y = 1 - var_de194793;
+    max_y = var_de194793;
+    
+    while ( true )
+    {
+        if ( scripted_widgets::should_hide( #"interactive_map" ) )
+        {
+            waitframe( 1 );
+            continue;
+        }
+        
+        var_c1ac175 = player getnormalizedcameramovement();
+        movement = player getnormalizedmovement();
+        var_29bb5399 = isdefined( level.interactive_map.cursor_object ) || isdefined( level.interactive_map.cursor_hotspot ) ? 0.66 : 1;
+        
+        if ( length2dsquared( var_c1ac175 ) > length2dsquared( movement ) * 0.5 )
+        {
+            movement = var_c1ac175;
+            
+            if ( !player gamepadusedlast() )
+            {
+                var_29bb5399 *= 5;
+            }
+        }
+        
+        if ( player gamepadusedlast() )
+        {
+            movement = ( util::function_b5338ccb( movement[ 1 ], 0.2 ), util::function_b5338ccb( movement[ 0 ] * -1, 0.2 ), 0 );
+        }
+        else
+        {
+            movement = ( movement[ 1 ], movement[ 0 ] * -1, 0 );
+        }
+        
+        level.interactive_map.var_1cd32747 += ( movement[ 0 ] * max_speed[ 0 ], movement[ 1 ] * max_speed[ 1 ], 0 ) * var_29bb5399 * float( function_60d95f53() ) / 1000;
+        level.interactive_map.var_1cd32747 = ( math::clamp( level.interactive_map.var_1cd32747[ 0 ], min_x, max_x ), math::clamp( level.interactive_map.var_1cd32747[ 1 ], min_y, max_y ), 0 );
+        level.interactive_map.var_87c49d20 = level.interactive_map.dims.top_left + level.interactive_map.var_1cd32747[ 0 ] * level.interactive_map.dims.width * level.interactive_map.dims.x_axis + level.interactive_map.var_1cd32747[ 1 ] * level.interactive_map.dims.height * level.interactive_map.dims.y_axis;
+        function_23036faa( #"cursor", "x", level.interactive_map.var_1cd32747[ 0 ] );
+        function_23036faa( #"cursor", "y", level.interactive_map.var_1cd32747[ 1 ] );
+        function_c9099483();
+        function_393ad031();
+        waitframe( 1 );
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0, eflags: 0x4
+// Checksum 0xce02e6cd, Offset: 0x37c8
+// Size: 0x152
+function private function_c9099483()
+{
+    if ( isdefined( level.interactive_map.cursor_object ) && !function_3fe61dc2( level.interactive_map.cursor_object ) )
+    {
+        thread cursor_off( level.interactive_map.cursor_object );
+        level.interactive_map.cursor_object = undefined;
+        return;
+    }
+    
+    if ( !isdefined( level.interactive_map.cursor_object ) )
+    {
+        foreach ( object in level.interactive_map.objects )
+        {
+            if ( function_3fe61dc2( object ) )
+            {
+                thread cursor_on( object );
+                level.interactive_map.cursor_object = object;
+                break;
+            }
+        }
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1, eflags: 0x4
+// Checksum 0xc61f6a36, Offset: 0x3928
+// Size: 0x118, Type: bool
+function private function_3fe61dc2( object )
+{
+    if ( isdefined( object.var_2ac0bdff ) )
+    {
+        delta = object.var_2ac0bdff - level.interactive_map.var_1cd32747;
+        scale = isdefined( function_dbf83dc4( object.interactive_map.uid, "scale" ) ) ? function_dbf83dc4( object.interactive_map.uid, "scale" ) : 1;
+        
+        if ( abs( delta[ 0 ] ) < 0.04 * scale && abs( delta[ 1 ] ) < 0.04 * scale )
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0, eflags: 0x4
+// Checksum 0x4d28a96f, Offset: 0x3a48
+// Size: 0x152
+function private function_393ad031()
+{
+    if ( isdefined( level.interactive_map.cursor_hotspot ) && !function_4c186262( level.interactive_map.cursor_hotspot ) )
+    {
+        thread cursor_off( level.interactive_map.cursor_hotspot );
+        level.interactive_map.cursor_hotspot = undefined;
+        return;
+    }
+    
+    foreach ( hotspot in level.interactive_map.hotspots )
+    {
+        if ( hotspot !== level.interactive_map.cursor_hotspot && function_4c186262( hotspot ) )
+        {
+            thread cursor_on( hotspot );
+            level.interactive_map.cursor_hotspot = hotspot;
+            break;
+        }
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1, eflags: 0x4
+// Checksum 0x4647f197, Offset: 0x3ba8
+// Size: 0x32
+function private function_4c186262( hotspot )
+{
+    return istouching( level.interactive_map.var_87c49d20, hotspot );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1, eflags: 0x4
+// Checksum 0xc0001655, Offset: 0x3be8
+// Size: 0x1d4
+function private cursor_on( object )
+{
+    object notify( #"hash_36f946ec36b9e18f" );
+    
+    if ( isdefined( object.var_f90e2591 ) )
+    {
+        object thread [[ object.var_f90e2591 ]]();
+    }
+    
+    if ( isdefined( object.var_62d718e2[ #"cursor_on" ] ) )
+    {
+        object.var_62d718e2[ #"cursor_on" ].cur_value = object.var_62d718e2[ #"cursor_on" ].value;
+        
+        if ( isdefined( object.interactive_map.uid ) )
+        {
+            function_d0243e5b( object.interactive_map.uid, object.var_62d718e2[ #"cursor_on" ].name, object.var_62d718e2[ #"cursor_on" ].cur_value );
+        }
+        else
+        {
+            function_e0cc3b71( object.var_62d718e2[ #"cursor_on" ].name, object.var_62d718e2[ #"cursor_on" ].cur_value );
+        }
+    }
+    
+    if ( function_a246a802( object ) )
+    {
+        function_e4d34e68( 1 );
+        function_9e8d4999( object.var_d9b5c896, object.var_94ca2a30, object.var_174e0272, object );
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1, eflags: 0x4
+// Checksum 0x94497c76, Offset: 0x3dc8
+// Size: 0x2ac
+function private cursor_off( object )
+{
+    object notify( #"hash_c1b6fc0fc30a88a" );
+    
+    if ( isdefined( object.var_938b0e9b ) )
+    {
+        object thread [[ object.var_938b0e9b ]]();
+    }
+    
+    if ( isdefined( object.var_62d718e2[ #"cursor_off" ] ) )
+    {
+        object.var_62d718e2[ #"cursor_off" ].cur_value = object.var_62d718e2[ #"cursor_off" ].value;
+        
+        if ( isdefined( object.interactive_map.uid ) )
+        {
+            function_d0243e5b( object.interactive_map.uid, object.var_62d718e2[ #"cursor_off" ].name, object.var_62d718e2[ #"cursor_off" ].cur_value );
+        }
+        else
+        {
+            function_e0cc3b71( object.var_62d718e2[ #"cursor_off" ].name, object.var_62d718e2[ #"cursor_off" ].cur_value );
+        }
+    }
+    
+    if ( level.interactive_map.var_2c15274b.object === object )
+    {
+        is_hotspot = object === level.interactive_map.cursor_hotspot;
+        var_6d991c4e = level.interactive_map.cursor_hotspot;
+        
+        if ( is_hotspot )
+        {
+            var_6d991c4e = level.interactive_map.cursor_object;
+        }
+        
+        if ( function_a246a802( object ) && !function_a246a802( var_6d991c4e ) )
+        {
+            function_e4d34e68( 0 );
+            function_8b43da33();
+            return;
+        }
+        
+        if ( function_a246a802( object ) && function_a246a802( var_6d991c4e ) )
+        {
+            function_9e8d4999( var_6d991c4e.var_d9b5c896, var_6d991c4e.var_94ca2a30, var_6d991c4e.var_174e0272, var_6d991c4e );
+        }
+    }
+}
+
+// Namespace interactive_map/interactive_map
+// Params 1, eflags: 0x4
+// Checksum 0xdada3521, Offset: 0x4080
+// Size: 0x3a, Type: bool
+function private function_a246a802( object )
+{
+    return isdefined( object.var_d9b5c896 ) || isdefined( object.var_94ca2a30 ) || isdefined( object.var_174e0272 );
+}
+
+// Namespace interactive_map/interactive_map
+// Params 0, eflags: 0x4
+// Checksum 0x99df197e, Offset: 0x40c8
+// Size: 0x3c
+function private function_fa8087e3()
+{
+    scripted_widgets::set_data( #"interactive_map", "update", 1, 1, 0, 0, 1 );
+}
+

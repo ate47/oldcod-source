@@ -18,55 +18,65 @@
 // Params 0, eflags: 0x6
 // Checksum 0xbe070c09, Offset: 0xd0
 // Size: 0x3c
-function private autoexec __init__system__() {
-    system::register(#"callback", &function_70a657d8, undefined, undefined, undefined);
+function private autoexec __init__system__()
+{
+    system::register( #"callback", &preinit, undefined, undefined, undefined );
 }
 
 // Namespace callback/callbacks
-// Params 0, eflags: 0x5 linked
+// Params 0, eflags: 0x4
 // Checksum 0x62abed31, Offset: 0x118
 // Size: 0x14
-function private function_70a657d8() {
+function private preinit()
+{
     set_default_callbacks();
 }
 
 // Namespace callback/callbacks
-// Params 2, eflags: 0x1 linked
+// Params 2
 // Checksum 0x7650ce7, Offset: 0x138
 // Size: 0x6c
-function on_prematch_end(func, obj) {
-    if (self == level) {
-        add_callback(#"prematch_end", func, obj);
+function on_prematch_end( func, obj )
+{
+    if ( self == level )
+    {
+        add_callback( #"prematch_end", func, obj );
         return;
     }
-    function_d8abfc3d(#"prematch_end", func, obj);
+    
+    function_d8abfc3d( #"prematch_end", func, obj );
 }
 
 // Namespace callback/callbacks
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0xc25f2343, Offset: 0x1b0
 // Size: 0x6c
-function function_c11071a8(func, obj) {
-    if (self == level) {
-        add_callback(#"hash_61d33e99084dd46c", func, obj);
+function function_c11071a8( func, obj )
+{
+    if ( self == level )
+    {
+        add_callback( #"prematch_start", func, obj );
         return;
     }
-    function_d8abfc3d(#"hash_61d33e99084dd46c", func, obj);
+    
+    function_d8abfc3d( #"prematch_start", func, obj );
 }
 
 // Namespace callback/callbacks
-// Params 2, eflags: 0x1 linked
+// Params 2
 // Checksum 0x50b9d2d5, Offset: 0x228
 // Size: 0x3c
-function on_changed_specialist(func, obj) {
-    add_callback(#"changed_specialist", func, obj);
+function on_changed_specialist( func, obj )
+{
+    add_callback( #"changed_specialist", func, obj );
 }
 
 // Namespace callback/callbacks
-// Params 0, eflags: 0x1 linked
+// Params 0
 // Checksum 0x71784738, Offset: 0x270
 // Size: 0x2cc
-function set_default_callbacks() {
+function set_default_callbacks()
+{
     level.callbackstartgametype = &globallogic::callback_startgametype;
     level.callbackplayerconnect = &player::callback_playerconnect;
     level.callbackplayerdisconnect = &player::callback_playerdisconnect;

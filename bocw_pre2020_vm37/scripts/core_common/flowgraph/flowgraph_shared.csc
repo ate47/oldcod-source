@@ -3,659 +3,790 @@
 #namespace flowgraph_logic;
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x332e5d30, Offset: 0x68
 // Size: 0x2a
-function iffunc(*x, b) {
-    return array(b, !b);
+function iffunc( *x, b )
+{
+    return array( b, !b );
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 3, eflags: 0x0
+// Params 3
 // Checksum 0xd73fbadf, Offset: 0xa0
 // Size: 0x4a
-function orfunc(*x, b_a, b_b) {
-    return array(b_a || b_b, !(b_a || b_b));
+function orfunc( *x, b_a, b_b )
+{
+    return array( b_a || b_b, !( b_a || b_b ) );
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 3, eflags: 0x0
+// Params 3
 // Checksum 0xf8de6dd3, Offset: 0xf8
 // Size: 0x4a
-function andfunc(*x, b_a, b_b) {
-    return array(b_a && b_b, !(b_a && b_b));
+function andfunc( *x, b_a, b_b )
+{
+    return array( b_a && b_b, !( b_a && b_b ) );
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x2a67e0d3, Offset: 0x150
-// Size: 0x12
-function notfunc(b_value) {
+// Size: 0x12, Type: bool
+function notfunc( b_value )
+{
     return !b_value;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x827830f9, Offset: 0x170
-// Size: 0x1a
-function lessthan(var_a, var_b) {
+// Size: 0x1a, Type: bool
+function lessthan( var_a, var_b )
+{
     return var_a < var_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x1c3c4818, Offset: 0x198
-// Size: 0x1a
-function function_b457969e(var_a, var_b) {
+// Size: 0x1a, Type: bool
+function function_b457969e( var_a, var_b )
+{
     return var_a <= var_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0xf6aaf10b, Offset: 0x1c0
-// Size: 0x1a
-function greaterthan(var_a, var_b) {
+// Size: 0x1a, Type: bool
+function greaterthan( var_a, var_b )
+{
     return var_a > var_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0xd2a54154, Offset: 0x1e8
-// Size: 0x1a
-function function_3743e19e(var_a, var_b) {
+// Size: 0x1a, Type: bool
+function function_3743e19e( var_a, var_b )
+{
     return var_a >= var_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0xfd58039c, Offset: 0x210
-// Size: 0x1a
-function equal(var_a, var_b) {
+// Size: 0x1a, Type: bool
+function equal( var_a, var_b )
+{
     return var_a == var_b;
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 3, eflags: 0x0
+// Params 3
 // Checksum 0xc262c4d2, Offset: 0x238
 // Size: 0xac
-function function_5cb6d7c8(*x, b_1, b_2) {
-    if (is_true(b_1)) {
-        self flowgraph::kick(array(undefined, 1, 0), 1);
+function function_5cb6d7c8( *x, b_1, b_2 )
+{
+    if ( is_true( b_1 ) )
+    {
+        self flowgraph::kick( array( undefined, 1, 0 ), 1 );
         return;
     }
-    if (is_true(b_2)) {
-        self flowgraph::kick(array(undefined, 0, 1), 1);
+    
+    if ( is_true( b_2 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 1 ), 1 );
     }
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 4, eflags: 0x0
+// Params 4
 // Checksum 0xc34b8bee, Offset: 0x2f0
 // Size: 0x114
-function function_4902305f(*x, b_1, b_2, b_3) {
-    if (is_true(b_1)) {
-        self flowgraph::kick(array(undefined, 1, 0, 0), 1);
+function function_4902305f( *x, b_1, b_2, b_3 )
+{
+    if ( is_true( b_1 ) )
+    {
+        self flowgraph::kick( array( undefined, 1, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_2)) {
-        self flowgraph::kick(array(undefined, 0, 1, 0), 1);
+    
+    if ( is_true( b_2 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 1, 0 ), 1 );
         return;
     }
-    if (is_true(b_3)) {
-        self flowgraph::kick(array(undefined, 0, 0, 1), 1);
+    
+    if ( is_true( b_3 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 1 ), 1 );
     }
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 5, eflags: 0x0
+// Params 5
 // Checksum 0x14426e00, Offset: 0x410
 // Size: 0x16c
-function function_3b225c4(*x, b_1, b_2, b_3, b_4) {
-    if (is_true(b_1)) {
-        self flowgraph::kick(array(undefined, 1, 0, 0, 0), 1);
+function function_3b225c4( *x, b_1, b_2, b_3, b_4 )
+{
+    if ( is_true( b_1 ) )
+    {
+        self flowgraph::kick( array( undefined, 1, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_2)) {
-        self flowgraph::kick(array(undefined, 0, 1, 0, 0), 1);
+    
+    if ( is_true( b_2 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 1, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_3)) {
-        self flowgraph::kick(array(undefined, 0, 0, 1, 0), 1);
+    
+    if ( is_true( b_3 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 1, 0 ), 1 );
         return;
     }
-    if (is_true(b_4)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 1), 1);
+    
+    if ( is_true( b_4 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 1 ), 1 );
     }
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 6, eflags: 0x0
+// Params 6
 // Checksum 0xc5e65810, Offset: 0x588
 // Size: 0x1c4
-function function_f82f0ebe(*x, b_1, b_2, b_3, b_4, b_5) {
-    if (is_true(b_1)) {
-        self flowgraph::kick(array(undefined, 1, 0, 0, 0, 0), 1);
+function function_f82f0ebe( *x, b_1, b_2, b_3, b_4, b_5 )
+{
+    if ( is_true( b_1 ) )
+    {
+        self flowgraph::kick( array( undefined, 1, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_2)) {
-        self flowgraph::kick(array(undefined, 0, 1, 0, 0, 0), 1);
+    
+    if ( is_true( b_2 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 1, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_3)) {
-        self flowgraph::kick(array(undefined, 0, 0, 1, 0, 0), 1);
+    
+    if ( is_true( b_3 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 1, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_4)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 1, 0), 1);
+    
+    if ( is_true( b_4 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 1, 0 ), 1 );
         return;
     }
-    if (is_true(b_5)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 1), 1);
+    
+    if ( is_true( b_5 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 1 ), 1 );
     }
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 7, eflags: 0x0
+// Params 7
 // Checksum 0xd360f10c, Offset: 0x758
 // Size: 0x21c
-function function_3f431ce5(*x, b_1, b_2, b_3, b_4, b_5, b_6) {
-    if (is_true(b_1)) {
-        self flowgraph::kick(array(undefined, 1, 0, 0, 0, 0, 0), 1);
+function function_3f431ce5( *x, b_1, b_2, b_3, b_4, b_5, b_6 )
+{
+    if ( is_true( b_1 ) )
+    {
+        self flowgraph::kick( array( undefined, 1, 0, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_2)) {
-        self flowgraph::kick(array(undefined, 0, 1, 0, 0, 0, 0), 1);
+    
+    if ( is_true( b_2 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 1, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_3)) {
-        self flowgraph::kick(array(undefined, 0, 0, 1, 0, 0, 0), 1);
+    
+    if ( is_true( b_3 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 1, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_4)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 1, 0, 0), 1);
+    
+    if ( is_true( b_4 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 1, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_5)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 1, 0), 1);
+    
+    if ( is_true( b_5 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 1, 0 ), 1 );
         return;
     }
-    if (is_true(b_6)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 0, 1), 1);
+    
+    if ( is_true( b_6 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 0, 1 ), 1 );
     }
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 8, eflags: 0x0
+// Params 8
 // Checksum 0x38a8f3e4, Offset: 0x980
 // Size: 0x2ac
-function function_2d817962(*x, b_1, b_2, b_3, b_4, b_5, b_6, b_7) {
-    if (is_true(b_1)) {
-        self flowgraph::kick(array(undefined, 1, 0, 0, 0, 0, 0, 0), 1);
+function function_2d817962( *x, b_1, b_2, b_3, b_4, b_5, b_6, b_7 )
+{
+    if ( is_true( b_1 ) )
+    {
+        self flowgraph::kick( array( undefined, 1, 0, 0, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_2)) {
-        self flowgraph::kick(array(undefined, 0, 1, 0, 0, 0, 0, 0), 1);
+    
+    if ( is_true( b_2 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 1, 0, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_3)) {
-        self flowgraph::kick(array(undefined, 0, 0, 1, 0, 0, 0, 0), 1);
+    
+    if ( is_true( b_3 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 1, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_4)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 1, 0, 0, 0), 1);
+    
+    if ( is_true( b_4 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 1, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_5)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 1, 0, 0), 1);
+    
+    if ( is_true( b_5 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 1, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_6)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 0, 1, 0), 1);
+    
+    if ( is_true( b_6 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 0, 1, 0 ), 1 );
         return;
     }
-    if (is_true(b_7)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 0, 0, 1), 1);
+    
+    if ( is_true( b_7 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 0, 0, 1 ), 1 );
     }
 }
 
 // Namespace flowgraph_logic/flowgraph_shared
-// Params 9, eflags: 0x0
+// Params 9
 // Checksum 0xbe86c5d4, Offset: 0xc38
 // Size: 0x30c
-function function_c8fcb052(*x, b_1, b_2, b_3, b_4, b_5, b_6, b_7, b_8) {
-    if (is_true(b_1)) {
-        self flowgraph::kick(array(undefined, 1, 0, 0, 0, 0, 0, 0, 0), 1);
+function function_c8fcb052( *x, b_1, b_2, b_3, b_4, b_5, b_6, b_7, b_8 )
+{
+    if ( is_true( b_1 ) )
+    {
+        self flowgraph::kick( array( undefined, 1, 0, 0, 0, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_2)) {
-        self flowgraph::kick(array(undefined, 0, 1, 0, 0, 0, 0, 0, 0), 1);
+    
+    if ( is_true( b_2 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 1, 0, 0, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_3)) {
-        self flowgraph::kick(array(undefined, 0, 0, 1, 0, 0, 0, 0, 0), 1);
+    
+    if ( is_true( b_3 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 1, 0, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_4)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 1, 0, 0, 0, 0), 1);
+    
+    if ( is_true( b_4 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 1, 0, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_5)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 1, 0, 0, 0), 1);
+    
+    if ( is_true( b_5 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 1, 0, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_6)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 0, 1, 0, 0), 1);
+    
+    if ( is_true( b_6 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 0, 1, 0, 0 ), 1 );
         return;
     }
-    if (is_true(b_7)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 0, 0, 1, 0), 1);
+    
+    if ( is_true( b_7 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 0, 0, 1, 0 ), 1 );
         return;
     }
-    if (is_true(b_8)) {
-        self flowgraph::kick(array(undefined, 0, 0, 0, 0, 0, 0, 0, 1), 1);
+    
+    if ( is_true( b_8 ) )
+    {
+        self flowgraph::kick( array( undefined, 0, 0, 0, 0, 0, 0, 0, 1 ), 1 );
     }
 }
 
 #namespace flowgraph_loops;
 
 // Namespace flowgraph_loops/flowgraph_shared
-// Params 3, eflags: 0x0
+// Params 3
 // Checksum 0xe14f874f, Offset: 0xf50
 // Size: 0x92
-function forloop(*x, i_begin, i_end) {
+function forloop( *x, i_begin, i_end )
+{
     i_step = 1;
-    if (i_end < i_begin) {
+    
+    if ( i_end < i_begin )
+    {
         i_step = -1;
     }
-    for (i = i_begin; i != i_end; i += i_step) {
-        self flowgraph::kick(array(1, i), 1);
+    
+    i = i_begin;
+    
+    while ( i != i_end )
+    {
+        self flowgraph::kick( array( 1, i ), 1 );
+        i += i_step;
     }
 }
 
 // Namespace flowgraph_loops/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x706d7097, Offset: 0xff0
 // Size: 0xb0
-function foreachloop(*x, a_items) {
-    foreach (item in a_items) {
-        self flowgraph::kick(array(1, item), 1);
+function foreachloop( *x, a_items )
+{
+    foreach ( item in a_items )
+    {
+        self flowgraph::kick( array( 1, item ), 1 );
     }
 }
 
 // Namespace flowgraph_loops/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0xbfbd4f62, Offset: 0x10a8
 // Size: 0x6e
-function whileloop(*x, b_condition) {
-    while (b_condition) {
-        self flowgraph::kick(1, 1);
+function whileloop( *x, b_condition )
+{
+    while ( b_condition )
+    {
+        self flowgraph::kick( 1, 1 );
         inputs = self flowgraph::collect_inputs();
-        b_condition = inputs[1];
+        b_condition = inputs[ 1 ];
     }
 }
 
 #namespace flowgraph_sequence;
 
 // Namespace flowgraph_sequence/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x671cd317, Offset: 0x1120
 // Size: 0x6c
-function sequence2(*x) {
-    self flowgraph::kick(array(1, 0), 1);
-    self flowgraph::kick(array(0, 1), 1);
+function sequence2( *x )
+{
+    self flowgraph::kick( array( 1, 0 ), 1 );
+    self flowgraph::kick( array( 0, 1 ), 1 );
 }
 
 // Namespace flowgraph_sequence/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x4d66120d, Offset: 0x1198
 // Size: 0x9c
-function sequence3(*x) {
-    self flowgraph::kick(array(1, 0, 0), 1);
-    self flowgraph::kick(array(0, 1, 0), 1);
-    self flowgraph::kick(array(0, 0, 1), 1);
+function sequence3( *x )
+{
+    self flowgraph::kick( array( 1, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 1, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 1 ), 1 );
 }
 
 // Namespace flowgraph_sequence/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x67d2cad8, Offset: 0x1240
 // Size: 0xcc
-function sequence4(*x) {
-    self flowgraph::kick(array(1, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 1, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 1, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 1), 1);
+function sequence4( *x )
+{
+    self flowgraph::kick( array( 1, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 1, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 1, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 1 ), 1 );
 }
 
 // Namespace flowgraph_sequence/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x5b3dd3af, Offset: 0x1318
 // Size: 0x124
-function sequence5(*x) {
-    self flowgraph::kick(array(1, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 1, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 1, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 1, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 1), 1);
+function sequence5( *x )
+{
+    self flowgraph::kick( array( 1, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 1, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 1, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 1, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 1 ), 1 );
 }
 
 // Namespace flowgraph_sequence/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x4f24b023, Offset: 0x1448
 // Size: 0x15c
-function sequence6(*x) {
-    self flowgraph::kick(array(1, 0, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 1, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 1, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 1, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 1, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 0, 1), 1);
+function sequence6( *x )
+{
+    self flowgraph::kick( array( 1, 0, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 1, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 1, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 1, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 1, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 0, 1 ), 1 );
 }
 
 // Namespace flowgraph_sequence/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x58250f4d, Offset: 0x15b0
 // Size: 0x194
-function sequence7(*x) {
-    self flowgraph::kick(array(1, 0, 0, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 1, 0, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 1, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 1, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 1, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 0, 1, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 0, 0, 1), 1);
+function sequence7( *x )
+{
+    self flowgraph::kick( array( 1, 0, 0, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 1, 0, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 1, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 1, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 1, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 0, 1, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 0, 0, 1 ), 1 );
 }
 
 // Namespace flowgraph_sequence/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xd03b6e2, Offset: 0x1750
 // Size: 0x1cc
-function sequence8(*x) {
-    self flowgraph::kick(array(1, 0, 0, 0, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 1, 0, 0, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 1, 0, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 1, 0, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 1, 0, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 0, 1, 0, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 0, 0, 1, 0), 1);
-    self flowgraph::kick(array(0, 0, 0, 0, 0, 0, 0, 1), 1);
+function sequence8( *x )
+{
+    self flowgraph::kick( array( 1, 0, 0, 0, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 1, 0, 0, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 1, 0, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 1, 0, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 1, 0, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 0, 1, 0, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 0, 0, 1, 0 ), 1 );
+    self flowgraph::kick( array( 0, 0, 0, 0, 0, 0, 0, 1 ), 1 );
 }
 
 #namespace flowgraph_util;
 
 // Namespace flowgraph_util/flowgraph_shared
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0xe21772ef, Offset: 0x1928
-// Size: 0x24
-function onflowgraphrun() {
-    self.owner waittill(#"flowgraph_run");
+// Size: 0x24, Type: bool
+function onflowgraphrun()
+{
+    self.owner waittill( #"flowgraph_run" );
     return true;
 }
 
 // Namespace flowgraph_util/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x92bd8512, Offset: 0x1958
-// Size: 0x1e
-function waitfunc(*x, f_seconds) {
+// Size: 0x1e, Type: bool
+function waitfunc( *x, f_seconds )
+{
     wait f_seconds;
     return true;
 }
 
 // Namespace flowgraph_util/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xb63dca6, Offset: 0x1980
-// Size: 0x10
-function createthread(*x) {
+// Size: 0x10, Type: bool
+function createthread( *x )
+{
     return true;
 }
 
 #namespace flowgraph_random;
 
 // Namespace flowgraph_random/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x6bc52c9b, Offset: 0x1998
 // Size: 0x2a
-function randomfloatinrangefunc(f_min, f_max) {
-    return randomfloatrange(f_min, f_max);
+function randomfloatinrangefunc( f_min, f_max )
+{
+    return randomfloatrange( f_min, f_max );
 }
 
 // Namespace flowgraph_random/flowgraph_shared
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x8eee1fde, Offset: 0x19d0
 // Size: 0x5a
-function randomunitvector() {
-    return vectornormalize((randomfloat(1), randomfloat(1), randomfloat(1)));
+function randomunitvector()
+{
+    return vectornormalize( ( randomfloat( 1 ), randomfloat( 1 ), randomfloat( 1 ) ) );
 }
 
 #namespace flowgraph_math;
 
 // Namespace flowgraph_math/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0xbd3c4fd9, Offset: 0x1a38
 // Size: 0x1a
-function multiply(var_1, *var_2) {
+function multiply( var_1, *var_2 )
+{
     return var_2 * var_2;
 }
 
 // Namespace flowgraph_math/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x4e666d78, Offset: 0x1a60
 // Size: 0x1a
-function divide(var_1, var_2) {
+function divide( var_1, var_2 )
+{
     return var_1 / var_2;
 }
 
 // Namespace flowgraph_math/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x77355ee7, Offset: 0x1a88
 // Size: 0x1a
-function add(var_1, var_2) {
+function add( var_1, var_2 )
+{
     return var_1 + var_2;
 }
 
 // Namespace flowgraph_math/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0xe3bc7bf9, Offset: 0x1ab0
 // Size: 0x1a
-function subtract(var_1, var_2) {
+function subtract( var_1, var_2 )
+{
     return var_1 - var_2;
 }
 
 // Namespace flowgraph_math/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x4901dd68, Offset: 0x1ad8
 // Size: 0x16
-function negate(v) {
+function negate( v )
+{
     return v * -1;
 }
 
 // Namespace flowgraph_math/flowgraph_shared
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0xc1d7f184, Offset: 0x1af8
 // Size: 0x2a
-function vectordotfunc(v_1, v_2) {
-    return vectordot(v_1, v_2);
+function vectordotfunc( v_1, v_2 )
+{
+    return vectordot( v_1, v_2 );
 }
 
 #namespace flowgraph_lighting;
 
 // Namespace flowgraph_lighting/flowgraph_shared
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0xc5a93ffe, Offset: 0x1b30
 // Size: 0x12
-function getlightingstatefunc() {
+function getlightingstatefunc()
+{
     return getlightingstate();
 }
 
 #namespace flowgraph_level;
 
 // Namespace flowgraph_level/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xc1f0d79a, Offset: 0x1b50
 // Size: 0x18
-function function_35dc468d(str_field) {
-    return level.(str_field);
+function function_35dc468d( str_field )
+{
+    return level.( str_field );
 }
 
 // Namespace flowgraph_level/flowgraph_shared
-// Params 3, eflags: 0x0
+// Params 3
 // Checksum 0xf43e0a3c, Offset: 0x1b70
-// Size: 0x32
-function function_f9d5c4b0(*x, str_field, var_value) {
-    level.(str_field) = var_value;
+// Size: 0x32, Type: bool
+function function_f9d5c4b0( *x, str_field, var_value )
+{
+    level.( str_field ) = var_value;
     return true;
 }
 
 #namespace namespace_22752a75;
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xb49b809, Offset: 0x1bb0
 // Size: 0x10
-function function_8892c7a6(i_value) {
+function function_8892c7a6( i_value )
+{
     return i_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x40a31456, Offset: 0x1bc8
 // Size: 0x10
-function function_28c4ae67(var_2eb63fd3) {
-    return var_2eb63fd3;
+function function_28c4ae67( f_value )
+{
+    return f_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xdc2e4f6, Offset: 0x1be0
 // Size: 0x10
-function function_36bf9c6c(b_value) {
+function function_36bf9c6c( b_value )
+{
     return b_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x772b5428, Offset: 0x1bf8
 // Size: 0x10
-function function_fe4cf085(str_value) {
+function function_fe4cf085( str_value )
+{
     return str_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x64d6c914, Offset: 0x1c10
 // Size: 0x10
-function function_3ece9d7e(var_4cb0cd3c) {
-    return var_4cb0cd3c;
+function function_3ece9d7e( h_value )
+{
+    return h_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x3a3b8292, Offset: 0x1c28
 // Size: 0x10
-function function_68a5d644(var_30e9e231) {
-    return var_30e9e231;
+function function_68a5d644( ea_value )
+{
+    return ea_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xa05c9c85, Offset: 0x1c40
 // Size: 0x10
-function vectorconstant(v_value) {
+function vectorconstant( v_value )
+{
     return v_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xee230760, Offset: 0x1c58
 // Size: 0x10
-function pathnodeconstant(var_f4af12cc) {
+function pathnodeconstant( var_f4af12cc )
+{
     return var_f4af12cc;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x8bc5731a, Offset: 0x1c70
 // Size: 0x10
-function function_9ef80b8b(e_value) {
+function function_9ef80b8b( e_value )
+{
     return e_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xe7b2a8e0, Offset: 0x1c88
 // Size: 0x10
-function introduction_minigun(ai_value) {
+function introduction_minigun( ai_value )
+{
     return ai_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x54174014, Offset: 0x1ca0
 // Size: 0x10
-function function_513da14e(var_162b6305) {
+function function_513da14e( var_162b6305 )
+{
     return var_162b6305;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x1ae7ad80, Offset: 0x1cb8
 // Size: 0x10
-function function_7cbb60c3(var_e7355b57) {
-    return var_e7355b57;
+function function_7cbb60c3( sp_value )
+{
+    return sp_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xc1034e0f, Offset: 0x1cd0
 // Size: 0x10
-function function_f2357a4d(var_52d6c2bd) {
-    return var_52d6c2bd;
+function function_f2357a4d( w_value )
+{
+    return w_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xccde7c84, Offset: 0x1ce8
 // Size: 0x10
-function function_79f7d941(var_value) {
+function function_79f7d941( var_value )
+{
     return var_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x2f3c50ff, Offset: 0x1d00
 // Size: 0x10
-function function_fdafe394(var_e477c3b) {
+function function_fdafe394( var_e477c3b )
+{
     return var_e477c3b;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x5a083a7b, Offset: 0x1d18
 // Size: 0x10
-function function_28848a6a(var_6b11d5a) {
-    return var_6b11d5a;
+function function_28848a6a( mdl_value )
+{
+    return mdl_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x44a103e7, Offset: 0x1d30
 // Size: 0x10
-function function_8f5a9b3e(fx_value) {
+function function_8f5a9b3e( fx_value )
+{
     return fx_value;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xb5176f33, Offset: 0x1d48
 // Size: 0x10
-function function_a5f771ce(var_e0bddaf5) {
+function function_a5f771ce( var_e0bddaf5 )
+{
     return var_e0bddaf5;
 }
 
 // Namespace namespace_22752a75/flowgraph_shared
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xa4939cce, Offset: 0x1d60
 // Size: 0x10
-function function_527fa489(var_5ab747e5) {
+function function_527fa489( var_5ab747e5 )
+{
     return var_5ab747e5;
 }
 

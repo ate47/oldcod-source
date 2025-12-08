@@ -1,0 +1,644 @@
+#using script_1cd690a97dfca36e;
+#using scripts\core_common\array_shared;
+#using scripts\core_common\math_shared;
+#using scripts\core_common\util_shared;
+#using scripts\cp_common\snd_utility;
+
+#namespace snd;
+
+/#
+
+    // Namespace snd/snd_draw
+    // Params 7
+    // Checksum 0x15a4c6ae, Offset: 0x88
+    // Size: 0x154, Type: dev
+    function function_669c57bc( posx, posy, text, color, alpha, scale, duration )
+    {
+        if ( isdefined( text ) == 0 || text == "<dev string:x38>" )
+        {
+            return;
+        }
+        
+        color = function_ea2f17d1( color, ( 1, 1, 1 ) );
+        alpha = function_ea2f17d1( alpha, 1 );
+        scale = function_ea2f17d1( scale, 1 );
+        duration = function_ea2f17d1( duration, 1 );
+        
+        if ( isscriptfunctionptr( level.var_44a79f1b ) == 1 )
+        {
+            [[ level.var_44a79f1b ]]( posx, posy, text, color, alpha, scale, duration );
+            return;
+        }
+        
+        debug2dtext( ( posx, posy, 0 ), text, color, alpha, ( 0, 0, 0 ), 0, scale, duration );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 2
+    // Checksum 0xbccd9387, Offset: 0x1e8
+    // Size: 0x134, Type: dev
+    function function_9f4eb444( text, scale )
+    {
+        assert( isdefined( text ) );
+        
+        if ( isdefined( scale ) == 0 )
+        {
+            scale = 1;
+        }
+        
+        vidresolution = function_827811b5();
+        vidwidth = vidresolution[ 0 ];
+        vidheight = vidresolution[ 1 ];
+        textlength = text.size;
+        textwidth = textlength * 11 * scale;
+        centerx = vidwidth * 0.5 - textwidth * 0.5;
+        centery = vidheight * 0.5 - 12;
+        center = array( centerx, centery );
+        return center;
+    }
+
+    // Namespace snd/snd_draw
+    // Params 2
+    // Checksum 0x23f1810c, Offset: 0x328
+    // Size: 0xa4, Type: dev
+    function function_409c06e5( text, scale )
+    {
+        centerpos = function_9f4eb444( text, scale );
+        defaultposx = centerpos[ 0 ];
+        defaultposy = centerpos[ 1 ];
+        defaultposy = defaultposy * 0.5 + 12;
+        defaultpos = array( defaultposx, defaultposy );
+        return defaultpos;
+    }
+
+    // Namespace snd/snd_draw
+    // Params 7, eflags: 0x4
+    // Checksum 0x266356f7, Offset: 0x3d8
+    // Size: 0x41c, Type: dev
+    function private function_ac3c5285( posx, posy, text, color, scale, fadeoutseconds, blinkseconds )
+    {
+        rowincrement = 24 * scale;
+        frametime = function_6cfa7975();
+        frametotal = int( fadeoutseconds / frametime );
+        framecount = 0;
+        blinkframes = int( blinkseconds / frametime );
+        var_9a0d8dab = 1;
+        blinkcount = 0;
+        
+        if ( is_true( level._snd.var_8c37ff34 ) )
+        {
+            var_9a0d8dab = 2;
+        }
+        
+        if ( isarray( level.var_89c4a5f0 ) == 0 )
+        {
+            level.var_89c4a5f0 = array();
+        }
+        
+        assert( isarray( level.var_89c4a5f0 ) );
+        
+        if ( level.var_89c4a5f0.size > 0 )
+        {
+            foreach ( row in level.var_89c4a5f0 )
+            {
+                if ( isinarray( level.var_89c4a5f0, posy ) == 1 )
+                {
+                    posy += rowincrement;
+                    continue;
+                }
+                
+                break;
+            }
+        }
+        
+        level.var_89c4a5f0[ level.var_89c4a5f0.size ] = posy;
+        
+        while ( framecount < frametotal )
+        {
+            if ( framecount < blinkframes )
+            {
+                blinkstate = int( float( framecount ) / float( var_9a0d8dab ) );
+                blinkstate %= 2;
+                
+                if ( blinkstate )
+                {
+                    framecount += 1;
+                    waitframe( 1 );
+                    continue;
+                }
+            }
+            
+            framefrac = float( framecount ) / float( frametotal );
+            framefrac = math::clamp( framefrac, 0, 1 );
+            alpha = function_b918d683( 1 - framefrac, "<dev string:x3c>" );
+            alphasq = alpha * alpha;
+            colorscale = function_2677a7e2( color, alpha );
+            function_65bb0ccd( text, posx, posy, scale, "<dev string:x47>", colorscale, alpha, ( 0, 0, 0 ), alphasq, ( 1, 1, 1 ), alphasq, 1 );
+            framecount += 1;
+            waitframe( 1 );
+        }
+        
+        if ( isarray( level.var_89c4a5f0 ) )
+        {
+            arrayremovevalue( level.var_89c4a5f0, posy );
+        }
+    }
+
+    // Namespace snd/snd_draw
+    // Params 7
+    // Checksum 0x8ae763fa, Offset: 0x800
+    // Size: 0x1a4, Type: dev
+    function function_3ba3cecb( text, posx, posy, color, scale, fadeoutseconds, blinkseconds )
+    {
+        assert( isdefined( text ) == 1 );
+        color = function_ea2f17d1( color, ( 1, 0.5, 0.5 ) );
+        scale = function_ea2f17d1( scale, 1.75 );
+        fadeoutseconds = function_ea2f17d1( fadeoutseconds, 4 );
+        blinkseconds = function_ea2f17d1( blinkseconds, 1 );
+        
+        if ( isdefined( posx ) == 0 || isdefined( posy ) == 0 )
+        {
+            defaultpos = function_409c06e5( text, scale );
+            
+            if ( isdefined( posx ) == 0 )
+            {
+                posx = defaultpos[ 0 ];
+            }
+            
+            if ( isdefined( posy ) == 0 )
+            {
+                posy = defaultpos[ 1 ];
+            }
+        }
+        
+        level thread function_ac3c5285( posx, posy, text, color, scale, fadeoutseconds, blinkseconds );
+        println( text );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 7
+    // Checksum 0xff553758, Offset: 0x9b0
+    // Size: 0x64, Type: dev
+    function snd_print3d( origin, text, color, alpha, scale, duration, centered )
+    {
+        print3d( origin, text, color, alpha, scale, duration, centered );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 7
+    // Checksum 0x524d9c31, Offset: 0xa20
+    // Size: 0x64, Type: dev
+    function function_4e22152d( origin, text, color, alpha, scale, duration, *right )
+    {
+        print3d( text, color, alpha, scale, duration, right, 1 );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 12
+    // Checksum 0xa6d4d5a, Offset: 0xa90
+    // Size: 0x3e4, Type: dev
+    function function_65bb0ccd( text, x, y, scale, var_6c897a55, color, alpha, shadowcolor, shadowalpha, lightcolor, lightalpha, duration )
+    {
+        color = function_ea2f17d1( color, ( 1, 1, 1 ) );
+        alpha = function_ea2f17d1( alpha, 1 );
+        scale = function_ea2f17d1( scale, 1 );
+        var_6c897a55 = function_ea2f17d1( var_6c897a55, "<dev string:x4c>" );
+        duration = function_ea2f17d1( duration, 1 );
+        offset = ( 0, ( 20 - 24 ) * scale, 0 );
+        width = 11 * scale * text.size;
+        
+        switch ( var_6c897a55 )
+        {
+            case 0:
+            case #"left":
+            case #"l":
+            default:
+                break;
+            case 1:
+            case #"c":
+            case #"centered":
+            case #"center":
+                offset += ( width * -0.5, 0, 0 );
+                break;
+            case 2:
+            case #"r":
+            case #"right":
+                offset += ( width * -1, 0, 0 );
+                break;
+        }
+        
+        if ( isdefined( shadowcolor ) == 1 )
+        {
+            shadowoffset = 1;
+            
+            if ( !isdefined( shadowalpha ) )
+            {
+                shadowalpha = alpha * 0.7333;
+            }
+            
+            position = ( x + 1 * scale, y + 1 * scale, 0 ) + offset;
+            function_669c57bc( position[ 0 ], position[ 1 ], text, shadowcolor, shadowalpha, scale, duration );
+        }
+        
+        if ( isdefined( lightcolor ) == 1 )
+        {
+            if ( !isdefined( lightalpha ) )
+            {
+                lightalpha = alpha * 0.7333;
+            }
+            
+            position = ( x + -0.666 * scale, y + -0.666 * scale, 0 ) + offset;
+            function_669c57bc( position[ 0 ], position[ 1 ], text, lightcolor, lightalpha, scale, duration );
+        }
+        
+        position = ( x, y, 0 ) + offset;
+        function_669c57bc( position[ 0 ], position[ 1 ], text, color, alpha, scale, duration );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 11
+    // Checksum 0xae031b7f, Offset: 0xe80
+    // Size: 0x6a4, Type: dev
+    function print3dplus( text, origin, scale, var_6c897a55, color, alpha, shadowcolor, shadowalpha, lightcolor, lightalpha, duration )
+    {
+        color = function_ea2f17d1( color, ( 1, 1, 1 ) );
+        alpha = function_ea2f17d1( alpha, 1 );
+        scale = function_ea2f17d1( scale, 1 );
+        var_6c897a55 = function_ea2f17d1( var_6c897a55, "<dev string:x4c>" );
+        duration = int( function_ea2f17d1( duration, 1 ) );
+        textsize = text.size;
+        
+        if ( issubstr( text, "<dev string:x54>" ) )
+        {
+            lines = strtok( text, "<dev string:x54>" );
+            
+            if ( isarray( lines ) && lines.size > 1 )
+            {
+                longest = 0;
+                
+                foreach ( line in lines )
+                {
+                    if ( line.size > longest )
+                    {
+                        longest = line.size;
+                    }
+                }
+                
+                textsize = longest;
+            }
+        }
+        
+        width = 11 * scale * textsize;
+        offset = ( 0, 0, 4 * scale );
+        centered = 0;
+        
+        switch ( var_6c897a55 )
+        {
+            case 0:
+            case #"left":
+            case #"l":
+            default:
+                break;
+            case 1:
+            case #"c":
+            case #"centered":
+            case #"center":
+                centered = 1;
+                break;
+            case 2:
+            case #"r":
+            case #"right":
+                offset += ( width * -1, 0, 0 );
+                break;
+        }
+        
+        viewanglesright = ( 1, 0, 0 );
+        viewanglesup = ( 0, 0, 1 );
+        players = getplayerssafe();
+        
+        if ( isarray( players ) == 1 && isdefined( players[ 0 ] ) )
+        {
+            player = players[ 0 ];
+            vieworigin = player getplayervieworigin();
+            viewangles = player getplayerviewangles();
+            viewanglesright = anglestoright( viewangles );
+            viewanglesup = anglestoup( viewangles );
+            
+            if ( scale < 0 )
+            {
+                dist = distance( origin, vieworigin );
+                fixeddistscalar = dist * 0.002;
+                scale *= fixeddistscalar;
+            }
+        }
+        
+        offsetright = viewanglesright * offset[ 0 ];
+        offsetup = viewanglesup * offset[ 2 ];
+        scale = abs( scale );
+        
+        if ( isdefined( shadowcolor ) == 1 )
+        {
+            if ( !isdefined( shadowalpha ) )
+            {
+                shadowalpha = alpha * 0.72974;
+            }
+            
+            shadowoffset = viewanglesright * 1 * scale + viewanglesup * -1 * scale;
+            position = origin + viewanglesright * offset[ 0 ] + viewanglesup * offset[ 2 ];
+            position += shadowoffset;
+            print3d( position, text, shadowcolor, shadowalpha, scale, duration, centered );
+        }
+        
+        if ( isdefined( lightcolor ) == 1 )
+        {
+            if ( !isdefined( lightalpha ) )
+            {
+                lightalpha = alpha * 0.72974;
+            }
+            
+            lightoffset = viewanglesright * -0.666 * scale + viewanglesup * 0.666 * scale;
+            position = origin + viewanglesright * offset[ 0 ] + viewanglesup * offset[ 2 ];
+            position += lightoffset;
+            print3d( position, text, lightcolor, lightalpha, scale, duration, centered );
+        }
+        
+        position = origin + viewanglesright * offset[ 0 ] + viewanglesup * offset[ 2 ];
+        print3d( position, text, color, alpha, scale, duration, centered );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 4, eflags: 0x4
+    // Checksum 0x32732575, Offset: 0x1530
+    // Size: 0x184, Type: dev
+    function private function_bfdce45f( color, depthtest, drawpatharray, offset )
+    {
+        if ( drawpatharray.size < 2 )
+        {
+            return;
+        }
+        
+        linecount = drawpatharray.size - 1;
+        alpha = 1;
+        alphastep = 1 / linecount;
+        colorscale = color;
+        
+        while ( linecount > 0 )
+        {
+            orgend = drawpatharray[ linecount ];
+            orgstart = drawpatharray[ linecount - 1 ];
+            
+            if ( isvec( orgend ) == 1 && isvec( orgstart ) == 1 && orgend != orgstart )
+            {
+                if ( isvec( offset ) == 1 )
+                {
+                    orgend += offset;
+                    orgstart += offset;
+                }
+                
+                line( orgend, orgstart, colorscale, alpha, depthtest, 1 );
+            }
+            
+            colorscale = vectorscale( color, alpha * 1.5 );
+            alpha -= alphastep;
+            linecount--;
+        }
+    }
+
+    // Namespace snd/snd_draw
+    // Params 4, eflags: 0x4
+    // Checksum 0x908038ee, Offset: 0x16c0
+    // Size: 0x1fa, Type: dev
+    function private function_6ee9efa7( color, depthtest, duration, offset )
+    {
+        assert( isdefined( self.origin ) == 1, "<dev string:x59>" );
+        assert( isvec( color ) == 1, "<dev string:x7e>" );
+        assert( isdefined( duration ) == 1, "<dev string:x9c>" );
+        framecount = 0;
+        drawpatharray = array();
+        drawpatharray[ 0 ] = self.origin;
+        self endon( #"hash_2605f8ddd93ed8f9" );
+        
+        while ( drawpatharray.size > 0 )
+        {
+            temppatharray = array();
+            
+            if ( framecount >= duration )
+            {
+                for ( i = 1; i < drawpatharray.size ; i++ )
+                {
+                    temppatharray[ i - 1 ] = drawpatharray[ i ];
+                }
+            }
+            else
+            {
+                temppatharray = drawpatharray;
+            }
+            
+            if ( isdefined( self ) == 1 && isdefined( self.origin ) == 1 && function_3132f113( self ) == 0 )
+            {
+                temppatharray[ temppatharray.size ] = self.origin;
+            }
+            
+            drawpatharray = temppatharray;
+            function_bfdce45f( color, depthtest, drawpatharray, offset );
+            framecount++;
+            waitframe( 1 );
+        }
+    }
+
+    // Namespace snd/snd_draw
+    // Params 5
+    // Checksum 0x2d9940f2, Offset: 0x18c8
+    // Size: 0x13c, Type: dev
+    function snd_drawpath( movingobject, color, depthtest, duration, offset )
+    {
+        color = function_ea2f17d1( color, ( 1, 1, 1 ) );
+        depthtest = function_ea2f17d1( depthtest, 0 );
+        duration = function_ea2f17d1( duration, 5 );
+        
+        if ( is_true( level._snd.var_8c37ff34 ) )
+        {
+            duration = int( 60 * duration );
+        }
+        else
+        {
+            duration = int( 20 * duration );
+        }
+        
+        assert( duration > 2, "<dev string:xbd>" );
+        movingobject thread function_6ee9efa7( color, depthtest, duration, offset );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 7
+    // Checksum 0xca1b2e50, Offset: 0x1a10
+    // Size: 0x404, Type: dev
+    function function_a787fe30( origin, angles, extents, color, alpha, depthtest, duration )
+    {
+        half = extents * 0.5;
+        halv = ( half, half, half );
+        mins = origin - halv;
+        maxs = origin + halv;
+        side1[ 0 ] = ( maxs[ 0 ], maxs[ 1 ], maxs[ 2 ] );
+        side1[ 1 ] = ( maxs[ 0 ], maxs[ 1 ], mins[ 2 ] );
+        side1[ 2 ] = ( mins[ 0 ], maxs[ 1 ], mins[ 2 ] );
+        side1[ 3 ] = ( mins[ 0 ], maxs[ 1 ], maxs[ 2 ] );
+        side2[ 0 ] = ( maxs[ 0 ], mins[ 1 ], maxs[ 2 ] );
+        side2[ 1 ] = ( maxs[ 0 ], mins[ 1 ], mins[ 2 ] );
+        side2[ 2 ] = ( mins[ 0 ], mins[ 1 ], mins[ 2 ] );
+        side2[ 3 ] = ( mins[ 0 ], mins[ 1 ], maxs[ 2 ] );
+        
+        if ( angles != ( 0, 0, 0 ) )
+        {
+            side1[ 0 ] = origin + rotatepoint( origin - side1[ 0 ], angles );
+            side1[ 1 ] = origin + rotatepoint( origin - side1[ 1 ], angles );
+            side1[ 2 ] = origin + rotatepoint( origin - side1[ 2 ], angles );
+            side1[ 3 ] = origin + rotatepoint( origin - side1[ 3 ], angles );
+            side2[ 0 ] = origin + rotatepoint( origin - side2[ 0 ], angles );
+            side2[ 1 ] = origin + rotatepoint( origin - side2[ 1 ], angles );
+            side2[ 2 ] = origin + rotatepoint( origin - side2[ 2 ], angles );
+            side2[ 3 ] = origin + rotatepoint( origin - side2[ 3 ], angles );
+        }
+        
+        for ( i = 0; i < 4 ; i++ )
+        {
+            j = i + 1;
+            
+            if ( j == 4 )
+            {
+                j = 0;
+            }
+            
+            line( side1[ i ], side1[ j ], color, alpha, depthtest, duration );
+            line( side2[ i ], side2[ j ], color, alpha, depthtest, duration );
+            line( side1[ i ], side2[ i ], color, alpha, depthtest, duration );
+        }
+    }
+
+    // Namespace snd/snd_draw
+    // Params 7
+    // Checksum 0x51b94f7e, Offset: 0x1e20
+    // Size: 0x64, Type: dev
+    function cube( origin, angles, sidelength, color, alpha, depthtest, duration )
+    {
+        function_a787fe30( origin, angles, sidelength, color, alpha, depthtest, duration );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 7
+    // Checksum 0x872a0309, Offset: 0x1e90
+    // Size: 0x2ac, Type: dev
+    function debugcrosshair( origin, size, angles, color, alpha, depthtest, duration )
+    {
+        forward = ( 1, 0, 0 );
+        right = ( 0, 1, 0 );
+        up = ( 0, 0, 1 );
+        size = function_ea2f17d1( size, 16 );
+        angles = function_ea2f17d1( angles, ( 0, 0, 0 ) );
+        color = function_ea2f17d1( color, ( 1, 1, 1 ) );
+        alpha = function_ea2f17d1( alpha, 1 );
+        depthtest = function_ea2f17d1( depthtest, 0 );
+        duration = function_ea2f17d1( duration, 1 );
+        
+        if ( angles != ( 0, 0, 0 ) )
+        {
+            forward = anglestoforward( angles );
+            right = anglestoright( angles ) * -1;
+            up = anglestoup( angles );
+        }
+        
+        half = size * 0.5;
+        forward *= half;
+        right *= half;
+        up *= half;
+        mulc = 0.333;
+        mulv = ( mulc, mulc, mulc );
+        colr = color * mulv + ( 1, 0, 0 );
+        colg = color * mulv + ( 0, 1, 0 );
+        colb = color * mulv + ( 0, 0, 1 );
+        line( origin - forward, origin + forward, colr, alpha, depthtest, duration );
+        line( origin - right, origin + right, colg, alpha, depthtest, duration );
+        line( origin - up, origin + up, colb, alpha, depthtest, duration );
+    }
+
+    // Namespace snd/snd_draw
+    // Params 8
+    // Checksum 0x6e4bf453, Offset: 0x2148
+    // Size: 0x384, Type: dev
+    function debugarrow( origin, angles, length, headsize, color, alpha, depthtest, duration )
+    {
+        assert( isvec( origin ) );
+        assert( isvec( angles ) );
+        length = function_ea2f17d1( length, 12 );
+        headsize = function_ea2f17d1( headsize, 4 );
+        color = function_ea2f17d1( color, ( 1, 1, 1 ) );
+        alpha = function_ea2f17d1( alpha, 1 );
+        depthtest = function_ea2f17d1( depthtest, 0 );
+        duration = int( function_ea2f17d1( duration, 1 ) );
+        arrow_forward = anglestoforward( angles );
+        arrowhead_forward = arrow_forward;
+        arrowhead_right = anglestoright( angles );
+        arrowhead_up = anglestoup( angles );
+        arrowhead_down = arrowhead_up;
+        arrow_forward = vectorscale( arrow_forward, length );
+        arrowhead_forward = vectorscale( arrowhead_forward, length - headsize );
+        arrowhead_right = vectorscale( arrowhead_right, headsize );
+        arrowhead_up = vectorscale( arrowhead_up, headsize );
+        arrowhead_down = vectorscale( arrowhead_down, -1 * headsize );
+        o = origin;
+        a = o + arrow_forward;
+        b = o + arrowhead_forward - arrowhead_right;
+        c = o + arrowhead_forward + arrowhead_right;
+        d = o + arrowhead_forward + arrowhead_up;
+        e = o + arrowhead_forward + arrowhead_down;
+        line( o, a, color, alpha, depthtest, duration );
+        line( a, b, color, alpha, depthtest, duration );
+        line( b, c, color, alpha, depthtest, duration );
+        line( c, a, color, alpha, depthtest, duration );
+        line( a, d, color, alpha, depthtest, duration );
+        line( d, e, color, alpha, depthtest, duration );
+        line( e, a, color, alpha, depthtest, duration );
+    }
+
+#/
+
+// Namespace snd/snd_draw
+// Params 1
+// Checksum 0x2f78cd61, Offset: 0x24d8
+// Size: 0x26
+function function_79f31114( screenheight )
+{
+    var_bfd4f22d = 480 / screenheight;
+    return var_bfd4f22d;
+}
+
+// Namespace snd/snd_draw
+// Params 2
+// Checksum 0x2f32d360, Offset: 0x2508
+// Size: 0xca
+function function_df9f894b( coordinates, screensize )
+{
+    screensize = function_ea2f17d1( screensize, function_827811b5() );
+    var_bfd4f22d = function_79f31114( screensize[ 1 ] );
+    hudwidth = coordinates[ 0 ] * var_bfd4f22d;
+    hudheight = coordinates[ 1 ] * var_bfd4f22d;
+    return array( int( hudwidth ), int( hudheight ) );
+}
+
+// Namespace snd/snd_draw
+// Params 2
+// Checksum 0xa1474f72, Offset: 0x25e0
+// Size: 0x10a
+function function_da7b7c0e( coordinates, screensize )
+{
+    screensize = function_ea2f17d1( screensize, function_827811b5() );
+    var_bfd4f22d = function_79f31114( screensize[ 1 ] );
+    hudx = coordinates[ 0 ] * var_bfd4f22d;
+    hudy = coordinates[ 1 ] * var_bfd4f22d;
+    screenaspect = screensize[ 0 ] / screensize[ 1 ];
+    var_73ea373d = screenaspect * 480;
+    hudxoffset = -0.5 * ( var_73ea373d - 640 );
+    hudx += hudxoffset;
+    return array( hudx, hudy );
+}
+

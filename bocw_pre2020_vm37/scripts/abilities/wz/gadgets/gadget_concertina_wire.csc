@@ -7,15 +7,17 @@
 // Params 0, eflags: 0x6
 // Checksum 0x3c41d14b, Offset: 0x90
 // Size: 0x3c
-function private autoexec __init__system__() {
-    system::register(#"gadget_concertina_wire", &function_70a657d8, undefined, undefined, undefined);
+function private autoexec __init__system__()
+{
+    system::register( #"gadget_concertina_wire", &preinit, undefined, undefined, undefined );
 }
 
 // Namespace concertina_wire/gadget_concertina_wire
-// Params 0, eflags: 0x5 linked
+// Params 0, eflags: 0x4
 // Checksum 0x66c7e705, Offset: 0xd8
 // Size: 0x1c
-function private function_70a657d8() {
-    init_shared("concertina_wire_settings_wz");
+function private preinit()
+{
+    init_shared( "concertina_wire_settings_wz" );
 }
 

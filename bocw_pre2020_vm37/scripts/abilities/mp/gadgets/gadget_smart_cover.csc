@@ -14,15 +14,17 @@
 // Params 0, eflags: 0x6
 // Checksum 0x175ca1a8, Offset: 0xa8
 // Size: 0x3c
-function private autoexec __init__system__() {
-    system::register(#"gadget_smart_cover", &function_70a657d8, undefined, undefined, undefined);
+function private autoexec __init__system__()
+{
+    system::register( #"gadget_smart_cover", &preinit, undefined, undefined, undefined );
 }
 
 // Namespace smart_cover/gadget_smart_cover
-// Params 0, eflags: 0x5 linked
+// Params 0, eflags: 0x4
 // Checksum 0x3f429e57, Offset: 0xf0
 // Size: 0x14
-function private function_70a657d8() {
+function private preinit()
+{
     init_shared();
 }
 

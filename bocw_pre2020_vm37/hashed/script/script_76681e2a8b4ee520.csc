@@ -1,0 +1,35 @@
+#using script_7198e82f67d7691;
+#using scripts\core_common\array_shared;
+#using scripts\core_common\flag_shared;
+#using scripts\core_common\struct;
+#using scripts\core_common\util_shared;
+
+#namespace namespace_cd80be1c;
+
+// Namespace namespace_cd80be1c/namespace_66604d58
+// Params 0
+// Checksum 0x80f724d1, Offset: 0x88
+// Size: 0x4
+function function_107f09b()
+{
+    
+}
+
+// Namespace namespace_cd80be1c/namespace_66604d58
+// Params 0
+// Checksum 0x80f724d1, Offset: 0x98
+// Size: 0x4
+function function_6f09ac2d()
+{
+    
+}
+
+// Namespace namespace_cd80be1c/namespace_66604d58
+// Params 0
+// Checksum 0x80f724d1, Offset: 0xa8
+// Size: 0x4
+function function_ed6f2e1a()
+{
+    
+}
+

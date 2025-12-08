@@ -19,18 +19,20 @@
 // Params 0, eflags: 0x6
 // Checksum 0x6cf3252b, Offset: 0xe0
 // Size: 0x44
-function private autoexec __init__system__() {
-    system::register(#"hash_112a74f076cda31", &function_62730899, undefined, undefined, #"territory");
+function private autoexec __init__system__()
+{
+    system::register( #"hash_112a74f076cda31", &function_62730899, undefined, undefined, #"territory" );
 }
 
 // Namespace namespace_f2e23b4a/gametype_init
 // Params 1, eflags: 0x40
 // Checksum 0xaee5f635, Offset: 0x130
 // Size: 0x8c
-function event_handler[gametype_init] main(*eventstruct) {
+function event_handler[gametype_init] main( *eventstruct )
+{
     namespace_2938acdc::init();
-    spawning::addsupportedspawnpointtype("tdm");
-    callback::on_spawned(&on_player_spawned);
+    spawning::addsupportedspawnpointtype( "tdm" );
+    callback::on_spawned( &on_player_spawned );
     level.var_61d4f517 = 1;
     level.var_febab1ea = #"conf_dogtags_hpc";
     level.var_e7b05b51 = 1;
@@ -40,111 +42,152 @@ function event_handler[gametype_init] main(*eventstruct) {
 // Params 0, eflags: 0x4
 // Checksum 0x29536ce8, Offset: 0x1c8
 // Size: 0xd4
-function private function_62730899() {
-    if (isdefined(level.territory) && level.territory.name != "zoo") {
+function private function_62730899()
+{
+    if ( isdefined( level.territory ) && level.territory.name != "zoo" )
+    {
         namespace_2938acdc::function_4212369d();
     }
+    
     level.onstartgametype = &onstartgametype;
-    player::function_cf3aa03d(&onplayerkilled);
-    level.teamscoreperkillconfirmed = getgametypesetting(#"teamscoreperkillconfirmed");
-    level.teamscoreperkilldenied = getgametypesetting(#"teamscoreperkilldenied");
+    player::function_cf3aa03d( &onplayerkilled );
+    level.teamscoreperkillconfirmed = getgametypesetting( #"teamscoreperkillconfirmed" );
+    level.teamscoreperkilldenied = getgametypesetting( #"teamscoreperkilldenied" );
 }
 
 // Namespace namespace_f2e23b4a/namespace_f2e23b4a
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x5dbaa168, Offset: 0x2a8
 // Size: 0x34
-function onstartgametype() {
+function onstartgametype()
+{
     dogtags::init();
-    if (!util::isoneround()) {
+    
+    if ( !util::isoneround() )
+    {
         level.displayroundendtext = 1;
     }
 }
 
 // Namespace namespace_f2e23b4a/namespace_f2e23b4a
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xf5c244ad, Offset: 0x2e8
 // Size: 0xec
-function function_79b13f76(attacker) {
+function function_79b13f76( attacker )
+{
     /#
-        if (abs(level.mapcenter[2] + self.origin[2]) > 100000) {
+        if ( abs( level.mapcenter[ 2 ] + self.origin[ 2 ] ) > 100000 )
+        {
             return;
         }
     #/
-    var_e60fd3b5 = 1;
-    for (index = 0; index < var_e60fd3b5; index++) {
-        posoffset = (randomintrange(-20, 20), randomintrange(-20, 20), 0) * index;
-        level thread dogtags::spawn_dog_tag(self, attacker, &onuse, 0, posoffset);
+    
+    numdogtags = 1;
+    
+    for ( index = 0; index < numdogtags ; index++ )
+    {
+        posoffset = ( randomintrange( -20, 20 ), randomintrange( -20, 20 ), 0 ) * index;
+        level thread dogtags::spawn_dog_tag( self, attacker, &onuse, 0, posoffset );
     }
 }
 
 // Namespace namespace_f2e23b4a/namespace_f2e23b4a
-// Params 9, eflags: 0x0
+// Params 9
 // Checksum 0x85b00a0f, Offset: 0x3e0
 // Size: 0xfc
-function onplayerkilled(*einflictor, attacker, *idamage, *smeansofdeath, weapon, *vdir, *shitloc, *psoffsettime, *deathanimduration) {
-    if (!isplayer(psoffsettime) || psoffsettime.team == self.team) {
+function onplayerkilled( *einflictor, attacker, *idamage, *smeansofdeath, weapon, *vdir, *shitloc, *psoffsettime, *deathanimduration )
+{
+    if ( !isplayer( psoffsettime ) || psoffsettime.team == self.team )
+    {
         return;
     }
-    if (!isdefined(killstreaks::get_killstreak_for_weapon(deathanimduration)) || is_true(level.killstreaksgivegamescore)) {
-        psoffsettime globallogic_score::giveteamscoreforobjective(psoffsettime.team, level.teamscoreperkill);
+    
+    if ( !isdefined( killstreaks::get_killstreak_for_weapon( deathanimduration ) ) || is_true( level.killstreaksgivegamescore ) )
+    {
+        psoffsettime globallogic_score::giveteamscoreforobjective( psoffsettime.team, level.teamscoreperkill );
     }
-    function_79b13f76(psoffsettime);
+    
+    function_79b13f76( psoffsettime );
 }
 
 // Namespace namespace_f2e23b4a/namespace_f2e23b4a
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x183ed7c7, Offset: 0x4e8
 // Size: 0x302
-function onuse(player) {
+function onuse( player )
+{
     tacinsertboost = 0;
     var_5f50a7ed = 0;
-    player.pers[#"objectives"]++;
-    player.objectives = player.pers[#"objectives"];
-    if (!util::function_fbce7263(player.team, self.victimteam)) {
+    player.pers[ #"objectives" ]++;
+    player.objectives = player.pers[ #"objectives" ];
+    
+    if ( !util::function_fbce7263( player.team, self.victimteam ) )
+    {
         tacinsertboost = self.tacinsert;
-        if (isdefined(self.attacker) && !util::function_fbce7263(self.attacker.team, self.attackerteam)) {
-            self.attacker luinotifyevent(#"player_callout", 2, #"mp/kill_denied", player.entnum);
+        
+        if ( isdefined( self.attacker ) && !util::function_fbce7263( self.attacker.team, self.attackerteam ) )
+        {
+            self.attacker luinotifyevent( #"player_callout", 2, #"mp/kill_denied", player.entnum );
         }
-        if (!tacinsertboost) {
-            player globallogic_score::giveteamscoreforobjective(player.team, level.teamscoreperkilldenied);
+        
+        if ( !tacinsertboost )
+        {
+            player globallogic_score::giveteamscoreforobjective( player.team, level.teamscoreperkilldenied );
         }
+        
         return;
     }
+    
     /#
-        assert(isdefined(player.lastkillconfirmedtime));
-        assert(isdefined(player.lastkillconfirmedcount));
+        assert( isdefined( player.lastkillconfirmedtime ) );
+        assert( isdefined( player.lastkillconfirmedcount ) );
     #/
-    if (isdefined(self.attacker) && util::function_fbce7263(self.attacker.team, player.team)) {
-        self.attacker luinotifyevent(#"player_callout", 2, #"hash_75462478f6a06755", player.entnum);
+    
+    if ( isdefined( self.attacker ) && util::function_fbce7263( self.attacker.team, player.team ) )
+    {
+        self.attacker luinotifyevent( #"player_callout", 2, #"hash_75462478f6a06755", player.entnum );
     }
-    player.pers[#"killsconfirmed"]++;
-    player.killsconfirmed = player.pers[#"killsconfirmed"];
-    player globallogic_score::giveteamscoreforobjective(player.team, level.teamscoreperkillconfirmed);
-    if (!tacinsertboost) {
+    
+    player.pers[ #"killsconfirmed" ]++;
+    player.killsconfirmed = player.pers[ #"killsconfirmed" ];
+    player globallogic_score::giveteamscoreforobjective( player.team, level.teamscoreperkillconfirmed );
+    
+    if ( !tacinsertboost )
+    {
         currenttime = gettime();
-        if (player.lastkillconfirmedtime + 4000 > currenttime) {
+        
+        if ( player.lastkillconfirmedtime + 4000 > currenttime )
+        {
             player.lastkillconfirmedcount++;
-            if (player.lastkillconfirmedcount >= 3) {
-                scoreevents::processscoreevent(#"kill_confirmed_multi", player, undefined, undefined);
+            
+            if ( player.lastkillconfirmedcount >= 3 )
+            {
+                scoreevents::processscoreevent( #"kill_confirmed_multi", player, undefined, undefined );
                 player.lastkillconfirmedcount = 0;
             }
-        } else {
+        }
+        else
+        {
             player.lastkillconfirmedcount = 1;
         }
+        
         player.lastkillconfirmedtime = currenttime;
     }
 }
 
 // Namespace namespace_f2e23b4a/namespace_f2e23b4a
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0xa098439e, Offset: 0x7f8
 // Size: 0x62
-function on_player_spawned() {
+function on_player_spawned()
+{
     self.usingobj = undefined;
-    if (spawning::usestartspawns() && !level.ingraceperiod) {
+    
+    if ( spawning::usestartspawns() && !level.ingraceperiod )
+    {
         spawning::function_7a87efaa();
     }
+    
     self.lastkillconfirmedtime = 0;
     self.lastkillconfirmedcount = 0;
 }

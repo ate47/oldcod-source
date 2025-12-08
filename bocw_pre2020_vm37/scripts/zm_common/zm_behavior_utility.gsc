@@ -13,19 +13,21 @@
 #namespace zm_behavior_utility;
 
 // Namespace zm_behavior_utility/zm_behavior_utility
-// Params 0, eflags: 0x1 linked
+// Params 0
 // Checksum 0xd5843578, Offset: 0xc8
 // Size: 0x3a
-function setupattackproperties() {
-    self val::reset(#"attack_properties", "ignoreall");
+function setupattackproperties()
+{
+    self val::reset( #"attack_properties", "ignoreall" );
     self.meleeattackdist = 64;
 }
 
 // Namespace zm_behavior_utility/zm_behavior_utility
-// Params 0, eflags: 0x1 linked
+// Params 0
 // Checksum 0x74253a02, Offset: 0x110
 // Size: 0x3c
-function enteredplayablearea() {
+function enteredplayablearea()
+{
     self zm_spawner::zombie_complete_emerging_into_playable_area();
     self.pushable = 1;
     self setupattackproperties();

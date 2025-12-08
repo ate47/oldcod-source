@@ -1,0 +1,87 @@
+#using scripts\core_common\callbacks_shared;
+#using scripts\core_common\clientfield_shared;
+#using scripts\core_common\load_shared;
+#using scripts\core_common\postfx_shared;
+#using scripts\core_common\util_shared;
+
+#namespace mp_miami;
+
+// Namespace mp_miami/level_init
+// Params 1, eflags: 0x40
+// Checksum 0x31bd0fb0, Offset: 0xd0
+// Size: 0x174
+function event_handler[level_init] main( *eventstruct )
+{
+    setsaveddvar( #"enable_global_wind", 1 );
+    setsaveddvar( #"wind_global_vector", "88 0 0" );
+    setsaveddvar( #"wind_global_low_altitude", 0 );
+    setsaveddvar( #"wind_global_hi_altitude", 10000 );
+    setsaveddvar( #"wind_global_low_strength_percent", 100 );
+    clientfield::register( "scriptmover", "neon_rob", 1, 1, "counter", &neon_rob, 0, 0 );
+    callback::on_gameplay_started( &on_gameplay_started );
+    load::main();
+    level thread function_22faec66();
+    util::waitforclient( 0 );
+}
+
+// Namespace mp_miami/mp_miami
+// Params 1
+// Checksum 0xa49e7af1, Offset: 0x250
+// Size: 0x48
+function on_gameplay_started( *localclientnum )
+{
+    waitframe( 1 );
+    util::function_8eb5d4b0( 3500, 1.5 );
+    level notify( #"hash_3eb74ffb77c6b4b6" );
+}
+
+// Namespace mp_miami/mp_miami
+// Params 7
+// Checksum 0x71491b00, Offset: 0x2a0
+// Size: 0xfc
+function neon_rob( localclientnum, *oldval, *newval, *bnewent, *binitialsnap, *fieldname, *bwastimejump )
+{
+    player = function_5c10bd79( bwastimejump );
+    
+    if ( !isdefined( player ) || !player function_21c0fa55() || !isdefined( self ) )
+    {
+        return;
+    }
+    
+    if ( is_true( self.var_f74923b ) )
+    {
+        self.var_f74923b = 0;
+        self stoprenderoverridebundle( "rob_miami_neon" );
+        return;
+    }
+    
+    self.var_f74923b = 1;
+    self playrenderoverridebundle( "rob_miami_neon" );
+}
+
+// Namespace mp_miami/mp_miami
+// Params 0
+// Checksum 0xaeb438b0, Offset: 0x3a8
+// Size: 0x174
+function function_22faec66()
+{
+    level endon( #"hash_3eb74ffb77c6b4b6" );
+    
+    while ( true )
+    {
+        level waittill( #"hash_20397d5f66793917" );
+        
+        foreach ( player in getlocalplayers() )
+        {
+            player postfx::playpostfxbundle( #"hash_50d5d465e2b9b355" );
+        }
+        
+        level waittill( #"hash_3acd8a1b1fe43b7b" );
+        
+        foreach ( player in getlocalplayers() )
+        {
+            player postfx::exitpostfxbundle( #"hash_50d5d465e2b9b355" );
+        }
+    }
+}
+

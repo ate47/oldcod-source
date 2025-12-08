@@ -4,45 +4,59 @@
 #namespace init;
 
 // Namespace init/init
-// Params 1, eflags: 0x1 linked
+// Params 1
 // Checksum 0xab6c6f, Offset: 0xb8
 // Size: 0xc2
-function initweapon(weapon) {
-    self.weaponinfo[weapon.name] = spawnstruct();
-    self.weaponinfo[weapon.name].position = "none";
-    self.weaponinfo[weapon.name].hasclip = 1;
-    if (isdefined(weapon.clipmodel)) {
-        self.weaponinfo[weapon.name].useclip = 1;
+function initweapon( weapon )
+{
+    self.weaponinfo[ weapon.name ] = spawnstruct();
+    self.weaponinfo[ weapon.name ].position = "none";
+    self.weaponinfo[ weapon.name ].hasclip = 1;
+    
+    if ( isdefined( weapon.clipmodel ) )
+    {
+        self.weaponinfo[ weapon.name ].useclip = 1;
         return;
     }
-    self.weaponinfo[weapon.name].useclip = 0;
+    
+    self.weaponinfo[ weapon.name ].useclip = 0;
 }
 
 // Namespace init/init
-// Params 0, eflags: 0x1 linked
+// Params 0
 // Checksum 0x9e6b262e, Offset: 0x188
 // Size: 0x45a
-function main() {
+function main()
+{
     self.a = spawnstruct();
     self.a.weaponpos = [];
-    if (self.weapon == level.weaponnone) {
-        self aiutility::setcurrentweapon(level.weaponnone);
+    
+    if ( self.weapon == level.weaponnone )
+    {
+        self aiutility::setcurrentweapon( level.weaponnone );
     }
-    self aiutility::setprimaryweapon(self.weapon);
-    if (self.secondaryweapon == level.weaponnone) {
-        self aiutility::setsecondaryweapon(level.weaponnone);
+    
+    self aiutility::setprimaryweapon( self.weapon );
+    
+    if ( self.secondaryweapon == level.weaponnone )
+    {
+        self aiutility::setsecondaryweapon( level.weaponnone );
     }
-    self aiutility::setsecondaryweapon(self.secondaryweapon);
-    self aiutility::setcurrentweapon(self.primaryweapon);
+    
+    self aiutility::setsecondaryweapon( self.secondaryweapon );
+    self aiutility::setcurrentweapon( self.primaryweapon );
     self.initial_primaryweapon = self.primaryweapon;
     self.initial_secondaryweapon = self.secondaryweapon;
-    self initweapon(self.primaryweapon);
-    self initweapon(self.secondaryweapon);
-    self initweapon(self.sidearm);
-    self.weapon_positions = array("left", "right", "chest", "back");
-    for (i = 0; i < self.weapon_positions.size; i++) {
-        self.a.weaponpos[self.weapon_positions[i]] = level.weaponnone;
+    self initweapon( self.primaryweapon );
+    self initweapon( self.secondaryweapon );
+    self initweapon( self.sidearm );
+    self.weapon_positions = array( "left", "right", "chest", "back" );
+    
+    for ( i = 0; i < self.weapon_positions.size ; i++ )
+    {
+        self.a.weaponpos[ self.weapon_positions[ i ] ] = level.weaponnone;
     }
+    
     self.lastweapon = self.weapon;
     self.a.rockets = 3;
     self.a.rocketvisible = 1;
@@ -51,10 +65,13 @@ function main() {
     self.a.movement = "stop";
     self.a.special = "none";
     self.a.gunhand = "none";
-    shared::placeweaponon(self.primaryweapon, "right");
-    if (isdefined(self.secondaryweaponclass) && self.secondaryweaponclass != "none" && self.secondaryweaponclass != "pistol") {
-        shared::placeweaponon(self.secondaryweapon, "back");
+    shared::placeweaponon( self.primaryweapon, "right" );
+    
+    if ( isdefined( self.secondaryweaponclass ) && self.secondaryweaponclass != "none" && self.secondaryweaponclass != "pistol" )
+    {
+        shared::placeweaponon( self.secondaryweapon, "back" );
     }
+    
     self.a.combatendtime = gettime();
     self.a.nextgrenadetrytime = 0;
     self.a.isaiming = 0;
@@ -65,15 +82,23 @@ function main() {
     self.walk = 0;
     self.sprint = 0;
     self.a.postscriptfunc = undefined;
-    if (!isdefined(self.script_accuracy)) {
+    
+    if ( !isdefined( self.script_accuracy ) )
+    {
         self.script_accuracy = 1;
     }
+    
     self.a.misstime = 0;
-    if (isactor(self)) {
+    
+    if ( isactor( self ) )
+    {
         self.bulletsinclip = self.weapon.clipsize;
-    } else {
+    }
+    else
+    {
         self.ai.bulletsinclip = self.weapon.clipsize;
     }
+    
     self.lastenemysighttime = 0;
     self.combattime = 0;
     self.var_4a68f84b = 0.75;
@@ -82,36 +107,49 @@ function main() {
 }
 
 // Namespace init/init
-// Params 1, eflags: 0x1 linked
+// Params 1
 // Checksum 0x478b53c1, Offset: 0x5f0
 // Size: 0xe4
-function addtomissiles(grenade) {
-    if (!isdefined(level.missileentities)) {
+function addtomissiles( grenade )
+{
+    if ( !isdefined( level.missileentities ) )
+    {
         level.missileentities = [];
     }
-    if (!isdefined(level.missileentities)) {
+    
+    if ( !isdefined( level.missileentities ) )
+    {
         level.missileentities = [];
-    } else if (!isarray(level.missileentities)) {
-        level.missileentities = array(level.missileentities);
     }
-    level.missileentities[level.missileentities.size] = grenade;
-    if (isdefined(grenade)) {
-        grenade waittill(#"death");
+    else if ( !isarray( level.missileentities ) )
+    {
+        level.missileentities = array( level.missileentities );
     }
-    arrayremovevalue(level.missileentities, grenade);
+    
+    level.missileentities[ level.missileentities.size ] = grenade;
+    
+    if ( isdefined( grenade ) )
+    {
+        grenade waittill( #"death" );
+    }
+    
+    arrayremovevalue( level.missileentities, grenade );
 }
 
 // Namespace init/grenade_fire
 // Params 1, eflags: 0x40
 // Checksum 0xb7794507, Offset: 0x6e0
 // Size: 0x6c
-function event_handler[grenade_fire] function_960adbea(eventstruct) {
+function event_handler[grenade_fire] function_960adbea( eventstruct )
+{
     grenade = eventstruct.projectile;
     weapon = eventstruct.weapon;
-    if (isdefined(grenade)) {
+    
+    if ( isdefined( grenade ) )
+    {
         grenade.owner = self;
         grenade.weapon = weapon;
-        level thread addtomissiles(grenade);
+        level thread addtomissiles( grenade );
     }
 }
 
@@ -119,27 +157,30 @@ function event_handler[grenade_fire] function_960adbea(eventstruct) {
 // Params 1, eflags: 0x40
 // Checksum 0x6715bb20, Offset: 0x758
 // Size: 0x54
-function event_handler[grenade_launcher_fire] function_c6ddaa47(eventstruct) {
+function event_handler[grenade_launcher_fire] function_c6ddaa47( eventstruct )
+{
     eventstruct.projectile.owner = self;
     eventstruct.projectile.weapon = eventstruct.weapon;
-    level thread addtomissiles(eventstruct.projectile);
+    level thread addtomissiles( eventstruct.projectile );
 }
 
 // Namespace init/missile_fire
 // Params 1, eflags: 0x40
 // Checksum 0x40f099ac, Offset: 0x7b8
 // Size: 0x54
-function event_handler[missile_fire] function_596d3a28(eventstruct) {
+function event_handler[missile_fire] function_596d3a28( eventstruct )
+{
     eventstruct.projectile.owner = self;
     eventstruct.projectile.weapon = eventstruct.weapon;
-    level thread addtomissiles(eventstruct.projectile);
+    level thread addtomissiles( eventstruct.projectile );
 }
 
 // Namespace init/init
-// Params 0, eflags: 0x1 linked
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x818
 // Size: 0x4
-function end_script() {
+function end_script()
+{
     
 }
 
