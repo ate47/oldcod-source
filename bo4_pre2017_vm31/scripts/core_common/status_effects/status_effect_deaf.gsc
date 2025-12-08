@@ -9,24 +9,27 @@
 // Params 0, eflags: 0x2
 // Checksum 0xe4ee9dfd, Offset: 0x150
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("status_effect_deaf", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "status_effect_deaf", &__init__, undefined, undefined );
 }
 
 // Namespace status_effect_deaf/status_effect_deaf
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0xd43cc2a, Offset: 0x190
 // Size: 0x44
-function __init__() {
-    status_effect::register_status_effect_callback_apply(2, &deaf_apply);
-    status_effect::register_status_effect_name(2, "deaf");
+function __init__()
+{
+    status_effect::register_status_effect_callback_apply( 2, &deaf_apply );
+    status_effect::register_status_effect_name( 2, "deaf" );
 }
 
 // Namespace status_effect_deaf/status_effect_deaf
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x1e0
 // Size: 0x4
-function deaf_apply() {
+function deaf_apply()
+{
     
 }
 

@@ -23,8 +23,9 @@
 // Params 0, eflags: 0x2
 // Checksum 0x34f88a64, Offset: 0x3f0
 // Size: 0x4c
-function autoexec main() {
-    spawner::add_archetype_spawn_function("human_rpg", &humanrpgbehavior::archetypehumanrpgblackboardinit);
+function autoexec main()
+{
+    spawner::add_archetype_spawn_function( "human_rpg", &humanrpgbehavior::archetypehumanrpgblackboardinit );
     humanrpgbehavior::registerbehaviorscriptfunctions();
     humanrpginterface::registerhumanrpginterfaceattributes();
 }
@@ -32,10 +33,11 @@ function autoexec main() {
 #namespace humanrpgbehavior;
 
 // Namespace humanrpgbehavior/archetype_human_rpg
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x448
 // Size: 0x4
-function registerbehaviorscriptfunctions() {
+function registerbehaviorscriptfunctions()
+{
     
 }
 
@@ -43,19 +45,21 @@ function registerbehaviorscriptfunctions() {
 // Params 0, eflags: 0x4
 // Checksum 0xec27fb7b, Offset: 0x458
 // Size: 0x74
-function private archetypehumanrpgblackboardinit() {
+function private archetypehumanrpgblackboardinit()
+{
     entity = self;
-    blackboard::createblackboardforentity(entity);
-    ai::createinterfaceforentity(entity);
+    blackboard::createblackboardforentity( entity );
+    ai::createinterfaceforentity( entity );
     self.___archetypeonanimscriptedcallback = &archetypehumanrpgonanimscriptedcallback;
-    entity asmchangeanimmappingtable(1);
+    entity asmchangeanimmappingtable( 1 );
 }
 
 // Namespace humanrpgbehavior/archetype_human_rpg
 // Params 1, eflags: 0x4
 // Checksum 0x44c12b48, Offset: 0x4d8
 // Size: 0x34
-function private archetypehumanrpgonanimscriptedcallback(entity) {
+function private archetypehumanrpgonanimscriptedcallback( entity )
+{
     entity.__blackboard = undefined;
     entity archetypehumanrpgblackboardinit();
 }

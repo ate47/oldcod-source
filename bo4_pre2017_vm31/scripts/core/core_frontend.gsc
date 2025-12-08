@@ -7,23 +7,25 @@
 
 #namespace core_frontend;
 
-// Namespace core_frontend/Level_Init
+// Namespace core_frontend/level_init
 // Params 1, eflags: 0x40
 // Checksum 0x9253402c, Offset: 0x160
 // Size: 0x74
-function event_handler[Level_Init] main(eventstruct) {
+function event_handler[level_init] main( eventstruct )
+{
     precache();
-    setmapcenter((0, 0, 0));
+    setmapcenter( ( 0, 0, 0 ) );
     core_frontend_fx::main();
     core_frontend_sound::main();
-    setdvar("compassmaxrange", "2100");
+    setdvar( "compassmaxrange", "2100" );
 }
 
 // Namespace core_frontend/core_frontend
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x1e0
 // Size: 0x4
-function precache() {
+function precache()
+{
     
 }
 

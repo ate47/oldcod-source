@@ -15,45 +15,56 @@
 // Params 0, eflags: 0x2
 // Checksum 0xe0029c9, Offset: 0x280
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("gadget_speed_burst", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "gadget_speed_burst", &__init__, undefined, undefined );
 }
 
 // Namespace gadget_speed_burst/gadget_speed_burst
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x4bf2f38e, Offset: 0x2c0
 // Size: 0x94
-function __init__() {
-    callback::on_localplayer_spawned(&on_localplayer_spawned);
-    clientfield::register("toplayer", "speed_burst", 1, 1, "int", &player_speed_changed, 0, 1);
-    visionset_mgr::register_visionset_info("speed_burst", 1, 9, undefined, "speed_burst_initialize");
+function __init__()
+{
+    callback::on_localplayer_spawned( &on_localplayer_spawned );
+    clientfield::register( "toplayer", "speed_burst", 1, 1, "int", &player_speed_changed, 0, 1 );
+    visionset_mgr::register_visionset_info( "speed_burst", 1, 9, undefined, "speed_burst_initialize" );
 }
 
 // Namespace gadget_speed_burst/gadget_speed_burst
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xdaf2b715, Offset: 0x360
 // Size: 0x54
-function on_localplayer_spawned(localclientnum) {
-    if (self != getlocalplayer(localclientnum)) {
+function on_localplayer_spawned( localclientnum )
+{
+    if ( self != getlocalplayer( localclientnum ) )
+    {
         return;
     }
-    filter::init_filter_speed_burst(self);
-    filter::disable_filter_speed_burst(self, 3);
+    
+    filter::init_filter_speed_burst( self );
+    filter::disable_filter_speed_burst( self, 3 );
 }
 
 // Namespace gadget_speed_burst/gadget_speed_burst
-// Params 7, eflags: 0x0
+// Params 7
 // Checksum 0xab7ad98c, Offset: 0x3c0
 // Size: 0xbc
-function player_speed_changed(localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump) {
-    if (newval) {
-        if (self == getlocalplayer(localclientnum)) {
-            filter::enable_filter_speed_burst(self, 3);
+function player_speed_changed( localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwastimejump )
+{
+    if ( newval )
+    {
+        if ( self == getlocalplayer( localclientnum ) )
+        {
+            filter::enable_filter_speed_burst( self, 3 );
         }
+        
         return;
     }
-    if (self == getlocalplayer(localclientnum)) {
-        filter::disable_filter_speed_burst(self, 3);
+    
+    if ( self == getlocalplayer( localclientnum ) )
+    {
+        filter::disable_filter_speed_burst( self, 3 );
     }
 }
 

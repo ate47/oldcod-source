@@ -10,7 +10,8 @@
 // Params 0, eflags: 0x2
 // Checksum 0x80f724d1, Offset: 0x178
 // Size: 0x4
-function autoexec registerbehaviorscriptfunctions() {
+function autoexec registerbehaviorscriptfunctions()
+{
     
 }
 

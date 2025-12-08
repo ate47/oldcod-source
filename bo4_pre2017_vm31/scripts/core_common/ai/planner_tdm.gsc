@@ -12,11 +12,12 @@
 // Params 1, eflags: 0x4
 // Checksum 0xc9843c74, Offset: 0x208
 // Size: 0x90
-function private _createcommanderplanner(team) {
-    planner = planner::createplanner("commanderTDM");
-    sequence = plannergenericcommander::commanderwandersquadstrategy(planner);
-    planner::addgoto(sequence, planner);
-    planner::addaction(planner, "commanderEndPlan");
+function private _createcommanderplanner( team )
+{
+    planner = planner::createplanner( "commanderTDM" );
+    sequence = plannergenericcommander::commanderwandersquadstrategy( planner );
+    planner::addgoto( sequence, planner );
+    planner::addaction( planner, "commanderEndPlan" );
     return planner;
 }
 
@@ -24,20 +25,22 @@ function private _createcommanderplanner(team) {
 // Params 1, eflags: 0x4
 // Checksum 0x1dbd774e, Offset: 0x2a0
 // Size: 0x50
-function private _createsquadplanner(team) {
-    planner = planner::createplanner("squadTDM");
-    planner::addaction(planner, "squadWander");
+function private _createsquadplanner( team )
+{
+    planner = planner::createplanner( "squadTDM" );
+    planner::addaction( planner, "squadWander" );
     return planner;
 }
 
 // Namespace plannertdm/planner_tdm
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x69175240, Offset: 0x2f8
 // Size: 0x88
-function createcommander(team) {
-    commander = plannercommanderutility::createcommander(team, _createcommanderplanner(team), _createsquadplanner(team));
-    plannergenericcommander::commanderdaemons(commander);
-    plannergenericcommander::commanderutilityevaluators(commander);
+function createcommander( team )
+{
+    commander = plannercommanderutility::createcommander( team, _createcommanderplanner( team ), _createsquadplanner( team ) );
+    plannergenericcommander::commanderdaemons( commander );
+    plannergenericcommander::commanderutilityevaluators( commander );
     return commander;
 }
 

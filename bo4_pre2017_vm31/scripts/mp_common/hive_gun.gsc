@@ -1,0 +1,26 @@
+#using scripts/core_common/callbacks_shared;
+#using scripts/core_common/struct;
+#using scripts/core_common/system_shared;
+#using scripts/core_common/weapons/hive_gun;
+#using scripts/mp_common/util;
+
+#namespace hive_gun;
+
+// Namespace hive_gun/hive_gun
+// Params 0, eflags: 0x2
+// Checksum 0x8cb761e8, Offset: 0x138
+// Size: 0x34
+function autoexec __init__sytem__()
+{
+    system::register( "hive_gun", &__init__, undefined, undefined );
+}
+
+// Namespace hive_gun/hive_gun
+// Params 0
+// Checksum 0xf0332e25, Offset: 0x178
+// Size: 0x14
+function __init__()
+{
+    init_shared();
+}
+

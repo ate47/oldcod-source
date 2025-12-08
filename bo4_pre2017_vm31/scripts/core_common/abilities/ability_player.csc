@@ -14,15 +14,17 @@
 // Params 0, eflags: 0x2
 // Checksum 0x1d8a8f0c, Offset: 0x218
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("ability_player", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "ability_player", &__init__, undefined, undefined );
 }
 
 // Namespace ability_player/ability_player
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x258
 // Size: 0x4
-function __init__() {
+function __init__()
+{
     
 }
 

@@ -8,58 +8,67 @@
 // Params 0, eflags: 0x2
 // Checksum 0x9ad28ce2, Offset: 0x120
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("ability_gadgets", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "ability_gadgets", &__init__, undefined, undefined );
 }
 
 // Namespace ability_gadgets/ability_gadgets
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x262de00d, Offset: 0x160
 // Size: 0x44
-function __init__() {
-    callback::on_connect(&on_player_connect);
-    callback::on_spawned(&on_player_spawned);
+function __init__()
+{
+    callback::on_connect( &on_player_connect );
+    callback::on_spawned( &on_player_spawned );
 }
 
 /#
 
     // Namespace ability_gadgets/ability_gadgets
-    // Params 1, eflags: 0x0
+    // Params 1
     // Checksum 0xf7550912, Offset: 0x1b0
-    // Size: 0x74
-    function gadgets_print(str) {
-        if (getdvarint("<dev string:x28>")) {
+    // Size: 0x74, Type: dev
+    function gadgets_print( str )
+    {
+        if ( getdvarint( "scr_debug_gadgets" ) )
+        {
             toprint = str;
-            println(self.playername + "<dev string:x3a>" + "<dev string:x3d>" + toprint);
+            println( self.playername + ": " + "GADGET: " + toprint );
         }
     }
 
 #/
 
 // Namespace ability_gadgets/ability_gadgets
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x230
 // Size: 0x4
-function on_player_connect() {
+function on_player_connect()
+{
     
 }
 
 // Namespace ability_gadgets/ability_gadgets
-// Params 2, eflags: 0x0
+// Params 2
 // Checksum 0x307443e5, Offset: 0x240
 // Size: 0x44
-function setflickering(slot, length) {
-    if (!isdefined(length)) {
+function setflickering( slot, length )
+{
+    if ( !isdefined( length ) )
+    {
         length = 0;
     }
-    self gadgetflickering(slot, 1, length);
+    
+    self gadgetflickering( slot, 1, length );
 }
 
 // Namespace ability_gadgets/ability_gadgets
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x290
 // Size: 0x4
-function on_player_spawned() {
+function on_player_spawned()
+{
     
 }
 
@@ -67,76 +76,90 @@ function on_player_spawned() {
 // Params 1, eflags: 0x40
 // Checksum 0xce96d407, Offset: 0x2a0
 // Size: 0x84
-function event_handler[Gadget_Give] gadget_give_callback(eventstruct) {
+function event_handler[Gadget_Give] gadget_give_callback( eventstruct )
+{
     /#
-        eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x47>");
+        eventstruct.entity gadgets_print( "" + eventstruct.slot + "  give cb" );
     #/
-    eventstruct.entity ability_player::give_gadget(eventstruct.slot, eventstruct.weapon);
+    
+    eventstruct.entity ability_player::give_gadget( eventstruct.slot, eventstruct.weapon );
 }
 
 // Namespace ability_gadgets/Gadget_Take
 // Params 1, eflags: 0x40
 // Checksum 0x20a18f54, Offset: 0x330
 // Size: 0x84
-function event_handler[Gadget_Take] gadget_take_callback(eventstruct) {
+function event_handler[Gadget_Take] gadget_take_callback( eventstruct )
+{
     /#
-        eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x51>");
+        eventstruct.entity gadgets_print( "" + eventstruct.slot + "  take cb" );
     #/
-    eventstruct.entity ability_player::take_gadget(eventstruct.slot, eventstruct.weapon);
+    
+    eventstruct.entity ability_player::take_gadget( eventstruct.slot, eventstruct.weapon );
 }
 
 // Namespace ability_gadgets/gadget_primed
 // Params 1, eflags: 0x40
 // Checksum 0xadb8bd08, Offset: 0x3c0
 // Size: 0x84
-function event_handler[gadget_primed] gadget_primed_callback(eventstruct) {
+function event_handler[gadget_primed] gadget_primed_callback( eventstruct )
+{
     /#
-        eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x5b>");
+        eventstruct.entity gadgets_print( "" + eventstruct.slot + "  primed cb" );
     #/
-    eventstruct.entity ability_player::gadget_primed(eventstruct.slot, eventstruct.weapon);
+    
+    eventstruct.entity ability_player::gadget_primed( eventstruct.slot, eventstruct.weapon );
 }
 
 // Namespace ability_gadgets/gadget_ready
 // Params 1, eflags: 0x40
 // Checksum 0xc5454758, Offset: 0x450
 // Size: 0x84
-function event_handler[gadget_ready] gadget_ready_callback(eventstruct) {
+function event_handler[gadget_ready] gadget_ready_callback( eventstruct )
+{
     /#
-        eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x67>");
+        eventstruct.entity gadgets_print( "" + eventstruct.slot + "  ready cb" );
     #/
-    eventstruct.entity ability_player::gadget_ready(eventstruct.slot, eventstruct.weapon);
+    
+    eventstruct.entity ability_player::gadget_ready( eventstruct.slot, eventstruct.weapon );
 }
 
 // Namespace ability_gadgets/Gadget_On
 // Params 1, eflags: 0x40
 // Checksum 0x43dc5b8f, Offset: 0x4e0
 // Size: 0x84
-function event_handler[Gadget_On] gadget_on_callback(eventstruct) {
+function event_handler[Gadget_On] gadget_on_callback( eventstruct )
+{
     /#
-        eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x72>");
+        eventstruct.entity gadgets_print( "" + eventstruct.slot + "  on cb" );
     #/
-    eventstruct.entity ability_player::turn_gadget_on(eventstruct.slot, eventstruct.weapon);
+    
+    eventstruct.entity ability_player::turn_gadget_on( eventstruct.slot, eventstruct.weapon );
 }
 
 // Namespace ability_gadgets/Gadget_Off
 // Params 1, eflags: 0x40
 // Checksum 0xca0f1428, Offset: 0x570
 // Size: 0x84
-function event_handler[Gadget_Off] gadget_off_callback(eventstruct) {
+function event_handler[Gadget_Off] gadget_off_callback( eventstruct )
+{
     /#
-        eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x7a>");
+        eventstruct.entity gadgets_print( "" + eventstruct.slot + "  off cb" );
     #/
-    eventstruct.entity ability_player::turn_gadget_off(eventstruct.slot, eventstruct.weapon);
+    
+    eventstruct.entity ability_player::turn_gadget_off( eventstruct.slot, eventstruct.weapon );
 }
 
 // Namespace ability_gadgets/gadget_flicker
 // Params 1, eflags: 0x40
 // Checksum 0x6d055b39, Offset: 0x600
 // Size: 0x84
-function event_handler[gadget_flicker] gadget_flicker_callback(eventstruct) {
+function event_handler[gadget_flicker] gadget_flicker_callback( eventstruct )
+{
     /#
-        eventstruct.entity gadgets_print("<dev string:x46>" + eventstruct.slot + "<dev string:x83>");
+        eventstruct.entity gadgets_print( "" + eventstruct.slot + "  flicker cb" );
     #/
-    eventstruct.entity ability_player::gadget_flicker(eventstruct.slot, eventstruct.weapon);
+    
+    eventstruct.entity ability_player::gadget_flicker( eventstruct.slot, eventstruct.weapon );
 }
 

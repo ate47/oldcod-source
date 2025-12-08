@@ -7,23 +7,26 @@
 // Params 0, eflags: 0x2
 // Checksum 0x6e6d43b7, Offset: 0xe0
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("pineapple_gun", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "pineapple_gun", &__init__, undefined, undefined );
 }
 
 // Namespace pineapple_gun/pineapple_gun
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x120
 // Size: 0x4
-function __init__() {
+function __init__()
+{
     
 }
 
 // Namespace pineapple_gun/pineapple_gun
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0xbe35ad70, Offset: 0x130
 // Size: 0xc
-function function_c0dabb0c(owner) {
+function function_c0dabb0c( owner )
+{
     
 }
 

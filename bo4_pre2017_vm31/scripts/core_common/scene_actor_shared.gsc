@@ -7,7 +7,8 @@
 
 // Namespace scene
 // Method(s) 9 Total 73
-class csceneactor : csceneobject {
+class csceneactor : csceneobject
+{
 
     var _b_set_goal;
     var _e;
@@ -17,47 +18,61 @@ class csceneactor : csceneobject {
     var var_2b1650fa;
 
     // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
+    // Params 0
     // Checksum 0xe42413d4, Offset: 0x600
     // Size: 0xcc
-    function do_death_anims() {
+    function do_death_anims()
+    {
         ent = _e;
-        if (isdefined(var_2b1650fa) && !(isdefined(ent.var_100aa9aa) && ent.var_100aa9aa)) {
+        
+        if ( isdefined( var_2b1650fa ) && !( isdefined( ent.var_100aa9aa ) && ent.var_100aa9aa ) )
+        {
             ent.skipdeath = 1;
-            ent animation::play(var_2b1650fa, ent, undefined, 1, 0.2, 0);
+            ent animation::play( var_2b1650fa, ent, undefined, 1, 0.2, 0 );
             return;
         }
+        
         ent stopanimscripted();
         ent startragdoll();
     }
 
     // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
+    // Params 0
     // Checksum 0x5f18e56f, Offset: 0x568
     // Size: 0x8c
-    function on_death() {
-        self endon(_str_shot + "active");
-        _e waittill("death");
-        if (isdefined(_e) && !(isdefined(_e.skipscenedeath) && _e.skipscenedeath)) {
+    function on_death()
+    {
+        self endon( _str_shot + "active" );
+        _e waittill( "death" );
+        
+        if ( isdefined( _e ) && !( isdefined( _e.skipscenedeath ) && _e.skipscenedeath ) )
+        {
             self thread do_death_anims();
         }
     }
 
     // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
+    // Params 0
     // Checksum 0x3bd4573d, Offset: 0x448
     // Size: 0x114
-    function set_goal() {
-        if (!(_e.scene_spawned === _o_scene._s.name && isdefined(_e.target))) {
-            if (!isdefined(_e.script_forcecolor)) {
-                if (!_e flagsys::get("anim_reach")) {
-                    if (isdefined(_e.scenegoal)) {
-                        _e setgoal(_e.scenegoal);
+    function set_goal()
+    {
+        if ( !( _e.scene_spawned === _o_scene._s.name && isdefined( _e.target ) ) )
+        {
+            if ( !isdefined( _e.script_forcecolor ) )
+            {
+                if ( !_e flagsys::get( "anim_reach" ) )
+                {
+                    if ( isdefined( _e.scenegoal ) )
+                    {
+                        _e setgoal( _e.scenegoal );
                         _e.scenegoal = undefined;
                         return;
                     }
-                    if (_b_set_goal) {
-                        _e setgoal(_e.origin);
+                    
+                    if ( _b_set_goal )
+                    {
+                        _e setgoal( _e.origin );
                     }
                 }
             }
@@ -65,57 +80,74 @@ class csceneactor : csceneobject {
     }
 
     // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
+    // Params 0
     // Checksum 0xbf5afd6a, Offset: 0x3e8
     // Size: 0x54
-    function track_goal() {
-        self endon(_str_shot + "active");
-        _e endon(#"death");
-        _e waittill("goal_changed");
+    function track_goal()
+    {
+        self endon( _str_shot + "active" );
+        _e endon( #"death" );
+        _e waittill( "goal_changed" );
         _b_set_goal = 0;
     }
 
     // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
+    // Params 0
     // Checksum 0xdca5ec79, Offset: 0x2a0
     // Size: 0x13c
-    function _cleanup() {
-        if (isactor(_e) && isalive(_e)) {
-            if (isdefined(_s.delaymovementatend) && _s.delaymovementatend) {
-                _e pathmode("move delayed", 1, randomfloatrange(2, 3));
-            } else {
-                _e pathmode("move allowed");
+    function _cleanup()
+    {
+        if ( isactor( _e ) && isalive( _e ) )
+        {
+            if ( isdefined( _s.delaymovementatend ) && _s.delaymovementatend )
+            {
+                _e pathmode( "move delayed", 1, randomfloatrange( 2, 3 ) );
             }
-            if (isdefined(_s.lookatplayer) && _s.lookatplayer) {
+            else
+            {
+                _e pathmode( "move allowed" );
+            }
+            
+            if ( isdefined( _s.lookatplayer ) && _s.lookatplayer )
+            {
                 _e lookatentity();
             }
+            
             _e.var_100aa9aa = undefined;
             set_goal();
         }
     }
 
     // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
+    // Params 0
     // Checksum 0x9db3fd42, Offset: 0x1b0
     // Size: 0xe4
-    function _prepare() {
-        if (isactor(_e)) {
+    function _prepare()
+    {
+        if ( isactor( _e ) )
+        {
             thread track_goal();
-            if (isdefined(_s.lookatplayer) && _s.lookatplayer) {
-                _e lookatentity(level.activeplayers[0]);
+            
+            if ( isdefined( _s.lookatplayer ) && _s.lookatplayer )
+            {
+                _e lookatentity( level.activeplayers[ 0 ] );
             }
-            if (isdefined(_s.skipdeathanim) && _s.skipdeathanim) {
+            
+            if ( isdefined( _s.skipdeathanim ) && _s.skipdeathanim )
+            {
                 _e.var_100aa9aa = 1;
             }
         }
+        
         thread on_death();
     }
 
     // Namespace csceneactor/scene_actor_shared
-    // Params 0, eflags: 0x0
+    // Params 0
     // Checksum 0x80f724d1, Offset: 0x1a0
     // Size: 0x4
-    function _spawn_ent() {
+    function _spawn_ent()
+    {
         
     }
 
@@ -123,7 +155,8 @@ class csceneactor : csceneobject {
 
 // Namespace scene
 // Method(s) 2 Total 73
-class cscenefakeactor : csceneactor, csceneobject {
+class cscenefakeactor : csceneactor, csceneobject
+{
 
 }
 

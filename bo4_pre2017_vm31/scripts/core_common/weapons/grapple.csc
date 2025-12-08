@@ -11,77 +11,96 @@
 // Params 0, eflags: 0x2
 // Checksum 0x347e7355, Offset: 0x200
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("grapple", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "grapple", &__init__, undefined, undefined );
 }
 
 // Namespace grapple/grapple
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x5cee6a30, Offset: 0x240
 // Size: 0x24
-function __init__() {
-    callback::on_spawned(&player_on_spawned);
+function __init__()
+{
+    callback::on_spawned( &player_on_spawned );
 }
 
 // Namespace grapple/grapple
-// Params 1, eflags: 0x0
+// Params 1
 // Checksum 0x663a6970, Offset: 0x270
 // Size: 0x34
-function player_on_spawned(localclientnum) {
-    if (sessionmodeismultiplayergame()) {
-        self thread function_b25c9962(1);
+function player_on_spawned( localclientnum )
+{
+    if ( sessionmodeismultiplayergame() )
+    {
+        self thread grapple_watch( 1 );
     }
 }
 
 // Namespace grapple/grapple
-// Params 4, eflags: 0x0
+// Params 4
 // Checksum 0x53bde688, Offset: 0x2b0
 // Size: 0x54
-function function_55af4b5b(player, tag, pivot, delay) {
-    player endon(#"grapple_done");
+function function_55af4b5b( player, tag, pivot, delay )
+{
+    player endon( #"grapple_done" );
     wait delay;
-    thread grapple_beam(player, tag, pivot);
+    thread grapple_beam( player, tag, pivot );
 }
 
 // Namespace grapple/grapple
-// Params 3, eflags: 0x0
+// Params 3
 // Checksum 0xb1ef95c6, Offset: 0x310
 // Size: 0x8c
-function grapple_beam(player, tag, pivot) {
-    level beam::launch(player, tag, pivot, "tag_origin", "zod_beast_grapple_beam");
-    player waittill("grapple_done");
-    level beam::kill(player, tag, pivot, "tag_origin", "zod_beast_grapple_beam");
+function grapple_beam( player, tag, pivot )
+{
+    level beam::launch( player, tag, pivot, "tag_origin", "zod_beast_grapple_beam" );
+    player waittill( "grapple_done" );
+    level beam::kill( player, tag, pivot, "tag_origin", "zod_beast_grapple_beam" );
 }
 
 // Namespace grapple/grapple
-// Params 3, eflags: 0x0
+// Params 3
 // Checksum 0xe1e8d412, Offset: 0x3a8
 // Size: 0x1a6
-function function_b25c9962(onoff, tag, delay) {
-    if (!isdefined(tag)) {
+function grapple_watch( onoff, tag, delay )
+{
+    if ( !isdefined( tag ) )
+    {
         tag = "tag_weapon_left";
     }
-    if (!isdefined(delay)) {
+    
+    if ( !isdefined( delay ) )
+    {
         delay = 0.15;
     }
-    self notify(#"grapple_done");
-    self notify(#"hash_b25c9962");
-    self endon(#"hash_b25c9962");
-    self endon(#"death");
-    if (onoff) {
-        while (isdefined(self)) {
-            waitresult = self waittill("grapple_beam_on");
-            var_1e66ebb1 = tag;
+    
+    self notify( #"grapple_done" );
+    self notify( #"grapple_watch" );
+    self endon( #"grapple_watch" );
+    self endon( #"death" );
+    
+    if ( onoff )
+    {
+        while ( isdefined( self ) )
+        {
+            waitresult = self waittill( "grapple_beam_on" );
+            ptag = tag;
+            
             /#
-                if (getdvarint("<dev string:x28>") > 0) {
-                    var_1e66ebb1 = "<dev string:x37>";
+                if ( getdvarint( "<dev string:x28>" ) > 0 )
+                {
+                    ptag = "<dev string:x37>";
                 }
             #/
-            if (isdefined(waitresult.pivot) && !waitresult.pivot isplayer()) {
-                thread function_55af4b5b(self, var_1e66ebb1, waitresult.pivot, delay);
+            
+            if ( isdefined( waitresult.pivot ) && !waitresult.pivot isplayer() )
+            {
+                thread function_55af4b5b( self, ptag, waitresult.pivot, delay );
             }
-            evt = self waittilltimeout(7.5, "grapple_pulled", "grapple_landed", "grapple_cancel", "grapple_beam_off", "disconnect");
-            self notify(#"grapple_done");
+            
+            evt = self waittilltimeout( 7.5, "grapple_pulled", "grapple_landed", "grapple_cancel", "grapple_beam_off", "disconnect" );
+            self notify( #"grapple_done" );
         }
     }
 }

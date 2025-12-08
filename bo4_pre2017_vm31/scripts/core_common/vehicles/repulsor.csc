@@ -9,25 +9,33 @@
 // Params 0, eflags: 0x2
 // Checksum 0x4c7e3faa, Offset: 0x140
 // Size: 0x4c
-function autoexec main() {
-    clientfield::register("vehicle", "pulse_fx", 1, 1, "counter", &pulsefxhandler, 0, 0);
+function autoexec main()
+{
+    clientfield::register( "vehicle", "pulse_fx", 1, 1, "counter", &pulsefxhandler, 0, 0 );
 }
 
 // Namespace raps/repulsor
 // Params 7, eflags: 0x4
 // Checksum 0x1cf3489, Offset: 0x198
 // Size: 0xcc
-function private pulsefxhandler(localclientnum, oldvalue, newvalue, bnewent, binitialsnap, fieldname, wasdemojump) {
-    self endon(#"death");
-    if (!isdefined(self)) {
+function private pulsefxhandler( localclientnum, oldvalue, newvalue, bnewent, binitialsnap, fieldname, wasdemojump )
+{
+    self endon( #"death" );
+    
+    if ( !isdefined( self ) )
+    {
         return;
     }
-    self notify(#"pulsefx");
-    self endon(#"pulsefx");
-    if (newvalue) {
-        self mapshaderconstant(localclientnum, 0, "scriptVector2", 0, 1);
+    
+    self notify( #"pulsefx" );
+    self endon( #"pulsefx" );
+    
+    if ( newvalue )
+    {
+        self mapshaderconstant( localclientnum, 0, "scriptVector2", 0, 1 );
         wait 1;
     }
-    self mapshaderconstant(localclientnum, 0, "scriptVector2", 0, 0.2);
+    
+    self mapshaderconstant( localclientnum, 0, "scriptVector2", 0, 0.2 );
 }
 

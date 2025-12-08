@@ -7,15 +7,17 @@
 // Params 0, eflags: 0x2
 // Checksum 0xeff34aae, Offset: 0xf0
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("status_effect_stagger", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "status_effect_stagger", &__init__, undefined, undefined );
 }
 
 // Namespace status_effect_stagger/status_effect_stagger
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x130
 // Size: 0x4
-function __init__() {
+function __init__()
+{
     
 }
 

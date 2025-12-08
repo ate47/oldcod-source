@@ -12,15 +12,17 @@
 // Params 0, eflags: 0x2
 // Checksum 0x9d1c740f, Offset: 0x180
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("bot", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "bot", &__init__, undefined, undefined );
 }
 
 // Namespace bot/bot
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x1c0
 // Size: 0x4
-function __init__() {
+function __init__()
+{
     
 }
 

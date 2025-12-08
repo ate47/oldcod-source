@@ -16,15 +16,17 @@
 // Params 0, eflags: 0x2
 // Checksum 0xee48cb5f, Offset: 0x278
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("gadget_hero_weapon", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "gadget_hero_weapon", &__init__, undefined, undefined );
 }
 
 // Namespace gadget_hero_weapon/gadget_hero_weapon
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x2b8
 // Size: 0x4
-function __init__() {
+function __init__()
+{
     
 }
 

@@ -1,0 +1,274 @@
+#using scripts/core_common/clientfield_shared;
+#using scripts/core_common/killstreaks_shared;
+#using scripts/core_common/popups_shared;
+#using scripts/core_common/scoreevents_shared;
+#using scripts/core_common/struct;
+#using scripts/core_common/system_shared;
+#using scripts/core_common/util_shared;
+#using scripts/core_common/vehicle_shared;
+#using scripts/mp_common/killstreaks/killstreak_bundles;
+#using scripts/mp_common/killstreaks/killstreaks;
+#using scripts/mp_common/util;
+
+#namespace killstreak_hacking;
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 3
+// Checksum 0x33d0d7a9, Offset: 0x260
+// Size: 0x1f0
+function enable_hacking( killstreakname, prehackfunction, posthackfunction )
+{
+    killstreak = self;
+    level.challenge_scorestreaksenabled = 1;
+    killstreak.challenge_isscorestreak = 1;
+    killstreak.killstreak_hackedcallback = &_hacked_callback;
+    killstreak.killstreakprehackfunction = prehackfunction;
+    killstreak.killstreakposthackfunction = posthackfunction;
+    killstreak.hackertoolinnertimems = killstreak killstreak_bundles::get_hack_tool_inner_time();
+    killstreak.hackertooloutertimems = killstreak killstreak_bundles::get_hack_tool_outer_time();
+    killstreak.hackertoolinnerradius = killstreak killstreak_bundles::get_hack_tool_inner_radius();
+    killstreak.hackertoolouterradius = killstreak killstreak_bundles::get_hack_tool_outer_radius();
+    killstreak.hackertoolradius = killstreak.hackertoolouterradius;
+    killstreak.killstreakhackloopfx = killstreak killstreak_bundles::get_hack_loop_fx();
+    killstreak.killstreakhackfx = killstreak killstreak_bundles::get_hack_fx();
+    killstreak.killstreakhackscoreevent = killstreak killstreak_bundles::get_hack_scoreevent();
+    killstreak.killstreakhacklostlineofsightlimitms = killstreak killstreak_bundles::get_lost_line_of_sight_limit_msec();
+    killstreak.killstreakhacklostlineofsighttimems = killstreak killstreak_bundles::get_hack_tool_no_line_of_sight_time();
+    killstreak.killstreak_hackedprotection = killstreak killstreak_bundles::get_hack_protection();
+}
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 0
+// Checksum 0x97d68cc4, Offset: 0x458
+// Size: 0x22
+function disable_hacking()
+{
+    killstreak = self;
+    killstreak.killstreak_hackedcallback = undefined;
+}
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 0
+// Checksum 0x5f338075, Offset: 0x488
+// Size: 0x6c
+function hackerfx()
+{
+    killstreak = self;
+    
+    if ( isdefined( killstreak.killstreakhackfx ) && killstreak.killstreakhackfx != "" )
+    {
+        playfxontag( killstreak.killstreakhackfx, killstreak, "tag_origin" );
+    }
+}
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 0
+// Checksum 0x3235ce54, Offset: 0x500
+// Size: 0x6c
+function hackerloopfx()
+{
+    killstreak = self;
+    
+    if ( isdefined( killstreak.killstreakloophackfx ) && killstreak.killstreakloophackfx != "" )
+    {
+        playfxontag( killstreak.killstreakloophackfx, killstreak, "tag_origin" );
+    }
+}
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 1, eflags: 0x4
+// Checksum 0xde2a5850, Offset: 0x578
+// Size: 0x1e4
+function private _hacked_callback( hacker )
+{
+    killstreak = self;
+    originalowner = killstreak.owner;
+    
+    if ( isdefined( killstreak.killstreakhackscoreevent ) )
+    {
+        scoreevents::processscoreevent( killstreak.killstreakhackscoreevent, hacker, originalowner, level.weaponhackertool );
+    }
+    
+    if ( isdefined( killstreak.killstreakprehackfunction ) )
+    {
+        killstreak thread [[ killstreak.killstreakprehackfunction ]]( hacker );
+    }
+    
+    killstreak killstreaks::configure_team_internal( hacker, 1 );
+    killstreak clientfield::set( "enemyvehicle", 2 );
+    
+    if ( isdefined( killstreak.killstreakhackfx ) )
+    {
+        killstreak thread hackerfx();
+    }
+    
+    if ( isdefined( killstreak.killstreakhackloopfx ) )
+    {
+        killstreak thread hackerloopfx();
+    }
+    
+    if ( isdefined( killstreak.killstreakposthackfunction ) )
+    {
+        killstreak thread [[ killstreak.killstreakposthackfunction ]]( hacker );
+    }
+    
+    killstreaktype = killstreak.killstreaktype;
+    
+    if ( isdefined( killstreak.hackedkillstreakref ) )
+    {
+        killstreaktype = killstreak.hackedkillstreakref;
+    }
+    
+    level thread popups::displaykillstreakhackedteammessagetoall( killstreaktype, hacker );
+    killstreak _update_health( hacker );
+}
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 1
+// Checksum 0x1dea5f3e, Offset: 0x768
+// Size: 0x30
+function override_hacked_killstreak_reference( killstreakref )
+{
+    killstreak = self;
+    killstreak.hackedkillstreakref = killstreakref;
+}
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 0
+// Checksum 0xe70e69a0, Offset: 0x7a0
+// Size: 0x98
+function get_hacked_timeout_duration_ms()
+{
+    killstreak = self;
+    timeout = killstreak killstreak_bundles::get_hack_timeout();
+    
+    if ( !isdefined( timeout ) || timeout <= 0 )
+    {
+        assertmsg( "get_hacked_timeout_duration_ms(): Set \"" + killstreak.killstreaktype + "\" to a greater than zero value, in the killstreaks GDT" );
+        return;
+    }
+    
+    return timeout * 1000;
+}
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 2
+// Checksum 0xefb15fe1, Offset: 0x840
+// Size: 0x6a
+function set_vehicle_drivable_time_starting_now( killstreak, duration_ms )
+{
+    if ( !isdefined( duration_ms ) )
+    {
+        duration_ms = -1;
+    }
+    
+    if ( duration_ms == -1 )
+    {
+        duration_ms = killstreak get_hacked_timeout_duration_ms();
+    }
+    
+    return self vehicle::set_vehicle_drivable_time_starting_now( duration_ms );
+}
+
+// Namespace killstreak_hacking/killstreak_hacking
+// Params 1
+// Checksum 0xd389e5b3, Offset: 0x8b8
+// Size: 0xf4
+function _update_health( hacker )
+{
+    killstreak = self;
+    
+    if ( isdefined( killstreak.hackedhealthupdatecallback ) )
+    {
+        killstreak [[ killstreak.hackedhealthupdatecallback ]]( hacker );
+        return;
+    }
+    
+    if ( issentient( killstreak ) )
+    {
+        hackedhealth = killstreak_bundles::get_hacked_health( killstreak.killstreaktype );
+        assert( isdefined( hackedhealth ) );
+        
+        if ( self.health > hackedhealth )
+        {
+            self.health = hackedhealth;
+        }
+        
+        return;
+    }
+    
+    /#
+        hacker iprintlnbold( "Hacked but no update of health occured" );
+    #/
+}
+
+/#
+
+    // Namespace killstreak_hacking/killstreak_hacking
+    // Params 0
+    // Checksum 0x3898138d, Offset: 0x9b8
+    // Size: 0x28, Type: dev
+    function killstreak_switch_team_end()
+    {
+        killstreakentity = self;
+        killstreakentity notify( #"killstreak_switch_team_end" );
+    }
+
+    // Namespace killstreak_hacking/killstreak_hacking
+    // Params 1
+    // Checksum 0x6bf68753, Offset: 0x9e8
+    // Size: 0x21a, Type: dev
+    function killstreak_switch_team( owner )
+    {
+        killstreakentity = self;
+        killstreakentity notify( #"killstreak_switch_team_singleton" );
+        killstreakentity endon( #"killstreak_switch_team_singleton" );
+        killstreakentity endon( #"death" );
+        setdvar( "scr_killstreak_switch_team", "" );
+        
+        while ( true )
+        {
+            wait 0.5;
+            devgui_int = getdvarint( "scr_killstreak_switch_team" );
+            
+            if ( devgui_int != 0 )
+            {
+                team = "autoassign";
+                
+                if ( isdefined( level.getenemyteam ) && isdefined( owner ) && isdefined( owner.team ) )
+                {
+                    team = [[ level.getenemyteam ]]( owner.team );
+                }
+                
+                if ( isdefined( level.devongetormakebot ) )
+                {
+                    player = [[ level.devongetormakebot ]]( team );
+                }
+                
+                if ( !isdefined( player ) )
+                {
+                    println( "Could not add test client" );
+                    wait 1;
+                    continue;
+                }
+                
+                if ( !isdefined( killstreakentity.killstreak_hackedcallback ) )
+                {
+                    /#
+                        iprintlnbold( "missing hacked callback" );
+                    #/
+                    
+                    return;
+                }
+                
+                killstreakentity notify( #"killstreak_hacked", { #hacker:player } );
+                killstreakentity.previouslyhacked = 1;
+                killstreakentity [[ killstreakentity.killstreak_hackedcallback ]]( player );
+                wait 0.5;
+                setdvar( "scr_killstreak_switch_team", "0" );
+                return;
+            }
+        }
+    }
+
+#/

@@ -14,15 +14,17 @@
 // Params 0, eflags: 0x2
 // Checksum 0x5bf9980c, Offset: 0x220
 // Size: 0x34
-function autoexec __init__sytem__() {
-    system::register("gadget_smokescreen", &__init__, undefined, undefined);
+function autoexec __init__sytem__()
+{
+    system::register( "gadget_smokescreen", &__init__, undefined, undefined );
 }
 
 // Namespace gadget_smokescreen/gadget_smokescreen
-// Params 0, eflags: 0x0
+// Params 0
 // Checksum 0x80f724d1, Offset: 0x260
 // Size: 0x4
-function __init__() {
+function __init__()
+{
     
 }
 
